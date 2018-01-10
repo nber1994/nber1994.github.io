@@ -15,6 +15,7 @@ tags: LNMP
 ```php
 2018/01/08 15:50:20 [error] 15477#0: *2941700922 upstream sent too big header while reading response header from upstream, client: xx.xx.xxx, server: test.com, request: "POST /test/test HTTP/1.1", upstream: "fastcgi://127.0.0.1:xxxx", host: "xxxxxx", referrer: "xxxxxx"
 ```
+
 一时之间不知道原因，唯一有异常的是warninig日志较多，推测可能是php-fpm会把warning日志加到response header头里,导致头部过大报错
 
 php代码中存在类似与以下的错误片段：
@@ -52,17 +53,25 @@ PHP message: PHP Warning:  Invalid argument supplied for foreach() in XXXXX.php 
 PHP message: PHP Warning:  Invalid argument supplied for foreach() in XXXXX.php on line 206
 PHP message: PHP Warning:  Invalid argument supplied for foreach() in XXXXX.php on line 206
 ```
-**大量的warning如果会被加到header头里的话，肯定会触发nginx的相关配置(如果有的话),导致报错,看起来解释的通**
+**大量的warning如果会被加到header头里的话，会触发nginx的相关配置(如果有的话),导致报错,看起来解释的通**
 但是是否真的是因为header头过大导致的呢，探究一下
 
-# 2.抓取php-fpm与nginx之间的通信数据
 
-我们知道，php-fpm与nginx之间的通信方式有两种，
+# 2.简单的分析一次请求的日志行为
 
-## 以php监听端口通信
-速度较unix socket较慢，但是支持跨机器调用
+该情况是线上问题，无法抓取到问题发生时，php-fpm与nginx之间到底发生了什么，所以准备在自己的开发环境复现, 不过首先需要能够对nginx与php-fpm进程间通信的数据进行抓取
+## 2.1 抓取php-fpm与nginx之间的通信数据
 
-### ps:开放php端口对外提供fastcgi服务的方法
+
+###     2.1.1 php监听端口通信方式的监听
+
+速度较unix socket较慢，但是支持跨机器调用，我们可以通过tcpdump进行抓取
+
+```shell
+tcpdump -X -i any  port 9999 > /tmp/tcpdump.log
+```
+
+####        ps:开放php端口对外提供fastcgi服务的方法
 
 ```shell
 1.设置防火墙,开放你的端口
@@ -70,19 +79,8 @@ PHP message: PHP Warning:  Invalid argument supplied for foreach() in XXXXX.php 
 listen = 公网IP:9085
 listen.allowed_clients = 192.168.10.66 #设置允许连接到 FastCGI 的服务器 IPV4 地址。如果允许所有那么把这条注释掉即可
 ```
-Done!
-## 以unix socket方式通信
-    速度较快，性能高
-
-## 抓取方法
-
-### 对于端口通信，可以直接采用tcpdump监听：
-
-```shell
-tcpdump -X -i any  port 9999 > /tmp/tcpdump.log
-```
-
-### 对于unix socket
+###     2.1.2 以unix socket方式通信数据的抓取
+该方法速度较快，性能高,可以通过监听socket通道得到数据
 
 ```shell
 cd /path/to/php.sock
@@ -90,55 +88,13 @@ mv php.sock php.sock.orig
 socat -t100 -x -v UNIX-LISTEN:php.sock,mode=777,reuseaddr,fork UNIX-CONNECT:php.sock.orig
 将socket通道的内容转发一份到另一个socket,进行监听
 ```
+
+###     2.1.3 抓取到的数据大概的样子
 ![抓到的数据](/pic/tcpdump.png)
 
-可以看到php-fpm确实将warning传递给了nginx
-
-# 3.猜测
-
-php将过多的warning写入到了header里，导致超过了nginx配置的fastcgi_buffer_size的大小，导致报错，但是是这样吗
-
-# 4.设法复现
-
-该情况是线上问题，无法抓取到问题发生时，php-fpm与nginx之间到底发生了什么，所以准备在自己的开发环境复现
-
-## 实现方案
-不断的增大warning的数目，并监听端口与日志，截取502发生时，php-fpm到底传了什么给nginx
-
-### php脚本
-
-```php
-<?php
-for ($i = 0; $i<$_GET['iterations']; $i++)
-        error_log(str_pad("a", $_GET['size'], "a"));
-echo "got here\n";
-```
-
-### 请求方法
-
-```shell
-bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://localhost/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
-
-size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
-size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
-size=241 iterations=48 < HTTP/1.1 502 Bad Gateway
-size=226 iterations=51 < HTTP/1.1 502 Bad Gateway
-size=190 iterations=60 < HTTP/1.1 502 Bad Gateway
-size=223 iterations=69 < HTTP/1.1 502 Bad Gateway
-size=127 iterations=87 < HTTP/1.1 502 Bad Gateway
-size=199 iterations=96 < HTTP/1.1 502 Bad Gateway
-size=151 iterations=99 < HTTP/1.1 502 Bad Gateway
-size=106 iterations=102 < HTTP/1.1 502 Bad Gateway 
-```
-不断的对脚本进行请求，使其向日志里写入更多的字节，同时过滤返回的502以及报错时的迭代次数与每次日志的大小
-**单独说下，unix socket方式性能真的很高，这种unix socket通信的情况下，测试语句运行完了也没有报502**
-
-### 监听日志
-
-同时监听php绑定的端口，得到日志(此时，fastcgi_buffer_size 4K)
-
-### tcpdump日志
-可以顺便直观了解下tcp的三次握手:P
+## 2.2 简单分析
+让我们观察下日志，
+首先可以看到tcp的建立链接数据，可以顺便直观了解下tcp的三次握手:P
 ```shell
 12:09:25.581210 IP 127.0.0.1.58984 > 127.0.0.1.9999: Flags [S], seq 3550696989, win 65495, options [mss 65495,sackOK,TS val 1133088550 ecr 0,nop,wscale 7], length 0
         0x0000:  4500 003c d93b 4000 4006 637e 7f00 0001  E..<.;@.@.c~....
@@ -157,89 +113,47 @@ size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
         0x0030:  4389 8f26                                C..&
 ```
 
-#### 报错的日志
+### 2.2.1 一次请求的nginx-error日志
+![nginx-error](/pic/one-hit-error-log.png)
 
-```shell
-2018/01/09 11:39:01 [error] 4207#0: *2045 FastCGI sent in stderr: "PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-2018/01/09 11:39:01 [error] 4207#0: *2045 upstream sent too big header while reading response header from upstream, client: 10.30.128.251, server: devathena.fang.lianjia.com, request: "GET /debug.php?size=121&iterations=30 HTTP/1.1", upstream: "fastcgi://127.0.0.1:9999", host: "devathena.fang.lianjia.com"
-```
+### 2.2.2 一次请求的tcpdump的日志
+![tcpdump-log](/pic/one-hit-tcpdump-log.png)
 
-#### 正常的日志
-```shell
-2018/01/09 11:39:02 [error] 4207#0: *2353 FastCGI sent in stderr: "PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-PHP message: aaaaaaaaaaaaa
-```
+### 2.2.3 简单结论
 
-#### 紧张分析
+#### 观察到的现象
+* php-fpm确实将warning与error日志都传给了nginx
+* tcpdump的日志，明显响应头大于fastcgi_buffer_size设置的大小，但是并未报错
+* nginx-error日志，可以明显的发现，日志是一段一段的，大小和fastcgi_buffer_size的大小相当，
 
-上面的日志，一个是39:01，一个是39:02的，按照我们的测试脚本，时间越靠后，传递的日志量会越大，但是为什么数据量较小的39:01秒的日志触发了502，而数据量较大的39:02没有报错，而且，日志的量也是相同的，明显有截断，明显超出了4K，所以我们可以推测，其实fastcgi_buffer_size并不是一个检查值，超过这个值并不会报错。而更像是一个暂存的空间
 
-# nginx发生了什么 
+#### 得到的初步结论
 
+对比nginx日志与tcpdump的日志的量，我们能看到:
+
+1.**php-fpm确实会将warning与error传递给nginx**
+
+2.**不管fastcgi_buffer_size设置了多少，其实是根据fastcgi_buffer_size的大小来一段一段的读取php-fpm的响应头，不管传了多少的header，都会按照fastcgi_buffer_size的大小，一段一段的读取，然后写入到nginx的日志**
+
+
+> 得到了上述结论，我们大致可以确定，并不是因为header头过大，或者说php-fpm传递给nginx的数据超过fastcgi_buffer_size的值才报出的502,那到底是为什么会报相关错误呢？这就需要探究下nginx内部了
+
+# 3.nginx内部发生了什么 
+
+首先我们知道：
+* nginx发送请求数据与接收来自后端服务器的响应可以同时进行，是一种全双工方式；
+* nginx接收到了后端服务器的响应，什么时候向客户端转发响应呢? 对于http响应头部，nginx只有在接收到了所有来自后端服务器的响应头部后，才会转发给客户端。对于http响应包体，则nginx边接收后端服务器的响应包体，边发给客户端
+
+## 3.1 fastcgi_buffer_size
+我们知道，fastcgi_buffer_size与proxy_buffer_size这两个参数会影响到响应头, 其中proxy_buffer_size影响的是nginx作为反向代理时的参数
 对于nginx配置文件中的fastcgi_buffer_size，文档中是这么写的
 
 ![文档](/pic/fastcgi_buffer_size.png)
 
-其中 **the first part of the response received from the FastCGI server.**,这个参数指定的是接受到fastcgi-server端的第一部分的响应（一般是response header），在lnmp的场景里，fastcgi-server就是php部分，这个first part的含义是这样子的，由于upstream是一个通用的组件，因此它不知道后端的协议，而对于client来说，由于http是需要header的，而后端的协议不一定有头，此时就需要我们通过解析后端的协议，然后来设置好发送给client的头，最终发送给client 
+其中 **the first part of the response received from the FastCGI server.**,这个参数指定的是接受到fastcgi-server端的第一部分的响应（一般是response header），在lnmp的场景里，fastcgi-server就是php部分
+其中这个first part的含义是这样子的，由于upstream是一个通用的组件，它不知道后端的协议，而对于http场景来说，由于http是需要header的，而后端的协议不一定有头，此时就需要我们通过解析后端的协议，然后来设置好发送给client的头，最终发送给client，通过上面的观察，我们发现php的错误信息也会包含其中 
 
-以下是**the first part of the response**
+以下是所谓的正常情况下的**the first part of the response**的结构
 
 ![header](/pic/fastcgi-header.png)
 
@@ -247,11 +161,55 @@ PHP message: aaaaaaaaaaaaa
 * nginx接收后端服务的响应也应该是一种fastcgi报文格式。从图中可以看出，每一个http响应包头前面都加上了fastcgi头部，而每一个http响应包头都有可能由多条http响应头部组成。
 * 我们暂且称每一个fastcgi头部 + http响应包头为一个组， nginx使用扫描法，扫描每一组。每一个组使用两个状态机，一个状态机解析这个组内的fastcgi头部， 另一个状态机解析这个组内的http响应包头，从而获取到每一个http响应头部。
 
-## 报错位置的代码片段
+## 3.2 nginx代码报错分析
+源码中报错的位置如下
 
 ![error](/pic/code.png)
 
-## 处理头部的回掉函数伪代码
+```c
+//nginx接收来自上游服务器的响应头部
+static void ngx_http_upstream_process_header(ngx_http_request_t *r, ngx_http_upstream_t *u)
+{
+    //循环接收来自后端服务器的响应头部，并使用状态机解析
+    for ( ;; )
+    {
+        n = c->recv(c, u->buffer.last, u->buffer.end - u->buffer.last);
+
+        //表示还需要再次接收来自上游服务器的响应,重新注册读事件到epoll中
+        if (n == NGX_AGAIN)
+        {
+            ngx_handle_read_event(c->read, 0);
+            return;
+        }
+
+        //更新接收缓冲区
+        u->buffer.last += n;
+
+        //调用http模块的方法，解析响应头部
+        //fastcgi为: ngx_http_fastcgi_process_header
+        rc = u->process_header(r);
+
+        //表示包头还没有完全接收到
+        if (rc == NGX_AGAIN)
+        {
+            //已经读取到末尾
+            if (u->buffer.last == u->buffer.end) {
+                ngx_log_error(NGX_LOG_ERR, c->log, 0,
+                        "upstream sent too big header");
+
+                ngx_http_upstream_next(r, u,
+                        NGX_HTTP_UPSTREAM_FT_INVALID_HEADER);
+                return;
+            }
+            continue;
+        }
+    }
+}
+```
+
+可以看到，当处理头部的会调函数process_header返回NGX_AGAIN,同时已经读取到了response的末尾，则会报错
+
+### 3.2.1处理头部的回调函数process_header伪代码
 
 ```c
 //解析来自后端服务器发来的响应头部，从fastcgi格式转为nginx格式。
@@ -319,11 +277,140 @@ static ngx_int_t ngx_http_fastcgi_process_header(ngx_http_request_t *r)
     }
 }
 ```
-由代码可知，当两个状态机对fastcgi与http头解析如果出错的话（比如header头缺失）,也会返回NGX_AGAIN，如果当读取到php-fpm返回的header的尾部时，则会报错
+以上是流程代码，具体细节未展示
+以上代码会对http与fastcgi的header分别进行解析
+
+**当两个状态机对fastcgi与http头解析如果出错的话（比如header头缺失）,也会返回NGX_AGAIN，如果此时读取到php-fpm返回的header的尾部时，则会报错**
+那到底是否是这个原因呢？php-fpm传送了残缺的或者没有传递response header，才导致的报错？我们复现下观察下
 
 
-## 盲目分析
-我们回去看下之前监控的tcpdump的日志,发现
+
+# 4.尝试复现
+
+如果可以复现出502，我们就能验证我们的猜想
+不断的增大warning的数目，并监听端口与日志，截取502发生时，php-fpm到底传了什么给nginx
+出问题时，是因为过多的warning写入到了fastcgi_buffer_size中，我们可以按着这个思路，进行强行复现
+
+## 4.1 php脚本
+
+我们可以尝试着一步步加大error的size，来观察发送502时的日志情况
+以下是脚本:
+
+```php
+<?php
+for ($i = 0; $i<$_GET['iterations']; $i++)
+        error_log(str_pad("a", $_GET['size'], "a"));
+echo "got here\n";
+```
+
+## 4.2 日志监听
+
+同时监听php绑定的端口，得到日志(此时，fastcgi_buffer_size 4K)
+
+## 4.3 压测方法
+
+使用循环对脚本进行请求，不断的增加单条日志的size与迭代次数
+，使其向日志里写入更多的字节，同时过滤返回的502以及报错时的迭代次数与每次日志的大小
+
+```shell
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://localhost/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+
+size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
+size=241 iterations=48 < HTTP/1.1 502 Bad Gateway
+size=226 iterations=51 < HTTP/1.1 502 Bad Gateway
+size=190 iterations=60 < HTTP/1.1 502 Bad Gateway
+size=223 iterations=69 < HTTP/1.1 502 Bad Gateway
+size=127 iterations=87 < HTTP/1.1 502 Bad Gateway
+size=199 iterations=96 < HTTP/1.1 502 Bad Gateway
+size=151 iterations=99 < HTTP/1.1 502 Bad Gateway
+size=106 iterations=102 < HTTP/1.1 502 Bad Gateway 
+```
+**顺便说下，unix socket方式性能真的很高，这种unix socket通信的情况下，测试语句运行完了也没有报502**
+由上可知，我们复现了502,下面我们对日志进行紧张的分析
+
+
+
+## 4.4 结果分析
+
+
+### 报错的nginx日志
+
+```shell
+2018/01/09 11:39:01 [error] 4207#0: *2045 FastCGI sent in stderr: "PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+2018/01/09 11:39:01 [error] 4207#0: *2045 upstream sent too big header while reading response header from upstream, client: 10.30.128.251, server: devathena.fang.lianjia.com, request: "GET /debug.php?size=121&iterations=30 HTTP/1.1", upstream: "fastcgi://127.0.0.1:9999", host: "devathena.fang.lianjia.com"
+```
+可以看到我们成功复现了too big header报错:P
+
+### 正常的nginx-error日志
+```shell
+2018/01/09 11:39:02 [error] 4207#0: *2353 FastCGI sent in stderr: "PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PHP message: aaaaaaaaaaaaa
+```
+
+### 紧张分析
+
+上面的日志，一个是39:01，一个是39:02的，按照我们的测试脚本，时间越靠后，传递的日志量会越大(至少是之前的3倍)，但是为什么数据量较小的39:01秒的日志触发了502，而数据量较大的39:02没有报错，而且，日志的量也是相同的，明显有截断，明显超出了4K，这也能验证我们的推测，其实fastcgi_buffer_size并不是一个检查值，超过这个值并不会报错。而更像是一个暂存的空间
+
+### 进一步紧张分析
+我们回去看下之前监控的tcpdump的日志,发现了一些有趣的现象
 
 一次正常的日志
 ```shell
@@ -375,7 +462,143 @@ static ngx_int_t ngx_http_fastcgi_process_header(ngx_http_request_t *r)
         0x0030:  4389 d46d                                C..m
 ```
 
-# 4.结论
+发现了吗，502报错的情况下，tcpdump抓到的包中，末尾缺少了http的response header,这正验证了我们之前的推测，php-fpm在返回body之前，并没有传递完整的response header给nginx,导致nginx报出来错误
+## 4.5 暂时的结论
 观察上面的日志，报错的最后的响应头不完整或者根本就没有,这个正好会进入到nginx中未解析到header头并且已到header尾部的情况，触发报错
-所以，暂时现在可以推断的是，php-fpm会在一定的情况下向nginx传送不完整的数据，导致502
-至于提高fastcgi_buffer_size的值，为什么会减小这种报错几率的问题，需进一步探究
+所以，暂时现在可以推断的是，
+
+**php-fpm会在一定的情况下向nginx传送不完整的响应头数据，导致nginx解析fastcgi与http的header出错，导致报出502**
+这看起来不可思议，竟然是下游服务出了差错，而不是因为nginx内的fastcgi_buffer_size太小导致的错误,不过该问题并不是不可能发生：
+![哈哈](/pic/gis.png)
+
+# 5. 探究下不同fastcgi_buffer_size下的502发生情况
+
+## 5.1 fastcgi_buffer_size 1k
+
+### nginx日志
+
+不会报502的错误日志
+![error-log](/pic/1k-error-log.png)
+
+会报502的错误日志
+![error-log](/pic/1k-502-error-log.png)
+
+### tcpdump的日志
+
+不会报502的错误日志
+![tcp-error](/pic/1k-tcpdump-log.png)
+
+会报502的错误日志
+![tcp-error](/pic/1k-tcpdump-502-log.png)
+
+### 测试结果
+
+```shell
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=190 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
+size=202 iterations=33 < HTTP/1.1 502 Bad Gateway
+size=127 iterations=36 < HTTP/1.1 502 Bad Gateway
+size=184 iterations=36 < HTTP/1.1 502 Bad Gateway
+size=241 iterations=36 < HTTP/1.1 502 Bad Gateway
+size=169 iterations=39 < HTTP/1.1 502 Bad Gateway
+size=205 iterations=42 < HTTP/1.1 502 Bad Gateway
+size=229 iterations=42 < HTTP/1.1 502 Bad Gateway
+```
+
+## 5.2 fastcgi_buffer_size 2k
+
+### nginx日志
+
+不会报502的错误日志
+![error-log](/pic/2k-error-log.png)
+
+会报502的错误日志
+![error-log](/pic/2k-502-error-log.png)
+
+### tcpdump的日志
+
+不会报502的错误日志
+![tcp-error](/pic/2k-tcpdump-log.png)
+
+会报502的错误日志
+![tcp-error](/pic/2k-tcpdump-error-502-log.png)
+
+### 测试结果
+```shell
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=190 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
+size=229 iterations=42 < HTTP/1.1 502 Bad Gateway
+size=241 iterations=48 < HTTP/1.1 502 Bad Gateway
+size=106 iterations=51 < HTTP/1.1 502 Bad Gateway
+size=226 iterations=51 < HTTP/1.1 502 Bad Gateway
+size=175 iterations=54 < HTTP/1.1 502 Bad Gateway
+size=190 iterations=60 < HTTP/1.1 502 Bad Gateway
+size=148 iterations=63 < HTTP/1.1 502 Bad Gateway
+```
+
+## 5.3 fastcgi_buffer_size 4k
+
+### nginx日志
+
+不会报502的错误日志
+![error-log](/pic/4k-error-log.png)
+
+会报502的错误日志
+![error-log](/pic/4k-error-502-log.png)
+
+### tcpdump的日志
+
+不会报502的错误日志
+![tcp-error](/pic/4k-tcpdump-error-log.png)
+
+会报502的错误日志
+![tcp-error](/pic/4k-tcpdump-502-error-log.png)
+
+### 测试结果
+```shell
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
+size=241 iterations=48 < HTTP/1.1 502 Bad Gateway
+size=226 iterations=51 < HTTP/1.1 502 Bad Gateway
+size=190 iterations=60 < HTTP/1.1 502 Bad Gateway
+size=223 iterations=69 < HTTP/1.1 502 Bad Gateway
+size=127 iterations=87 < HTTP/1.1 502 Bad Gateway
+size=199 iterations=96 < HTTP/1.1 502 Bad Gateway
+size=151 iterations=99 < HTTP/1.1 502 Bad Gateway
+size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
+```
+
+## 5.4 观察发现
+
+由上1k，2k，4k的比对结果，我们可以得出以下结论
+
+**提高fastcgi_buffer_size的大小，缺失可以减少too big header的发生风险，但是仍然会产生**
+
+# 结论
+经过探究，我们最终可以得到:
+
+1.**php-fpm确实会将warning与error传递给nginx**
+
+2.**不管fastcgi_buffer_size设置了多少，其实是根据fastcgi_buffer_size的大小来一段一段的读取php-fpm的响应头，不管传了多少的header，都会按照fastcgi_buffer_size的大小，一段一段的读取，然后写入到nginx的日志**
+
+3.**php-fpm会在一定的情况下向nginx传送不完整的响应头数据，导致nginx解析fastcgi与http的header出错，导致报出502**
+
+4.**提高fastcgi_buffer_size的大小，缺失可以减少too big header的发生风险，但是不能彻底避免**
+
+# 疑问
+经过以上的探究，我们可以看到以上的结论，但是仍有很多疑问
+
+1.为什么php-fpm发送的数据会缺少header
+
+2.有没有其它情况会导致too big header报错
+
+3.线上问题是仅有特定的请求参数会稳定复现，其他的则不会复现，到底发生了什么？是我们探究的原因导致的吗？
+
+以上的疑问待进一步的探究
+
+> 以上探究仅是个人观点，可能存在错误，欢迎交流~           eamil:m18710895391@163.com
