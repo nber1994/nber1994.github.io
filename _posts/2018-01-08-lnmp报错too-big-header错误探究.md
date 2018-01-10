@@ -577,7 +577,9 @@ size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
 
 由上1k，2k，4k的比对结果，我们可以得出以下结论
 
-**提高fastcgi_buffer_size的大小，缺失可以减少too big header的发生风险，但是仍然会产生**
+综合以上502报错时的size与iteration的值的乘积，我们可以发现，不同fastcgi_buffer_size下，其实发生502错误时的php-fpm传给nginx的数据的大小基本是一样的
+**提高fastcgi_buffer_size的大小，并不能减少too big header的发生风险**
+但是建议是设置成操作系统分页的大小
 
 # 结论
 经过探究，我们最终可以得到:
@@ -588,7 +590,7 @@ size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
 
 3.**php-fpm会在一定的情况下向nginx传送不完整的响应头数据，导致nginx解析fastcgi与http的header出错，导致报出502**
 
-4.**提高fastcgi_buffer_size的大小，缺失可以减少too big header的发生风险，但是不能彻底避免**
+4.**提高fastcgi_buffer_size的大小，并不能减少too big header的发生风险**
 
 # 疑问
 经过以上的探究，我们可以看到以上的结论，但是仍有很多疑问
