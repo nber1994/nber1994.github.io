@@ -367,7 +367,7 @@ PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 PHP message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-2018/01/09 11:39:01 [error] 4207#0: *2045 upstream sent too big header while reading response header from upstream, client: 10.30.128.251, server: devathena.fang.lianjia.com, request: "GET /debug.php?size=121&iterations=30 HTTP/1.1", upstream: "fastcgi://127.0.0.1:9999", host: "devathena.fang.lianjia.com"
+2018/01/09 11:39:01 [error] 4207#0: *2045 upstream sent too big header while reading response header from upstream, client: 10.30.128.251, server: testtest, request: "GET /debug.php?size=121&iterations=30 HTTP/1.1", upstream: "fastcgi://127.0.0.1:9999", host: "test.com"
 ```
 可以看到我们成功复现了too big header报错:P
 
@@ -494,7 +494,7 @@ PHP message: aaaaaaaaaaaaa
 ### 测试结果
 
 ```shell
-bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://test/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
 size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=190 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
@@ -527,7 +527,7 @@ size=229 iterations=42 < HTTP/1.1 502 Bad Gateway
 
 ### 测试结果
 ```shell
-bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://test/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
 size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=190 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
@@ -560,7 +560,7 @@ size=148 iterations=63 < HTTP/1.1 502 Bad Gateway
 
 ### 测试结果
 ```shell
-bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://test/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
 size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
 size=241 iterations=48 < HTTP/1.1 502 Bad Gateway
@@ -610,7 +610,7 @@ size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
 
 1K
 ```shell
-bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://test/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
 size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=190 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
@@ -625,7 +625,7 @@ size=229 iterations=42 < HTTP/1.1 502 Bad Gateway
 
 2k
 ```shell
-bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://test/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
 size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=190 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
@@ -640,7 +640,7 @@ size=148 iterations=63 < HTTP/1.1 502 Bad Gateway
 
 4k
 ```shell
-bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://test/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
 size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
 size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
 size=241 iterations=48 < HTTP/1.1 502 Bad Gateway
