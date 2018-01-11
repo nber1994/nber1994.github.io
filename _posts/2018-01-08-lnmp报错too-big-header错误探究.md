@@ -10,7 +10,7 @@ tags: LNMP
 
 # 1.背景
 
-遇到nginx报出了如下的error，导致服务为502 bad gateway
+遇到nginx报出了如下的error，导致服务为502 bad gateway, 而且某些请求稳定复现，但是其他请求缺没有问题，正常返回,正常情况下，php的warning并不会导致流程的中断
 
 ```php
 2018/01/08 15:50:20 [error] 15477#0: *2941700922 upstream sent too big header while reading response header from upstream, client: xx.xx.xxx, server: test.com, request: "POST /test/test HTTP/1.1", upstream: "fastcgi://127.0.0.1:xxxx", host: "xxxxxx", referrer: "xxxxxx"
@@ -581,7 +581,7 @@ size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
 **提高fastcgi_buffer_size的大小，并不能减少too big header的发生风险**
 但是建议是设置成操作系统分页的大小
 
-# 结论
+# 6. 结论
 经过探究，我们最终可以得到:
 
 1.**php-fpm确实会将warning与error传递给nginx**
@@ -592,7 +592,7 @@ size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
 
 4.**提高fastcgi_buffer_size的大小，并不能减少too big header的发生风险**
 
-# 疑问
+# 7. 疑问
 经过以上的探究，我们可以看到以上的结论，但是仍有很多疑问
 
 1.为什么php-fpm发送的数据会缺少header
@@ -603,4 +603,86 @@ size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
 
 以上的疑问待进一步的探究
 
+# 8. 对疑问进一步分析
+
+经过老司机的指点，对以上压测得出的数据进行进一步的分析，
+上面我们探究了在不同fastcgi_buffer_size下的502出错情况
+
+1K
+```shell
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=190 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
+size=202 iterations=33 < HTTP/1.1 502 Bad Gateway
+size=127 iterations=36 < HTTP/1.1 502 Bad Gateway
+size=184 iterations=36 < HTTP/1.1 502 Bad Gateway
+size=241 iterations=36 < HTTP/1.1 502 Bad Gateway
+size=169 iterations=39 < HTTP/1.1 502 Bad Gateway
+size=205 iterations=42 < HTTP/1.1 502 Bad Gateway
+size=229 iterations=42 < HTTP/1.1 502 Bad Gateway
+```
+
+2k
+```shell
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=190 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
+size=229 iterations=42 < HTTP/1.1 502 Bad Gateway
+size=241 iterations=48 < HTTP/1.1 502 Bad Gateway
+size=106 iterations=51 < HTTP/1.1 502 Bad Gateway
+size=226 iterations=51 < HTTP/1.1 502 Bad Gateway
+size=175 iterations=54 < HTTP/1.1 502 Bad Gateway
+size=190 iterations=60 < HTTP/1.1 502 Bad Gateway
+size=148 iterations=63 < HTTP/1.1 502 Bad Gateway
+```
+
+4k
+```shell
+bash~ for it in {30..200..3}; do for size in {100..250..3}; do echo "size=$size iterations=$it $(curl -sv "http://devathena.fang.lianjia.com/debug.php?size=$size&iterations=$it" 2>&1 | egrep '^< HTTP')"; done; done | grep 502 | head
+size=121 iterations=30 < HTTP/1.1 502 Bad Gateway
+size=109 iterations=33 < HTTP/1.1 502 Bad Gateway
+size=241 iterations=48 < HTTP/1.1 502 Bad Gateway
+size=226 iterations=51 < HTTP/1.1 502 Bad Gateway
+size=190 iterations=60 < HTTP/1.1 502 Bad Gateway
+size=223 iterations=69 < HTTP/1.1 502 Bad Gateway
+size=127 iterations=87 < HTTP/1.1 502 Bad Gateway
+size=199 iterations=96 < HTTP/1.1 502 Bad Gateway
+size=151 iterations=99 < HTTP/1.1 502 Bad Gateway
+size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
+```
+
+## 8.1 观察
+对比上述结果，有没有发现什么诡异？
+为什么三次压测的结果，得到的502次数都是10次
+为什么第一次报错都是在size=121，iteration=30的情况下发生的？
+
+## 8.2 进一步分析结果
+我们把每一次的size与iteration进行相乘，我们可以得到如下的一些结果：(添加上开头的PHP message: 这13个字符)
+```shell
+(121 + 13) * 30 = 4020
+(109 + 13) * 33 = 4026
+(241 + 13) * 48 = 12192
+(226 + 13) * 51 = 12189
+(190 + 13) * 60 = 12180
+.....
+```
+我们知道1024是程序员日，那上面的数据有什么敏感的吗? 
+```shell
+1024 * 4 = 4096,
+4096 * 3 = 12288
+....
+```
+
+# 甩锅
+对比上面的数据，似乎是php的日志在某一个nk大小的时候(我的测试机器上很可能是4k), 会稳定复现这个问题呢？
+这也很好的解释了为什么线上的某些请求会稳定复现这种问题，而其他请求，即使打了更多的php warning日志也不会触发502报警的现象
+
+这回，我们可以把锅甩给php-fpm，我们可以不负责任的胡乱猜测一下，
+
+**是否php-fpm内部也存在类似的buffer(在我的测试机器上也许是4k)，也许这段buffer是tcp发送消息的缓冲区，当发送的字节很接近4k时, 就会触发某些bug，导致某些尾部数据的丢失, 而当大小与4k的整数倍的数据相差比较大的数据，则不会丢失数据, emmm，也许是在重新分配buffer的时候出了问题，导致的数据丢失:P**
+
+
 > 以上探究仅是个人观点，可能存在错误，欢迎交流~           eamil:m18710895391@163.com
+
