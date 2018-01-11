@@ -683,6 +683,14 @@ size=106 iterations=102 < HTTP/1.1 502 Bad Gateway
 
 **是否php-fpm内部也存在类似的buffer(在我的测试机器上也许是4k)，也许这段buffer是tcp发送消息的缓冲区，当发送的字节很接近4k时, 就会触发某些bug，导致某些尾部数据的丢失, 而当大小与4k的整数倍的数据相差比较大的数据，则不会丢失数据, emmm，也许是在重新分配buffer的时候出了问题，导致的数据丢失:P**
 
+# 参考
+部分内容参考自以下内容，感谢以下作者对知识的分享
+http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html
+http://www.pagefault.info/?p=273
+http://blog.csdn.net/ApeLife/article/details/78001508?ref=myrecommend
+http://blog.csdn.net/midion9/article/details/51384002
+https://www.imooc.com/article/19278
+https://stackoverflow.com/questions/23844761/upstream-sent-too-big-header-while-reading-response-header-from-upstream
 
 > 以上探究仅是个人观点，可能存在错误，欢迎交流~           eamil:m18710895391@163.com
 
