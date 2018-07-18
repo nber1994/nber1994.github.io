@@ -20,6 +20,51 @@ Because nums[0] + nums[1] = 2 + 7 = 9,
 return [0, 1]. 
 ```
 
+```go
+//双指针
+func twoSum(nums []int, target int) []int {
+    lens := len(nums)
+    oldNums := make([]int, lens)
+    copy(oldNums[:], nums)
+    left := 0
+    right := lens - 1
+    //先进行排序, 升序
+    sortedNums := sort.IntSlice(nums)
+    sort.Stable(sortedNums)
+    for left < right {
+        for {
+            if sortedNums[left] + sortedNums[right] <= target {
+                break;
+            }
+            right--
+        }
+        if sortedNums[left] + sortedNums[right] == target {
+            break;
+        }
+        for {
+            if sortedNums[left] + sortedNums[right] >= target {
+                break;
+            }
+            left++
+        }
+        if sortedNums[left] + sortedNums[right] == target {
+            break;
+        }
+    }
+    //查找key
+    res := []int{}
+    for k, v := range oldNums {
+        if v == sortedNums[left] || v == sortedNums[right] {
+            res = append(res, k)
+        }
+    }
+    return res
+}
+
+//时间复杂度O(nlogn)
+//空间复杂度O(n) 因为进行排序，新生成了一个slice
+```
+
 ``` go
 //一遍hash遍历
 
@@ -37,4 +82,7 @@ func twoSum(nums []int, target int) []int {
     }
     return res
 }
+
+时间复杂度为O(n)
+空间复杂度为O(n)
 ```
