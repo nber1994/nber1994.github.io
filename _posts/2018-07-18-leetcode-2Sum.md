@@ -61,7 +61,7 @@ func twoSum(nums []int, target int) []int {
     return res
 }
 
-//时间复杂度O(nlogn)
+//时间复杂度O(logn)
 //空间复杂度O(n) 因为进行排序，新生成了一个slice
 ```
 
