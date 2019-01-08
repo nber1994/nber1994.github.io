@@ -3,7 +3,7 @@ layout: post
 title: leetcode addTwoNumbers
 date: 2018-07-20 17:29:08
 key: 20171020
-categories: LeetCode
+categories: leetcode
 ---
 
 ```shell

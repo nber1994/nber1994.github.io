@@ -3,7 +3,7 @@ layout: post
 title: leetcode Median of Two Sorted Arrays
 date: 2018-07-25 17:29:08
 key: 20171025
-categories: LeetCode
+categories: leetcode
 ---
 
 ```shell

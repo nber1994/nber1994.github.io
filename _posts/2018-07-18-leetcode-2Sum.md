@@ -3,7 +3,7 @@ layout: post
 title: leetcode 2Sum
 date: 2018-07-18 17:29:08
 key: 20171019
-categories: LeetCode
+categories: leetcode
 ---
 
 ``` shell

@@ -3,7 +3,7 @@ layout: post
 title: leetcode Longest Substring Without Repeating Characters
 date: 2018-07-21 17:29:08
 key: 20171021
-categories: LeetCode
+categories: leetcode
 ---
 
 ```shell

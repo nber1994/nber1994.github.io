@@ -3,7 +3,7 @@ layout: post
 title: leetcode Longest Palindromic Substring
 date: 2018-07-31 17:29:08
 key: 20171031
-categories: LeetCode
+categories: leetcode
 ---
 ```shell
 Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000. 

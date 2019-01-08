@@ -3,7 +3,7 @@ layout: post
 title: 如何基于github pages搭建blog
 date: 2017-12-06 20:29:08
 key: 20171206
-categories: TOOLS
+categories: tools
 ---
 > 胡乱的记载了如何在github-pages搭建bolg
 
