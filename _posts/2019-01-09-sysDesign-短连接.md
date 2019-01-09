@@ -36,5 +36,5 @@ categories: sysDesign
     * redis作为缓存，存储长连接与ID的关系，使用LRU来维护，遇到相同的url直接返回id
 
 ## 参考
-[短url-知乎](https://www.zhihu.com/question/29270034)
-[tinyUrl](https://soulmachine.gitbooks.io/system-design/content/cn/tinyurl.html)
+* [短url-知乎](https://www.zhihu.com/question/29270034)
+* [tinyUrl](https://soulmachine.gitbooks.io/system-design/content/cn/tinyurl.html)
