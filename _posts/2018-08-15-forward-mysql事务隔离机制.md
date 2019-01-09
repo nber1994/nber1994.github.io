@@ -106,11 +106,11 @@ SET SESSION binlog_format = 'ROW';（或者是MIXED）
 
 RC（不可重读）模式下的展现
 
-![1](/pic/mysql1.png)
+![1](/images/mysql1.png)
 
 事务B修改id=1的数据提交之后，事务A同样的查询，后一次和前一次的结果不一样，这就是不可重读（重新读取产生的结果不一样）。这就很可能带来一些问题，那么我们来看看在RR级别中MySQL的表现：
 
-![1](/pic/mysql2.png)
+![1](/images/mysql2.png)
 
 我们注意到，当teacher_id=1时，事务A先做了一次读取，事务B中间修改了id=1的数据，并commit之后，事务A第二次读到的数据和第一次完全相同。所以说它是可重读的。那么MySQL是怎么做到的呢？这里姑且卖个关子，我们往下看。
 
@@ -151,7 +151,7 @@ RC（不可重读）模式下的展现
 
 我们不管从数据库方面的教课书中学到，还是从网络上看到，大都是上文中事务的四种隔离级别这一模块列出的意思，RR级别是可重复读的，但无法解决幻读，而只有在Serializable级别才能解决幻读。于是我就加了一个事务C来展示效果。在事务C中添加了一条teacher_id=1的数据commit，RR级别中应该会有幻读现象，事务A在查询teacher_id=1的数据时会读到事务C新加的数据。但是测试后发现，在MySQL中是不存在这种情况的，在事务C提交后，事务A还是不会读到这条数据。可见在MySQL的RR级别中，是解决了幻读的读问题的。参见下图
 
-![3](/pic/mysql3.png)
+![3](/images/mysql3.png)
 
 读问题解决了，根据MVCC的定义，并发提交数据时会出现冲突，那么冲突时如何解决呢？我们再来看看InnoDB中RR级别对于写数据的处理。
 
@@ -183,11 +183,11 @@ Next-Key锁是行锁和GAP（间隙锁）的合并，行锁上文已经介绍了
 行锁可以防止不同事务版本的数据修改提交时造成数据冲突的情况。但如何避免别的事务插入数据就成了问题。我们可以看看RR级别和RC级别的对比
 
 RC级别：
-![vi](/pic/mysql4.png)
+![vi](/images/mysql4.png)
 
 RR级别：
 
-![vi](/pic/mysql5.png)
+![vi](/images/mysql5.png)
 
 通过对比我们可以发现，在RC级别中，事务A修改了所有teacher_id=30的数据，但是当事务Binsert进新数据后，事务A发现莫名其妙多了一行teacher_id=30的数据，而且没有被之前的update语句所修改，这就是“当前读”的幻读。
 
@@ -197,7 +197,7 @@ MySQL是这么实现的：
 
 在class_teacher这张表中，teacher_id是个索引，那么它就会维护一套B+树的数据关系，为了简化，我们用链表结构来表达（实际上是个树形结构，但原理相同）
 
-![vi](/pic/mysql6.png)
+![vi](/images/mysql6.png)
 
 如图所示，InnoDB使用的是聚集索引，teacher_id身为二级索引，就要维护一个索引字段和主键id的树状结构（这里用链表形式表现），并保持顺序排列。
 
@@ -211,7 +211,7 @@ update class_teacher set class_name='初三四班' where teacher_id=30;不仅用
 
 受限于这种实现方式，Innodb很多时候会锁住不需要锁的区间。如下所示：
 
-![vi](/pic/mysql7.png)
+![vi](/images/mysql7.png)
 
 update的teacher_id=20是在(5，30]区间，即使没有修改任何数据，Innodb也会在这个区间加gap锁，而其它区间不会影响，事务C正常插入。
 

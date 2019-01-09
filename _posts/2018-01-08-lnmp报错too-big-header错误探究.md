@@ -90,7 +90,7 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode=777,reuseaddr,fork UNIX-CONNECT:php.
 ```
 
 ###     2.1.3 抓取到的数据大概的样子
-![抓到的数据](/pic/tcpdump.png)
+![抓到的数据](/images/tcpdump.png)
 
 ## 2.2 简单分析
 让我们观察下日志，
@@ -114,10 +114,10 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode=777,reuseaddr,fork UNIX-CONNECT:php.
 ```
 
 ### 2.2.1 一次请求的nginx-error日志
-![nginx-error](/pic/one-hit-error-log.png)
+![nginx-error](/images/one-hit-error-log.png)
 
 ### 2.2.2 一次请求的tcpdump的日志
-![tcpdump-log](/pic/one-hit-tcpdump-log.png)
+![tcpdump-log](/images/one-hit-tcpdump-log.png)
 
 ### 2.2.3 简单结论
 
@@ -148,14 +148,14 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode=777,reuseaddr,fork UNIX-CONNECT:php.
 我们知道，fastcgi_buffer_size与proxy_buffer_size这两个参数会影响到响应头, 其中proxy_buffer_size影响的是nginx作为反向代理时的参数
 对于nginx配置文件中的fastcgi_buffer_size，文档中是这么写的
 
-![文档](/pic/fastcgi_buffer_size.png)
+![文档](/images/fastcgi_buffer_size.png)
 
 其中 **the first part of the response received from the FastCGI server.**,这个参数指定的是接受到fastcgi-server端的第一部分的响应（一般是response header），在lnmp的场景里，fastcgi-server就是php部分
 其中这个first part的含义是这样子的，由于upstream是一个通用的组件，它不知道后端的协议，而对于http场景来说，由于http是需要header的，而后端的协议不一定有头，此时就需要我们通过解析后端的协议，然后来设置好发送给client的头，最终发送给client，通过上面的观察，我们发现php的错误信息也会包含其中 
 
 以下是所谓的正常情况下的**the first part of the response**的结构
 
-![header](/pic/fastcgi-header.png)
+![header](/images/fastcgi-header.png)
 
 * 对于接收到的来自后端服务器的响应头部。以上是一个fastcgi格式的响应报文，需要从fastcgi格式的报文中提取出http响应头部，因此需要经过状态机处理，从而解析出http响应头部。
 * nginx接收后端服务的响应也应该是一种fastcgi报文格式。从图中可以看出，每一个http响应包头前面都加上了fastcgi头部，而每一个http响应包头都有可能由多条http响应头部组成。
@@ -164,7 +164,7 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode=777,reuseaddr,fork UNIX-CONNECT:php.
 ## 3.2 nginx代码报错分析
 源码中报错的位置如下
 
-![error](/pic/code.png)
+![error](/images/code.png)
 
 ```c
 //nginx接收来自上游服务器的响应头部
@@ -469,7 +469,7 @@ php message: aaaaaaaaaaaaa
 
 **php-fpm会在一定的情况下向nginx传送不完整的响应头数据，导致nginx解析fastcgi与http的header出错，导致报出502**
 这看起来不可思议，竟然是下游服务出了差错，而不是因为nginx内的fastcgi_buffer_size太小导致的错误,不过该问题并不是不可能发生：
-![哈哈](/pic/gis.png)
+![哈哈](/images/gis.png)
 
 # 5. 探究下不同fastcgi_buffer_size下的502发生情况
 
@@ -478,18 +478,18 @@ php message: aaaaaaaaaaaaa
 ### nginx日志
 
 不会报502的错误日志
-![error-log](/pic/1k-error-log.png)
+![error-log](/images/1k-error-log.png)
 
 会报502的错误日志
-![error-log](/pic/1k-502-error-log.png)
+![error-log](/images/1k-502-error-log.png)
 
 ### tcpdump的日志
 
 不会报502的错误日志
-![tcp-error](/pic/1k-tcpdump-log.png)
+![tcp-error](/images/1k-tcpdump-log.png)
 
 会报502的错误日志
-![tcp-error](/pic/1k-tcpdump-502-log.png)
+![tcp-error](/images/1k-tcpdump-502-log.png)
 
 ### 测试结果
 
@@ -512,18 +512,18 @@ size=229 iterations=42 < HTTP/1.1 502 Bad Gateway
 ### nginx日志
 
 不会报502的错误日志
-![error-log](/pic/2k-error-log.png)
+![error-log](/images/2k-error-log.png)
 
 会报502的错误日志
-![error-log](/pic/2k-502-error-log.png)
+![error-log](/images/2k-502-error-log.png)
 
 ### tcpdump的日志
 
 不会报502的错误日志
-![tcp-error](/pic/2k-tcpdump-log.png)
+![tcp-error](/images/2k-tcpdump-log.png)
 
 会报502的错误日志
-![tcp-error](/pic/2k-tcpdump-error-502-log.png)
+![tcp-error](/images/2k-tcpdump-error-502-log.png)
 
 ### 测试结果
 ```shell
@@ -545,18 +545,18 @@ size=148 iterations=63 < HTTP/1.1 502 Bad Gateway
 ### nginx日志
 
 不会报502的错误日志
-![error-log](/pic/4k-error-log.png)
+![error-log](/images/4k-error-log.png)
 
 会报502的错误日志
-![error-log](/pic/4k-error-502-log.png)
+![error-log](/images/4k-error-502-log.png)
 
 ### tcpdump的日志
 
 不会报502的错误日志
-![tcp-error](/pic/4k-tcpdump-error-log.png)
+![tcp-error](/images/4k-tcpdump-error-log.png)
 
 会报502的错误日志
-![tcp-error](/pic/4k-tcpdump-502-error-log.png)
+![tcp-error](/images/4k-tcpdump-502-error-log.png)
 
 ### 测试结果
 ```shell
