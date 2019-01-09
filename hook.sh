@@ -6,7 +6,7 @@ find '/Users/jingtianyou/Library/Mobile Documents/com~apple~CloudDocs/vNote/å­¦ä
 grep -rl _v_images /Users/jingtianyou/github/Jekyll-Pithy/_raw/* | xargs sed -i "" 's/_v_images/\/images/g'
 
 cd /Users/jingtianyou/github/Jekyll-Pithy/_raw/
-tags_arr=("redis" "mysql" "tcp&ip" "shell" "os" "sysDesign")
+tags_arr=("redis" "mysql" "tcp&ip" "shell" "os" "sysDesign" "pic")
 
 for file in ./*
 do
@@ -34,7 +34,7 @@ do
                     tags=$tag
                 fi
             done
-            if [ $tags = " " ]; then
+            if [ "$tags" = " " ]; then
                 tags="else"
             fi
             sed -i '' -e "1i \\
