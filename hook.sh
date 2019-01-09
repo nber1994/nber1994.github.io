@@ -34,6 +34,9 @@ do
                     tags=$tag
                 fi
             done
+            if [ $tags = " " ]; then
+                tags="else"
+            fi
             sed -i '' -e "1i \\
             --- \\
             layout: post \\
