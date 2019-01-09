@@ -46,3 +46,9 @@ do
         echo "新增"$(date +'%Y-%m-%d-')$fileExtName
     fi
 done
+
+cd /Users/jingtianyou/github/Jekyll-Pithy/
+git st
+git add .
+git ci -m 'update'
+git push origin master
