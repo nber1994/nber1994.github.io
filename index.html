@@ -7,9 +7,9 @@ layout: default
     {% for post in site.posts limit:7 %}
       <li>
         <br>
-        <h3>
-            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}"><font color="#3498DB">{{ post.title }}</font></a>
-        </h3>
+        <h6>
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}"><font color="red">{{ post.title }}</font></a>
+        </h6>
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y %H:%m" }}</span>
         <hr id="line">
 		<div class="content">
