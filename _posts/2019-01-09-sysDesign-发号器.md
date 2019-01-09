@@ -2,7 +2,7 @@
 layout: post 
 title: sysDesign-发号器 
 date: 2019-01-09 12:34:42 
-categories:   
+categories: sysDesign
 ---
 # ID生成器
 ## 要求
