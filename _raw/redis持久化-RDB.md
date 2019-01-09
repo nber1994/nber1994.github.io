@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis持久化-RDB 
-date: 2019-01-08 01:24:19 
-categories: redis 
----
 > redis持久化-RDB
 - 二进制文件
 - 一个服务器的所有非空数据库的所有的键值对成为数据库状态

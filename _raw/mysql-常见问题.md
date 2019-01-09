@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: mysql-常见问题 
-date: 2019-01-08 01:24:17 
-categories: mysql 
----
 
 ## innoDB和MyIsAm引擎的区别
 

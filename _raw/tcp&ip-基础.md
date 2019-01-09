@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: tcp&ip-基础 
-date: 2019-01-08 01:24:23 
-categories: tcp&ip 
----
 # tcp-ip基础
 ## 分层一级对应关系
 - 应用层

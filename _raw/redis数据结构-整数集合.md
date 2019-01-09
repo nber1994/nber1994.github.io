@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis数据结构-整数集合 
-date: 2019-01-08 01:24:22 
-categories: redis 
----
 # redis数据结构-整数集合
 一般集合键只保存整数且集合的大小不大时，采用整数集合作为其底层实现
 

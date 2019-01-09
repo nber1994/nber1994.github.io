@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: InnoDB 
-date: 2019-01-08 01:24:14 
-categories:   
----
 # InnoDB
 ## 三大特性
 * 插入缓冲

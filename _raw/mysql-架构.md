@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: mysql-架构 
-date: 2019-01-08 01:24:16 
-categories: mysql 
----
 
 ![](/images/20181101013239619_1039479421.png)
 

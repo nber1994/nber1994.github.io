@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: mysql-InnoDB文件 
-date: 2019-01-08 01:24:15 
-categories: mysql 
----
 # 文件
 - ## 参数文件
 - ## 日志文件

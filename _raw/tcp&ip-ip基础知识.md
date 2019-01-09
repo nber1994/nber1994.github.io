@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: tcp&ip-ip基础知识 
-date: 2019-01-08 01:24:23 
-categories: tcp&ip 
----
 # ip基础知识
 ## 网络层和数据链路层的区别
 - 数据链路层负责在直连的网络的传输

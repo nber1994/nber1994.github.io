@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: tcp&ip-http 
-date: 2019-01-08 01:24:23 
-categories: tcp&ip 
----
 # http
 - http是无状态的协议
 - 为了保持http的状态，引入了cookie

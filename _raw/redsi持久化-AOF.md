@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redsi持久化-AOF 
-date: 2019-01-08 01:24:22 
-categories:   
----
 > redsi持久化-AOF
 - 除了RDB持久化之后，redis还提供了AOF持久化功能（append only file）
 - AOF持久化使用过保存redis写命令来记录数据库状态的

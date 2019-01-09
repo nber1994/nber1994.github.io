@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis事务 
-date: 2019-01-08 01:24:18 
-categories: redis 
----
 # redis事务
 - redis通过multi，exec，watch等命令实现事务功能
 - 事务提供了一种将多个命令打包，一次性顺序执行的多个命令的机制

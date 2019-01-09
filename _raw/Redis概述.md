@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: Redis概述 
-date: 2019-01-08 01:24:15 
-categories:   
----
 
 redis是一个key-value形式的单线程的内存型数据库
 ## 数据结构与对象

@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis客户端 
-date: 2019-01-08 01:24:19 
-categories: redis 
----
 # redis客户端和服务器
 # 客户端
 - redis服务器中，保存着clients链表

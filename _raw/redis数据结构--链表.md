@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis数据结构--链表 
-date: 2019-01-08 01:24:20 
-categories: redis 
----
 # redis数据结构--链表
 - 链表提供了高效的节点重排的能力
 - 顺序访问的能力

@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis事件 
-date: 2019-01-08 01:24:18 
-categories: redis 
----
 # redis事件
 > redis是一个事件驱动程序
 

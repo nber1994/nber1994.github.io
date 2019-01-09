@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: mysql-5.7连接池 
-date: 2019-01-08 01:24:15 
-categories: mysql 
----
 > mysql5.7之后，引进了线程池的概念
 
 ## 为什么要是有线程池

@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis订阅 
-date: 2019-01-08 01:24:18 
-categories: redis 
----
 # redis订阅
 - redis发布订阅相关的命令
     - publish，发布

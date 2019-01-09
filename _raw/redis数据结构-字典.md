@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis数据结构-字典 
-date: 2019-01-08 01:24:20 
-categories: redis 
----
 # redis数据结构-字典(dict)
 - 字典是一个用于保存键值对的数据结构
 - 字典的键为独一无二的

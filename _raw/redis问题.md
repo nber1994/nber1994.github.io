@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis问题 
-date: 2019-01-08 01:24:18 
-categories: redis 
----
 # redis-问题
 BRPOP，BLPOP
 

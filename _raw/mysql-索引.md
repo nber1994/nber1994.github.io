@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: mysql-索引 
-date: 2019-01-08 01:24:16 
-categories: mysql 
----
 > ps：平衡查找树
 
 > B B+ https://zhuanlan.zhihu.com/p/27700617

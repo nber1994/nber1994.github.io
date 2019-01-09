@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis数据库 
-date: 2019-01-08 01:24:19 
-categories: redis 
----
 >  redis数据库
 
 ```c

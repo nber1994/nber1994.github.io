@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: tcp&ip-网络基础知识 
-date: 2019-01-08 01:24:24 
-categories: tcp&ip 
----
 # 网络基础知识
 - 协议的分层
     - osi分层

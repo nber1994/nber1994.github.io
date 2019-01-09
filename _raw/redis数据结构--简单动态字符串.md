@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis数据结构--简单动态字符串 
-date: 2019-01-08 01:24:20 
-categories: redis 
----
 # redis数据结构--简单动态字符串（SDS）
 redis自己构建了简单的字符串结构，c语言的字符串类型只用于一些字面量展示    
 SDS还被用于缓冲区，AOF模块的缓冲区就是SDS实现的
