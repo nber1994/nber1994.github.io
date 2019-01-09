@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: sysDesign-短连接 
-date: 2019-01-09 14:53:42 
-categories: sysDesign 
----
 # sysDesign-短连接
 ## 要求
 * 尽可能的短
