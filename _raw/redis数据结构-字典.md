@@ -6,7 +6,7 @@
 ## hash表结构
 ```c
 哈希表结构
-typedef struct sictht {
+typedef struct dictht {
     //哈希表数组
     dictEntry **table;
     //哈希表大小
@@ -70,6 +70,7 @@ hash算法根据**键值**，计算出哈希值，在结合sizemask的值，计�
 - redis使用链地址法来处理hash冲突，每个hash表项都有一个next指针，相同的索引值的会组成一个单项链表    
 - 为了提高速率，每次发生hash冲突时，会将新的节点放在单向链表的表头    
  ![](/images/20181116211119221_356019613.png)
+
 ## rehash
 当hash表的装载因子大于1时，redis会将hash表进行rehash操作
 ### 步骤：
@@ -78,11 +79,11 @@ hash算法根据**键值**，计算出哈希值，在结合sizemask的值，计�
 - 当完成后，将释放ht0，将ht1作为ht0，并初始化一个空表尾ht1
 
 ### rehash的条件
-- 不存在gbsave或者bgrewriteaof任务时，当装载因子大于1时
-- 存在gbsave和bgrewriteaof任务时，当装载因子大于5时
-之所以根据gbsave和rewriteaof任务是否存在，来确定不同负载因子的值，是因为，bgsave和bgrewriteaof会产生子进程处理    
-由于大多操作系统采用写时复制机制来优化子进程效率，所以在bgsave和bgrewriteaof任务时提高负载因子会避免不必要的内存写入    
-操作
+- 不存在bgsave或者bgrewriteaof任务时，当装载因子大于1时
+- 存在bgsave和bgrewriteaof任务时，当装载因子大于5时
+    - 之所以根据bgsave和bgrewriteaof任务是否存在，来确定不同负载因子的值，是因为，bgsave和bgrewriteaof会产生子进程处理    
+    - 由于大多操作系统采用写时复制机制来优化子进程效率，所以在bgsave和bgrewriteaof任务时提高负载因子会避免不必要的内存写入操作
+
 ### 渐进式的rehash
 当存在大量的键值对时，rehash会带来大量的运算，并且在此期间不能响应请求，所以采用渐进式的rehash方法
 - 当redis对键值进行增，删改查时，redis除了执行制定操作时，还会将对应的hashindex上的键值对全部rehash到ht1上

@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: sysDesign-缓存管理策略 
-date: 2019-01-10 21:59:05 
-categories: sysDesign 
----
 # sysDesign-缓存管理策略
 
 # 常见的缓存管理策略
