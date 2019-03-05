@@ -1,0 +1,154 @@
+--- 
+layout: post 
+title: leetcode-链表 
+date: 2019-03-05 17:02:51 
+categories: leetcode 
+---
+# leetcode-链表
+```go
+package main
+
+import "fmt"
+
+func main() {
+        a := &ListNode{1, nil}
+        b := &ListNode{4, nil}
+        c := &ListNode{5, nil}
+        d := &ListNode{1, nil}
+        e := &ListNode{3, nil}
+        f := &ListNode{4, nil}
+        g := &ListNode{2, nil}
+        h := &ListNode{6, nil}
+        a.Next = b
+        b.Next = c
+        d.Next = e
+        e.Next = f
+        g.Next = h
+        lists := []*ListNode{a, d, g}
+        res := mergeKLists(lists)
+        for res != nil {
+                fmt.Println(res.Val)
+                res = res.Next
+        }
+}
+
+//合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+//
+//示例:
+//
+//输入:
+//[
+//  1->4->5,
+//  1->3->4,
+//  2->6
+//]
+//输出: 1->1->2->3->4->4->5->6<Paste>
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+
+type ListNode struct {
+        Val  int
+        Next *ListNode
+}
+
+type MinHeap struct {
+        Heap []*ListNode
+        Size int
+        Lens int //容量
+}
+
+func (this *MinHeap) Pop() *ListNode {
+        if this.Size == 0 {
+                return nil
+        }
+        res := this.Heap[0]
+        this.autoFixDown()
+        return res
+}
+
+func (this *MinHeap) autoFixDown() {
+        this.Heap[0] = this.Heap[this.Size-1]
+        this.Heap = this.Heap[:this.Size-1]
+        this.Size--
+        i := 0
+        j := 0
+        for i < this.Size {
+                child := &ListNode{0, nil}
+                hasChild := false
+                if i*2+2 < this.Size {
+                        if this.Heap[i*2+2].Val < this.Heap[i*2+1].Val {
+                                child = this.Heap[i*2+2]
+                                j = i*2 + 2
+                                hasChild = true
+                        } else {
+                                child = this.Heap[i*2+1]
+                                j = i*2 + 1
+                                hasChild = true
+                        }
+                } else if i*2+1 < this.Size {
+                        child = this.Heap[i*2+1]
+                        j = i*2 + 1
+                        hasChild = true
+                }
+                if hasChild && this.Heap[i].Val > child.Val {
+                        this.Heap[i], this.Heap[j] = this.Heap[j], this.Heap[i]
+                        i = j
+                } else {
+                        break
+                }
+        }
+}
+
+func (this *MinHeap) Push(v *ListNode) bool {
+        if this.Size == this.Lens {
+                return false
+        }
+        if v == nil {
+                return false
+        }
+        this.Heap = append(this.Heap, v)
+        this.Size++
+        this.autoFixUp()
+        return true
+}
+
+func (this *MinHeap) autoFixUp() {
+        i := this.Size - 1
+        j := (i - 1) / 2
+        for i > 0 {
+                if this.Heap[i].Val < this.Heap[j].Val {
+                        this.Heap[i], this.Heap[j] = this.Heap[j], this.Heap[i]
+                        i = j
+                        j = (i - 1) / 2
+                } else {
+                        break
+                }
+        }
+}
+
+func mergeKLists(lists []*ListNode) *ListNode {
+        newHead := &ListNode{0, nil}
+        lens := len(lists)
+        mh := &MinHeap{[]*ListNode{}, 0, lens}
+        for _, v := range lists {
+                mh.Push(v)
+        }
+        item := mh.Pop()
+        newHead.Next = item
+        for item != nil {
+                if item.Next != nil {
+                        mh.Push(item.Next)
+                }
+                item.Next = mh.Pop()
+                item = item.Next
+        }
+        return newHead.Next
+}
+
+```

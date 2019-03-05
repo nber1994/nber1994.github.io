@@ -1,14 +1,140 @@
 # leetcode-数组
-## 2sum
 ```go
-给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
-你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
-示例:
-给定 nums = [2, 7, 11, 15], target = 9
-因为 nums[0] + nums[1] = 2 + 7 = 9
-所以返回 [0, 1]
-```
-```go
+package main
 
+import (
+	"fmt"
+	"sort"
+)
+
+func main() {
+	fmt.Println(twoSum1([]int{2, 11, 7, 15}, 9))
+	fmt.Println(twoSum2([]int{2, 11, 7, 15}, 9))
+}
+
+//两数之和
+//给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+//
+//你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
+//
+//示例:
+//
+//给定 nums = [2, 7, 11, 15], target = 9
+//
+//因为 nums[0] + nums[1] = 2 + 7 = 9
+//所以返回 [0, 1]
+//两个指针向中间逼近
+func twoSum1(nums []int, target int) []int {
+	lens := len(nums)
+	oldNums := make([]int, lens)
+	copy(oldNums[:], nums)
+	left := 0
+	right := lens - 1
+	sortedNums := sort.IntSlice(nums)
+	sort.Stable(sortedNums)
+	res := []int{}
+	for left < right {
+		//右边的指针要移动到已经不能移动位置
+		for sortedNums[left]+sortedNums[right] > target {
+			right--
+		}
+		if sortedNums[left]+sortedNums[right] == target {
+			break
+		}
+		//左边的指针移动到不能移动位置
+		for sortedNums[left]+sortedNums[right] < target {
+			left++
+		}
+		if sortedNums[left]+sortedNums[right] == target {
+			break
+		}
+	}
+	for k, v := range oldNums {
+		if v == sortedNums[left] || v == sortedNums[right] {
+			res = append(res, k)
+		}
+	}
+	return res
+}
+
+//空间换时间
+//以 差值-> 键值 作为map
+func twoSum2(nums []int, target int) []int {
+	myMap := map[int]int{}
+	for k, v := range nums {
+		if i, exist := myMap[v]; exist {
+			return []int{i, k}
+		}
+		myMap[target-v] = k
+	}
+	return []int{}
+}
+
+//搜索插入位置
+//给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+//
+//你可以假设数组中无重复元素。
+//
+//示例 1:
+//
+//输入: [1,3,5,6], 5
+//输出: 2
+//示例 2:
+//
+//输入: [1,3,5,6], 2
+//输出: 1
+//示例 3:
+//
+//输入: [1,3,5,6], 7
+//输出: 4
+//示例 4:
+//
+//输入: [1,3,5,6], 0
+//输出: 0
+func searchInsert(nums []int, target int) int {
+	res := 0
+	for _, v := range nums {
+		if v == target || v > target {
+			break
+		}
+		res++
+	}
+	return res
+}
+
+//在排序数组中查找元素的第一个和最后一个位置
+//给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+//
+//你的算法时间复杂度必须是 O(log n) 级别。
+//
+//如果数组中不存在目标值，返回 [-1, -1]。
+//
+//示例 1:
+//
+//输入: nums = [5,7,7,8,8,10], target = 8
+//输出: [3,4]
+//示例 2:
+//
+//输入: nums = [5,7,7,8,8,10], target = 6
+//输出: [-1,-1]
+func searchRange(nums []int, target int) []int {
+	res := []int{-1, -1}
+	for k, v := range nums {
+		if v == target {
+			if res[0] == -1 {
+				res[0] = k
+				res[1] = k
+			} else {
+				res[1] = k
+			}
+		} else {
+			if res[0] == -1 {
+			} else {
+				break
+			}
+		}
+	}
+	return res
+}
 
 ```
