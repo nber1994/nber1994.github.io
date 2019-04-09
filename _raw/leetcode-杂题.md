@@ -1,0 +1,18 @@
+--- 
+layout: post 
+title: leetcode-杂题 
+date: 2019-04-09 12:33:03 
+categories: leetcode 
+---
+# leetcode-杂题
+## 环形链表II
+给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+说明：不允许修改给定的链表。
+进阶：
+你是否可以不用额外空间解决此题？
+思路：
+如下图所示：
+![](/images/20190319113006953_1823171335.png)
+初始化slow指针指向head节点，fast指向head->next节点，假设slow与fast在c点相遇。由于slow走过的路程为x+y，fast走过的路程为x+y+z+y，且fast走过的距离是slow的两倍，所以：
+> 2(x+y)=x+y+z+y
+化简得：x=z，此时把slow指针放到c处，fast指针放到a处，俩指针以相同速度向前走，则相遇节点为b，且b为相遇节点。
