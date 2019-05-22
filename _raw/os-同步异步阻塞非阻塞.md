@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: os-同步异步阻塞非阻塞 
-date: 2019-05-18 23:53:20 
-categories: os 
----
 # os-同步异步阻塞非阻塞
 同步、异步、阻塞与非阻塞
 

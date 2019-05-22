@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: os-csip 
-date: 2019-05-18 23:53:16 
-categories: os 
----
 # os-csip
 * cs 代码段寄存器
 * Ip 指令指针寄存器

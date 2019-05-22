@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: os-内存地址 
-date: 2019-05-18 23:53:18 
-categories: os 
----
 # 内存地址
 # os-大端小端
 ![](/images/20190517154441935_1136073145.png)

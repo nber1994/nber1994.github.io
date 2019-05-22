@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: os-一句话 
-date: 2019-05-18 23:53:18 
-categories: os 
----
 # os-一句话
 一句话
 
