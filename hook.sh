@@ -6,7 +6,7 @@ find '/Users/jingtianyou/Library/Mobile Documents/com~apple~CloudDocs/vNote/å­¦ä
 grep -rl _v_images /Users/jingtianyou/github/Jekyll-Pithy/_raw/* | xargs sed -i "" 's/_v_images/\/images/g'
 
 cd /Users/jingtianyou/github/Jekyll-Pithy/_raw/
-tags_arr=("redis" "mysql" "tcp&ip" "shell" "os" "sysDesign" "pic" "leetcode")
+tags_arr=("redis" "mysql" "tcp&ip" "shell" "os" "sysDesign" "pic" "leetcode" "nginx")
 
 for file in ./*
 do
