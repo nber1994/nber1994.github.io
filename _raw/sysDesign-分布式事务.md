@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: sysDesign-分布式事务 
-date: 2019-05-31 15:01:30 
-categories: sysDesign 
----
 # sysDesign-分布式事务
 [分布式事务-掘金](https://juejin.im/post/5b5a0bf9f265da0f6523913b)
 分布式事务的解决方案有很多种，
