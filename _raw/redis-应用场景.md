@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: redis-应用场景 
-date: 2019-06-01 19:29:13 
-categories: redis 
----
 # redis-应用场景
 
 ```c
