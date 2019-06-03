@@ -1,9 +1,3 @@
---- 
-layout: post 
-title: leetcode剑指offer 
-date: 2019-06-02 19:09:39 
-categories: leetcode 
----
 # leetcode剑指offer
 # 链表-8道：
 ## 剑指Offer（三）：从尾到头打印链表

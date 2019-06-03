@@ -1,16 +1,10 @@
 --- 
 layout: post 
-title: linux常用命令 
-date: 2019-06-02 19:09:40 
-categories: else 
+title: os-linux常用命令 
+date: 2019-06-03 15:18:56 
+categories: os 
 ---
---- 
-layout: post 
-title: linux常用命令 
-date: 2019-06-02 19:09:40 
-categories: else 
----
-# linux常用命令
+# os-linux常用命令
 # top
 
 ```c
