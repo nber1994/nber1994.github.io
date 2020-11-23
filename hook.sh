@@ -23,15 +23,15 @@ do
         do PRE=`stat -f %SB -t %Y-%m-%d "$REPLY"`; \
             BASE=`basename "$REPLY"`; \
             echo "正在处理: "$PRE'-'$BASE
-            cp "$REPLY" $2/_posts/$PRE'-'$BASE; done
+            cp "$REPLY" $targetPath/_posts/$PRE'-'$BASE; done
     fi
 done
 
 
-if [ x$1 != pushx ]
+if [ x$3 = x ]
 then
     echo "发布..."
-    cd $2
+    cd $targetPath
     git status
     git add .
     git commit -m 'update'
