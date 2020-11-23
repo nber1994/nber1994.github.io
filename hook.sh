@@ -3,7 +3,7 @@ if [ x$1 != x ]
 then
     rawPath=$1
 else
-    rawPath='/Users/didi/github/nber1994.github.io/raw'
+    rawPath='/Users/didi/github/nber1994.github.io/blog'
 fi
 
 if [ x$2 != x ]

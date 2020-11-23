@@ -1,7 +1,7 @@
 ---
 layout: post
 title: my配色
-tags: else
+tags: Vim
 ---
 
 ```go
