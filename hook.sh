@@ -1,6 +1,18 @@
 #!/bin/bash
-rawPath=$1
-targetPath=$2
+if [ x$1 != x ]
+then
+    rawPath=$1
+else
+    rawPath='./raw'
+fi
+
+if [ x$2 != x ]
+then
+    targetPath=$2
+else
+    targetPath='./'
+fi
+
 tags_arr=("redis" "mysql" "tcp&ip" "shell" "os" "sysDesign" "pic" "leetcode" "nginx" "php" "java" "go" "else" "vim")
 
 for tag in ${tags_arr[@]} 
@@ -14,3 +26,14 @@ do
             cp "$REPLY" $2/_posts/$PRE'-'$BASE; done
     fi
 done
+
+
+if [ x$1 != pushx ]
+then
+    echo "发布..."
+    cd $2
+    git status
+    git add .
+    git commit -m 'update'
+    git push origin master
+fi
