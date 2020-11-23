@@ -1,6 +1,6 @@
-title : Elementary - Jekyll Blog Theme
-name: 'Elementary Jekyll Theme'
-description: 'Simple, light weight, responsive jekyll theme for hackers'
+title : nber1994
+name: 'nber1994'
+description: 'somebody someday sometime'
 
 markdown: kramdown
 highlighter: rouge
@@ -9,11 +9,9 @@ javascript_enabled: true
 featured_posts_title: Unrelated
 featured_posts:
   - url: '#'
-    title: 'Featured post #1'
-  - url: '#'
-    title: 'Featured post #2'
-  - url: '#'
-    title: 'Featured post #3'
+    title: 'BACK TO TOP'
+  - url: 'https://github.com/nber1994'
+    title: 'JUMP TO GITHUB'
 
 collections:
   news:
