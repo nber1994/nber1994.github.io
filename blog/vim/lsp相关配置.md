@@ -1,7 +1,7 @@
 ---
 layout: post
 title: lsp配置相关
-tags: else
+tags: Vim
 ---
 
 
