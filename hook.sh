@@ -3,14 +3,14 @@ if [ x$1 != x ]
 then
     rawPath=$1
 else
-    rawPath='./raw'
+    rawPath='/Users/didi/github/nber1994.github.io/raw'
 fi
 
 if [ x$2 != x ]
 then
     targetPath=$2
 else
-    targetPath='./'
+    targetPath='/Users/didi/github/nber1994.github.io'
 fi
 
 tags_arr=("redis" "mysql" "tcp&ip" "shell" "os" "sysDesign" "pic" "leetcode" "nginx" "php" "java" "go" "else" "vim")
