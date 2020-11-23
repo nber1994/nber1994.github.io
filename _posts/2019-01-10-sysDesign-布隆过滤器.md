@@ -2,7 +2,7 @@
 layout: post 
 title: sysDesign-布隆过滤器 
 date: 2019-01-10 18:16:27 
-categories: sysDesign 
+tags: sysDesign 
 ---
 # sysDesign-布隆过滤器
 ## 布隆过滤器(Bloom Filter)的原理和实现

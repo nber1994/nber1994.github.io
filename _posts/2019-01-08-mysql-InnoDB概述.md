@@ -2,7 +2,7 @@
 layout: post 
 title: mysql-InnoDB概述 
 date: 2019-01-08 01:24:15 
-categories: mysql 
+tags: mysql 
 ---
 ## InnoDB概述
 InnoDB完整支持ACID事务

@@ -3,7 +3,7 @@ layout: post
 title: 一次tcp的交互细节
 date: 2018-07-29 18:29:08
 key: 20171020
-categories: shell
+tags: shell
 ---
 > 抓了一次tcp相关的交互细节，包括了建立连接，数据传输，断开连接
 ```shell

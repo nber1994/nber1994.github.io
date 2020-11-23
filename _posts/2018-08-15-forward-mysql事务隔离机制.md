@@ -3,7 +3,7 @@ layout: post
 title: 转 Innodb中的事务隔离级别和锁的关系
 date: 2018-08-14 17:29:08
 key: 20180814
-categories: mysql
+tags: mysql
 ---
 
 

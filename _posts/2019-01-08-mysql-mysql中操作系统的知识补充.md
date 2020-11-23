@@ -2,7 +2,7 @@
 layout: post 
 title: mysql-mysql中操作系统的知识补充 
 date: 2019-01-08 01:24:16 
-categories: mysql 
+tags: mysql 
 ---
 ## 磁盘上的扇区和块大小
 - 扇区是512字节

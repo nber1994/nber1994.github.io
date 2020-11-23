@@ -3,7 +3,7 @@ layout: post
 title: lnmp报错too-big-header错误探究
 date: 2018-01-08 10:29:08
 key: 20171020
-categories: php
+tags: php
 ---
 
 > 之前遇到的一个偶发的错误，探讨下到底是怎么肥四

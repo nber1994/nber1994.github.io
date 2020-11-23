@@ -2,7 +2,7 @@
 layout: post 
 title: sysDesign-分库分表分区 
 date: 2019-01-09 17:12:03 
-categories: sysDesign 
+tags: sysDesign 
 ---
 # sysDesign-分库分表分区
 ## 要求

@@ -2,7 +2,7 @@
 layout: post 
 title: tcp&ip-http 
 date: 2019-01-08 01:24:23 
-categories: tcp&ip 
+tags: tcp&ip 
 ---
 # http
 - http是无状态的协议

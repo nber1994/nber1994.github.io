@@ -2,7 +2,7 @@
 layout: post 
 title: tcp&ip-tcp&udp 
 date: 2019-01-08 01:24:23 
-categories: tcp&ip 
+tags: tcp&ip 
 ---
 # tcp&udp
 - tcp/ip或者udp/ip中，唯一确认一个连接为五个元素

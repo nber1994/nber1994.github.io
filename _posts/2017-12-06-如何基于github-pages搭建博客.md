@@ -3,7 +3,7 @@ layout: post
 title: 如何基于github pages搭建blog
 date: 2017-12-06 20:29:08
 key: 20171206
-categories: tools
+tags: tools
 ---
 > 胡乱的记载了如何在github-pages搭建bolg
 
@@ -71,9 +71,9 @@ drwxr-xr-x@  6 jingtianyou  staff   204B  9 18 07:47 categories
 layout: default
 title: InnoDB各类语句的加锁方式与应用
 date: 2017-10-20 20:29:08
-categories:
+tags:
 - mysql
-categories: lnmp
+tags: lnmp
 ---
 ...
 ...

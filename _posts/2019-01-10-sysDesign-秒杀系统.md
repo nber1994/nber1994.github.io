@@ -2,7 +2,7 @@
 layout: post 
 title: sysDesign-秒杀系统 
 date: 2019-01-10 13:25:44 
-categories: sysDesign 
+tags: sysDesign 
 ---
 # sysDesign-秒杀系统
 * 秒杀系统主要解决两个问题，一个是并发写，一个是并发读

@@ -2,7 +2,7 @@
 layout: post 
 title: leetcode剑指offer 
 date: 2019-06-02 19:09:39 
-categories: leetcode 
+tags: leetcode 
 ---
 # leetcode-剑指offer
 > 题目列表，当做一个速查列表好了，具体代码就不放了:P

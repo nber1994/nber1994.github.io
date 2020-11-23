@@ -2,7 +2,7 @@
 layout: post 
 title: mysql-InnoDB文件系统 
 date: 2019-01-08 01:24:15 
-categories: mysql 
+tags: mysql 
 ---
 
 # 连接 

@@ -3,7 +3,7 @@ layout: post
 title: mysql锁表for update
 date: 2017-10-20 19:29:08
 key: 20171020
-categories: mysql
+tags: mysql
 ---
 > 胡乱探讨了for update的语句应用与使用场景
 

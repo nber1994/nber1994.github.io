@@ -3,7 +3,7 @@ layout: post
 title: mysql的explain关键字
 date: 2017-10-27 17:29:08
 key: 20171027
-categories: mysql
+tags: mysql
 ---
 > 胡乱的记录了一些explain关键字的一些用法,以及相关的评判参数
 

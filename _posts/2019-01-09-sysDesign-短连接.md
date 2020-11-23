@@ -2,7 +2,7 @@
 layout: post 
 title: sysDesign-短连接 
 date: 2019-01-09 14:53:42 
-categories: sysDesign 
+tags: sysDesign 
 ---
 # sysDesign-短连接
 ## 要求

@@ -2,7 +2,7 @@
 layout: post 
 title: sysDesign-缓存管理策略 
 date: 2019-01-10 21:59:05 
-categories: sysDesign 
+tags: sysDesign 
 ---
 # sysDesign-缓存管理策略
 

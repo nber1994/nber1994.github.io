@@ -2,7 +2,7 @@
 layout: post 
 title: sysDesign-缓存和DB的数据一致性 
 date: 2019-01-12 20:43:01 
-categories: sysDesign 
+tags: sysDesign 
 ---
 # sysDesign-缓存和DB的数据一致性
 > 这个问题给我印象很深

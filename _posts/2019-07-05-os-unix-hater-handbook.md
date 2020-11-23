@@ -2,7 +2,7 @@
 layout: post 
 title: os-unix-hater-handbook 
 date: 2019-07-05 16:20:38 
-categories: os 
+tags: os 
 ---
 # os-unix-hater-handbook
 > 最近偶尔发现了一本书，叫做unix痛恨者指南。

@@ -2,7 +2,7 @@
 layout: post 
 title: mysql-InnoDB锁 
 date: 2019-01-08 01:24:15 
-categories: mysql 
+tags: mysql 
 ---
 锁用于控制对共享资源的并发访问
 对于innodb来说，支持行锁
