@@ -8,6 +8,6 @@ tags: php
 
 ```
 $included_files = get_included_files();
-file_put_contents('/tmp/dArrive',implode("\r\n", $included_files));
+file_put_contents('/tmp/xxx',implode("\r\n", $included_files));
 ```
 
