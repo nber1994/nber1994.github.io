@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>leetcode-杂题</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>leetcode-杂题</h1>
+    <div class="blog-post-subheader">
+        April 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="leetcode-杂题记录">leetcode-杂题记录</h1>
+<h2 id="环形链表ii">环形链表II</h2>
+<p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。 <br>
+说明：不允许修改给定的链表。 <br>
+进阶： <br>
+你是否可以不用额外空间解决此题？ <br>
+思路： <br>
+如下图所示： <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190319113006953_1823171335.png" alt=""></p>
+<ul>
+<li>初始化slow指针指向head节点，fast指向head-&gt;next节点，假设slow与fast在c点相遇。由于slow走过的路程为x+y，fast走过的路程为x+y+z+y，且fast走过的距离是slow的两倍，所以：</li>
+</ul>
+<blockquote>
+<p>2(x+y)=x+y+z+y</p>
+</blockquote>
+<ul>
+<li>化简得：x=z，此时把slow指针放到c处，fast指针放到a处，俩指针以相同速度向前走，则相遇节点为b，且b为相遇节点。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//两数之和
+</span><span style="color:#75715e">//借助一个hash表来进行数据的存储
+</span><span style="color:#75715e">//O(N)
+</span><span style="color:#75715e"></span>func <span style="color:#a6e22e">twoSum</span>(nums []<span style="color:#66d9ef">int</span>, target <span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	hashMap :<span style="color:#f92672">=</span> make(map[<span style="color:#66d9ef">int</span>]<span style="color:#66d9ef">int</span>, len(nums))
+	<span style="color:#66d9ef">for</span> k, v :<span style="color:#f92672">=</span> range nums {
+		<span style="color:#66d9ef">if</span> index, exist :<span style="color:#f92672">=</span> hashMap[target<span style="color:#f92672">-</span>v]; exist {
+			<span style="color:#66d9ef">return</span> []<span style="color:#66d9ef">int</span>{k, index}
+		} <span style="color:#66d9ef">else</span> {
+			hashMap[v] <span style="color:#f92672">=</span> k
+		}
+	}
+	<span style="color:#66d9ef">return</span> nil
+}
+
+<span style="color:#75715e">//先将数组排序，然后两个指针分别寻找
+</span><span style="color:#75715e">//O(logN)
+</span><span style="color:#75715e"></span>func <span style="color:#a6e22e">twoSum1</span>(nums []<span style="color:#66d9ef">int</span>, target <span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	lens :<span style="color:#f92672">=</span> len(nums)
+	oldNums :<span style="color:#f92672">=</span> make([]<span style="color:#66d9ef">int</span>, lens)
+	copy(oldNums[<span style="color:#f92672">:</span>], nums)
+	sortedNums :<span style="color:#f92672">=</span> sort.IntSlice(nums)
+	sort.Stable(sortedNums)
+	left, right :<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, lens<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+	<span style="color:#66d9ef">for</span> left <span style="color:#f92672">&lt;</span> right {
+		<span style="color:#66d9ef">for</span> {
+			<span style="color:#66d9ef">if</span> sortedNums[left]<span style="color:#f92672">+</span>sortedNums[right] <span style="color:#f92672">&lt;=</span> target {
+				<span style="color:#66d9ef">break</span>
+			}
+			right<span style="color:#f92672">--</span>
+		}
+		<span style="color:#66d9ef">if</span> sortedNums[left]<span style="color:#f92672">+</span>sortedNums[right] <span style="color:#f92672">==</span> target {
+			<span style="color:#66d9ef">break</span>
+		}
+		<span style="color:#66d9ef">for</span> {
+			<span style="color:#66d9ef">if</span> sortedNums[left]<span style="color:#f92672">+</span>sortedNums[right] <span style="color:#f92672">&gt;=</span> target {
+				<span style="color:#66d9ef">break</span>
+			}
+			left<span style="color:#f92672">--</span>
+		}
+		<span style="color:#66d9ef">if</span> sortedNums[left]<span style="color:#f92672">+</span>sortedNums[right] <span style="color:#f92672">==</span> target {
+			<span style="color:#66d9ef">break</span>
+		}
+	}
+	res :<span style="color:#f92672">=</span> []<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> k, v :<span style="color:#f92672">=</span> range oldNums {
+		<span style="color:#66d9ef">if</span> v <span style="color:#f92672">==</span> left <span style="color:#f92672">||</span> v <span style="color:#f92672">==</span> right {
+			res <span style="color:#f92672">=</span> append(res, k)
+		}
+	}
+	<span style="color:#66d9ef">return</span> res
+}
+
+<span style="color:#75715e">//三数之和
+</span><span style="color:#75715e">//遍历最外面的一个，里面的就转化为2sum
+</span><span style="color:#75715e"></span>func <span style="color:#a6e22e">threeSum</span>(nums []<span style="color:#66d9ef">int</span>) [][]<span style="color:#66d9ef">int</span> {
+	lens :<span style="color:#f92672">=</span> len(nums)
+	res :<span style="color:#f92672">=</span> [][]<span style="color:#66d9ef">int</span>{}
+	sort.Ints(nums)
+	<span style="color:#66d9ef">for</span> left :<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; left <span style="color:#f92672">&lt;</span> lens<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>; left<span style="color:#f92672">++</span> {
+		<span style="color:#75715e">//防止重复产生
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> left <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> nums[left] <span style="color:#f92672">==</span> nums[left<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] {
+			<span style="color:#66d9ef">continue</span>
+		}
+		mid, right :<span style="color:#f92672">=</span> left<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, lens<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+		<span style="color:#66d9ef">for</span> mid <span style="color:#f92672">&lt;</span> right {
+			<span style="color:#75715e">//防止重复产生
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> mid <span style="color:#f92672">&gt;</span> left<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> nums[mid] <span style="color:#f92672">==</span> nums[mid<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] {
+				<span style="color:#66d9ef">continue</span>
+			}
+			<span style="color:#66d9ef">if</span> nums[left]<span style="color:#f92672">+</span>nums[mid]<span style="color:#f92672">+</span>nums[right] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+				res <span style="color:#f92672">=</span> append(res, []<span style="color:#66d9ef">int</span>{left, mid, right})
+				mid<span style="color:#f92672">++</span>
+				right<span style="color:#f92672">--</span>
+			}
+			<span style="color:#66d9ef">if</span> nums[left]<span style="color:#f92672">+</span>nums[mid]<span style="color:#f92672">+</span>nums[right] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> {
+				right<span style="color:#f92672">--</span>
+			}
+			<span style="color:#66d9ef">if</span> nums[left]<span style="color:#f92672">+</span>nums[mid]<span style="color:#f92672">+</span>nums[right] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> {
+				left<span style="color:#f92672">++</span>
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> res
+}
+
+</code></pre></div><h2 id="最大回文子串">最大回文子串</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190617235809864_2086608246.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190617235829685_1216835012.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190617235850790_859276303.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190608171226940_2012248194.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">//最大回文子串
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#75715e">//动态规划, p(i, j) si 到 sj之间是否是回文字符串
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//p(i, j) = p(i-1, j+1) &amp;&amp; si == sj
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//p(i, i) = true
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//p(i, i+1) = (si == si+1)
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">sArr</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">sArr</span>)
+	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> [][]<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">lens</span>)
+		<span style="color:#a6e22e">p</span> = append(<span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">tmp</span>)
+	}
+	<span style="color:#a6e22e">maxLen</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#a6e22e">start</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">lens</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">j</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">2</span> {
+				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">j</span>] {
+					<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] = <span style="color:#ae81ff">1</span>
+				}
+			} <span style="color:#66d9ef">else</span> {
+				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">j</span>] {
+					<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] = <span style="color:#ae81ff">1</span>
+				}
+			}
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> &gt; <span style="color:#a6e22e">maxLen</span> {
+				<span style="color:#a6e22e">maxLen</span> = <span style="color:#a6e22e">j</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+				<span style="color:#a6e22e">start</span> = <span style="color:#a6e22e">i</span>
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">start</span> : <span style="color:#a6e22e">start</span><span style="color:#f92672">+</span><span style="color:#a6e22e">maxLen</span>])
+}
+
+<span style="color:#75715e">//最大回文子序列
+</span><span style="color:#75715e">//用pij表示在i，j之间最大的子序列
+</span><span style="color:#75715e">//如果si==sj，则pij=pi+1j-1 + 2
+</span><span style="color:#75715e">//如果si！=sj，则pij=max（pi+1j，pij-1）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindromeSubseq</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">sArr</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">sArr</span>)
+	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> [][]<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">lens</span>)
+		<span style="color:#a6e22e">p</span> = append(<span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">tmp</span>)
+	}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span> {
+				<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] = <span style="color:#ae81ff">1</span>
+			} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">j</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] {
+				<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>
+			} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">j</span>] <span style="color:#f92672">!=</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] {
+				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] &gt; <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] {
+					<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>]
+				} <span style="color:#66d9ef">else</span> {
+					<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+				}
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>[<span style="color:#ae81ff">0</span>][<span style="color:#a6e22e">lens</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+}
+
+<span style="color:#75715e">//最大回文子序列
+</span><span style="color:#75715e">//用pij表示在i，j之间最大的子序列
+</span><span style="color:#75715e">//如果si==sj，则pij=pi+1j-1 + 2
+</span><span style="color:#75715e">//如果si！=sj，则pij=max（pi+1j，pij-1）
+</span><span style="color:#75715e">//输出, 保证在当前值之前，i+1,j-1  i+1,j， i,j-1都已初始化完毕
+</span><span style="color:#75715e">//0 0
+</span><span style="color:#75715e">//1 1
+</span><span style="color:#75715e">//2 2
+</span><span style="color:#75715e">//3 3
+</span><span style="color:#75715e">//0 1
+</span><span style="color:#75715e">//1 2
+</span><span style="color:#75715e">//2 3
+</span><span style="color:#75715e">//0 2
+</span><span style="color:#75715e">//1 3
+</span><span style="color:#75715e">//0 3
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindromeSubseq1</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">sArr</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">sArr</span>)
+	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> [][]<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">lens</span>)
+		<span style="color:#a6e22e">p</span> = append(<span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">tmp</span>)
+	}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">j</span>, <span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>)
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span> {
+				<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] = <span style="color:#ae81ff">1</span>
+			} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">j</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] {
+				<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>
+			} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">j</span>] <span style="color:#f92672">!=</span> <span style="color:#a6e22e">sArr</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] {
+				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] &gt; <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] {
+					<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>]
+				} <span style="color:#66d9ef">else</span> {
+					<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">j</span>][<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+				}
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>[<span style="color:#ae81ff">0</span>][<span style="color:#a6e22e">lens</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+}
+
+<span style="color:#75715e">//最长公共子串
+</span><span style="color:#75715e">//dp[i,j]表示str1在i位置，str2在j位置，最长的公共子串
+</span><span style="color:#75715e">//则sai==saj则dp[i,j] = dp[i-1,j-1] + 1
+</span><span style="color:#75715e">//否则dp[i,j] = 0, 因为要求是要连续
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">lcs</span>(<span style="color:#a6e22e">s1</span>, <span style="color:#a6e22e">s2</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#a6e22e">sa1</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s1</span>)
+	<span style="color:#a6e22e">sa2</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s2</span>)
+	<span style="color:#a6e22e">lens1</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">sa1</span>)
+	<span style="color:#a6e22e">lens2</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">sa2</span>)
+	<span style="color:#a6e22e">dp</span> <span style="color:#f92672">:=</span> [][]<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens1</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">lens2</span>)
+		<span style="color:#a6e22e">dp</span> = append(<span style="color:#a6e22e">dp</span>, <span style="color:#a6e22e">tmp</span>)
+	}
+	<span style="color:#a6e22e">max</span>, <span style="color:#a6e22e">start</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens1</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">lens2</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sa1</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">sa2</span>[<span style="color:#a6e22e">j</span>] {
+					<span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] = <span style="color:#ae81ff">1</span>
+				}
+			} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sa1</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">sa2</span>[<span style="color:#a6e22e">j</span>] {
+				<span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+			}
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] &gt; <span style="color:#a6e22e">max</span> {
+				<span style="color:#a6e22e">max</span> = <span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>]
+				<span style="color:#a6e22e">start</span> = <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">max</span>
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">sa1</span>[<span style="color:#a6e22e">start</span> : <span style="color:#a6e22e">start</span><span style="color:#f92672">+</span><span style="color:#a6e22e">max</span>])
+}
+
+<span style="color:#75715e">//最长公共子序列
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">lcseq</span>(<span style="color:#a6e22e">str1</span>, <span style="color:#a6e22e">str2</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">sa1</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">str1</span>)
+	<span style="color:#a6e22e">sa2</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">str2</span>)
+	<span style="color:#a6e22e">lens1</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">sa1</span>)
+	<span style="color:#a6e22e">lens2</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">sa2</span>)
+	<span style="color:#a6e22e">dp</span> <span style="color:#f92672">:=</span> [][]<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens1</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">lens2</span>)
+		<span style="color:#a6e22e">dp</span> = append(<span style="color:#a6e22e">dp</span>, <span style="color:#a6e22e">tmp</span>)
+	}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens1</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">lens2</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sa1</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">sa2</span>[<span style="color:#a6e22e">j</span>] {
+					<span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] = <span style="color:#ae81ff">1</span>
+				}
+			} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sa1</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">sa2</span>[<span style="color:#a6e22e">j</span>] {
+				<span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+			} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sa1</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">!=</span> <span style="color:#a6e22e">sa2</span>[<span style="color:#a6e22e">j</span>] {
+				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">j</span>] &gt; <span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] {
+					<span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">j</span>]
+				} <span style="color:#66d9ef">else</span> {
+					<span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+				}
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dp</span>[<span style="color:#a6e22e">lens1</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">lens2</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+}
+
+<span style="color:#75715e">//全排列
+</span><span style="color:#75715e">//将首个元素随机和后面的元素进行交换
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">permute</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) [][]<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> [][]<span style="color:#66d9ef">int</span>{}
+	<span style="color:#a6e22e">recur</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">lens</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">res</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">recur</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">res</span> <span style="color:#f92672">*</span>[][]<span style="color:#66d9ef">int</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">right</span> {
+		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, len(<span style="color:#a6e22e">nums</span>))
+		copy(<span style="color:#a6e22e">tmp</span>, <span style="color:#a6e22e">nums</span>)
+		<span style="color:#f92672">*</span><span style="color:#a6e22e">res</span> = append(<span style="color:#f92672">*</span><span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">tmp</span>)
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">left</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">right</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+			<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>]
+			<span style="color:#a6e22e">recur</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#a6e22e">left</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">right</span>, <span style="color:#a6e22e">res</span>)
+			<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>]
+		}
+	}
+}
+
+<span style="color:#75715e">//给出1-n的m位数的全排列
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">permuteNm</span>(<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">m</span> <span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">string</span> {
+	<span style="color:#a6e22e">nums</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">byte</span>{}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">nums</span> = append(<span style="color:#a6e22e">nums</span>, byte(<span style="color:#a6e22e">i</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;0&#39;</span>)
+	}
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">string</span>{}
+	<span style="color:#a6e22e">recurNm</span>(<span style="color:#a6e22e">nums</span>, []<span style="color:#66d9ef">byte</span>{}, <span style="color:#a6e22e">m</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">res</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">recurNm</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#a6e22e">pre</span> []<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">m</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">res</span> <span style="color:#f92672">*</span>[]<span style="color:#66d9ef">string</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, len(<span style="color:#a6e22e">pre</span>))
+		copy(<span style="color:#a6e22e">tmp</span>, <span style="color:#a6e22e">pre</span>)
+		<span style="color:#f92672">*</span><span style="color:#a6e22e">res</span> = append(<span style="color:#f92672">*</span><span style="color:#a6e22e">res</span>, string(<span style="color:#a6e22e">tmp</span>))
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">nums</span> {
+			<span style="color:#a6e22e">tNums</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, len(<span style="color:#a6e22e">nums</span>))
+			<span style="color:#a6e22e">tPre</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, len(<span style="color:#a6e22e">pre</span>))
+			copy(<span style="color:#a6e22e">tNums</span>, <span style="color:#a6e22e">nums</span>)
+			copy(<span style="color:#a6e22e">tPre</span>, <span style="color:#a6e22e">pre</span>)
+			<span style="color:#a6e22e">tPre</span> = append(<span style="color:#a6e22e">tPre</span>, <span style="color:#a6e22e">v</span>)
+			<span style="color:#a6e22e">tNums</span> = append(<span style="color:#a6e22e">tNums</span>[:<span style="color:#a6e22e">k</span>], <span style="color:#a6e22e">tNums</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>:]<span style="color:#f92672">...</span>)
+			<span style="color:#a6e22e">recurNm</span>(<span style="color:#a6e22e">tNums</span>, <span style="color:#a6e22e">tPre</span>, <span style="color:#a6e22e">m</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">res</span>)
+		}
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">allCount</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">myMap</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;13&#34;</span>: <span style="color:#e6db74">&#34;2&#34;</span>, <span style="color:#e6db74">&#34;46&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>, <span style="color:#e6db74">&#34;79&#34;</span>: <span style="color:#e6db74">&#34;8&#34;</span>, <span style="color:#e6db74">&#34;17&#34;</span>: <span style="color:#e6db74">&#34;4&#34;</span>, <span style="color:#e6db74">&#34;28&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>, <span style="color:#e6db74">&#34;39&#34;</span>: <span style="color:#e6db74">&#34;6&#34;</span>, <span style="color:#e6db74">&#34;19&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>, <span style="color:#e6db74">&#34;37&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>, <span style="color:#e6db74">&#34;31&#34;</span>: <span style="color:#e6db74">&#34;2&#34;</span>, <span style="color:#e6db74">&#34;64&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>, <span style="color:#e6db74">&#34;97&#34;</span>: <span style="color:#e6db74">&#34;8&#34;</span>, <span style="color:#e6db74">&#34;71&#34;</span>: <span style="color:#e6db74">&#34;4&#34;</span>, <span style="color:#e6db74">&#34;82&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>, <span style="color:#e6db74">&#34;93&#34;</span>: <span style="color:#e6db74">&#34;6&#34;</span>, <span style="color:#e6db74">&#34;91&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>, <span style="color:#e6db74">&#34;73&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>}
+	<span style="color:#a6e22e">count</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">allList</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">permuteNm</span>(<span style="color:#ae81ff">9</span>, <span style="color:#a6e22e">n</span>)
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(len(<span style="color:#a6e22e">allList</span>))
+
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">myMap</span> {
+			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">allList</span> {
+				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">key</span>) <span style="color:#f92672">&amp;&amp;</span> !<span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Contains</span>(string([]byte(<span style="color:#a6e22e">v</span>)[:<span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Index</span>(<span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">key</span>)]), <span style="color:#a6e22e">val</span>) {
+					<span style="color:#66d9ef">break</span>
+				}
+			}
+			<span style="color:#a6e22e">count</span><span style="color:#f92672">++</span>
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">count</span>
+}
+
+<span style="color:#75715e">//全排列 存在重复元素
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">permuteII</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) [][]<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> [][]<span style="color:#66d9ef">int</span>{}
+	<span style="color:#a6e22e">recurII</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">lens</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">res</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">recurII</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">res</span> <span style="color:#f92672">*</span>[][]<span style="color:#66d9ef">int</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">right</span> {
+		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, len(<span style="color:#a6e22e">nums</span>))
+		copy(<span style="color:#a6e22e">tmp</span>, <span style="color:#a6e22e">nums</span>)
+		<span style="color:#f92672">*</span><span style="color:#a6e22e">res</span> = append(<span style="color:#f92672">*</span><span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">tmp</span>)
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">left</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">right</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+			<span style="color:#75715e">//若i节点之后还存在相同的元素，则不进行交换,因为如果将相同的元素放在第一位，后面的元素进行全排列，但是全排列的元素都相同所以会重复
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">canGoOn</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">right</span>) {
+				<span style="color:#66d9ef">continue</span>
+			}
+			<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>]
+			<span style="color:#a6e22e">recurII</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#a6e22e">left</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">right</span>, <span style="color:#a6e22e">res</span>)
+			<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>]
+		}
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">canGoOn</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">right</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> : <span style="color:#a6e22e">right</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] {
+			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+}
+
+<span style="color:#75715e">//下一个排列
+</span><span style="color:#75715e">//下一个排列就是指的比当前数字最大的最小的数
+</span><span style="color:#75715e">//从后向前找到第一个比前一个小的数
+</span><span style="color:#75715e">//然后在后面的数中找到比该数大的最小的数，进行交换
+</span><span style="color:#75715e">//然后后面的数进行升序排列
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">nextPermutation</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">nums</span>)
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+	<span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">lens</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>; <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] {
+			<span style="color:#a6e22e">index</span> = <span style="color:#a6e22e">i</span>
+			<span style="color:#66d9ef">break</span>
+		}
+	}
+	<span style="color:#a6e22e">index2</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">index</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">index</span>] {
+			<span style="color:#a6e22e">index2</span> = <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+			<span style="color:#66d9ef">break</span>
+		}
+	}
+	<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">index</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">index2</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">index2</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">index</span>]
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">index</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">lens</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">left</span> &lt; <span style="color:#a6e22e">right</span>; <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">left</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">right</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> {
+		<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>]
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">nums</span>)
+}
+
+<span style="color:#75715e">//第k个排列
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getPermutation</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">k</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">n</span>)
+	<span style="color:#a6e22e">numSet</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">n</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">numSet</span>[<span style="color:#a6e22e">i</span>] = byte(<span style="color:#a6e22e">i</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;1&#39;</span>
+	}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">k</span> <span style="color:#f92672">/</span> <span style="color:#a6e22e">factorial</span>(<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span>)
+		<span style="color:#a6e22e">rest</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">k</span> <span style="color:#f92672">%</span> <span style="color:#a6e22e">factorial</span>(<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">rest</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">index</span><span style="color:#f92672">++</span>
+		}
+		<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] = <span style="color:#a6e22e">numSet</span>[<span style="color:#a6e22e">index</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+		<span style="color:#a6e22e">numSet</span> = append(<span style="color:#a6e22e">numSet</span>[:<span style="color:#a6e22e">index</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], <span style="color:#a6e22e">numSet</span>[<span style="color:#a6e22e">index</span>:]<span style="color:#f92672">...</span>)
+		<span style="color:#a6e22e">k</span> = <span style="color:#a6e22e">k</span> <span style="color:#f92672">-</span> (<span style="color:#a6e22e">index</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span><span style="color:#a6e22e">factorial</span>(<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span>)
+	}
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">res</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">factorial</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+		<span style="color:#a6e22e">res</span> <span style="color:#f92672">*=</span> <span style="color:#a6e22e">i</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#75715e">//字符串相加
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">addStrings</span>(<span style="color:#a6e22e">s1</span>, <span style="color:#a6e22e">s2</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#a6e22e">sa1</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s1</span>)
+	<span style="color:#a6e22e">sa2</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s2</span>)
+	<span style="color:#a6e22e">lens1</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">sa1</span>)
+	<span style="color:#a6e22e">lens2</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">sa2</span>)
+	<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">push</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, byte(<span style="color:#ae81ff">0</span>)
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">byte</span>{}
+	<span style="color:#66d9ef">for</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">lens1</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">lens2</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">push</span> <span style="color:#f92672">==</span> byte(<span style="color:#ae81ff">0</span>) {
+			<span style="color:#66d9ef">break</span>
+		}
+		<span style="color:#a6e22e">num1</span>, <span style="color:#a6e22e">num2</span> <span style="color:#f92672">:=</span> byte(<span style="color:#e6db74">&#39;0&#39;</span>), byte(<span style="color:#e6db74">&#39;0&#39;</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">lens1</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">num1</span> = <span style="color:#a6e22e">sa1</span>[<span style="color:#a6e22e">lens1</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+		}
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">lens2</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">num2</span> = <span style="color:#a6e22e">sa2</span>[<span style="color:#a6e22e">lens2</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+		}
+		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">num1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">num2</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">push</span> <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">tmp</span> &gt; <span style="color:#e6db74">&#39;9&#39;</span> {
+			<span style="color:#a6e22e">push</span> = byte(<span style="color:#ae81ff">1</span>)
+			<span style="color:#a6e22e">tmp</span> = <span style="color:#a6e22e">tmp</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">10</span>
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#a6e22e">push</span> = byte(<span style="color:#ae81ff">0</span>)
+		}
+		<span style="color:#a6e22e">res</span> = append([]<span style="color:#66d9ef">byte</span>{<span style="color:#a6e22e">tmp</span>}, <span style="color:#a6e22e">res</span><span style="color:#f92672">...</span>)
+		<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>
+	}
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">res</span>)
+}
+
+<span style="color:#75715e">//大数相乘
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">multiply</span>(<span style="color:#a6e22e">num1</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">num2</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">num1</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;0&#34;</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">num2</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;0&#34;</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;0&#34;</span>
+	}
+
+	<span style="color:#75715e">// string转换成[]byte，容易取得相应位上的具体值
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">bsi</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">num1</span>)
+	<span style="color:#a6e22e">bsj</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">num2</span>)
+
+	<span style="color:#75715e">// temp 的长度只可能为 len(num1)+len(num2) 或 len(num1)+len(num2)-1
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 先选长的，免得位不够
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">temp</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, len(<span style="color:#a6e22e">num1</span>)<span style="color:#f92672">+</span>len(<span style="color:#a6e22e">num2</span>))
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">bsi</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> &lt; len(<span style="color:#a6e22e">bsj</span>); <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#75715e">// 每个位上的乘积，可以直接存入 temp 中相应的位置
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">temp</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">+</span><span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+=</span> int(<span style="color:#a6e22e">bsi</span>[<span style="color:#a6e22e">i</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;0&#39;</span>) <span style="color:#f92672">*</span> int(<span style="color:#a6e22e">bsj</span>[<span style="color:#a6e22e">j</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;0&#39;</span>)
+		}
+	}
+
+	<span style="color:#75715e">// 统一处理进位
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">temp</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+		<span style="color:#a6e22e">temp</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">temp</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">/</span> <span style="color:#ae81ff">10</span>
+		<span style="color:#a6e22e">temp</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">temp</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>
+	}
+
+	<span style="color:#75715e">// num1 和 num2 较小的时候，temp的首位为0
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 为避免输出结果以0开头，需要去掉temp的0首位
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">temp</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">temp</span> = <span style="color:#a6e22e">temp</span>[<span style="color:#ae81ff">1</span>:]
+	}
+
+	<span style="color:#75715e">// 转换结果
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// temp 选用为[]int，而不是[]byte，是因为
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Go中，byte的基础结构是uint8，最大值为255。
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 不考虑进位的话，temp会溢出
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, len(<span style="color:#a6e22e">temp</span>))
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">temp</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#f92672">+</span> byte(<span style="color:#a6e22e">temp</span>[<span style="color:#a6e22e">i</span>])
+	}
+
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">res</span>)
+}
+
+<span style="color:#75715e">//逆序对的个数 结合归并排序完成
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">allReverseCup</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">count</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#a6e22e">mergeSort</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">count</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">count</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mergeSort</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">count</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">lens</span> &lt; <span style="color:#ae81ff">2</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>
+	}
+	<span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">lens</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">mergeSort</span>(<span style="color:#a6e22e">nums</span>[:<span style="color:#a6e22e">mid</span>], <span style="color:#a6e22e">count</span>), <span style="color:#a6e22e">mergeSort</span>(<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>:], <span style="color:#a6e22e">count</span>), <span style="color:#a6e22e">count</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">nums1</span>, <span style="color:#a6e22e">nums2</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">count</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> len(<span style="color:#a6e22e">nums1</span>) &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> len(<span style="color:#a6e22e">nums2</span>) &gt; <span style="color:#ae81ff">0</span> {
+		<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">nums1</span>) &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> len(<span style="color:#a6e22e">nums2</span>) &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums1</span>[<span style="color:#ae81ff">0</span>] &gt; <span style="color:#a6e22e">nums2</span>[<span style="color:#ae81ff">0</span>] {
+				<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">nums1</span>[<span style="color:#ae81ff">0</span>])
+				<span style="color:#a6e22e">nums1</span> = <span style="color:#a6e22e">nums1</span>[<span style="color:#ae81ff">1</span>:]
+				<span style="color:#f92672">*</span><span style="color:#a6e22e">count</span> = <span style="color:#f92672">*</span><span style="color:#a6e22e">count</span> <span style="color:#f92672">+</span> len(<span style="color:#a6e22e">nums2</span>)
+			} <span style="color:#66d9ef">else</span> {
+				<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">nums2</span>[<span style="color:#ae81ff">0</span>])
+				<span style="color:#a6e22e">nums2</span> = <span style="color:#a6e22e">nums2</span>[<span style="color:#ae81ff">1</span>:]
+			}
+		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">nums1</span>) &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">nums1</span>[<span style="color:#ae81ff">0</span>])
+			<span style="color:#a6e22e">nums1</span> = <span style="color:#a6e22e">nums1</span>[<span style="color:#ae81ff">1</span>:]
+		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">nums2</span>) &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">nums2</span>[<span style="color:#ae81ff">0</span>])
+			<span style="color:#a6e22e">nums2</span> = <span style="color:#a6e22e">nums2</span>[<span style="color:#ae81ff">1</span>:]
+			<span style="color:#f92672">*</span><span style="color:#a6e22e">count</span> = <span style="color:#f92672">*</span><span style="color:#a6e22e">count</span> <span style="color:#f92672">+</span> len(<span style="color:#a6e22e">nums1</span>)
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+</code></pre></div>
+    </div>
+</section>
+
+    </body>
+</html>

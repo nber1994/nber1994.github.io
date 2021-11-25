@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>php数组合并的坑</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>php数组合并的坑</h1>
+    <div class="blog-post-subheader">
+        October 24, 2017
+    </div>
+    <div class="blog-post-content">
+        <blockquote>
+<p>胡乱记录了php合并数组时遇到的坑</p>
+</blockquote>
+<h1 id="数组合并的--写法">数组合并的 += 写法</h1>
+<h2 id="坑">坑</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+
+$a <span style="color:#f92672">=</span> [
+    <span style="color:#ae81ff">1</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;12312&#39;</span>,
+    <span style="color:#ae81ff">2</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;123&#39;</span>,
+];
+
+$b <span style="color:#f92672">=</span> [
+    <span style="color:#ae81ff">1</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;a&#39;</span>,
+    <span style="color:#ae81ff">2</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;b&#39;</span>,
+];
+
+$c <span style="color:#f92672">=</span> [
+    <span style="color:#ae81ff">3</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;a&#39;</span>,
+    <span style="color:#ae81ff">4</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;b&#39;</span>,
+];
+
+<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;两个数组索引相同:&#39;</span> <span style="color:#f92672">.</span> <span style="color:#a6e22e">php_EOL</span>;
+$a <span style="color:#f92672">+=</span> $b;
+<span style="color:#a6e22e">print_r</span>($a);
+
+<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;两个数组索引不同:&#39;</span> <span style="color:#f92672">.</span> <span style="color:#a6e22e">php_EOL</span>;
+$b <span style="color:#f92672">+=</span> $c;
+<span style="color:#a6e22e">print_r</span>($b);
+</code></pre></div><h3 id="返回的结果">返回的结果：</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">两个数组索引相同:
+Array
+<span style="color:#f92672">(</span>
+    <span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#f92672">=</span>&gt; <span style="color:#ae81ff">12312</span>
+    <span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> <span style="color:#f92672">=</span>&gt; <span style="color:#ae81ff">123</span>
+<span style="color:#f92672">)</span>
+两个数组索引不同:
+Array
+<span style="color:#f92672">(</span>
+    <span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#f92672">=</span>&gt; a
+    <span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> <span style="color:#f92672">=</span>&gt; b
+    <span style="color:#f92672">[</span>3<span style="color:#f92672">]</span> <span style="color:#f92672">=</span>&gt; a
+    <span style="color:#f92672">[</span>4<span style="color:#f92672">]</span> <span style="color:#f92672">=</span>&gt; b
+<span style="color:#f92672">)</span>
+</code></pre></div><h1 id="array_merge写法">array_merge写法</h1>
+<h2 id="坑-1">坑</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+$a <span style="color:#f92672">=</span>[
+   <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;字母键值1&#39;</span>,
+    <span style="color:#ae81ff">1</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;数字键值1&#39;</span>,
+    <span style="color:#ae81ff">2</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;数字键值2&#39;</span>,
+   <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;字母键值2&#39;</span>,
+];
+$b <span style="color:#f92672">=</span> [
+   <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;字母键值3&#39;</span>,
+   <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;字母键值4&#39;</span>,
+];
+ $c <span style="color:#f92672">=</span> [
+    <span style="color:#ae81ff">1</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;数字键值1&#39;</span>,
+    <span style="color:#ae81ff">2</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;数字键值2&#39;</span>,
+];
+
+<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;两个数组索引存在相同的:&#39;</span> <span style="color:#f92672">.</span> <span style="color:#a6e22e">php_EOL</span>;
+<span style="color:#a6e22e">var_dump</span>(<span style="color:#a6e22e">array_merge</span>($a, $b));
+<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;两个数组索引存在相同数字:&#39;</span> <span style="color:#f92672">.</span> <span style="color:#a6e22e">php_EOL</span>;
+<span style="color:#a6e22e">var_dump</span>(<span style="color:#a6e22e">array_merge</span>($a, $c));
+</code></pre></div><p>返回的结果:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">两个数组索引存在相同的:
+array<span style="color:#f92672">(</span>4<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;a&#34;</span><span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;字母键值3&#34;</span>
+  <span style="color:#f92672">[</span>0<span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;数字键值1&#34;</span>
+  <span style="color:#f92672">[</span>1<span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;数字键值2&#34;</span>
+  <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;b&#34;</span><span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;字母键值4&#34;</span>
+<span style="color:#f92672">}</span>
+两个数组索引存在相同数字:
+array<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;a&#34;</span><span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;字母键值1&#34;</span>
+  <span style="color:#f92672">[</span>0<span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;数字键值1&#34;</span>
+  <span style="color:#f92672">[</span>1<span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;数字键值2&#34;</span>
+  <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;b&#34;</span><span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;字母键值2&#34;</span>
+  <span style="color:#f92672">[</span>2<span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;数字键值1&#34;</span>
+  <span style="color:#f92672">[</span>3<span style="color:#f92672">]=</span>&gt;
+  string<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;数字键值2&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h1 id="踩坑总结">踩坑总结</h1>
+<h2 id="array_merge">array_merge</h2>
+<ul>
+<li><strong>对于存在相同的字符键值的数组，后面的键值会覆盖前面的键值</strong></li>
+<li><strong>而对于存在相同数字键值的数组，则会将后面的键值追加在前面的数字键值之后</strong></li>
+</ul>
+<h2 id="操作">+=操作</h2>
+<ul>
+<li><strong>对于存在相同的键值来说，不论是字符或是数字，都会舍弃后面数组的键值</strong></li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

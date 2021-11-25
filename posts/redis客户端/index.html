@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>redis客户端</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>redis客户端</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="redis客户端和服务器">redis客户端和服务器</h1>
+<h1 id="客户端">客户端</h1>
+<ul>
+<li>redis服务器中，保存着clients链表</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> redisServer {
+    <span style="color:#75715e">//一个链表，报错了所有客户端状态
+</span><span style="color:#75715e"></span>    list <span style="color:#f92672">*</span>clients;
+}
+</code></pre></div><ul>
+<li>客户端种类
+<ul>
+<li>伪客户端，伪客户端的fd属性为-1。redis有两个地方用到伪客户端，一个是AOF载入时，一个是执行lua脚本
+<ul>
+<li>lua客户端在redis服务器期间都会一直存在</li>
+</ul>
+</li>
+<li>普通客户端，fd正整数</li>
+</ul>
+</li>
+<li>flag 标志主从服务器，lua客户端</li>
+<li>输入输出缓冲区</li>
+<li>命令与命令参数</li>
+</ul>
+<h1 id="服务器">服务器</h1>
+<h2 id="servercron函数">serverCron函数</h2>
+<ul>
+<li>
+<p>更新服务器时间缓存</p>
+<ul>
+<li>redis需要获取时间的场景，因为每次获取时间都是系统调用，比较费时，所以会将时间缓存</li>
+</ul>
+</li>
+<li>
+<p>更新LRU时钟</p>
+<ul>
+<li>对象的lru属性，表明最后一次访问的时间</li>
+</ul>
+</li>
+<li>
+<p>更新服务器的每秒执行命令次数</p>
+<ul>
+<li>每100毫秒抽样计算的方式</li>
+</ul>
+</li>
+<li>
+<p>更新服务器内存峰值记录</p>
+</li>
+<li>
+<p>处理SIGTERM信号</p>
+<ul>
+<li>redis启动时，为SIGTERM信号关联信号处理器，该处理器会在接到信号后，打开服务器的标识位</li>
+<li>serverCron函数会定期检查该标识，来决定是否关闭服务器</li>
+</ul>
+</li>
+<li>
+<p>管理客户端资源</p>
+</li>
+<li>
+<p>管理数据库资源</p>
+</li>
+<li>
+<p>执行延迟的BGREWRITAOF</p>
+<ul>
+<li>BGSAVE期间，会阻塞GBWRITEAOF</li>
+</ul>
+</li>
+<li>
+<p>检测持久化操作的允许状态</p>
+</li>
+<li>
+<p>将AOF缓冲区文件写入AOF文件</p>
+</li>
+</ul>
+<h2 id="初始化服务器">初始化服务器</h2>
+<ul>
+<li>初始化服务器状态结构</li>
+<li>载入配置选项
+<ul>
+<li>如果用户设置了相关的值，会更新配置</li>
+<li>如果没有设置，则会沿用之前默认的配置</li>
+</ul>
+</li>
+<li>初始化服务器的数据结构
+<ul>
+<li>为信号创建信号处理器</li>
+<li>创建共享对象</li>
+<li>打开监听端口</li>
+<li>创建时间事件</li>
+<li>写入AOF文件</li>
+<li>初始化IO模块</li>
+</ul>
+</li>
+</ul>
+<h2 id="重点回顾">重点回顾</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181119231826122_1122947758.png" alt=""></p>
+
+    </div>
+</section>
+
+    </body>
+</html>

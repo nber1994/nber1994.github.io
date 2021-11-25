@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>SilverBullet</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>SilverBullet</h1>
+    <div class="blog-post-subheader">
+        July 9, 2020
+    </div>
+    <div class="blog-post-content">
+        <h1 id="silverbullet">SilverBullet</h1>
+<h2 id="mysql">mysql</h2>
+<ol>
+<li>讲一讲myisam和innodb的区别
+<ol>
+<li>锁</li>
+<li>事务</li>
+<li>。。。</li>
+</ol>
+</li>
+<li>讲讲innodb的索引</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/mysql/2019/07/05/mysql-%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84.html">索引结构</a>
+<a href="http://nber1994.com/mysql/2019/01/08/mysql-%E7%B4%A2%E5%BC%95.html">索引</a></p>
+</blockquote>
+<ol start="3">
+<li>为什么innodb的索引是用B+树实现
+<ol>
+<li>平衡二叉树</li>
+<li>叶子节点相连，范围</li>
+<li>。。。</li>
+</ol>
+</li>
+<li>B+树的什么性质影响着查询性能
+<ol>
+<li>层高</li>
+</ol>
+</li>
+<li>innodb的辅助索引的叶子节点存储的是什么</li>
+<li>为什么这么存储，有什么优劣
+<ol>
+<li>主键索引变动对索引的影响小</li>
+<li>但是查询速度会编码，引入自适应hash索引</li>
+</ol>
+</li>
+<li>索引的最左前缀匹配原则</li>
+<li>abc联合索引，说明什么查询条件能命中索引</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/mysql/2019/01/08/mysql-%E4%BA%8B%E5%8A%A1.html">事务</a></p>
+</blockquote>
+<ol start="9">
+<li>讲一讲innodb的事务</li>
+<li>事务隔离级别，分别会出现什么问题
+<ol>
+<li>脏读</li>
+<li>幻读</li>
+<li>不可重复读</li>
+</ol>
+</li>
+<li>innodb默认是哪种隔离级别，如何解决上述问题
+<ol>
+<li>mvcc</li>
+<li>next-key锁</li>
+</ol>
+</li>
+<li>innodb如何解决幻读，如何解决不可重复读</li>
+<li>幻读和不可重复读分别对应什么场景
+<ol>
+<li>幻读insert</li>
+<li>不可重复读update</li>
+</ol>
+</li>
+<li>快照度和当前度，innodb中，事务中的读是快照读，怎么强制读到当前的数据
+<ol>
+<li>sql+for update强制读当前</li>
+</ol>
+</li>
+<li>innodb中的锁你了解吗
+<ol>
+<li>行</li>
+<li>意向</li>
+<li>gap</li>
+<li>next-key</li>
+</ol>
+</li>
+<li>innodb支持哪种锁</li>
+<li>为什么会引入next-key锁，为了解决什么问题
+<ol>
+<li>幻读</li>
+</ol>
+</li>
+<li>innodb的持久化你知道吗</li>
+<li>redo log和undo log分别有什么作用
+<ol>
+<li>redo log持久化</li>
+<li>undo log快照度，事务回滚</li>
+</ol>
+</li>
+<li>innodb的double-buffer-wirte你知道吗，为什么要引入这个机制</li>
+<li>你是怎么优化sql的</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/mysql/2019/01/08/mysql-%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%99%A8&amp;sql%E5%86%9B%E8%A7%84.html">sql军规</a></p>
+</blockquote>
+<h2 id="redis">redis</h2>
+<ol>
+<li>redis为什么这么快
+<ol>
+<li>基于内存</li>
+<li>IO多路复用</li>
+<li>数据结构精简</li>
+<li>。。。</li>
+</ol>
+</li>
+<li>redis的缺点
+<ol>
+<li>不能发挥多核多cpu的优点</li>
+<li>事务支持较差</li>
+<li>。。。</li>
+</ol>
+</li>
+<li>redis和memecache的对比</li>
+<li>redis和local cache的对比</li>
+<li>redis的zset如何实现，他获取单个节点的分值的时间复杂度是多少
+<ol>
+<li>引入hash达到O（1）</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/redis/2019/01/08/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AF%B9%E8%B1%A1.html">redis数据类型</a></p>
+</blockquote>
+<ol start="6">
+<li>redis的网络模型</li>
+<li>redis为什么使用IO多路复用
+<ol>
+<li>代码简单，易于维护</li>
+<li>基于内存，速度已经可以得到保障</li>
+</ol>
+</li>
+<li>redis常用场景</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/redis/2019/06/01/redis-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.html">redis使用场景</a></p>
+</blockquote>
+<ol start="9">
+<li>redis 集群了解过吗
+<ol>
+<li>一致性hash</li>
+<li>槽，预分片</li>
+</ol>
+</li>
+<li>redis 数据分片方案</li>
+<li>redis 主从复制</li>
+<li>redis的持久化机制</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/redis/2019/01/08/redis%E6%8C%81%E4%B9%85%E5%8C%96-RDB.html">redis RDB</a></p>
+</blockquote>
+<ol start="13">
+<li>redis的bgsave实现
+<ol>
+<li>fork</li>
+<li>copy on write</li>
+</ol>
+</li>
+<li>redis的aof和rdb的区别</li>
+<li>redis的宕机恢复</li>
+<li>redis键过期机制
+<ol>
+<li>惰性回收</li>
+<li>定期回收</li>
+</ol>
+</li>
+<li>redis的pub和sub</li>
+</ol>
+<h2 id="网络">网络</h2>
+<ol>
+<li>tcp和udp的区别以及适用的场景</li>
+<li>tcp的三次握手，四次挥手</li>
+<li>tcp如何保证可靠性</li>
+<li>tcp的拥塞控制</li>
+<li>tcp的慢启动</li>
+<li>IOS七层模型，分别的作用和协议</li>
+</ol>
+<h2 id="操作系统">操作系统</h2>
+<ol>
+<li>进程和线程的区别</li>
+<li>进程fork子进程时，发生了什么操作</li>
+<li>copy on write机制</li>
+<li>讲一讲虚拟内存</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/os/2019/05/18/os-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98.html">虚拟内存</a></p>
+</blockquote>
+<h2 id="系统设计">系统设计</h2>
+<ol>
+<li>布隆过滤器</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/sysdesign/2019/01/10/sysDesign-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8.html">布隆过滤器</a></p>
+</blockquote>
+<ol start="2">
+<li>发号器</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/sysdesign/2019/01/09/sysDesign-%E5%8F%91%E5%8F%B7%E5%99%A8.html">发号器</a></p>
+</blockquote>
+<ol start="3">
+<li>热门微博统计</li>
+<li>秒杀系统</li>
+</ol>
+<ul>
+<li>参照极客时间秒杀</li>
+</ul>
+<ol start="5">
+<li>缓存问题</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/sysdesign/2019/01/10/sysDesign-%E7%BC%93%E5%AD%98%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html">缓存问题</a></p>
+</blockquote>
+<ol start="6">
+<li>分布式事务</li>
+</ol>
+<blockquote>
+<p><a href="http://nber1994.com/sysdesign/2019/05/31/sysDesign-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1.html">分布式事务</a></p>
+</blockquote>
+<ol start="7">
+<li>分布式锁</li>
+</ol>
+<blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/41114567">分布式锁</a></p>
+</blockquote>
+<h2 id="算法">算法</h2>
+<ol>
+<li>剑指offer</li>
+</ol>
+<blockquote>
+<p><a href="https://blog.csdn.net/c406495762/article/details/79247243">剑指offer</a></p>
+</blockquote>
+<ol start="2">
+<li>leetcode 链表 数组 二叉树 图 dp</li>
+</ol>
+<blockquote>
+<p>祝君好运！</p>
+</blockquote>
+
+    </div>
+</section>
+
+    </body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>redis复制</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>redis复制</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="redis复制">redis复制</h1>
+<ul>
+<li>redis通过slaveof命令，放一个服务器去复制另一个服务器，一个为主服务器，另一个为从服务器</li>
+<li>主从服务器保存相同的数据称为一致</li>
+</ul>
+<h2 id="旧版本的复制实现">旧版本的复制实现</h2>
+<ul>
+<li>redis的复制功能分为同步和命令传播两个操作
+<ul>
+<li>同步用于将从服务器更新至与主服务器数据相同的数据库状态</li>
+<li>命令传播用于当主服务器上存在修改，导致主从不一致的情况下，将主从服务器的数据库状态重回一致</li>
+</ul>
+</li>
+</ul>
+<h3 id="同步">同步</h3>
+<ul>
+<li>当从服务器收到salveof命令时，会向主服务器发生sync命令</li>
+<li>主服务器收到sync命令行，会执行bgsave命令，生成RDB文件。并将RDB文件发生给从服务器</li>
+<li>从服务器接收到RDB文件后，将RDB载入内存，将数据库状态更新至主服务器执行BGSAVE时的状态</li>
+<li>主服务器将RDB重写缓冲区中的数据发送给从服务器执行</li>
+<li>从服务器执行完重写缓冲区的命令后达到和主服务器相同的数据库状态</li>
+</ul>
+<h3 id="命令传播">命令传播</h3>
+<ul>
+<li>同步完成后，主服务器的所有修改操作都会发送到从服务器</li>
+<li>从服务器执行完修改命令后，重新达到数据库状态的一致性</li>
+</ul>
+<h3 id="问题">问题</h3>
+<ul>
+<li>当出现连接断线时
+<ul>
+<li>从服务器重新发送sync命令，主服务器重新生成RDB文件，传送给从服务器载入</li>
+<li>RDB文件包含了大量的从服务器已经存在的键值对，这种做法是十分低效的
+<ul>
+<li>主服务器生成RDB文件需要消耗CPU和磁盘IO资源</li>
+<li>传送RDB文件耗费带宽</li>
+<li>从服务器载入RDB文件，服务处于阻塞状态</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="新版本复制实现">新版本复制实现</h2>
+<ul>
+<li>新版采用了psync来代替sync命令</li>
+<li>psync分文完整重同步和部分重同步
+<ul>
+<li>完整重同步和sync完全相同</li>
+<li>部分重同步则会在断线之后，只发送在断线期间的写命令即可实现主从服务器数据库状态的</li>
+</ul>
+</li>
+</ul>
+<h3 id="部分重同步的实现">部分重同步的实现</h3>
+<ul>
+<li>部分重同步由三个部分构成
+<ul>
+<li>主服务器复制偏移量和从服务器复制偏移量</li>
+<li>主服务器复制挤压缓冲区</li>
+<li>runid</li>
+</ul>
+</li>
+</ul>
+<h4 id="复制偏移量">复制偏移量</h4>
+<ul>
+<li>主服务器每次向从服务器发送N个字节的数据时，复制偏移量加N</li>
+<li>从服务器每次接收N个字节，复制偏移量会加N</li>
+<li>两个偏移量不一致时，说明主从不一致</li>
+</ul>
+<h4 id="复制挤压缓冲区">复制挤压缓冲区</h4>
+<ul>
+<li>redis会维护一个FIFO的大小为1MB的复制挤压缓冲区</li>
+<li>当从服务器发送psync命令时，检查从复制的偏移量是否在复制挤压缓冲区中
+<ul>
+<li>在的话， 发送+COUNTINUE命令，将偏移量之后的数据发送给从服务器</li>
+<li>不在的话则进行完整重同步</li>
+</ul>
+</li>
+</ul>
+<h4 id="runid">runid</h4>
+<ul>
+<li>每个服务器初始化时，都会生成一个唯一的runid</li>
+<li>当从服务器首次复制主服务器时，执行完完整重同步之后，会保存主服务器的runid</li>
+<li>从服务器重新连接主服务器时，会发送runid，如果runid和主服务器不一致则会导致完整重同步</li>
+</ul>
+<h3 id="psync命令实现">psync命令实现</h3>
+<ul>
+<li>当首次接收到slaveof命令时，发送psync ？ -1 命令进行完整重同步</li>
+<li>如果复制过主服务器，重新复制时，会发生psync runid offset命令
+<ul>
+<li>如果返回 +flulresync runid offset回复，标识需要进行完整重同步</li>
+<li>返回+countinue，部分重同步操作，从服务器只需要等待主服务器发送复制积压缓冲区的数据即可</li>
+<li>回复-ERR时，不识别psync，需要执行sync命令
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181120003634944_1296678870.png" alt=""></li>
+</ul>
+</li>
+</ul>
+<h2 id="复制的实现">复制的实现</h2>
+<h4 id="步骤1设置主服务器的地址和端口">步骤1：设置主服务器的地址和端口</h4>
+<ul>
+<li>slaveof是一个异步命令，在完成masterhost和masterport设置完成之后，就会向客户端恢复ok</li>
+<li>实际的工作才刚刚开始</li>
+</ul>
+<h4 id="步骤2建立套接字">步骤2：建立套接字</h4>
+<ul>
+<li>建立套接字成功之后，从服务器会为套接字关联一个专门处理复制工作的文件事件处理器</li>
+<li>主服务器接收到从服务器的连接之后，会为从服务器创建相应的客户端状态</li>
+<li>从服务器作为主服务器的客户端</li>
+</ul>
+<h4 id="步骤3ping">步骤3：ping</h4>
+<ul>
+<li>ping的两个作用
+<ul>
+<li>判断主从之间是否网络通畅</li>
+<li>判断主服务器是否可以正常接收处理命令
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181120105800889_1289093731.png" alt=""></li>
+</ul>
+</li>
+</ul>
+<h4 id="步骤4身份验证">步骤4：身份验证</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181120105847564_1983305981.png" alt=""></p>
+<h4 id="步骤5发送端口">步骤5：发送端口</h4>
+<ul>
+<li>从服务器会将自己监听的端口发送给主服务器</li>
+</ul>
+<h4 id="步骤6同步">步骤6：同步</h4>
+<ul>
+<li>从服务器发送psync命令，根据主服务器的回复决定什么重同步方式
+<ul>
+<li>+FULLRESYNC runid offset 进行完整重同步</li>
+<li>+CONTINUE 进行部分重同步</li>
+<li>-ERR 不支持psync，使用sync同步</li>
+</ul>
+</li>
+</ul>
+<h4 id="步骤7命令传播">步骤7：命令传播</h4>
+<ul>
+<li>当完成同步之后，主服务器处理写命令之后，会将命令传播给从服务器，从而恢复一致性</li>
+</ul>
+<h3 id="心跳检测">心跳检测</h3>
+<ul>
+<li>在命令传播阶段，从服务器默认会以每秒一次的频率，向主服务器发送命令
+<ul>
+<li>REPLCONF ACK offset 从服务器当前读复制偏移量</li>
+</ul>
+</li>
+<li>心跳检测的作用
+<ul>
+<li>检测主从服务器之间网络的联通性
+<ul>
+<li>主从服务器之间会互发replconf ack，一定时间内没有收到回复则连接有问题</li>
+</ul>
+</li>
+<li>辅助实现min-slaves选项
+<ul>
+<li>min-slaves选项
+<ul>
+<li>min-slaves-to-write 3 从服务器小于三个时</li>
+<li>min-slaves=max-lag 10 延时大于等于10秒时</li>
+</ul>
+</li>
+<li>当满足该条件时，主服务器就会拒绝执行写命令</li>
+</ul>
+</li>
+<li>检测命令丢失
+<ul>
+<li>当主服务器接收到replconf ack命令中从服务器的复制偏移量，发现少于主服务器的复制偏移量时，会检查复制挤压缓冲区是否包含该偏移量，有的话会将数据传输给从服务器</li>
+<li>检测命令丢失是在没有断线的情况下进行检测，而部分重同步是在断线之后执行的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="重点回顾">重点回顾</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181120112251961_182453933.png" alt=""></p>
+
+    </div>
+</section>
+
+    </body>
+</html>

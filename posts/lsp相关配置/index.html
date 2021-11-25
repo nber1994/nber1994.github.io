@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>lsp配置相关</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>lsp配置相关</h1>
+    <div class="blog-post-subheader">
+        November 23, 2020
+    </div>
+    <div class="blog-post-content">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">set number
+set relativenumber
+set nocompatible
+set showmode
+set showcmd
+set encoding<span style="color:#f92672">=</span>utf-8
+set tabstop<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+set shiftwidth<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+set expandtab
+set softtabstop<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+set wrap
+set linebreak
+set showmatch
+set hlsearch
+set incsearch
+set ignorecase
+set undofile
+set backupdir<span style="color:#f92672">=</span>~/.vim/.backup//
+set directory<span style="color:#f92672">=</span>~/.vim/.swp//
+set undodir<span style="color:#f92672">=</span>~/.vim/.undo//
+<span style="color:#e6db74">&#34;set autochdir
+</span><span style="color:#e6db74">set noerrorbells
+</span><span style="color:#e6db74">set history=100
+</span><span style="color:#e6db74">set autoread
+</span><span style="color:#e6db74">set wildmenu
+</span><span style="color:#e6db74">set wildmode=longest:list,full
+</span><span style="color:#e6db74">set cul
+</span><span style="color:#e6db74">cabbrev E Explore
+</span><span style="color:#e6db74">set laststatus=2      &#34;</span> 总是显示状态栏
+highlight StatusLine cterm<span style="color:#f92672">=</span>bold ctermfg<span style="color:#f92672">=</span>black ctermbg<span style="color:#f92672">=</span>red
+set statusline<span style="color:#f92672">=</span>%F
+set autoindent
+
+<span style="color:#e6db74">&#34;最大化
+</span><span style="color:#e6db74">function! Zoom ()
+</span><span style="color:#e6db74">    &#34;</span> check <span style="color:#66d9ef">if</span> is the zoomed state <span style="color:#f92672">(</span>tabnumber &gt; <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> window <span style="color:#f92672">==</span> 1<span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">if</span> tabpagenr<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;$&#39;</span><span style="color:#f92672">)</span> &gt; <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> tabpagewinnr<span style="color:#f92672">(</span>tabpagenr<span style="color:#f92672">()</span>, <span style="color:#e6db74">&#39;$&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
+        let l:cur_winview <span style="color:#f92672">=</span> winsaveview<span style="color:#f92672">()</span>
+        let l:cur_bufname <span style="color:#f92672">=</span> bufname<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">)</span>
+        tabclose
+
+        <span style="color:#e6db74">&#34; restore the view
+</span><span style="color:#e6db74">        if l:cur_bufname == bufname(&#39;&#39;)
+</span><span style="color:#e6db74">            call winrestview(cur_winview)
+</span><span style="color:#e6db74">        endif
+</span><span style="color:#e6db74">    else
+</span><span style="color:#e6db74">        tab split
+</span><span style="color:#e6db74">    endif
+</span><span style="color:#e6db74">endfunction
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">nmap &lt;leader&gt;z :call Zoom()&lt;CR&gt;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Specify a directory <span style="color:#66d9ef">for</span> plugins
+<span style="color:#e6db74">&#34; - For Neovim: stdpath(&#39;data&#39;) . &#39;/plugged&#39;
+</span><span style="color:#e6db74">&#34;</span> - Avoid using standard Vim directory names like <span style="color:#e6db74">&#39;plugin&#39;</span>
+call plug#begin<span style="color:#f92672">(</span>stdpath<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;data&#39;</span><span style="color:#f92672">)</span> . <span style="color:#e6db74">&#39;/plugged&#39;</span><span style="color:#f92672">)</span>
+
+<span style="color:#e6db74">&#34;=======================================
+</span><span style="color:#e6db74">&#34;</span>Plug <span style="color:#e6db74">&#39;autozimu/LanguageClient-neovim&#39;</span>, <span style="color:#f92672">{</span>
+<span style="color:#e6db74">&#34;    \ &#39;branch&#39;: &#39;next&#39;,
+</span><span style="color:#e6db74">&#34;</span>    <span style="color:#ae81ff">\ </span><span style="color:#e6db74">&#39;do&#39;</span>: <span style="color:#e6db74">&#39;bash install.sh&#39;</span>,
+<span style="color:#e6db74">&#34;    \ }
+</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">(</span>Optional<span style="color:#f92672">)</span> Multi-entry selection UI.
+<span style="color:#e6db74">&#34;Plug &#39;junegunn/fzf&#39;
+</span><span style="color:#e6db74">&#34;</span>Plug <span style="color:#e6db74">&#39;roxma/LanguageServer-php-neovim&#39;</span>, <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;do&#39;</span>: <span style="color:#e6db74">&#39;composer install &amp;&amp; composer run-script parse-stubs&#39;</span><span style="color:#f92672">}</span>
+<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">&#34;</span>autocmd FileType php LanguageClientStart
+<span style="color:#e6db74">&#34;let g:LanguageClient_waitOutputTimeout = 120
+</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#e6db74">&#34;nnoremap &lt;silent&gt; gd :call LanguageClient#textDocument_definition()&lt;CR&gt;
+</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#e6db74">&#34;nnoremap gr :call LanguageClient_textDocument_references()
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">Plug &#39;whatot/gtags-cscope.vim&#39;
+</span><span style="color:#e6db74">Plug &#39;vim-scripts/gtags.vim&#39;
+</span><span style="color:#e6db74">set cscopetag &#34;</span> 使用 cscope 作为 tags 命令
+set cscopeprg<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gtags-cscope&#39;</span> <span style="color:#e6db74">&#34; 使用 gtags-cscope 代替 cscope
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span>gtags.vim 设置项
+let GtagsCscope_Auto_Load <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+let CtagsCscope_Auto_Map <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+let GtagsCscope_Quiet <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+let Gtags_No_Auto_Jump <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+let Gtags_Close_When_Single <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+nmap &lt;C-<span style="color:#ae81ff">\&gt;</span> :GtagsCursor&lt;CR&gt;
+
+
+<span style="color:#e6db74">&#34; Use release branch (recommend)
+</span><span style="color:#e6db74">Plug &#39;neoclide/coc.nvim&#39;, {&#39;branch&#39;: &#39;release&#39;}
+</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">======================================</span>
+
+<span style="color:#e6db74">&#34; Initialize plugin system
+</span><span style="color:#e6db74">call plug#end()
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">=============</span>coc配置
+<span style="color:#66d9ef">if</span> executable<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;intelephense&#39;</span><span style="color:#f92672">)</span>
+  augroup LspPHPIntelephense
+    au!
+    au User lsp_setup call lsp#register_server<span style="color:#f92672">({</span>
+        <span style="color:#ae81ff">\ </span><span style="color:#e6db74">&#39;name&#39;</span>: <span style="color:#e6db74">&#39;intelephense&#39;</span>,
+        <span style="color:#ae81ff">\ </span><span style="color:#e6db74">&#39;cmd&#39;</span>: <span style="color:#f92672">{</span>server_info-&gt;<span style="color:#f92672">[</span>&amp;shell, &amp;shellcmdflag, <span style="color:#e6db74">&#39;intelephense --stdio&#39;</span><span style="color:#f92672">]}</span>,
+        <span style="color:#ae81ff">\ </span><span style="color:#e6db74">&#39;whitelist&#39;</span>: <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;php&#39;</span><span style="color:#f92672">]</span>,
+        <span style="color:#ae81ff">\ </span><span style="color:#e6db74">&#39;initialization_options&#39;</span>: <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;storagePath&#39;</span>: <span style="color:#e6db74">&#39;/tmp/intelephense&#39;</span><span style="color:#f92672">}</span>,
+        <span style="color:#ae81ff">\ </span><span style="color:#e6db74">&#39;workspace_config&#39;</span>: <span style="color:#f92672">{</span>
+        <span style="color:#ae81ff">\ </span>  <span style="color:#e6db74">&#39;intelephense&#39;</span>: <span style="color:#f92672">{</span>
+        <span style="color:#ae81ff">\ </span>    <span style="color:#e6db74">&#39;files&#39;</span>: <span style="color:#f92672">{</span>
+        <span style="color:#ae81ff">\ </span>      <span style="color:#e6db74">&#39;maxSize&#39;</span>: 1000000,
+        <span style="color:#ae81ff">\ </span>      <span style="color:#e6db74">&#39;associations&#39;</span>: <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;*.php&#39;</span>, <span style="color:#e6db74">&#39;*.phtml&#39;</span><span style="color:#f92672">]</span>,
+        <span style="color:#ae81ff">\ </span>      <span style="color:#e6db74">&#39;exclude&#39;</span>: <span style="color:#f92672">[]</span>,
+        <span style="color:#ae81ff">\ </span>    <span style="color:#f92672">}</span>,
+        <span style="color:#ae81ff">\ </span>    <span style="color:#e6db74">&#39;completion&#39;</span>: <span style="color:#f92672">{</span>
+        <span style="color:#ae81ff">\ </span>      <span style="color:#e6db74">&#39;insertUseDeclaration&#39;</span>: v:true,
+        <span style="color:#ae81ff">\ </span>      <span style="color:#e6db74">&#39;fullyQualifyGlobalConstantsAndFunctions&#39;</span>: v:false,
+        <span style="color:#ae81ff">\ </span>      <span style="color:#e6db74">&#39;triggerParameterHints&#39;</span>: v:true,
+        <span style="color:#ae81ff">\ </span>      <span style="color:#e6db74">&#39;maxItems&#39;</span>: 100,
+        <span style="color:#ae81ff">\ </span>    <span style="color:#f92672">}</span>,
+        <span style="color:#ae81ff">\ </span>    <span style="color:#e6db74">&#39;format&#39;</span>: <span style="color:#f92672">{</span>
+        <span style="color:#ae81ff">\ </span>      <span style="color:#e6db74">&#39;enable&#39;</span>: v:true
+        <span style="color:#ae81ff">\ </span>    <span style="color:#f92672">}</span>,
+        <span style="color:#ae81ff">\ </span>  <span style="color:#f92672">}</span>,
+        <span style="color:#ae81ff">\ </span><span style="color:#f92672">}</span>
+        <span style="color:#ae81ff">\}</span><span style="color:#f92672">)</span>
+  augroup END
+endif
+
+<span style="color:#e6db74">&#34; Use tab for trigger completion with characters ahead and navigate.
+</span><span style="color:#e6db74">&#34;</span> NOTE: Use command <span style="color:#e6db74">&#39;:verbose imap &lt;tab&gt;&#39;</span> to make sure tab is not mapped by
+<span style="color:#e6db74">&#34; other plugin before putting this into your config.
+</span><span style="color:#e6db74">inoremap &lt;silent&gt;&lt;expr&gt; &lt;TAB&gt;
+</span><span style="color:#e6db74">      \ pumvisible() ? &#34;</span><span style="color:#ae81ff">\&lt;</span>C-n&gt;<span style="color:#e6db74">&#34; :
+</span><span style="color:#e6db74">      \ &lt;SID&gt;check_back_space() ? &#34;</span><span style="color:#ae81ff">\&lt;</span>TAB&gt;<span style="color:#e6db74">&#34; :
+</span><span style="color:#e6db74">      \ coc#refresh()
+</span><span style="color:#e6db74">inoremap &lt;expr&gt;&lt;S-TAB&gt; pumvisible() ? &#34;</span><span style="color:#ae81ff">\&lt;</span>C-p&gt;<span style="color:#e6db74">&#34; : &#34;</span><span style="color:#ae81ff">\&lt;</span>C-h&gt;<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">function! s:check_back_space() abort
+</span><span style="color:#e6db74">  let col = col(&#39;.&#39;) - 1
+</span><span style="color:#e6db74">  return !col || getline(&#39;.&#39;)[col - 1]  =~# &#39;\s&#39;
+</span><span style="color:#e6db74">endfunction
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Use &lt;c-space&gt; to trigger completion.
+inoremap &lt;silent&gt;&lt;expr&gt; &lt;c-space&gt; coc#refresh<span style="color:#f92672">()</span>
+
+<span style="color:#e6db74">&#34; Use &lt;cr&gt; to confirm completion, `&lt;C-g&gt;u` means break undo chain at current
+</span><span style="color:#e6db74">&#34;</span> position. Coc only does snippet and additional edit on confirm.
+<span style="color:#e6db74">&#34; &lt;cr&gt; could be remapped by other vim plugin, try `:verbose imap &lt;CR&gt;`.
+</span><span style="color:#e6db74">if exists(&#39;*complete_info&#39;)
+</span><span style="color:#e6db74">  inoremap &lt;expr&gt; &lt;cr&gt; complete_info()[&#34;</span>selected<span style="color:#e6db74">&#34;] != &#34;</span>-1<span style="color:#e6db74">&#34; ? &#34;</span><span style="color:#ae81ff">\&lt;</span>C-y&gt;<span style="color:#e6db74">&#34; : &#34;</span><span style="color:#ae81ff">\&lt;</span>C-g&gt;u<span style="color:#ae81ff">\&lt;</span>CR&gt;<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">else
+</span><span style="color:#e6db74">  inoremap &lt;expr&gt; &lt;cr&gt; pumvisible() ? &#34;</span><span style="color:#ae81ff">\&lt;</span>C-y&gt;<span style="color:#e6db74">&#34; : &#34;</span><span style="color:#ae81ff">\&lt;</span>C-g&gt;u<span style="color:#ae81ff">\&lt;</span>CR&gt;<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">endif
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Use <span style="color:#e6db74">`</span><span style="color:#f92672">[</span>g<span style="color:#e6db74">`</span> and <span style="color:#e6db74">`</span><span style="color:#f92672">]</span>g<span style="color:#e6db74">`</span> to navigate diagnostics
+nmap &lt;silent&gt; <span style="color:#f92672">[</span>g &lt;Plug&gt;<span style="color:#f92672">(</span>coc-diagnostic-prev<span style="color:#f92672">)</span>
+nmap &lt;silent&gt; <span style="color:#f92672">]</span>g &lt;Plug&gt;<span style="color:#f92672">(</span>coc-diagnostic-next<span style="color:#f92672">)</span>
+
+<span style="color:#e6db74">&#34; GoTo code navigation.
+</span><span style="color:#e6db74">&#34;</span>nmap &lt;silent&gt; gd &lt;Plug&gt;<span style="color:#f92672">(</span>coc-definition<span style="color:#f92672">)</span>
+<span style="color:#e6db74">&#34;nmap &lt;silent&gt; gy &lt;Plug&gt;(coc-type-definition)
+</span><span style="color:#e6db74">&#34;</span>nmap &lt;silent&gt; gi &lt;Plug&gt;<span style="color:#f92672">(</span>coc-implementation<span style="color:#f92672">)</span>
+<span style="color:#e6db74">&#34;nmap &lt;silent&gt; gr &lt;Plug&gt;(coc-references)
+</span><span style="color:#e6db74">nmap &lt;silent&gt; &lt;C-w&gt;gd :call CocAction(&#39;jumpDefinition&#39;, &#39;split&#39;)&lt;cr&gt;
+</span><span style="color:#e6db74">nmap &lt;silent&gt; &lt;C-w&gt;gy :call CocAction(&#39;jumpTypeDefinition&#39;, &#39;split&#39;)&lt;cr&gt;
+</span><span style="color:#e6db74">nmap &lt;silent&gt; &lt;C-w&gt;gi :call CocAction(&#39;jumpImplementation&#39;, &#39;split&#39;)&lt;cr&gt;
+</span><span style="color:#e6db74">nmap &lt;silent&gt; &lt;C-w&gt;gr :call CocAction(&#39;jumpReferences&#39;, &#39;split&#39;)&lt;cr&gt;
+</span><span style="color:#e6db74">function! s:goto_tag(tagkind) abort
+</span><span style="color:#e6db74">  let tagname = expand(&#39;&lt;cWORD&gt;&#39;)
+</span><span style="color:#e6db74">  let winnr = winnr()
+</span><span style="color:#e6db74">  let pos = getcurpos()
+</span><span style="color:#e6db74">  let pos[0] = bufnr()
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">  if CocAction(&#39;jump&#39; . a:tagkind)
+</span><span style="color:#e6db74">    call settagstack(winnr, {
+</span><span style="color:#e6db74">      \ &#39;curidx&#39;: gettagstack()[&#39;curidx&#39;],
+</span><span style="color:#e6db74">      \ &#39;items&#39;: [{&#39;tagname&#39;: tagname, &#39;from&#39;: pos}]
+</span><span style="color:#e6db74">      \ }, &#39;t&#39;)
+</span><span style="color:#e6db74">  endif
+</span><span style="color:#e6db74">endfunction
+</span><span style="color:#e6db74">nmap gd :call &lt;SID&gt;goto_tag(&#34;</span>Definition<span style="color:#e6db74">&#34;)&lt;CR&gt;
+</span><span style="color:#e6db74">nmap gi :call &lt;SID&gt;goto_tag(&#34;</span>Implementation<span style="color:#e6db74">&#34;)&lt;CR&gt;
+</span><span style="color:#e6db74">nmap gy :call &lt;SID&gt;goto_tag(&#34;</span>TypeDefinition<span style="color:#e6db74">&#34;)&lt;CR&gt;
+</span><span style="color:#e6db74">nmap gr :call &lt;SID&gt;goto_tag(&#34;</span>References<span style="color:#e6db74">&#34;)&lt;CR&gt;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span>let g:coc_user_config <span style="color:#f92672">=</span> <span style="color:#f92672">{}</span>
+<span style="color:#e6db74">&#34;let g:coc_user_config[&#39;coc.preferences.jumpCommand&#39;] = &#39;split&#39;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Use K to show documentation in preview window.
+nnoremap &lt;silent&gt; K :call &lt;SID&gt;show_documentation<span style="color:#f92672">()</span>&lt;CR&gt;
+
+<span style="color:#66d9ef">function</span>! s:show_documentation<span style="color:#f92672">()</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index<span style="color:#f92672">([</span><span style="color:#e6db74">&#39;vim&#39;</span>,<span style="color:#e6db74">&#39;help&#39;</span><span style="color:#f92672">]</span>, &amp;filetype<span style="color:#f92672">)</span> &gt;<span style="color:#f92672">=</span> 0<span style="color:#f92672">)</span>
+    execute <span style="color:#e6db74">&#39;h &#39;</span>.expand<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;&lt;cword&gt;&#39;</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">else</span>
+    call CocAction<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;doHover&#39;</span><span style="color:#f92672">)</span>
+  endif
+endfunction
+
+<span style="color:#e6db74">&#34; Highlight the symbol and its references when holding the cursor.
+</span><span style="color:#e6db74">autocmd CursorHold * silent call CocActionAsync(&#39;highlight&#39;)
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Symbol renaming.
+nmap &lt;leader&gt;rn &lt;Plug&gt;<span style="color:#f92672">(</span>coc-rename<span style="color:#f92672">)</span>
+
+<span style="color:#e6db74">&#34; Formatting selected code.
+</span><span style="color:#e6db74">xmap &lt;leader&gt;f  &lt;Plug&gt;(coc-format-selected)
+</span><span style="color:#e6db74">nmap &lt;leader&gt;f  &lt;Plug&gt;(coc-format-selected)
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">augroup mygroup
+</span><span style="color:#e6db74">  autocmd!
+</span><span style="color:#e6db74">  &#34;</span> Setup formatexpr specified filetype<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>.
+  autocmd FileType typescript,json setl formatexpr<span style="color:#f92672">=</span>CocAction<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;formatSelected&#39;</span><span style="color:#f92672">)</span>
+  <span style="color:#e6db74">&#34; Update signature help on jump placeholder.
+</span><span style="color:#e6db74">  autocmd User CocJumpPlaceholder call CocActionAsync(&#39;showSignatureHelp&#39;)
+</span><span style="color:#e6db74">augroup end
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Applying codeAction to the selected region.
+<span style="color:#e6db74">&#34; Example: `&lt;leader&gt;aap` for current paragraph
+</span><span style="color:#e6db74">xmap &lt;leader&gt;a  &lt;Plug&gt;(coc-codeaction-selected)
+</span><span style="color:#e6db74">nmap &lt;leader&gt;a  &lt;Plug&gt;(coc-codeaction-selected)
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Remap keys <span style="color:#66d9ef">for</span> applying codeAction to the current line.
+nmap &lt;leader&gt;ac  &lt;Plug&gt;<span style="color:#f92672">(</span>coc-codeaction<span style="color:#f92672">)</span>
+<span style="color:#e6db74">&#34; Apply AutoFix to problem on the current line.
+</span><span style="color:#e6db74">nmap &lt;leader&gt;qf  &lt;Plug&gt;(coc-fix-current)
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Introduce <span style="color:#66d9ef">function</span> text object
+<span style="color:#e6db74">&#34; NOTE: Requires &#39;textDocument.documentSymbol&#39; support from the language server.
+</span><span style="color:#e6db74">xmap if &lt;Plug&gt;(coc-funcobj-i)
+</span><span style="color:#e6db74">xmap af &lt;Plug&gt;(coc-funcobj-a)
+</span><span style="color:#e6db74">omap if &lt;Plug&gt;(coc-funcobj-i)
+</span><span style="color:#e6db74">omap af &lt;Plug&gt;(coc-funcobj-a)
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Use &lt;TAB&gt; <span style="color:#66d9ef">for</span> selections ranges.
+<span style="color:#e6db74">&#34; NOTE: Requires &#39;textDocument/selectionRange&#39; support from the language server.
+</span><span style="color:#e6db74">&#34;</span> coc-tsserver, coc-python are the examples of servers that support it.
+<span style="color:#e6db74">&#34;nmap &lt;silent&gt; &lt;TAB&gt; &lt;Plug&gt;(coc-range-select)
+</span><span style="color:#e6db74">&#34;</span>xmap &lt;silent&gt; &lt;TAB&gt; &lt;Plug&gt;<span style="color:#f92672">(</span>coc-range-select<span style="color:#f92672">)</span>
+
+<span style="color:#e6db74">&#34; Add `:Format` command to format current buffer.
+</span><span style="color:#e6db74">command! -nargs=0 Format :call CocAction(&#39;format&#39;)
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Add <span style="color:#e6db74">`</span>:Fold<span style="color:#e6db74">`</span> command to fold current buffer.
+command! -nargs<span style="color:#f92672">=</span>? Fold :call     CocAction<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;fold&#39;</span>, &lt;f-args&gt;<span style="color:#f92672">)</span>
+
+<span style="color:#e6db74">&#34; Add `:OR` command for organize imports of the current buffer.
+</span><span style="color:#e6db74">command! -nargs=0 OR   :call     CocAction(&#39;runCommand&#39;, &#39;editor.action.organizeImport&#39;)
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> Add <span style="color:#f92672">(</span>Neo<span style="color:#f92672">)</span>Vim<span style="color:#e6db74">&#39;s native statusline support.
+</span><span style="color:#e6db74">&#34; NOTE: Please see `:h coc-status` for integrations with external plugins that
+</span><span style="color:#e6db74">&#34; provide custom statusline: lightline.vim, vim-airline.
+</span><span style="color:#e6db74">set statusline^=%{coc#status()}%{get(b:,&#39;</span>coc_current_function<span style="color:#e6db74">&#39;,&#39;</span><span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">)}</span>
+
+<span style="color:#e6db74">&#34; Mappings using CoCList:
+</span><span style="color:#e6db74">&#34;</span> Show all diagnostics.
+nnoremap &lt;silent&gt; &lt;space&gt;a  :&lt;C-u&gt;CocList diagnostics&lt;cr&gt;
+<span style="color:#e6db74">&#34; Manage extensions.
+</span><span style="color:#e6db74">nnoremap &lt;silent&gt; &lt;space&gt;e  :&lt;C-u&gt;CocList extensions&lt;cr&gt;
+</span><span style="color:#e6db74">&#34;</span> Show commands.
+nnoremap &lt;silent&gt; &lt;space&gt;c  :&lt;C-u&gt;CocList commands&lt;cr&gt;
+<span style="color:#e6db74">&#34; Find symbol of current document.
+</span><span style="color:#e6db74">nnoremap &lt;silent&gt; &lt;space&gt;o  :&lt;C-u&gt;CocList outline&lt;cr&gt;
+</span><span style="color:#e6db74">&#34;</span> Search workspace symbols.
+nnoremap &lt;silent&gt; &lt;space&gt;s  :&lt;C-u&gt;CocList -I symbols&lt;cr&gt;
+<span style="color:#e6db74">&#34; Do default action for next item.
+</span><span style="color:#e6db74">nnoremap &lt;silent&gt; &lt;space&gt;j  :&lt;C-u&gt;CocNext&lt;CR&gt;
+</span><span style="color:#e6db74">&#34;</span> Do default action <span style="color:#66d9ef">for</span> previous item.
+nnoremap &lt;silent&gt; &lt;space&gt;k  :&lt;C-u&gt;CocPrev&lt;CR&gt;
+<span style="color:#e6db74">&#34; Resume latest coc list.
+</span><span style="color:#e6db74">nnoremap &lt;silent&gt; &lt;space&gt;p  :&lt;C-u&gt;CocListResume&lt;CR&gt;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">colorscheme my
+</span><span style="color:#e6db74">
+</span></code></pre></div>
+    </div>
+</section>
+
+    </body>
+</html>

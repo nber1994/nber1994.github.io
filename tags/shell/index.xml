@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>shell on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/tags/shell/</link>
+    <description>Recent content in shell on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 29 Jul 2018 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一次tcp的交互细节</title>
+      <link>http://nber1994.github.io/posts/tcp-detail/</link>
+      <pubDate>Sun, 29 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcp-detail/</guid>
+      <description>抓了一次tcp相关的交互细节，包括了建立连接，数据传输，断开连接
+ 11:03:11.802351 IP localhost.42740 &amp;gt; localhost.distinct: Flags [S], seq 2760393548, win 65495, options [mss 65495,sackOK,TS val 1215514771 ecr 0,nop,wscale 7], length 0 0x0000: 4500 003c 0bdf 4000 4006 30db 7f00 0001 E..&amp;lt;..@.@.0..... 0x0010: 7f00 0001 a6f4 270f a488 434c 0000 0000 ......&amp;#39;...CL.... 0x0020: a002 ffd7 0923 0000 0204 ffd7 0402 080a .....#.......... 0x0030: 4873 4893 0000 0000 0103 0307 HsH......... 11:03:11.802403 IP localhost.distinct &amp;gt; localhost.42740: Flags [S.], seq 1911463751, ack 2760393549, win 65483, options [mss 65495,sackOK,TS val 1215514771 ecr 1215514771,nop,wscale 7], length 0 0x0000: 4500 003c 0000 4000 4006 3cba 7f00 0001 E.</description>
+    </item>
+    
+    <item>
+      <title>修改内核参数提高并发性能</title>
+      <link>http://nber1994.github.io/posts/%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0%E6%8F%90%E9%AB%98%E5%B9%B6%E5%8F%91%E6%80%A7%E8%83%BD/</link>
+      <pubDate>Mon, 11 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0%E6%8F%90%E9%AB%98%E5%B9%B6%E5%8F%91%E6%80%A7%E8%83%BD/</guid>
+      <description>如何修改linux内核参数提高并发数
+ &amp;gt;修改用户进程可打开文件数限制  在Linux平台上，无论编写客户端程序还是服务端程序，在进行高并发TCP连接处理时，最高的并发数量都要受到系统对用户单一进程同时可打开文件数量的限制(这是因为系统为每个TCP连接都要创建一个socket句柄，每个socket句柄同时也是一个文件句柄)
+ &amp;gt;查看 ~ ulimit -n 1024 这表示当前用户的每个进程最多允许同时打开1024个文件，这1024个文件中还得除去每个进程必然打开的标准输入，标准输出，标准错误，服务器监听 socket，进程间通讯的unix域socket等文件，那么剩下的可用于客户端socket连接的文件数就只有大概1024-10=1014个左右。也就是说缺省情况下，基于Linux的通讯程序最多允许同时1014个TCP并发连接。
+ 对于想支持更高数量的TCP并发连接的通讯处理程序，就必须修改Linux对当前用户的进程同时打开的文件数量的软限制(soft limit)和硬限制(hardlimit)。 其中软限制是指Linux在当前系统能够承受的范围内进一步限制用户同时打开的文件数； 硬限制则是根据系统硬件资源状况(主要是系统内存)计算出来的系统最多可同时打开的文件数量。通常软限制小于或等于硬限制。  &amp;gt;修改 vim /etc/security/limits.conf 添加如下行: username soft nofile 10240 username hard nofile 10240 如果对所有用户修改则将username改为 \* &amp;gt;修改网络内核对tcp的限制  当linux下Nginx达到并发数很高，TCP TIME_WAIT套接字数量会很高，这样服务器很容易被拖死。事实上，我们可以简单的通过修改Linux内核参数，可以减少Nginx服务器 的TIME_WAIT套接字数量，进而提高Nginx服务器并发性能。
+ &amp;gt;执行 vim /etc/sysctl.conf &amp;gt;增加以下几行： net.ipv4.tcp_fin_timeout = 30 net.ipv4.tcp_keepalive_time = 1200 net.ipv4.tcp_syncookies = 1 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_tw_recycle = 1 net.ipv4.ip_local_port_range = 1024 65000 net.ipv4.tcp_max_syn_backlog = 8192 net.ipv4.tcp_max_tw_buckets = 5000 &amp;gt;执行命令立即生效 /sbin/sysctl -p &amp;gt;说明   net.</description>
+    </item>
+    
+    <item>
+      <title>shell常用的文本处理命令</title>
+      <link>http://nber1994.github.io/posts/shell%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/shell%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/</guid>
+      <description>先挖个坑,还未完成
+ sed 命令  SED的英文全称是 Stream EDitor，它是一个简单而强大的文本解析转换工具，在1973-1974年期间由贝尔实验室的Lee E. McMahon开发，今天，它已经运行在所有的主流操作系统上了。 McMahon创建了一个通用的行编辑器，最终变成为了SED。SED的很多语法和特性都借鉴了ed编辑器。设计之初，它就已经支持正则表达式，SED可以从文件中接受类似于管道的输入，也可以接受来自标准输入流的输入。  用途  文本替换 选择性的输出文本文件 从文本文件的某处开始编辑 无交互式的对文本文件进行编辑等  工作流  读取： SED从输入流（文件，管道或者标准输入）中读取一行并且存储到它叫做 模式空间（pattern buffer） 的内部缓冲区 执行： 默认情况下，所有的SED命令都在模式空间中顺序的执行，除非指定了行的地址，否则SED命令将会在所有的行上依次执行 显示： 发送修改后的内容到输出流。在发送数据之后，模式空间将会被清空。 在文件所有的内容都被处理完成之前，上述过程将会重复执行  需要注意的地点  模式空间 （pattern buffer） 是一块活跃的缓冲区，在sed编辑器执行命令时它会保存待检查的文本 默认情况下，所有的SED命令都是在模式空间中执行，因此输入文件并不会发生改变 还有另外一个缓冲区叫做 保持空间 （hold buffer），在处理模式空间中的某些行时，可以用保持空间来临时保存一些行。在每一个循环结束的时候，SED将会移除模式空间中的内容，但是该缓冲区中的内容在所有的循环过程中是持久存储的。SED命令无法直接在该缓冲区中执行，因此SED允许数据在 保持空间 和 模式空间之间切换 初始情况下，保持空间 和 模式空间 这两个缓冲区都是空的 如果没有提供输入文件的话，SED将会从标准输入接收请求 如果没有提供地址范围的话，默认情况下SED将会对所有的行进行操作  例子 写入文本
+$ vi quote.txt 少一些以功利为目的的追求，对一些不为什么的坚持 --nber1994 $ sed &amp;#39;&amp;#39; quote.txt 少一些以功利为目的的追求，对一些不为什么的坚持 --nber1994  quote.txt是输入的文件名称，两个单引号是要执行的SED命令 首先，SED将会读取quote.txt文件中的一行内容存储到它的模式空间中，然后会在该缓冲区中执行SED命令。在这里，没有提供SED命令，因此对该缓冲区没有要执行的操作，最后它会删除模式空间中的内容并且打印该内容到标准输出，很简单的过程  基础语法 SED可以用下列两种方式调用： sed [-n] [-e] &amp;#39;command(s)&amp;#39; files sed [-n] -f scriptfile files 第一种方式在命令行中使用单引号指定要执行的命令，第二种方式则指定了包含SED命令的脚本文件。当然，这两种方法也可以同时使用，SED提供了很多参数用于控制这种行为。</description>
+    </item>
+    
+  </channel>
+</rss>

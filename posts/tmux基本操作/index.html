@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>tmux简单操作</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>tmux简单操作</h1>
+    <div class="blog-post-subheader">
+        April 16, 2018
+    </div>
+    <div class="blog-post-content">
+        <blockquote>
+<p>简单记录一下tmux的应用</p>
+</blockquote>
+<h1 id="tmux是啥">tmux是啥</h1>
+<p>Tmux 是一个 BSD 协议发布的终端复用软件，用来在服务器端托管同时运行的 Shell。那么 Tmux 用起来是怎样的呢？看图：
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/tmux-look.png" alt="tmux-look"></p>
+<h1 id="tmux能做啥">tmux能做啥</h1>
+<p>你是否曾经开过一大堆的 Terminal？有没有把它们都保存下来的冲动？Tmux 的Session就是做这件事情的！ 你可以随时退出或者进入任何一个 Session。每个 Session 有若干个 Window，每个 Window 又可以分成多个窗格（Pane）。 极大地满足 Terminal 用户的需求。</p>
+<p>此外即使 iTerm/Terminal/Konsole 意外关闭也没关系，因为 Session 完全保存在 Tmux Server 中。 再次打开 Terminal 时只需 tmux attach 便可回到你的工作区，就像从未退出过一样。 如果希望重启电脑后仍然生效，你可能需要 动手写脚本 或者 使用插件。</p>
+<h1 id="安装使用">安装使用</h1>
+<p>首先进行安装：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">brew</span> <span style="color:#a6e22e">install</span> <span style="color:#a6e22e">tmux</span>       <span style="color:#75715e"># OSX
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">pacman</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">S</span> <span style="color:#a6e22e">tmux</span>          <span style="color:#75715e"># archlinux
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">apt</span><span style="color:#f92672">-</span><span style="color:#a6e22e">get</span> <span style="color:#a6e22e">install</span> <span style="color:#a6e22e">tmux</span>    <span style="color:#75715e"># Ubuntu
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">yum</span> <span style="color:#a6e22e">install</span> <span style="color:#a6e22e">tmux</span>        <span style="color:#75715e"># Centos
+</span></code></pre></div><h2 id="强烈建议源码安装使用最新版本">强烈建议源码安装，使用最新版本</h2>
+<p>安装好后就可以启用一个Tmux Session了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">tmux new <span style="color:#f92672">-</span>s myname (<span style="color:#960050;background-color:#1e0010">可以指定</span>Session名<span style="color:#960050;background-color:#1e0010">）</span>
+</code></pre></div><h1 id="tmux简单操作">tmux简单操作</h1>
+<p>在Tmux Session中，通过prefix + $可以重命名当前Session。其中 prefix 指的是tmux的前缀键，所有tmux快捷键都需要先按前缀键。它的默认值是Ctrl+b。</p>
+<p>prefix c可以创建新的窗口（Window）， prefix %水平分割窗口（形成两个Pane）， prefix &ldquo;垂直分割窗口。退出当前Session的快捷键是 prefix d。然后在Bash中可以查看当前的tmux服务中有哪些Session：</p>
+<h2 id="tmux后台运行">tmux后台运行</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">ctrl</span> <span style="color:#a6e22e">d</span>
+</code></pre></div><h2 id="tmux-唤起">tmux 唤起</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">tmux attach
+tmux a <span style="color:#f92672">-</span>t <span style="color:#a6e22e">myname</span>  <span style="color:#f92672">(</span>or at<span style="color:#f92672">,</span> or attach<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="tmux-分割窗口">tmux 分割窗口</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">&lt;</span>prefix<span style="color:#f92672">&gt;</span>c
+可以创建新的窗口<span style="color:#960050;background-color:#1e0010">（</span>Window<span style="color:#960050;background-color:#1e0010">）</span>
+<span style="color:#f92672">&lt;</span>prefix<span style="color:#f92672">&gt;%</span>水平分割窗口<span style="color:#960050;background-color:#1e0010">（</span>形成两个Pane<span style="color:#960050;background-color:#1e0010">），</span>
+<span style="color:#f92672">&lt;</span>prefix<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">&#34;</span>垂直分割窗口<span style="color:#960050;background-color:#1e0010">。</span>
+退出当前Session的快捷键是<span style="color:#f92672">&lt;</span>prefix<span style="color:#f92672">&gt;</span>d<span style="color:#960050;background-color:#1e0010">。</span>
+</code></pre></div><h2 id="tmux-简单配置">tmux 简单配置</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">    //将hjkl替代上下左右
+    bind k selectp -U <span style="color:#75715e"># above (prefix k)</span>
+    bind j selectp -D <span style="color:#75715e"># below (prefix j)</span>
+    bind h selectp -L <span style="color:#75715e"># left (prefix h)</span>
+    bind l selectp -R <span style="color:#75715e"># right (prefix l)</span>
+
+    //C-j，C-k, C-h, C-l跳转pane大小
+    bind -r ^k resizep -U <span style="color:#ae81ff">3</span> <span style="color:#75715e"># upward (prefix Ctrl+k)</span>
+    bind -r ^j resizep -D <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># downward (prefix Ctrl+j)</span>
+    bind -r ^h resizep -L <span style="color:#ae81ff">5</span> <span style="color:#75715e"># to the left (prefix Ctrl+h)</span>
+    bind -r ^l resizep -R <span style="color:#ae81ff">5</span> <span style="color:#75715e"># to the right (prefix Ctrl+l)</span>
+
+    <span style="color:#75715e">#分割窗口 </span>
+    <span style="color:#75715e">#C-b - 横向分割</span>
+    <span style="color:#75715e">#C-b | 竖向分割</span>
+    unbind <span style="color:#e6db74">&#39;&#34;&#39;</span>
+    bind - splitw -v
+    unbind %
+    bind | splitw -h <span style="color:#75715e"># horizontal split (prefix |)</span>
+
+
+    <span style="color:#75715e">#Easy config reload</span>
+    bind-key r source-file ~/.tmux.conf <span style="color:#ae81ff">\;</span> display-message <span style="color:#e6db74">&#34;tmux.conf reloaded.&#34;</span>
+
+    <span style="color:#75715e">#设置为vi键位</span>
+    setw -g mode-keys vi
+
+    <span style="color:#75715e">#同步操作</span>
+    bind-key t setw synchronize-panes on <span style="color:#75715e"># 打开所有pane之间操作同步</span>
+    bind-key T setw synchronize-panes off <span style="color:#75715e"># 关闭所有pane之间的操作同步</span>
+
+    <span style="color:#75715e">#设置默认shell</span>
+    set-option -g default-shell /bin/zsh
+
+    <span style="color:#75715e">#List of plugins</span>
+    set -g @plugin <span style="color:#e6db74">&#39;tmux-plugins/tpm&#39;</span>
+    set -g @plugin <span style="color:#e6db74">&#39;tmux-plugins/tmux-sensible&#39;</span>
+    set -g @plugin <span style="color:#e6db74">&#39;tmux-plugins/tmux-resurrect&#39;</span>
+    set -g @plugin <span style="color:#e6db74">&#39;tmux-plugins/tmux-continuum&#39;</span>
+
+    <span style="color:#75715e">#Enable automatic restore</span>
+    set -g @continuum-restore <span style="color:#e6db74">&#39;on&#39;</span>
+
+    <span style="color:#75715e">#Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)</span>
+    run <span style="color:#e6db74">&#39;~/.tmux/plugins/tpm/tpm&#39;</span>
+</code></pre></div>
+    </div>
+</section>
+
+    </body>
+</html>

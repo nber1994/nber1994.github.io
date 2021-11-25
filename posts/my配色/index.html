@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>my配色</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>my配色</h1>
+    <div class="blog-post-subheader">
+        November 23, 2020
+    </div>
+    <div class="blog-post-content">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#e6db74">&#34; Vim color file
+</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">Maintainer</span>:   <span style="color:#a6e22e">Hans</span> <span style="color:#a6e22e">Fugal</span> &lt;<span style="color:#a6e22e">hans</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">fugal</span>.<span style="color:#a6e22e">net</span>&gt;
+<span style="color:#e6db74">&#34; Last Change:  $Date: 2004/06/13 19:30:30 $
+</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">Last</span> <span style="color:#a6e22e">Change</span>:  <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#a6e22e">Date</span>: <span style="color:#ae81ff">2004</span><span style="color:#f92672">/</span><span style="color:#ae81ff">06</span><span style="color:#f92672">/</span><span style="color:#ae81ff">13</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">30</span>:<span style="color:#ae81ff">30</span> <span style="color:#960050;background-color:#1e0010">$</span>
+<span style="color:#e6db74">&#34; URL:          http://hans.fugal.net/vim/colors/desert.vim
+</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">Version</span>:      <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#a6e22e">Id</span>: <span style="color:#a6e22e">desert</span>.<span style="color:#a6e22e">vim</span>,<span style="color:#a6e22e">v</span> <span style="color:#ae81ff">1.1</span> <span style="color:#ae81ff">2004</span><span style="color:#f92672">/</span><span style="color:#ae81ff">06</span><span style="color:#f92672">/</span><span style="color:#ae81ff">13</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">30</span>:<span style="color:#ae81ff">30</span> <span style="color:#a6e22e">vimboss</span> <span style="color:#a6e22e">Exp</span> <span style="color:#960050;background-color:#1e0010">$</span>
+
+<span style="color:#e6db74">&#34; cool help screens
+</span><span style="color:#e6db74">&#34;</span> :<span style="color:#a6e22e">he</span> <span style="color:#a6e22e">group</span><span style="color:#f92672">-</span><span style="color:#a6e22e">name</span>
+<span style="color:#e6db74">&#34; :he highlight-groups
+</span><span style="color:#e6db74">&#34;</span> :<span style="color:#a6e22e">he</span> <span style="color:#a6e22e">cterm</span><span style="color:#f92672">-</span><span style="color:#a6e22e">colors</span>
+
+<span style="color:#a6e22e">set</span> <span style="color:#a6e22e">background</span>=<span style="color:#a6e22e">dark</span>
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">version</span> &gt; <span style="color:#ae81ff">580</span>
+    <span style="color:#e6db74">&#34; no guarantees for version 5.8 and below, but this makes it stop
+</span><span style="color:#e6db74">    &#34;</span> <span style="color:#a6e22e">complaining</span>
+    <span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">clear</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">exists</span>(<span style="color:#e6db74">&#34;syntax_on&#34;</span>)
+        <span style="color:#a6e22e">syntax</span> <span style="color:#a6e22e">reset</span>
+    <span style="color:#a6e22e">endif</span>
+<span style="color:#a6e22e">endif</span>
+<span style="color:#a6e22e">let</span> <span style="color:#a6e22e">g</span>:<span style="color:#a6e22e">colors_name</span>=<span style="color:#e6db74">&#34;my&#34;</span>
+
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Normal</span>       <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">White</span> <span style="color:#a6e22e">guibg</span>=<span style="color:#a6e22e">grey20</span>
+
+<span style="color:#e6db74">&#34; highlight groups
+</span><span style="color:#e6db74">hi Cursor       guibg=khaki guifg=slategrey
+</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">CursorIM</span>
+<span style="color:#e6db74">&#34;hi Directory
+</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffAdd</span>
+<span style="color:#e6db74">&#34;hi DiffChange
+</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffDelete</span>
+<span style="color:#e6db74">&#34;hi DiffText
+</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">ErrorMsg</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">VertSplit</span>    <span style="color:#a6e22e">guibg</span>=<span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">c2bfa5</span> <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">grey50</span> <span style="color:#a6e22e">gui</span>=<span style="color:#a6e22e">none</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Folded</span>       <span style="color:#a6e22e">guibg</span>=<span style="color:#a6e22e">grey30</span> <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">gold</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">FoldColumn</span>   <span style="color:#a6e22e">guibg</span>=<span style="color:#a6e22e">grey30</span> <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">tan</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">IncSearch</span>    <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">slategrey</span> <span style="color:#a6e22e">guibg</span>=<span style="color:#a6e22e">khaki</span>
+<span style="color:#e6db74">&#34;hi LineNr
+</span><span style="color:#e6db74">hi ModeMsg      guifg=goldenrod
+</span><span style="color:#e6db74">hi MoreMsg      guifg=SeaGreen
+</span><span style="color:#e6db74">hi NonText      guifg=LightBlue guibg=grey30
+</span><span style="color:#e6db74">hi Question     guifg=springgreen
+</span><span style="color:#e6db74">hi Search       guibg=peru guifg=wheat
+</span><span style="color:#e6db74">hi SpecialKey   guifg=yellowgreen
+</span><span style="color:#e6db74">hi StatusLine   guibg=#c2bfa5 guifg=black gui=none
+</span><span style="color:#e6db74">hi StatusLineNC guibg=#c2bfa5 guifg=grey50 gui=none
+</span><span style="color:#e6db74">hi Title        guifg=indianred
+</span><span style="color:#e6db74">hi Visual       gui=none guifg=khaki guibg=olivedrab
+</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">VisualNOS</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">WarningMsg</span>   <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">salmon</span>
+<span style="color:#e6db74">&#34;hi WildMenu
+</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Menu</span>
+<span style="color:#e6db74">&#34;hi Scrollbar
+</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Tooltip</span>
+
+<span style="color:#e6db74">&#34; syntax highlighting groups
+</span><span style="color:#e6db74">hi Comment      guifg=SkyBlue
+</span><span style="color:#e6db74">hi Constant     guifg=#ffa0a0
+</span><span style="color:#e6db74">hi Identifier   guifg=palegreen
+</span><span style="color:#e6db74">hi Statement    guifg=khaki
+</span><span style="color:#e6db74">hi PreProc      guifg=indianred
+</span><span style="color:#e6db74">hi Type         guifg=darkkhaki
+</span><span style="color:#e6db74">hi Special      guifg=navajowhite
+</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Underlined</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Ignore</span>       <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">grey40</span>
+<span style="color:#e6db74">&#34;hi Error
+</span><span style="color:#e6db74">hi Todo         guifg=orangered guibg=yellow2
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">color</span> <span style="color:#a6e22e">terminal</span> <span style="color:#a6e22e">definitions</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">SpecialKey</span>   <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">cyan</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">NonText</span>      <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkblue</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Directory</span>    <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkcyan</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">ErrorMsg</span>     <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">7</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">IncSearch</span>    <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">NONE</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">yellow</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#a6e22e">green</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Search</span>       <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">NONE</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">grey</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#a6e22e">yellow</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">MoreMsg</span>      <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkgreen</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">ModeMsg</span>      <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">NONE</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">brown</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">LineNr</span>       <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">3</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Question</span>     <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">green</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">StatusLine</span>   <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span>,<span style="color:#a6e22e">reverse</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">StatusLineNC</span> <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">reverse</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">VertSplit</span>    <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">reverse</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Title</span>        <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">5</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Visual</span>       <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">reverse</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">VisualNOS</span>    <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span>,<span style="color:#a6e22e">underline</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">WarningMsg</span>   <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">WildMenu</span>     <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">0</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">3</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Folded</span>       <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkgrey</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#a6e22e">NONE</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">FoldColumn</span>   <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkgrey</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#a6e22e">NONE</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffAdd</span>      <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">4</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffChange</span>   <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">5</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffDelete</span>   <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">4</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">6</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffText</span>     <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Comment</span>      <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">brown</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Constant</span>     <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkcyan</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Special</span>      <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">5</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Identifier</span>   <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Statement</span>    <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">3</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">PreProc</span>      <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">5</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Type</span>         <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">2</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Underlined</span>   <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">underline</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">5</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Ignore</span>       <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">7</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Ignore</span>       <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkgrey</span>
+<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Error</span>        <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">7</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">1</span>
+
+
+<span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#a6e22e">vim</span>: <span style="color:#a6e22e">sw</span>=<span style="color:#ae81ff">4</span>
+
+</code></pre></div>
+    </div>
+</section>
+
+    </body>
+</html>

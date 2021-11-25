@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql-索引</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>mysql-索引</h1>
+    <div class="blog-post-subheader">
+        January 8, 2019
+    </div>
+    <div class="blog-post-content">
+        <blockquote>
+<p>ps：平衡查找树</p>
+</blockquote>
+<blockquote>
+<p>B B+ <a href="https://zhuanlan.zhihu.com/p/27700617">https://zhuanlan.zhihu.com/p/27700617</a></p>
+</blockquote>
+<blockquote>
+<p>MySQL索引背后的数据结构及算法原理 <a href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html">http://blog.codinglabs.org/articles/theory-of-mysql-index.html</a></p>
+</blockquote>
+<blockquote>
+<p>联合索引结构原理 <a href="https://blog.csdn.net/weixin_30531261/article/details/79329722">https://blog.csdn.net/weixin_30531261/article/details/79329722</a></p>
+</blockquote>
+<blockquote>
+<p>覆盖索引 <a href="https://yq.aliyun.com/articles/62419">https://yq.aliyun.com/articles/62419</a></p>
+</blockquote>
+<blockquote>
+<p>联合索引如何选取wherer <a href="http://hedengcheng.com/?p=577">http://hedengcheng.com/?p=577</a></p>
+</blockquote>
+<h1 id="索引数据结构基础知识">索引数据结构基础知识</h1>
+<h2 id="平衡二叉树">平衡二叉树</h2>
+<p>平衡二叉树是基于二分法的策略提高数据查找速度的数据结构       <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106172726705_789983747.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106172812442_1512930075.png" alt=""></p>
+<h2 id="b-tree">B-tree</h2>
+<p>与平衡二叉树的区别是B树属于多叉树，每个节点多于两个查找路径 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106181118682_1672741123.png" alt=""></p>
+<h3 id="规则">规则</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106173002453_1609390045.png" alt=""></p>
+<h2 id="b树">B+树</h2>
+<p>B+树让查询速度更加稳定，完全趋近于二分查找<br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106181138368_1051631384.png" alt=""></p>
+<h3 id="与b树的区别">与B树的区别</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106173251310_1461952350.png" alt="">
+特点：飞叶子节点中不保存记录指针，每个节点可以存更多的关键字，数据只保存在叶子节点，每次查询的速度一定<br>
+每个节点的出度增加，进而树高会降低，提高了查找速度。</p>
+<h2 id="为什么使用bb树">为什么使用B/B+树</h2>
+<p>一般来说，索引本身都很大，所以一般会存在磁盘上，而相对于内存读取，读取磁盘的开销是十分大的，所以衡量一个索引性能的一个标准<br>
+就是一次查询IO的次数</p>
+<h2 id="mysql索引实现">mysql索引实现</h2>
+<p>MyIsAM索引结构是通过B+树实现的，叶子节点存放的是数据的地址<br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106182030630_978256078.png" alt="">
+而对于辅助索引来说，其结构和主键索引没有任何区别<br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106182342955_415101514.png" alt=""></p>
+<blockquote>
+<p>这类索引成为非聚簇索引，即数据和索引文件是分开的</p>
+</blockquote>
+<h2 id="innodb索引实现">InnoDB索引实现</h2>
+<blockquote>
+<p>对于InnoDB来说，数据本身就是主索引文件，</p>
+</blockquote>
+<p>因为索引和数据是被保存在一起的，与MyIsAm不同的是，InnoDB的B+树的叶子节点<br>
+包含完整的数据行记录，因而该索引称为聚簇索引<br>
+因而InnoDB表必须有主键，如果没有的话，InnoDB会自动隐世的创建主键索引</p>
+<blockquote>
+<p>另外对于InnoDB引擎来说，辅助索引叶子节点存储的是主键的值而不是地址</p>
+</blockquote>
+<p>因而InnoDB检索需要经过两边索引：首先通过辅助索引拿到主键的值，在检索一遍主键索引<br>
+因而不建议将索引做的过大，因为会导致过大的索引文件<br>
+不单调的字段作为索引会导致数据插入时频繁的分裂调整</p>
+<h2 id="索引使用策略优化">索引使用策略&amp;优化</h2>
+<h3 id="最左前缀原理优化">最左前缀原理&amp;优化</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SHOW</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">FROM</span> employees.titles;
+<span style="color:#f92672">+</span><span style="color:#75715e">--------+------------+----------+--------------+-------------+-----------+-------------+------+------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#66d9ef">Table</span>  <span style="color:#f92672">|</span> Non_unique <span style="color:#f92672">|</span> Key_name <span style="color:#f92672">|</span> Seq_in_index <span style="color:#f92672">|</span> <span style="color:#66d9ef">Column_name</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Collation</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Cardinality</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Null</span> <span style="color:#f92672">|</span> Index_type <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">--------+------------+----------+--------------+-------------+-----------+-------------+------+------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span>          <span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>  <span style="color:#f92672">|</span>            <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> emp_no      <span style="color:#f92672">|</span> A         <span style="color:#f92672">|</span>        <span style="color:#66d9ef">NULL</span> <span style="color:#f92672">|</span>      <span style="color:#f92672">|</span> BTREE      <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span>          <span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>  <span style="color:#f92672">|</span>            <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span> title       <span style="color:#f92672">|</span> A         <span style="color:#f92672">|</span>        <span style="color:#66d9ef">NULL</span> <span style="color:#f92672">|</span>      <span style="color:#f92672">|</span> BTREE      <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span>          <span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>  <span style="color:#f92672">|</span>            <span style="color:#ae81ff">3</span> <span style="color:#f92672">|</span> from_date   <span style="color:#f92672">|</span> A         <span style="color:#f92672">|</span>      <span style="color:#ae81ff">443308</span> <span style="color:#f92672">|</span>      <span style="color:#f92672">|</span> BTREE      <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">--------+------------+----------+--------------+-------------+-----------+-------------+------+------------+
+</span></code></pre></div><blockquote>
+<p>情况一：全列匹配</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">EXPLAIN</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> employees.titles <span style="color:#66d9ef">WHERE</span> emp_no<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;10001&#39;</span> <span style="color:#66d9ef">AND</span> title<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Senior Engineer&#39;</span> <span style="color:#66d9ef">AND</span> from_date<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;1986-06-26&#39;</span>;
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+-------+---------------+---------+---------+-------------------+------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> select_type <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">type</span>  <span style="color:#f92672">|</span> possible_keys <span style="color:#f92672">|</span> <span style="color:#66d9ef">key</span>     <span style="color:#f92672">|</span> key_len <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>               <span style="color:#f92672">|</span> <span style="color:#66d9ef">rows</span> <span style="color:#f92672">|</span> Extra <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+-------+---------------+---------+---------+-------------------+------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>  <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span> const <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>       <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">59</span>      <span style="color:#f92672">|</span> const,const,const <span style="color:#f92672">|</span>    <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>       <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+-------+---------------+---------+---------+-------------------+------+-------+
+</span></code></pre></div><p>where后的字段InnoDB会自动调整顺序</p>
+<blockquote>
+<p>情况二：最左前缀匹配</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">EXPLAIN</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> employees.titles <span style="color:#66d9ef">WHERE</span> emp_no<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;10001&#39;</span>;
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+---------+---------+-------+------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> select_type <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">type</span> <span style="color:#f92672">|</span> possible_keys <span style="color:#f92672">|</span> <span style="color:#66d9ef">key</span>     <span style="color:#f92672">|</span> key_len <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>   <span style="color:#f92672">|</span> <span style="color:#66d9ef">rows</span> <span style="color:#f92672">|</span> Extra <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+---------+---------+-------+------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>  <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>       <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">4</span>       <span style="color:#f92672">|</span> const <span style="color:#f92672">|</span>    <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>       <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+---------+---------+-------+------+-------+
+</span></code></pre></div><p>这个时候可以看到key_len长度是4，只用了第一个字段</p>
+<blockquote>
+<p>情况三：中间缺乏字段</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">EXPLAIN</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> employees.titles <span style="color:#66d9ef">WHERE</span> emp_no<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;10001&#39;</span> <span style="color:#66d9ef">AND</span> from_date<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;1986-06-26&#39;</span>;
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> select_type <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">type</span> <span style="color:#f92672">|</span> possible_keys <span style="color:#f92672">|</span> <span style="color:#66d9ef">key</span>     <span style="color:#f92672">|</span> key_len <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>   <span style="color:#f92672">|</span> <span style="color:#66d9ef">rows</span> <span style="color:#f92672">|</span> Extra       <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>  <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>       <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">4</span>       <span style="color:#f92672">|</span> const <span style="color:#f92672">|</span>    <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">where</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span></code></pre></div><p>这个时候无法命中后续的索引字段，所以key_len使用了4</p>
+<blockquote>
+<p>情况四：没有指定第一列</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">EXPLAIN</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> employees.titles <span style="color:#66d9ef">WHERE</span> from_date<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;1986-06-26&#39;</span>;
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> select_type <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">type</span> <span style="color:#f92672">|</span> possible_keys <span style="color:#f92672">|</span> <span style="color:#66d9ef">key</span>  <span style="color:#f92672">|</span> key_len <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">rows</span>   <span style="color:#f92672">|</span> Extra       <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>  <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span> <span style="color:#66d9ef">ALL</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>          <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>    <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">443308</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">where</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span></code></pre></div><p>此时不会用到索引</p>
+<blockquote>
+<p>情况五：匹配某列的前缀字符</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">EXPLAIN</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> employees.titles <span style="color:#66d9ef">WHERE</span> emp_no<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;10001&#39;</span> <span style="color:#66d9ef">AND</span> title <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;Senior%&#39;</span>;
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> select_type <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">type</span>  <span style="color:#f92672">|</span> possible_keys <span style="color:#f92672">|</span> <span style="color:#66d9ef">key</span>     <span style="color:#f92672">|</span> key_len <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">rows</span> <span style="color:#f92672">|</span> Extra       <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>  <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span> range <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>       <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">56</span>      <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span> <span style="color:#f92672">|</span>    <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">where</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span></code></pre></div><p>如果通配符不是第一个字段的条件的话，可以用到索引</p>
+<blockquote>
+<p>情况六：范围查询</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">EXPLAIN</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> employees.titles <span style="color:#66d9ef">WHERE</span> emp_no <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#39;10010&#39;</span> <span style="color:#66d9ef">and</span> title<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Senior Engineer&#39;</span>;
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> select_type <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">type</span>  <span style="color:#f92672">|</span> possible_keys <span style="color:#f92672">|</span> <span style="color:#66d9ef">key</span>     <span style="color:#f92672">|</span> key_len <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">rows</span> <span style="color:#f92672">|</span> Extra       <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>  <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span> range <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>       <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">4</span>       <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span> <span style="color:#f92672">|</span>   <span style="color:#ae81ff">16</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">where</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span></code></pre></div><p>最左前缀的字段可以使用索引，但是后面的字段就无法使用了。
+<strong>对于between来说，其实不属于范围操作</strong></p>
+<blockquote>
+<p>情况七：查询条件中存在函数或者表达式</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">EXPLAIN</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> employees.titles <span style="color:#66d9ef">WHERE</span> emp_no<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;10001&#39;</span> <span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">left</span>(title, <span style="color:#ae81ff">6</span>)<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Senior&#39;</span>;
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> select_type <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">type</span> <span style="color:#f92672">|</span> possible_keys <span style="color:#f92672">|</span> <span style="color:#66d9ef">key</span>     <span style="color:#f92672">|</span> key_len <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>   <span style="color:#f92672">|</span> <span style="color:#66d9ef">rows</span> <span style="color:#f92672">|</span> Extra       <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>  <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>       <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">4</span>       <span style="color:#f92672">|</span> const <span style="color:#f92672">|</span>    <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">where</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">EXPLAIN</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> employees.titles <span style="color:#66d9ef">WHERE</span> emp_no <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;10000&#39;</span>;
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> select_type <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">type</span> <span style="color:#f92672">|</span> possible_keys <span style="color:#f92672">|</span> <span style="color:#66d9ef">key</span>  <span style="color:#f92672">|</span> key_len <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">rows</span>   <span style="color:#f92672">|</span> Extra       <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>  <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> titles <span style="color:#f92672">|</span> <span style="color:#66d9ef">ALL</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>          <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>    <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">443308</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">where</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span></code></pre></div><p>可以看到当第一个字段如果存在表达式时，则不会命中索引</p>
+<h2 id="索引的选择">索引的选择</h2>
+<p>索引并不是越多越好，</p>
+<ul>
+<li>索引本身会占用资源</li>
+<li>索引会增加插入删除修改的额外开销</li>
+</ul>
+<p>不建议建立索引的情况：</p>
+<ul>
+<li>数据量较小</li>
+<li>所选字段选择性比较低</li>
+<li>字段选择性可以按照count(distince(x))/count(x)来衡量，该值越高选择性越好</li>
+</ul>
+<h2 id="逐渐选择">逐渐选择</h2>
+<p><strong>永远建议使用自增字段作为主键</strong>
+因为基于B+树的索引结构，如果使用自增的主键，每次新插入一条数据，InnoDB会选择合适的位置建立索引，如果达到装载因子则会重新开辟页面。   <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107002022004_1160332232.png" alt="">
+如果使用非自增的主键，每次新插入的数据可以看为随机的，此时插入数据时，InnoDB寻找随机的位置建立索引，因此不得不为了插入新的数据而把后面的页进行重新的移动，增加了很多开销</p>
+<h2 id="辅助索引">辅助索引</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181102170830932_2057287060.png" alt=""></p>
+<p>对于辅助索引，大致的结构是这样的。
+如果存在联合索引，则只会生成一个辅助索引树<br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107002903925_404824817.png" alt=""></p>
+<h3 id="联合索引">联合索引</h3>
+<p>对于联合索引，其大致结构是如下所示 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107003122254_662505623.png" alt=""></p>
+<p>大致是在第一个索引的基础上筛选出数据后，在根据后面的字段进行筛选</p>
+<h2 id="索引覆盖">索引覆盖</h2>
+<p><strong>索引覆盖指的是一次查询只需要从辅助索引中就能得到查询信息，而不需要查询聚簇索引中的数据</strong></p>
+<h3 id="当没有where条件的优化">当没有where条件的优化</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107153730837_1584260342.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107160016933_13828841.png" alt=""></p>
+<h3 id="二次索引优化">二次索引优化</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"> mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">select</span> sql_no_cache rental_date <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">where</span> inventory_id<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">80000</span>;
+<span style="color:#960050;background-color:#1e0010">…</span>
+<span style="color:#960050;background-color:#1e0010">…</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2005</span><span style="color:#f92672">-</span><span style="color:#ae81ff">08</span><span style="color:#f92672">-</span><span style="color:#ae81ff">23</span> <span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">08</span>:<span style="color:#ae81ff">00</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2005</span><span style="color:#f92672">-</span><span style="color:#ae81ff">08</span><span style="color:#f92672">-</span><span style="color:#ae81ff">23</span> <span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">09</span>:<span style="color:#ae81ff">17</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2005</span><span style="color:#f92672">-</span><span style="color:#ae81ff">08</span><span style="color:#f92672">-</span><span style="color:#ae81ff">23</span> <span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">10</span>:<span style="color:#ae81ff">42</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2005</span><span style="color:#f92672">-</span><span style="color:#ae81ff">08</span><span style="color:#f92672">-</span><span style="color:#ae81ff">23</span> <span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">02</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2005</span><span style="color:#f92672">-</span><span style="color:#ae81ff">08</span><span style="color:#f92672">-</span><span style="color:#ae81ff">23</span> <span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">19</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2005</span><span style="color:#f92672">-</span><span style="color:#ae81ff">08</span><span style="color:#f92672">-</span><span style="color:#ae81ff">23</span> <span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">16</span>:<span style="color:#ae81ff">32</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">---------------------+
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">79999</span> <span style="color:#66d9ef">rows</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span> (<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">13</span> sec)
+
+mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">explain</span> <span style="color:#66d9ef">select</span> sql_no_cache rental_date <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">where</span> inventory_id<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">80000</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">G</span>
+<span style="color:#f92672">***************************</span> <span style="color:#ae81ff">1</span>. <span style="color:#66d9ef">row</span> <span style="color:#f92672">***************************</span>
+           id: <span style="color:#ae81ff">1</span>
+  select_type: <span style="color:#66d9ef">SIMPLE</span>
+        <span style="color:#66d9ef">table</span>: t1
+         <span style="color:#66d9ef">type</span>: range
+possible_keys: inventory_id
+          <span style="color:#66d9ef">key</span>: inventory_id
+      key_len: <span style="color:#ae81ff">3</span>
+          <span style="color:#66d9ef">ref</span>: <span style="color:#66d9ef">NULL</span>
+         <span style="color:#66d9ef">rows</span>: <span style="color:#ae81ff">153734</span>
+        Extra: <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">index</span> condition
+<span style="color:#ae81ff">1</span> <span style="color:#66d9ef">row</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span> (<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">00</span> sec)
+</code></pre></div><p>可以看到Extra是using index condition，说明会通过index进行了回表查询
+在rental_date字段增加索引之后：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">explain</span> <span style="color:#66d9ef">select</span> tid,return_date <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> inventory_id <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">50000</span>,<span style="color:#ae81ff">10</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">G</span>
+<span style="color:#f92672">***************************</span> <span style="color:#ae81ff">1</span>. <span style="color:#66d9ef">row</span> <span style="color:#f92672">***************************</span>
+           id: <span style="color:#ae81ff">1</span>
+  select_type: <span style="color:#66d9ef">SIMPLE</span>
+        <span style="color:#66d9ef">table</span>: t1
+         <span style="color:#66d9ef">type</span>: <span style="color:#66d9ef">index</span>
+possible_keys: <span style="color:#66d9ef">NULL</span>
+          <span style="color:#66d9ef">key</span>: liu
+      key_len: <span style="color:#ae81ff">9</span>
+          <span style="color:#66d9ef">ref</span>: <span style="color:#66d9ef">NULL</span>
+         <span style="color:#66d9ef">rows</span>: <span style="color:#ae81ff">50010</span>
+<span style="color:#ae81ff">1</span> <span style="color:#66d9ef">row</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span> (<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">00</span> sec)
+<span style="color:#960050;background-color:#1e0010">执行计划也可以看到，使用到了复合索引，并且不需要回表</span>
+</code></pre></div>
+    </div>
+</section>
+
+    </body>
+</html>

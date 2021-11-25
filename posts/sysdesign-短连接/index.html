@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>sysDesign-短连接</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>sysDesign-短连接</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="sysdesign-短连接">sysDesign-短连接</h1>
+<h2 id="要求">要求</h2>
+<ul>
+<li>尽可能的短</li>
+</ul>
+<h2 id="方案">方案</h2>
+<h3 id="短网址的长度">短网址的长度</h3>
+<ul>
+<li>我们可以用英文字母和数字来组合，一共有62种，所以长度为n的短网址的个数为62^n</li>
+<li>我们选用7 远远大于互联网的所有连接的总和</li>
+<li>我们选用长度为7的连接，由大小写字母和数字组成</li>
+</ul>
+<h3 id="一对一还是一对多映射">一对一还是一对多映射</h3>
+<p>原网址对应多个短网址，一个短网址的记录会包含诸如访问用户，http的user-agent信息等<br>
+以供后续做大数据分析，挖掘数据的价值</p>
+<h3 id="如何计算短网址">如何计算短网址</h3>
+<p>假设我们的短网址服务是一个7长度的，我们如何计算得到这个短网址呢？<br>
+最容易想到的就是使用一个64位整数来通过62位进制的转换来获取，怎么生成这个整数，则就需要用到发号器</p>
+<h3 id="怎么存储">怎么存储</h3>
+<p>存储可以使用mysql和redis都可</p>
+<h3 id="跳转301或者302">跳转301或者302</h3>
+<p>301永久重定向，短网址会永久重定向到原网址，这对于搜索引擎来说会直接展示原网址<br>
+所以使用302临时重定向</p>
+<h3 id="预防攻击">预防攻击</h3>
+<ul>
+<li>hacker短时间内向tinyUrl服务发送请求，会迅速消耗光url
+<ul>
+<li>每个ip限制单日请求数量，每个ip每天分配的短url有上限</li>
+</ul>
+</li>
+<li>hacker使用大量肉鸡来进行攻击
+<ul>
+<li>redis作为缓存，存储长连接与ID的关系，使用LRU来维护，遇到相同的url直接返回id</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://www.zhihu.com/question/29270034">短url-知乎</a></li>
+<li><a href="https://soulmachine.gitbooks.io/system-design/content/cn/tinyurl.html">tinyUrl</a></li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

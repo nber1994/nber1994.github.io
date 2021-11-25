@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql-InnoDB锁</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>mysql-InnoDB锁</h1>
+    <div class="blog-post-subheader">
+        January 8, 2019
+    </div>
+    <div class="blog-post-content">
+        <p>锁用于控制对共享资源的并发访问
+对于innodb来说，支持行锁
+对于myisam，支持表锁
+表锁一般ddl时会用到</p>
+<h2 id="锁概述">锁概述</h2>
+<p>lock的对象是事务，用来锁定数据库的对象，表，页，行。一般是在事务的commit和rollback之后释放
+innodb中锁有两种类型</p>
+<ul>
+<li>s锁（共享锁），允许事务读取一行数据</li>
+<li>x锁（排他锁），允许事务删除或更新一行数据
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108014110859_1371949708.png" alt=""></li>
+</ul>
+<h3 id="意向锁">意向锁</h3>
+<blockquote>
+<p>InnoDB支持多粒度的锁定，这种锁定允许事务在行级锁上和表级锁上同时存在
+为了支持这种操作，innodb支持一种额外的枷锁方式，成为意向锁 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108014515750_826824517.png" alt=""></p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108014806106_72977482.png" alt=""></p>
+<p>对于最细粒度进行上锁，首先需要对粗粒度的对象进行上锁，如果需要对行r上X锁，则需要对数据库A，表，页上意向所IX，然后再对行r上X锁 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108015204637_319377537.png" alt=""></p>
+<p>对于innodb来说，意向锁设计的比较简单，意向锁即是表锁。设计目的是为了在一个事务中揭示下一行将要被请求的锁类型</p>
+<ul>
+<li>意向共享锁（IS lock）事务想要获得一张表中几行的共享锁</li>
+<li>意向排它锁（IX lock）事务想要获得一张表中几行的排他锁
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108015714483_1216630506.png" alt="">
+可以看到，意向锁和s和x锁都是兼容的，而只有s和IS锁之间兼容 <br>
+<strong>IS和IX都是表级锁，对于行级锁的X和S锁并不会冲突，只会和表级的S和X锁冲突</strong>
+<strong>而对于行级锁的S和X锁，还是按照基本的原则</strong></li>
+</ul>
+<h4 id="意向锁的作用">意向锁的作用</h4>
+<ol>
+<li>如果不存在意向锁，加锁时需要便利所有行来判断是否会有冲突</li>
+<li>存在意向锁时，只需要判断意向锁与枷锁的兼容性即可。因为存在意向锁代表有行级锁的存在</li>
+</ol>
+<h3 id="一致性非锁定读">一致性非锁定读</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108020918717_1717111255.png" alt=""></p>
+<p>多版本控制技术MVCC，innodb是基于undo log来实现的 <br>
+对于read commited隔离级别，每行数据读的是最新版本的数据 <br>
+而对于repetable read隔离级别，没行数据读的都是事务开始时数据版本数据 <br>
+对于read commited隔离级别来说，违反了一致性准则</p>
+<h3 id="一致性锁定度">一致性锁定度</h3>
+<p>两种一致性锁定度的语句</p>
+<ul>
+<li>select * from A &hellip; for update 加X锁</li>
+<li>select * from A ,,,     lock in share mode 加S锁
+对于innodb，在没有引入next-key锁之前，即使加上以上语句，即使读取的行加了for update，其他的事务特使可以读取的</li>
+</ul>
+<h3 id="锁的算法">锁的算法</h3>
+<p>行锁的三种算法：</p>
+<ul>
+<li>
+<h4 id="record-lock-单个记录的锁">record lock 单个记录的锁</h4>
+</li>
+<li>
+<h4 id="gap-lock-间隙所一个范围上的锁但是不包括记录本身">gap lock 间隙所，一个范围上的锁，但是不包括记录本身</h4>
+</li>
+<li>
+<h4 id="next-key-lock-gap-lockrecord-lock锁锁定一个范围而且包括记录本身">next-key lock gap lock+record lock锁，锁定一个范围，而且包括记录本身</h4>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108143938266_1391350083.png" alt=""></p>
+<p><strong>next-key lock是为了解决幻读的问题</strong></p>
+<h4 id="next-key-行为分析">next-key 行为分析</h4>
+<ol>
+<li>当索引是唯一索引的情况下，next-key会被降级为record lock
+例如表中存在1，2，5为主键，当查询5时，会把next-key锁降级为record lock，而不是锁住（2,5]</li>
+<li>如果是辅助索引，情况则不一样
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108150455217_471412798.png" alt=""></li>
+</ol>
+<p>对于这个查询，由于b=3对于的主键索引来说是5，所以对于聚簇索引来说，只会在a=5加上record lock，但是对于辅助索引来说 <br>
+会添加(1,3]的next-key lock， 需要特别注意的是，innodb还是会对（3，6）加上gap锁 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108151713682_967722203.png" alt="">
+此时，第一条会被阻塞，第二条会被阻塞，第三条不会被阻塞
+从上面的例子可以看到，gap lock是为了阻止多个记录在同一个范围之内插入数据，从而引起幻读的问题 <br>
+<strong>特别提醒的是，next-key lock降级为record lock仅仅存在于所有唯一索引列，如果是唯一索引是联合索引，则不会降级</strong>
+<strong>幻读：指在同一事务下，连续两次执行同样的sql可能导致不同的结果，第二次可能返回之前不存在的行</strong></p>
+<h3 id="锁问题">锁问题</h3>
+<h4 id="脏读">脏读</h4>
+<p>脏读指的是读到了未提交的数据，这一行为违反了事务的隔离性</p>
+<h4 id="不可重复读">不可重复读</h4>
+<p>不可重复读，一个事务进行中，另一个事物页访问该数据且做了相应的修改，并提交了事务。 <br>
+这时第一个事务再去读数据时读到的数据是不一样的     <br>
+不可重复读和脏读的区别是不可重复读读到的是已经提交的数据，而脏读读到的是未提交的数据 <br>
+不可重复读违反了事物的一致性 <br>
+不可重复读也叫做幻读</p>
+<h5 id="不可重复读解决">不可重复读解决</h5>
+<p>对于幻读，innodb的解决问题的方法是使用next-key lock锁，对于数据扫描时，会对范围加锁，在该范围内insert操作是不允许的 <br>
+innodb默认隔离级别是repetable read</p>
+<h4 id="丢失更新">丢失更新</h4>
+<p>丢失更新是一个锁导致的问题，但是innodb的行锁或者意向锁会解决这个问题 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181108171732786_1613407090.png" alt=""></p>
+<h4 id="阻塞">阻塞</h4>
+<p>因为不同的锁的兼容性，某一时刻，一个资源被占用，另一个事务只能等待资源被释放后才能继续 <br>
+该问题并不是坏事，因为他会保证事务的正常运行</p>
+<h3 id="死锁">死锁</h3>
+<p>死锁是指两个或两个以上事务在执行过程中，因争夺资源而造成的互相等待的现象</p>
+<h4 id="解决方法">解决方法</h4>
+<p>最简单的解决方法就是超时</p>
+
+    </div>
+</section>
+
+    </body>
+</html>

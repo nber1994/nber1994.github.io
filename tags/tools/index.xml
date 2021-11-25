@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tools on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/tags/tools/</link>
+    <description>Recent content in tools on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 16 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/tags/tools/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>tmux简单操作</title>
+      <link>http://nber1994.github.io/posts/tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
+      <description>简单记录一下tmux的应用
+ tmux是啥 Tmux 是一个 BSD 协议发布的终端复用软件，用来在服务器端托管同时运行的 Shell。那么 Tmux 用起来是怎样的呢？看图： tmux能做啥 你是否曾经开过一大堆的 Terminal？有没有把它们都保存下来的冲动？Tmux 的Session就是做这件事情的！ 你可以随时退出或者进入任何一个 Session。每个 Session 有若干个 Window，每个 Window 又可以分成多个窗格（Pane）。 极大地满足 Terminal 用户的需求。
+此外即使 iTerm/Terminal/Konsole 意外关闭也没关系，因为 Session 完全保存在 Tmux Server 中。 再次打开 Terminal 时只需 tmux attach 便可回到你的工作区，就像从未退出过一样。 如果希望重启电脑后仍然生效，你可能需要 动手写脚本 或者 使用插件。
+安装使用 首先进行安装：
+brew install tmux # OSX pacman -S tmux # archlinux apt-get install tmux # Ubuntu yum install tmux # Centos 强烈建议源码安装，使用最新版本 安装好后就可以启用一个Tmux Session了：
+tmux new -s myname (可以指定Session名） tmux简单操作 在Tmux Session中，通过prefix + $可以重命名当前Session。其中 prefix 指的是tmux的前缀键，所有tmux快捷键都需要先按前缀键。它的默认值是Ctrl+b。</description>
+    </item>
+    
+    <item>
+      <title>如何基于github pages搭建blog</title>
+      <link>http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8Egithub-pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Wed, 06 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8Egithub-pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>胡乱的记载了如何在github-pages搭建bolg
+ 什么是github-pages github推出pages服务时是如下所说：
+ GitHub Pages allow you to publish web content to a github.com subdomain named after your username. With Pages, publishing web content becomes as easy as pushing to your GitHub repository. If you create a repository named you.github.com, where you is your username, and push content to it, we’ll automatically publish that to http://you.github.com. No FTP, no scp, no rsync, nothing. Just a simple git push and you’re done.</description>
+    </item>
+    
+  </channel>
+</rss>

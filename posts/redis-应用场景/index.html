@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>redis-应用场景</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>redis-应用场景</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="redis-应用场景">redis-应用场景</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span><span style="color:#f92672">&gt;</span> select <span style="color:#ae81ff">1</span>
+OK
+</code></pre></div><h1 id="字符串对象">字符串对象</h1>
+<h2 id="常用命令">常用命令</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e"># 字符串对象
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">## 设置
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> set a a
+OK
+
+<span style="color:#75715e">## 获取
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> get a
+<span style="color:#e6db74">&#34;a&#34;</span>
+
+<span style="color:#75715e">## 删除
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> del testString
+(integer) <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e">## 设置并返回原值
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> get b
+<span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> getset b c
+<span style="color:#e6db74">&#34;b&#34;</span>
+
+<span style="color:#75715e">## 增加 减少，追加
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> set testInt <span style="color:#ae81ff">1</span>
+OK
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> incr testInt
+(integer) <span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> decr testInt
+(integer) <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> append a a
+(integer) <span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> get a
+<span style="color:#e6db74">&#34;aa&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> incrby <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">2</span>
+(integer) <span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> decrby <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">2</span>
+(integer) <span style="color:#ae81ff">1</span>
+</code></pre></div><h2 id="应用场景">应用场景</h2>
+<ul>
+<li>可以使用incr作为计数器，且不用担心并发问题</li>
+</ul>
+<h1 id="hash对象">hash对象</h1>
+<h2 id="常用命令-1">常用命令</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">
+<span style="color:#75715e"># hash对象
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">## 设置，批量设置，获取，批量获取
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hset myhash key value
+(integer) <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hset myhash name jty
+(integer) <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hset myhash age <span style="color:#ae81ff">18</span>
+(integer) <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hset myhash sex male
+(integer) <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hmset myhash type <span style="color:#ae81ff">1</span> status <span style="color:#ae81ff">2</span> level A
+OK
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hget myhash sex
+<span style="color:#e6db74">&#34;male&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hmget myhash name age sex type
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;jty&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;18&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;male&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;1&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hgetall myhash
+ <span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;key&#34;</span>
+ <span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;value&#34;</span>
+ <span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;name&#34;</span>
+ <span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;jty&#34;</span>
+ <span style="color:#ae81ff">5</span>) <span style="color:#e6db74">&#34;age&#34;</span>
+ <span style="color:#ae81ff">6</span>) <span style="color:#e6db74">&#34;18&#34;</span>
+ <span style="color:#ae81ff">7</span>) <span style="color:#e6db74">&#34;sex&#34;</span>
+ <span style="color:#ae81ff">8</span>) <span style="color:#e6db74">&#34;male&#34;</span>
+ <span style="color:#ae81ff">9</span>) <span style="color:#e6db74">&#34;type&#34;</span>
+<span style="color:#ae81ff">10</span>) <span style="color:#e6db74">&#34;1&#34;</span>
+<span style="color:#ae81ff">11</span>) <span style="color:#e6db74">&#34;status&#34;</span>
+<span style="color:#ae81ff">12</span>) <span style="color:#e6db74">&#34;2&#34;</span>
+<span style="color:#ae81ff">13</span>) <span style="color:#e6db74">&#34;level&#34;</span>
+<span style="color:#ae81ff">14</span>) <span style="color:#e6db74">&#34;A&#34;</span>
+
+<span style="color:#75715e">## 增加键值
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hincrby myhash age <span style="color:#ae81ff">6</span>
+(integer) <span style="color:#ae81ff">24</span>
+
+<span style="color:#75715e">## 判断是否存在
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hexist myhash age
+(error) ERR unknown command <span style="color:#960050;background-color:#1e0010">&#39;</span>hexist<span style="color:#960050;background-color:#1e0010">&#39;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hexists myhash age
+(integer) <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e">## hash表大小
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hlen myhash
+(integer) <span style="color:#ae81ff">7</span>
+
+<span style="color:#75715e">## 获取所有所有键名
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hkeys myhash
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;key&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;name&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;age&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;sex&#34;</span>
+<span style="color:#ae81ff">5</span>) <span style="color:#e6db74">&#34;type&#34;</span>
+<span style="color:#ae81ff">6</span>) <span style="color:#e6db74">&#34;status&#34;</span>
+<span style="color:#ae81ff">7</span>) <span style="color:#e6db74">&#34;level&#34;</span>
+
+<span style="color:#75715e">## 获取所有键值
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hvalues myhash
+(error) ERR unknown command <span style="color:#960050;background-color:#1e0010">&#39;</span>hvalues<span style="color:#960050;background-color:#1e0010">&#39;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> hvalues myhash
+(error) ERR unknown command <span style="color:#960050;background-color:#1e0010">&#39;</span>hvalues<span style="color:#960050;background-color:#1e0010">&#39;</span>
+</code></pre></div><h2 id="应用场景-1">应用场景</h2>
+<ul>
+<li>存储变更的数据</li>
+</ul>
+<h1 id="列表对象">列表对象</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e"># 列表对象
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">## 对头对尾添加节点
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> lpush mylist <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span>
+(integer) <span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> lpush mylist a b c
+(integer) <span style="color:#ae81ff">6</span>
+
+<span style="color:#75715e">## 范围获取列表节点
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> lrange mylist <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">5</span>
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;c&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;a&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;3&#34;</span>
+<span style="color:#ae81ff">5</span>) <span style="color:#e6db74">&#34;2&#34;</span>
+<span style="color:#ae81ff">6</span>) <span style="color:#e6db74">&#34;1&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> lrange mylist <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;c&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;a&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;3&#34;</span>
+<span style="color:#ae81ff">5</span>) <span style="color:#e6db74">&#34;2&#34;</span>
+<span style="color:#ae81ff">6</span>) <span style="color:#e6db74">&#34;1&#34;</span>
+
+<span style="color:#75715e">## 弹出节点
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> lpop mylist
+<span style="color:#e6db74">&#34;c&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> rpop mylist
+<span style="color:#e6db74">&#34;1&#34;</span>
+
+<span style="color:#75715e">## 获取列表长度
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> llen mylist
+(integer) <span style="color:#ae81ff">4</span>
+
+<span style="color:#75715e">## 删除节点
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> lrem mylist <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">1</span>
+(integer) <span style="color:#ae81ff">0</span>
+
+<span style="color:#75715e">## 设置节点值
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> lset mylist <span style="color:#ae81ff">2</span> sb
+OK
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> lrange mylist <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;x&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;sb&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;2&#34;</span>
+
+<span style="color:#75715e">## 插入节点
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> linsert mylist after <span style="color:#ae81ff">2</span> insert2
+(integer) <span style="color:#ae81ff">5</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> lrange mylist <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;x&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;sb&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;2&#34;</span>
+<span style="color:#ae81ff">5</span>) <span style="color:#e6db74">&#34;insert2&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> linsert mylist after a aftera
+(integer) <span style="color:#ae81ff">8</span>
+
+<span style="color:#75715e">## 弹出某个节点并添加到另一个链表
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> rpoplpush mylist mylist2
+<span style="color:#e6db74">&#34;insert2&#34;</span>
+
+</code></pre></div><h2 id="应用场景-2">应用场景</h2>
+<ul>
+<li>lrpoplpush 多个程序间消息的交互
+<ul>
+<li>消费者lpop获取列表1的元素，为了确保消费成功，则需要把该元素rpush到另一个列表2里，等待消费成功确认后将该元素从列表2中删除掉</li>
+<li>当一定时间以后列表2中的元素还未被删除，则会将该消息重新push到列表1中</li>
+</ul>
+</li>
+<li>微博关注列表，粉丝列表</li>
+<li>也可以用来抢购，如果有是个库存，则每来一个从list中pop一个元素</li>
+<li>最新列表，获取最新登录的人的列表</li>
+</ul>
+<h1 id="集合">集合</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">
+<span style="color:#75715e"># 集合对象
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">## 添加元素
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sadd myset a b c
+(integer) <span style="color:#ae81ff">3</span>
+
+<span style="color:#75715e">## 删除元素
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> srem myset a
+(integer) <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e">## 获取所有元素
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> smembers myset
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;c&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+
+<span style="color:#75715e">## 判断是否是成员
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sismember myset a
+(integer) <span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sismember myset b
+(integer) <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e">## 获取集合差集
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sdiff myset myset1
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;a&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sdiff myset1 myset
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;d&#34;</span>
+
+<span style="color:#75715e">## 获取交集
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sinter myset myset1
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;c&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+
+<span style="color:#75715e">## 获取并集
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sunion myset myset1
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;c&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;a&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;d&#34;</span>
+
+<span style="color:#75715e">## 获取集合大小
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> scard myset
+(integer) <span style="color:#ae81ff">3</span>
+
+<span style="color:#75715e">## 随意获取一个集合
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> srandmember myset <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;a&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> srandmember myset <span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;c&#34;</span>
+
+<span style="color:#75715e">## 获取差异并存入另一个集合
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sdiffstore myset myset1 myset2
+(integer) <span style="color:#ae81ff">3</span>
+
+<span style="color:#75715e">## 获取交集并存入另一个集合
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sinterstore myset2 myset myset1
+(integer) <span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> smembers myset2
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;c&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;d&#34;</span>
+
+<span style="color:#75715e">## 获取并集并存入另一个集合
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> sunionstore myset2 myset myset1
+(integer) <span style="color:#ae81ff">4</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> smembers myset2
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;a&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;c&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;d&#34;</span>
+</code></pre></div><h2 id="应用场景-3">应用场景</h2>
+<ul>
+<li>类似于布隆过滤器的功能
+<ul>
+<li>存储访问者的IP地址</li>
+<li>查询用户名是否被注册</li>
+<li>限制用户一天只能投一次票</li>
+</ul>
+</li>
+<li>利用集合的并，交集功能
+<ul>
+<li>获取同时购买两种商品的人</li>
+<li>共同喜好，共同关注</li>
+</ul>
+</li>
+</ul>
+<h1 id="有序集合">有序集合</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">
+<span style="color:#75715e"># 有序集合
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">## 添加元素
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zadd mysort <span style="color:#ae81ff">100</span> jty <span style="color:#ae81ff">98</span> eb <span style="color:#ae81ff">99</span> sa <span style="color:#ae81ff">60</span> ab
+(integer) <span style="color:#ae81ff">4</span>
+
+<span style="color:#75715e">## 获取元素个数
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zcard mysort
+(integer) <span style="color:#ae81ff">4</span>
+
+<span style="color:#75715e">## 获取某个元素分值
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zscore mysort jty
+<span style="color:#e6db74">&#34;100&#34;</span>
+
+<span style="color:#75715e">## 删除某个元素
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zrem mysort sa
+(integer) <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e">## 获取某个元素的分值
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zscore mysort sa
+(nil)
+
+<span style="color:#75715e">## 根据范围获取
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zrange mysort <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;ab&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;eb&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;jty&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zrange mysort <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> withscores
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;ab&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;60&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;eb&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;98&#34;</span>
+<span style="color:#ae81ff">5</span>) <span style="color:#e6db74">&#34;jty&#34;</span>
+<span style="color:#ae81ff">6</span>) <span style="color:#e6db74">&#34;100&#34;</span>
+
+<span style="color:#75715e">## 根据排名删除
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zremrangebyrank mysort <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span>
+(integer) <span style="color:#ae81ff">2</span>
+
+<span style="color:#75715e">## 根据分数删除
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zremrangebyscore mysort <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">30</span>
+(integer) <span style="color:#ae81ff">2</span>
+
+<span style="color:#75715e">## 根据分值获取元素
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zrangebyscore mysort <span style="color:#ae81ff">20</span> <span style="color:#ae81ff">100</span>
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;a&#34;</span>
+<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;b&#34;</span>
+<span style="color:#ae81ff">3</span>) <span style="color:#e6db74">&#34;c&#34;</span>
+<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;d&#34;</span>
+
+<span style="color:#75715e">## 增加某个元素的值
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zincrby mysort <span style="color:#ae81ff">100</span> a
+<span style="color:#e6db74">&#34;120&#34;</span>
+
+<span style="color:#75715e">## 获取某个范围内的元素个数
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zcount mysort <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">100</span>
+(integer) <span style="color:#ae81ff">3</span>
+
+<span style="color:#75715e">## 获取某个元素的排名
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> zrank mysort a
+(integer) <span style="color:#ae81ff">3</span>
+
+<span style="color:#75715e"># 通用
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">## 获取对象的所有键名
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> keys a
+<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;a&#34;</span>
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> keys myso<span style="color:#f92672">?</span>
+(empty list or set)
+<span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> keys mys<span style="color:#f92672">?</span>
+(empty list or set)
+
+<span style="color:#75715e">## 获取超时时间
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6379</span>[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">&gt;</span> ttl mysort
+(integer) <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</code></pre></div><h2 id="常用场景">常用场景</h2>
+<ul>
+<li>排行榜</li>
+<li>延时队列
+<ul>
+<li>将当前时间戳作为score，同时通过某些算法（例如uuid4），计算出消息对应的key，作为name</li>
+<li>算出当前时间段通过zrangebyscore进行获取</li>
+<li>用途
+<ul>
+<li>定时清理，超过一定空闲时间进行释放</li>
+<li>下订单30分钟后未付款则取消订单</li>
+<li>下单后60s发送短信</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

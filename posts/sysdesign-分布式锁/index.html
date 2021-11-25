@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>sysDesign-分布式锁</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>sysDesign-分布式锁</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="sysdesign-分布式锁">sysDesign-分布式锁</h1>
+<h2 id="分布式锁的一些原则">分布式锁的一些原则</h2>
+<ul>
+<li>互斥性 最基本的</li>
+<li>可重入性 同一个节点对于同一资源可以多次获取</li>
+<li>锁超时 避免死锁</li>
+</ul>
+<h2 id="常见实现方式">常见实现方式</h2>
+<ul>
+<li>mysql</li>
+<li>redis</li>
+</ul>
+<h2 id="mysql实现">mysql实现</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">CREATE TABLE <span style="color:#960050;background-color:#1e0010">`</span>resourceLock<span style="color:#960050;background-color:#1e0010">`</span> (
+    <span style="color:#960050;background-color:#1e0010">`</span>id<span style="color:#960050;background-color:#1e0010">`</span> <span style="color:#66d9ef">int</span>(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">unsigned</span> NOT NULL AUTO_INCREMENT,
+    <span style="color:#960050;background-color:#1e0010">`</span>resource_name<span style="color:#960050;background-color:#1e0010">`</span> varchar(<span style="color:#ae81ff">128</span>) NOT NULL DEFAULT <span style="color:#960050;background-color:#1e0010">&#39;&#39;</span> COMMENT <span style="color:#960050;background-color:#1e0010">&#39;资源名字&#39;</span>,
+    <span style="color:#960050;background-color:#1e0010">`</span>node_info<span style="color:#960050;background-color:#1e0010">`</span> varchar(<span style="color:#ae81ff">128</span>) DEFAULT NULL COMMENT <span style="color:#960050;background-color:#1e0010">&#39;节点信息&#39;</span>,
+    <span style="color:#960050;background-color:#1e0010">`</span>count<span style="color:#960050;background-color:#1e0010">`</span> <span style="color:#66d9ef">int</span>(<span style="color:#ae81ff">11</span>) NOT NULL DEFAULT <span style="color:#e6db74">&#39;0&#39;</span> COMMENT <span style="color:#960050;background-color:#1e0010">&#39;锁的次数</span> <span style="color:#960050;background-color:#1e0010">（可重入）&#39;</span>,
+    <span style="color:#960050;background-color:#1e0010">`</span>desc<span style="color:#960050;background-color:#1e0010">`</span> varchar(<span style="color:#ae81ff">128</span>) DEFAULT NULL COMMENT <span style="color:#960050;background-color:#1e0010">&#39;资源描述&#39;</span>,
+    <span style="color:#960050;background-color:#1e0010">`</span>mtime<span style="color:#960050;background-color:#1e0010">`</span> timestamp NULL DEFAULT NULL,
+    <span style="color:#960050;background-color:#1e0010">`</span>ctime<span style="color:#960050;background-color:#1e0010">`</span> timestamp NULL DEFAULT NULL,
+    PRIMARY KEY (<span style="color:#960050;background-color:#1e0010">`</span>id<span style="color:#960050;background-color:#1e0010">`</span>),
+    UNIQUE KEY <span style="color:#960050;background-color:#1e0010">`</span>uniq_resource<span style="color:#960050;background-color:#1e0010">`</span> (<span style="color:#960050;background-color:#1e0010">`</span>resource_name<span style="color:#960050;background-color:#1e0010">`</span>)
+) ENGINE<span style="color:#f92672">=</span>InnoDB DEFAULT CAHRSET<span style="color:#f92672">=</span>utf8mb4;
+</code></pre></div><h3 id="加锁">加锁</h3>
+<p>查询xxx资源是否是当前节点所有，如果有的话则增加count</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">transaction begin
+res <span style="color:#f92672">=</span> select <span style="color:#f92672">*</span> from resourceLock where resource_name <span style="color:#f92672">=</span> xxx <span style="color:#66d9ef">for</span> update;
+<span style="color:#66d9ef">if</span> res <span style="color:#f92672">==</span> nil 
+    insert ....
+    <span style="color:#66d9ef">return</span> true
+<span style="color:#66d9ef">if</span> node_info <span style="color:#f92672">==</span> myNode 
+    <span style="color:#75715e">//更新次数
+</span><span style="color:#75715e"></span>    update resourceLock set count <span style="color:#f92672">=</span> count<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> where resource_name <span style="color:#f92672">=</span> xxx
+    commit
+    <span style="color:#66d9ef">return</span> true
+<span style="color:#66d9ef">else</span>
+    commit
+    <span style="color:#66d9ef">return</span> false
+</code></pre></div><h3 id="解锁">解锁</h3>
+<p>如果count为1则删除，大于一则减一</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">transaction begin
+select <span style="color:#f92672">*</span> from resourceLock where resource_name<span style="color:#f92672">=</span>xxx <span style="color:#66d9ef">for</span> update;
+<span style="color:#66d9ef">if</span> count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>
+    update count <span style="color:#f92672">=</span> count<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">else</span> 
+    delete 
+</code></pre></div><h3 id="锁超时">锁超时</h3>
+<h4 id="惰性解锁">惰性解锁</h4>
+<p>可以在试图加锁的时候，首先检测锁是否超时，超时则解锁</p>
+<h4 id="定时解锁">定时解锁</h4>
+<p>离线的脚本来定时的去解锁超时的锁</p>
+<h3 id="小结">小结</h3>
+<ul>
+<li>该方案适用于资源不存在数据库中场景，如果例如订单本身就落地于数据库的话，可以直接在行数据上加锁即可</li>
+<li>该方案理解简单</li>
+<li>实现比较复杂，需要自己考虑锁超时等情况，并且性能依赖于数据库，性能较低
+<ul>
+<li>可以考虑使用乐观锁来实现，在并发不是那么大的时候，乐观锁可以避免锁竞争带来的性能损失
+<ul>
+<li>为每个资源设置一个数据版本</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

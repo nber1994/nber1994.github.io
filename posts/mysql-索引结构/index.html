@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql-索引结构</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>mysql-索引结构</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="mysql-索引结构">mysql-索引结构</h1>
+<blockquote>
+<p>索引的结构是B+Tree，这个众所周知，但是具体的结构以及原因我们来探究下</p>
+</blockquote>
+<h2 id="聚簇索引和非聚簇索引">聚簇索引和非聚簇索引</h2>
+<h3 id="首先要知道">首先要知道</h3>
+<ul>
+<li>聚簇索引即数据行放在索引的叶子页面中，而非聚簇索引则是数据和索引分开存放</li>
+<li>索引和表属于比较大的数据，所以存放在磁盘中，索引的变更等操作都会导致节点的分裂和新增</li>
+<li>考量一个索引结构的性能和设计时，不能只考虑查询性能，还要考虑对数据的修改以及对索引调整的复杂度</li>
+<li>一般一个B+Tree的节点为innodb的一页的大小，即16k</li>
+</ul>
+<h3 id="聚簇索引">聚簇索引</h3>
+<ul>
+<li>数据文件存放在叶子节点中</li>
+<li>数据存放顺序和索引顺序是一致的，索引相邻的话，磁盘存放位置就是相邻的</li>
+</ul>
+<h3 id="聚簇索引的特点">聚簇索引的特点</h3>
+<ul>
+<li>
+<p>优点</p>
+<ul>
+<li>由于相邻索引的数据是在磁盘相邻存放的，所以可以将一类的数据的索引值相邻，这样一旦查询一类数据时，可以一次读取磁盘，将所有数据都读取，避免了随机读</li>
+<li>数据访问会很快，因为到达叶子节点直接就能拿到数据</li>
+</ul>
+</li>
+<li>
+<p>缺点</p>
+<ul>
+<li>脱离了IO密集型场景则失去优势</li>
+<li>插入速度依赖插入的顺序，如果顺序插入速度最快，<strong>但是会在主键的上界产生明显的竞争</strong></li>
+<li>更新索引列的代价很高，因为会强制的对数据进行移动</li>
+<li>使用辅助索引会带来两次查找（自适应哈希索引解决）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>顺序写入与读取的性能要大于随机写入读取，所以你会发现很多地方的设计其实都是将随机写入转变为顺序写入的，
+例如mysql的doublewirte，先将需要落磁盘的数据写入内存缓冲区之后，在顺序写入到磁盘的共享表空间中，再写入实际的页面中，来解决写磁盘时崩溃导致的数据丢失问题
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190705162621367_360839888.png" alt=""></p>
+</blockquote>
+<h3 id="非聚簇索引">非聚簇索引</h3>
+<ul>
+<li>
+<p>数据和索引分开存放</p>
+</li>
+<li>
+<p>数据的存放于索引的顺序没有关系，叶子节点指向数据的地址</p>
+</li>
+<li>
+<p>优点</p>
+<ul>
+<li>插入索引非顺序时也很快</li>
+<li>更新索引代价不大，不需要移动数据行</li>
+</ul>
+</li>
+</ul>
+<h2 id="两种索引的数据存储">两种索引的数据存储</h2>
+<h3 id="myisam">MyIsam</h3>
+<p>例如按照下述代码建表，col1为主键</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">create table <span style="color:#a6e22e">layout_test</span>(
+    col1 <span style="color:#66d9ef">int</span> not null,
+    col2 <span style="color:#66d9ef">int</span> not null,
+    primary key(col1),
+    key(col2)
+);
+</code></pre></div><p>主键索引的结构是按照行号来组织的，其结构如下
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190704165848911_1484289541.png" alt="">
+如下图，索引文件按照行号来进行组织，叶子节点存储的是数据行的地址指针
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190704165905564_1284272035.png" alt=""></p>
+<p>而对于col2对应的索引结构，与主键上的一致</p>
+<h3 id="innodb">InnoDB</h3>
+<p>对于聚簇索引，其主键索引是按照主键索引组织的，其结构大致：
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190704171001101_1842590321.png" alt=""></p>
+<ul>
+<li>其中叶子节点包括
+<ul>
+<li>主键值</li>
+<li>事务ID</li>
+<li>用于MVCC的回流指针</li>
+<li>数据列
+其大致结构为：
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190704171247519_597744944.png" alt=""></li>
+</ul>
+</li>
+</ul>
+<p>而辅助索引，和主键索引有一定区别，叶子节点存放的不是数据而是主键的id
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190704171437857_1734137647.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190704171428341_370773142.png" alt=""></p>
+<h2 id="两种结构的查找过程">两种结构的查找过程</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190704213206543_3376045.png" alt="">
+由此可见，聚簇索引的搜索过程，首先通过辅助索引拿到主键id的值，再走一遍主键索引拿到数据 <br>
+而非聚簇索引则是通过辅助索引可以直接拿到数据，似乎聚簇索引会比较慢啊，那为何还会采用这种设计？</p>
+<ul>
+<li>首先，聚簇索引的数据和叶子节点在一个页面上，这样主键索引可以直接拿到数据行，速度较快</li>
+<li>另外，辅助索引使用主键id作为值而非数据行地址，这样能保证主键索引的行不论怎么移动和页分裂，都不会影响到辅助索引</li>
+<li>同时，聚簇索引还可以结合自适应哈希来提高检索速度</li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vim on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/tags/vim/</link>
+    <description>Recent content in vim on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/tags/vim/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>lsp配置相关</title>
+      <link>http://nber1994.github.io/posts/lsp%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/lsp%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/</guid>
+      <description>set number set relativenumber set nocompatible set showmode set showcmd set encoding=utf-8 set tabstop=4 set shiftwidth=4 set expandtab set softtabstop=4 set wrap set linebreak set showmatch set hlsearch set incsearch set ignorecase set undofile set backupdir=~/.vim/.backup// set directory=~/.vim/.swp// set undodir=~/.vim/.undo// &amp;#34;set autochdir set noerrorbells set history=100 set autoread set wildmenu set wildmode=longest:list,full set cul cabbrev E Explore set laststatus=2 &amp;#34; 总是显示状态栏 highlight StatusLine cterm=bold ctermfg=black ctermbg=red set statusline=%F set autoindent &amp;#34;最大化 function!</description>
+    </item>
+    
+    <item>
+      <title>my配色</title>
+      <link>http://nber1994.github.io/posts/my%E9%85%8D%E8%89%B2/</link>
+      <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/my%E9%85%8D%E8%89%B2/</guid>
+      <description>&amp;#34; Vim color file &amp;#34; Maintainer: Hans Fugal &amp;lt;hans@fugal.net&amp;gt; &amp;#34; Last Change: $Date: 2004/06/13 19:30:30 $ &amp;#34; Last Change: $Date: 2004/06/13 19:30:30 $ &amp;#34; URL: http://hans.fugal.net/vim/colors/desert.vim &amp;#34; Version: $Id: desert.vim,v 1.1 2004/06/13 19:30:30 vimboss Exp $ &amp;#34; cool help screens &amp;#34; :he group-name &amp;#34; :he highlight-groups &amp;#34; :he cterm-colors set background=dark if version &amp;gt; 580 &amp;#34; no guarantees for version 5.8 and below, but this makes it stop &amp;#34; complaining hi clear if exists(&amp;#34;syntax_on&amp;#34;) syntax reset endif endif let g:colors_name=&amp;#34;my&amp;#34; hi Normal guifg=White guibg=grey20 &amp;#34; highlight groups hi Cursor guibg=khaki guifg=slategrey &amp;#34;hi CursorIM &amp;#34;hi Directory &amp;#34;hi DiffAdd &amp;#34;hi DiffChange &amp;#34;hi DiffDelete &amp;#34;hi DiffText &amp;#34;hi ErrorMsg hi VertSplit guibg=#c2bfa5 guifg=grey50 gui=none hi Folded guibg=grey30 guifg=gold hi FoldColumn guibg=grey30 guifg=tan hi IncSearch guifg=slategrey guibg=khaki &amp;#34;hi LineNr hi ModeMsg guifg=goldenrod hi MoreMsg guifg=SeaGreen hi NonText guifg=LightBlue guibg=grey30 hi Question guifg=springgreen hi Search guibg=peru guifg=wheat hi SpecialKey guifg=yellowgreen hi StatusLine guibg=#c2bfa5 guifg=black gui=none hi StatusLineNC guibg=#c2bfa5 guifg=grey50 gui=none hi Title guifg=indianred hi Visual gui=none guifg=khaki guibg=olivedrab &amp;#34;hi VisualNOS hi WarningMsg guifg=salmon &amp;#34;hi WildMenu &amp;#34;hi Menu &amp;#34;hi Scrollbar &amp;#34;hi Tooltip &amp;#34; syntax highlighting groups hi Comment guifg=SkyBlue hi Constant guifg=#ffa0a0 hi Identifier guifg=palegreen hi Statement guifg=khaki hi PreProc guifg=indianred hi Type guifg=darkkhaki hi Special guifg=navajowhite &amp;#34;hi Underlined hi Ignore guifg=grey40 &amp;#34;hi Error hi Todo guifg=orangered guibg=yellow2 &amp;#34; color terminal definitions hi SpecialKey ctermfg=cyan hi NonText cterm=bold ctermfg=darkblue hi Directory ctermfg=darkcyan hi ErrorMsg cterm=bold ctermfg=7 ctermbg=1 hi IncSearch cterm=NONE ctermfg=yellow ctermbg=green hi Search cterm=NONE ctermfg=grey ctermbg=yellow hi MoreMsg ctermfg=darkgreen hi ModeMsg cterm=NONE ctermfg=brown hi LineNr ctermfg=3 hi Question ctermfg=green hi StatusLine cterm=bold,reverse hi StatusLineNC cterm=reverse hi VertSplit cterm=reverse hi Title ctermfg=5 hi Visual cterm=reverse hi VisualNOS cterm=bold,underline hi WarningMsg ctermfg=1 hi WildMenu ctermfg=0 ctermbg=3 hi Folded ctermfg=darkgrey ctermbg=NONE hi FoldColumn ctermfg=darkgrey ctermbg=NONE hi DiffAdd ctermbg=4 hi DiffChange ctermbg=5 hi DiffDelete cterm=bold ctermfg=4 ctermbg=6 hi DiffText cterm=bold ctermbg=1 hi Comment ctermfg=brown hi Constant ctermfg=darkcyan hi Special ctermfg=5 hi Identifier ctermfg=1 hi Statement ctermfg=3 hi PreProc ctermfg=5 hi Type ctermfg=2 hi Underlined cterm=underline ctermfg=5 hi Ignore cterm=bold ctermfg=7 hi Ignore ctermfg=darkgrey hi Error cterm=bold ctermfg=7 ctermbg=1 &amp;#34;vim: sw=4 </description>
+    </item>
+    
+    <item>
+      <title>Vim写的代码,每一行都是诗</title>
+      <link>http://nber1994.github.io/posts/hello-vim/</link>
+      <pubDate>Sat, 10 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/hello-vim/</guid>
+      <description>Vim写的代码，每一行都是诗
+ 缘起 从我开始接触编码的第一天起，就一直在寻找一个趁手的编辑器, 从最初的notepad++,ultraedit,sublime，以及后来的phpstrom等一系列的编辑工具，虽然功能丰富，五花八门，我也一度在繁杂的编辑器之中意乱情迷，左顾右盼。但是当我第一次见到vim那丑陋的终端界面，贫乏的UI设计以及陡峭的吓人的学习曲线之后，我心想，就是它了!
+Vi 早期的vi界面
+作者 vim其实不是原创软件，而是从vi发展过来的，而vi的作者则另有其人:  ![bil joy](https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bill_joy.jpg) 威廉·纳尔逊·乔伊（William Nelson Joy，1954年11月8日－），通称比尔·乔伊（Bill Joy），美国计算机科学家。与Vinod Khosla、Scott McNealy和Andy Bechtolsheim一起创立了太阳微系统公司，并作为首席科学家直到2003年。后来经营自己的风险投资公司HighBAR Ventures，也是知名投资公司Kleiner Perkins的合伙人。 主要成就：乔伊的童年是在密歇根州的乡村长大的，在密歇根大学获得电气工程学士学位之后，于1979年在加州大学伯克利分校获得电气工程与计算机科学硕士学位。学生期间，他开发了BSD操作系统。其他人以BSD为基础发展出了很多现代版本的BSD，最著名的有FreeBSD、OpenBSD和NetBSD，苹果电脑的Mac OS X操作系统也在很大程度上基于BSD。1986年，乔伊因他在BSD操作系统中所做的工作获得了Grace Murray Hopper奖。 除了BSD之外，他引人注目的贡献还包括TCP/IP、vi、NFS和C shell，如今这些软件都已经广泛的使用在Solaris、BSD、GNU/Linux等操作系统中，而且开放源代码给其他人无偿使用、改进，为自由软件的发展作出了极大的贡献。 ### 了解更多 [Bill Joy In TED](https://www.ted.com/speakers/bill_joy) 一些你可能感兴趣的 1.为什么是hjkl 为什么是这个键位呢，为什么不是wasd这四个键位呢? 当 Bill Joy 创建 Vi 文本编辑器时，他使用的机器机器是 ADM-3A 终端机，这机器就是把 HJKL 键作为方向键。自然而然，Bill Joy 也就用了相同的按键了。 
+而wasd这样的现在比较经典的键位，首先出现是在1996年的电子游戏雷神之锤,而vi诞生与1976年
+雷神之锤截图
+2.为什么手指抽筋 为什么感觉Ctrl键，Esc键这么远，这么难用？ vi诞生与1976年，他的快捷键肯定不是为了现代电脑键盘布局设计的，所以使用起来肯定十分费劲，我们一起来看看ADM-3A的键盘布局
+ADM-3A全貌 ADM-3A终端机的键盘 我们可以看到，esc在现在的tab键的位置，而ctrl键在caps lock键的位置上, 这也是unix键盘经典布局，ctrl在如此方便的位置上，这也就难怪vi会有很多的ctrl相关的快捷键了，更不用说另一个相同时期的emacs了.所以不要再抱怨vi每次ctrl组合键简直要把小指头按抽筋了，其实vi根本就不是为现代键位设计的
+3.vi的衍生版本 由于bill joy是从 Ken Thompson 的ed编辑器基础上开发的,vi是衍生作品，所以除了拥有AT＆T源许可证的人之外，不能分发给其他人,所以直到1987年6月,才出现了实现部分vi功能的STEVIE，而我们现在的vim，则是从STEVIE发展来的
+vi的局限性  vi此时还是没有buffer概念的，一次只能对一个文件进行编辑,并且功能单一 没有vim script的支持，无法语法高亮,自动缩进等 不支持插件,且不能跨平台  vim vim的启动页面</description>
+    </item>
+    
+    <item>
+      <title>vim无插件编程技巧</title>
+      <link>http://nber1994.github.io/posts/%E6%97%A0%E6%8F%92%E4%BB%B6vim%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Wed, 13 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E6%97%A0%E6%8F%92%E4%BB%B6vim%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7/</guid>
+      <description>一般刚接触vim的时候，在熟悉了他的基本操作之后，一般都急于将自己的vim安装各种插件，已达到IDE的效果，个人认为，这些插件阻碍了vimer对vim的进一步学习，我也是这样，从熟悉了常用的vim操作之后，就迫不及待的将自己的vim堆砌插件改造成IDE，然后陷入无尽的关于vim与IDE那个好的无尽的争吵中,哈哈。但是过多的插件，反而会让你看不见vim真正的强大。突然有一天，我试着把vim的插件全部删除，探究如果没有插件，vim的使用是怎样的，后来发现，vim其实完全可以实现无插件编程，而且当你熟悉了这些操作之后，你会进一步领会vim的精妙。
+ 浏览代码 :E &amp;#34; ================================================================= &amp;#34; Netrw Directory Listing (n &amp;#34; /Users/jingtianyou &amp;#34; Sorted by name &amp;#34; Sort sequence: [\/]$,\&amp;lt;core\%(\.\d\+\)\=\&amp;gt;,\.h$,\.c$,\.cpp$,\~\ &amp;#34; Quick Help: &amp;lt;F1&amp;gt;:help -:go up dir D:delete R:rename s:sort- &amp;#34; ================================================================= ../ ./ .ShadowsocksX/ .Trash/ .bundle/ .cache/ .cheat/ .cisco/ .config/ .cups/ .gem/ .go/ .local/ .netease-musicbox/ .nvm/ .oh-my-zsh/ [netrw] format: unix; [1,3] :E  不用使用类似与Nerdtree插件，vim原生即可实现改功能
+ 这个界面中，你可以用 j, k 键上下移动，然后回车，进入一个目录，或是找开一个文件。你可以看到上面有一堆命令：
+ 【–】 到上级目录 【D】删除文件（大写） 【R】改文件名（大写） 【s】对文件排序（小写） 【x】执行文件 当然，打开的文件会把现有已打开的文件给冲掉——也就是说你只看到了一个文件。  补充命令 如果你要改变当前浏览的目录，或是查看当前浏览的目录，你可以使用和shell一样的命令：</description>
+    </item>
+    
+  </channel>
+</rss>

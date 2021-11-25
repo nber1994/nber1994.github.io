@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>redis数据结构-压缩列表</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>redis数据结构-压缩列表</h1>
+    <div class="blog-post-subheader">
+        January 8, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="redis数据结构-压缩列表">redis数据结构-压缩列表</h1>
+<ul>
+<li>压缩列表是列表建和哈希键的底层实现之一</li>
+<li>压缩表是一系列有特殊编码组成的顺序型的数据结，可以保存字节数组和整数值</li>
+</ul>
+<h2 id="压缩表结构">压缩表结构</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117163711230_1673580428.png" alt=""></p>
+<ul>
+<li>zlbytes：记录整个压缩表的字节长度</li>
+<li>zltail：记录尾节点的距离列表起始地址有多少字节</li>
+<li>zllen：记录存在节点的数目</li>
+<li>entryX：压缩表包含的节点，长度由保存内容决定</li>
+<li>zlend：特殊值，标明压缩表的结尾</li>
+</ul>
+<h2 id="压缩表节点结构">压缩表节点结构</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117164343168_125444990.png" alt=""></p>
+<ul>
+<li>prev_entry_length 前一个节点的长度，prev_entry_length可以是1字节或者5字节
+<ul>
+<li>当前一个节点的长度小于254字节时，prev_entry_length为一个字节</li>
+<li>当前一个节点的长度大于254字节时，prev_entry_length为5字节</li>
+<li>遍历：当想要遍历一个压缩表时，会根据zltail首先跳转到最后的节点，然后根据prev_entry_length节点向前遍历</li>
+</ul>
+</li>
+<li>encoding 编码
+<ul>
+<li>encoding记录着节点content的长度和数据类型</li>
+</ul>
+</li>
+<li>content 内容
+<ul>
+<li>content的值的类型由encoding来决定</li>
+</ul>
+</li>
+</ul>
+<h2 id="连锁更新">连锁更新</h2>
+<ul>
+<li>如果存在这一一种情况的数组，每个节点的长度都在250到254之间时，当向前一个节点的插入一个大于254长度的节点，后一个节点会更新期prev_entry_length的长度，使该节点的长度也大于了254，这样将导致一系列的内存重分配操作</li>
+<li>除了插入操作，删除操作也会导致连续更新的操作</li>
+<li>在连续更新的情况下，最坏为O（N^2）</li>
+<li>连续更新操作大量出现的概率比较小，所以压缩表的平均还是为O(N)</li>
+</ul>
+<h2 id="重点回顾">重点回顾</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117170719184_1598835606.png" alt=""></p>
+<p>？？压缩表优点
+内存中以连续快存放，载入速度更快</p>
+
+    </div>
+</section>
+
+    </body>
+</html>

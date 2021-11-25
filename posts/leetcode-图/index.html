@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>leetcode-图</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>leetcode-图</h1>
+    <div class="blog-post-subheader">
+        June 18, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="leetcode-图">leetcode-图</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190617154058892_1769994146.png" alt=""></p>
+<h2 id="表示方式">表示方式</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190617154120222_1348133578.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190617154137263_2128569596.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+
+	<span style="color:#a6e22e">g</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">graph</span>{}
+	<span style="color:#a6e22e">n1</span>, <span style="color:#a6e22e">n2</span>, <span style="color:#a6e22e">n3</span>, <span style="color:#a6e22e">n4</span>, <span style="color:#a6e22e">n5</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">node</span>{<span style="color:#ae81ff">1</span>}, <span style="color:#a6e22e">node</span>{<span style="color:#ae81ff">2</span>}, <span style="color:#a6e22e">node</span>{<span style="color:#ae81ff">3</span>}, <span style="color:#a6e22e">node</span>{<span style="color:#ae81ff">4</span>}, <span style="color:#a6e22e">node</span>{<span style="color:#ae81ff">5</span>}
+
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addNode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n1</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addNode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n2</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addNode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n3</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addNode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n4</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addNode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n5</span>)
+
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addEdge</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n1</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n2</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addEdge</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n1</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n5</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addEdge</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n2</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n3</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addEdge</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n2</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n4</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addEdge</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n2</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n5</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addEdge</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n3</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n4</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">addEdge</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n4</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n5</span>)
+
+	<span style="color:#a6e22e">g</span>.string()
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">BFS</span>()
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">DFS</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">node</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">val</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">graph</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">nodes</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>
+	<span style="color:#75715e">//使用邻接表来存储关系
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">edges</span> <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">node</span>][]<span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">g</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">graph</span>) <span style="color:#a6e22e">addNode</span>(<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>) {
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">nodes</span> = append(<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">nodes</span>, <span style="color:#a6e22e">n</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">g</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">graph</span>) <span style="color:#a6e22e">addEdge</span>(<span style="color:#a6e22e">u</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">edges</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">edges</span> = <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">node</span>][]<span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>{}
+	}
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">edges</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">u</span>] = append(<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">edges</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">u</span>], <span style="color:#a6e22e">v</span>)
+	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">edges</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">v</span>] = append(<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">edges</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">v</span>], <span style="color:#a6e22e">u</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">g</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">graph</span>) string() {
+	<span style="color:#a6e22e">str</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;&#34;</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">nodes</span> {
+		<span style="color:#a6e22e">str</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">v</span>.string() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;-&gt;&#34;</span>
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">edges</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">v</span>] {
+			<span style="color:#a6e22e">str</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">val</span>.string() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span>
+		}
+		<span style="color:#a6e22e">str</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;\n&#34;</span>
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">str</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>) string() <span style="color:#66d9ef">string</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s&#34;</span>, <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">val</span>)
+}
+
+<span style="color:#75715e">//bfs遍历
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">g</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">graph</span>) <span style="color:#a6e22e">BFS</span>() {
+	<span style="color:#75715e">//将第一个节点加入到队列中
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">head</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">nodes</span>[<span style="color:#ae81ff">0</span>]
+	<span style="color:#a6e22e">queue</span> <span style="color:#f92672">:=</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>{<span style="color:#a6e22e">head</span>}
+	<span style="color:#a6e22e">visitedMap</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>]<span style="color:#66d9ef">bool</span>{}
+	<span style="color:#a6e22e">visitedMap</span>[<span style="color:#a6e22e">head</span>] = <span style="color:#66d9ef">true</span>
+	<span style="color:#66d9ef">for</span> len(<span style="color:#a6e22e">queue</span>) &gt; <span style="color:#ae81ff">0</span> {
+		<span style="color:#75715e">//模拟出队列
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">queue</span>[len(<span style="color:#a6e22e">queue</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+		<span style="color:#a6e22e">queue</span> = <span style="color:#a6e22e">queue</span>[:len(<span style="color:#a6e22e">queue</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">edges</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">item</span>] {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">boolean</span>, <span style="color:#a6e22e">exist</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">visitedMap</span>[<span style="color:#a6e22e">v</span>]; <span style="color:#a6e22e">exist</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">boolean</span> {
+				<span style="color:#66d9ef">continue</span>
+			}
+			<span style="color:#a6e22e">queue</span> = append([]<span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>{<span style="color:#a6e22e">v</span>}, <span style="color:#a6e22e">queue</span><span style="color:#f92672">...</span>)
+			<span style="color:#a6e22e">visitedMap</span>[<span style="color:#a6e22e">v</span>] = <span style="color:#66d9ef">true</span>
+		}
+		<span style="color:#75715e">//这个地方可以进行一些操作，例如拷贝等
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">val</span>)
+	}
+}
+
+<span style="color:#75715e">//dfs遍历
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">g</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">graph</span>) <span style="color:#a6e22e">DFS</span>() {
+	<span style="color:#75715e">//将第一个节点加入到栈中
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">head</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">nodes</span>[<span style="color:#ae81ff">0</span>]
+	<span style="color:#a6e22e">stack</span> <span style="color:#f92672">:=</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>{<span style="color:#a6e22e">head</span>}
+	<span style="color:#a6e22e">visitMap</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>]<span style="color:#66d9ef">bool</span>{}
+	<span style="color:#a6e22e">visitMap</span>[<span style="color:#a6e22e">head</span>] = <span style="color:#66d9ef">true</span>
+	<span style="color:#66d9ef">for</span> len(<span style="color:#a6e22e">stack</span>) &gt; <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">stack</span>[<span style="color:#ae81ff">0</span>]
+		<span style="color:#a6e22e">stack</span> = <span style="color:#a6e22e">stack</span>[<span style="color:#ae81ff">1</span>:]
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">edges</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">item</span>] {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">boolean</span>, <span style="color:#a6e22e">exist</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">visitMap</span>[<span style="color:#a6e22e">v</span>]; <span style="color:#a6e22e">exist</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">boolean</span> {
+				<span style="color:#66d9ef">continue</span>
+			}
+			<span style="color:#a6e22e">stack</span> = append([]<span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>{<span style="color:#a6e22e">v</span>}, <span style="color:#a6e22e">stack</span><span style="color:#f92672">...</span>)
+			<span style="color:#a6e22e">visitMap</span>[<span style="color:#a6e22e">v</span>] = <span style="color:#66d9ef">true</span>
+		}
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">val</span>)
+	}
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Node</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">val</span>   <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">edges</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>
+}
+
+<span style="color:#75715e">//深度拷贝无向图
+</span><span style="color:#75715e">//dfs深度遍历, 同时维护一个新旧node的map表来拷贝edges
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">cloneGraph</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+	<span style="color:#a6e22e">nodeMap</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>{}
+	<span style="color:#a6e22e">visitMap</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>]<span style="color:#66d9ef">bool</span>{}
+	<span style="color:#a6e22e">nodeMap</span>[<span style="color:#a6e22e">head</span>] = <span style="color:#66d9ef">true</span>
+	<span style="color:#a6e22e">nodeMap</span>[<span style="color:#a6e22e">head</span>] = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Node</span>{
+		<span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">val</span>,
+		[]<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>{},
+	}
+	<span style="color:#a6e22e">stack</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> len(<span style="color:#a6e22e">stack</span>) &gt; <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">stack</span>[<span style="color:#ae81ff">0</span>]
+		<span style="color:#a6e22e">stack</span> = <span style="color:#a6e22e">stack</span>[<span style="color:#ae81ff">1</span>:]
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">edeges</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">boolean</span>, <span style="color:#a6e22e">exist</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">visitMap</span>[<span style="color:#a6e22e">v</span>]; <span style="color:#a6e22e">boolean</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">exist</span> {
+				<span style="color:#66d9ef">continue</span>
+			}
+			<span style="color:#75715e">//入栈并且复制节点
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">stack</span> = append([]<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>{<span style="color:#a6e22e">v</span>}, <span style="color:#a6e22e">stack</span><span style="color:#f92672">...</span>)
+			<span style="color:#a6e22e">nodeMap</span>[<span style="color:#a6e22e">v</span>] = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Node</span>{
+				<span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">val</span>,
+				[]<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>{},
+			}
+			<span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">edges</span> = append(<span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">edges</span>, <span style="color:#a6e22e">nodeMap</span>[<span style="color:#a6e22e">v</span>])
+			<span style="color:#a6e22e">visitMap</span>[<span style="color:#a6e22e">v</span>] = <span style="color:#66d9ef">true</span>
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nodeMap</span>[<span style="color:#a6e22e">head</span>]
+}
+
+<span style="color:#75715e">//判断是否有环
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">dfs遍历时</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">如果存在两次访问一个点时</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">则有环</span>
+</code></pre></div>
+    </div>
+</section>
+
+    </body>
+</html>

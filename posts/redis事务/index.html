@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>redis事务</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>redis事务</h1>
+    <div class="blog-post-subheader">
+        January 8, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="redis事务">redis事务</h1>
+<ul>
+<li>redis通过multi，exec，watch等命令实现事务功能</li>
+<li>事务提供了一种将多个命令打包，一次性顺序执行的多个命令的机制</li>
+</ul>
+<h2 id="事务实现">事务实现</h2>
+<ul>
+<li>事务开始</li>
+<li>命令入队</li>
+<li>事务执行</li>
+</ul>
+<h3 id="事务开始">事务开始</h3>
+<ul>
+<li>multi命令可以将执行该命令的客户端从非事务状态切换为事务状态
+<ul>
+<li>将客户端的flag属性变为redis_multi</li>
+</ul>
+</li>
+</ul>
+<h3 id="命令入队">命令入队</h3>
+<ul>
+<li>当处于非事务状态下，客户端发送的命令会立即执行</li>
+<li>当处于事务状态下，
+<ul>
+<li>客户端发送的exec，discard，watch，multi命令会立即执行</li>
+<li>除了以上命令，服务器并不执行，而是放入一个事务队列中，返回quneued</li>
+</ul>
+</li>
+</ul>
+<h4 id="事务队列">事务队列</h4>
+<ul>
+<li>每个客户端都有一个事务状态，</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> redisClient {
+    <span style="color:#75715e">//事务状态
+</span><span style="color:#75715e"></span>    multiState mstate;
+} redisClient;
+</code></pre></div><ul>
+<li>每个事务状态包含一个事务队列，一个已入队命令计数器</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> multiState {
+    <span style="color:#75715e">//事务队列，FIFO顺序
+</span><span style="color:#75715e"></span>    multiCmd <span style="color:#f92672">*</span>commands;
+    <span style="color:#75715e">//已入队命令计数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> count;
+}
+</code></pre></div><p>事务对列是一个multiCmd的数组</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> multiCmd {
+    <span style="color:#75715e">//参数
+</span><span style="color:#75715e"></span>    robj <span style="color:#f92672">**</span>argv;
+    <span style="color:#75715e">//参数数量
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> argc;
+    <span style="color:#75715e">//命令指针
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> redisCommand <span style="color:#f92672">*</span>cmd;
+}
+</code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121175926946_165828182.png" alt=""></p>
+<h3 id="执行事务">执行事务</h3>
+<ul>
+<li>当服务器收到客户端传来的exec命令时，会立即执行事务队列中的命令</li>
+<li>并将执行结果返回给客户端</li>
+</ul>
+<h2 id="watch命令">watch命令</h2>
+<ul>
+<li>watch是一个乐观锁，可以在exec执行之前，监视任意数量的数据库键</li>
+<li>当exec执行时，如果监视的键被修改了，则事务就会拒绝提交
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121181014999_1787964715.png" alt=""></li>
+</ul>
+<h3 id="watch命令监听数据库键">watch命令监听数据库键</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> redisDb {
+    <span style="color:#75715e">//正在被watch命令监听的键
+</span><span style="color:#75715e"></span>    dict <span style="color:#f92672">*</span>watched_keys;
+} RedisDB;
+</code></pre></div><ul>
+<li>watched_keys的键为键名，</li>
+<li>而值则是一个链表，每个链表代表一个监听该键的客户端</li>
+</ul>
+<h3 id="监听的触发">监听的触发</h3>
+<ul>
+<li>对数据库的修改命令，set lpush sadd等，会检查watched_keys字典</li>
+<li>如果有客户端正在监听键时，会遍历watched_keys[key]对应的client的REDIS_DIRTY_CAS标识打开，标识事务安全性已被破坏</li>
+<li>当事务exec时，会根据REDIS_DIRTY_CAS是否打开，来决定事务是否能提交</li>
+</ul>
+<h2 id="事务的acid">事务的ACID</h2>
+<ul>
+<li>原子性 ok
+<ul>
+<li>redis的事务不支持回滚，有一条命令出错后，其他的命令继续执行</li>
+</ul>
+</li>
+<li>一致性
+<ul>
+<li>事务提交之后，不包含非法或者无效的错误数据</li>
+<li>redis通过错误检查和简单的设计来避免一致性
+<ul>
+<li>入队错误：命令入队时，命令不存在或者不正确，redis拒绝执行事务</li>
+<li>执行错误：执行中发生了错误，服务器也不会终端事务，其他的命令并不会受错误命令的影响</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>隔离性 ok 单线程</li>
+<li>持久性
+<ul>
+<li>无持久化：不具有持久性</li>
+<li>RDB持久化：不具有耐久性</li>
+<li>AOF持久化，appendsync为always时具有</li>
+</ul>
+</li>
+</ul>
+<h2 id="重点回顾">重点回顾</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121183305508_584292534.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121183318766_1909384854.png" alt=""></p>
+
+    </div>
+</section>
+
+    </body>
+</html>

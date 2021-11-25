@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>redis数据结构--链表</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>redis数据结构--链表</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="redis数据结构--链表">redis数据结构&ndash;链表</h1>
+<ul>
+<li>链表提供了高效的节点重排的能力</li>
+<li>顺序访问的能力
+发布订阅，慢查询，监视器等都用到了链表</li>
+</ul>
+<h2 id="链表结构">链表结构</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> listNode {
+    <span style="color:#75715e">//前置节点
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> listNode <span style="color:#f92672">*</span>prev;
+    <span style="color:#75715e">//后置节点
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> listNode <span style="color:#f92672">*</span>next;
+    <span style="color:#75715e">//节点的值
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>value;
+}
+</code></pre></div><p>多个listNode可以通过prev和next链接为双向链表 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115164514198_518123244.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">typdef <span style="color:#66d9ef">struct</span> list {
+    <span style="color:#75715e">//表头节点
+</span><span style="color:#75715e"></span>    listNode <span style="color:#f92672">*</span>head;
+    <span style="color:#75715e">//表尾节点
+</span><span style="color:#75715e"></span>    listNode <span style="color:#f92672">*</span>tail;
+    <span style="color:#75715e">//链表包含的节点数量
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> len;
+    <span style="color:#75715e">//节点值复制函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>(<span style="color:#f92672">*</span>dup)(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>ptr);
+    <span style="color:#75715e">//节点值释放函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>(<span style="color:#f92672">*</span>free)(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>ptr);
+    <span style="color:#75715e">//节点值对比函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>(<span style="color:#f92672">*</span>match)(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>ptr<span style="color:#960050;background-color:#1e0010">，</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>key);
+}
+</code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115165456025_51173323.png" alt=""></p>
+<h2 id="redis链表实现的特性">redis链表实现的特性：</h2>
+<ul>
+<li>双端：每个节点都存在prev和next指针，获取某个节点前后指针为O(1)</li>
+<li>无环：头节点和尾节点的prev和next为null，对链表的访问以null终止</li>
+<li>带有表头和表尾指针，自带表头和表尾指针，查找表头和表尾指针为O(1)</li>
+<li>待链表长度计数器：获取链表长度为O(1)</li>
+<li>多态：链表的值为*void，而且可以通过绑定不同的dup，free，match函数，可以保存不同类型的值</li>
+</ul>
+<h2 id="重点回顾">重点回顾</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115170437776_1076580861.png" alt=""></p>
+
+    </div>
+</section>
+
+    </body>
+</html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tcp&amp;ip on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/tags/tcpip/</link>
+    <description>Recent content in tcp&amp;ip on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/tags/tcpip/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>tcp&amp;ip-https</title>
+      <link>http://nber1994.github.io/posts/tcpip-https/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcpip-https/</guid>
+      <description>tcp&amp;amp;ip-https  公钥&amp;amp;私钥 公钥用来加密，私钥用来解迷
+ http的问题  明文传输，可能导致信息被窃听 不互相验证身份，可能导致伪装 不校验报文的完整性，可能被篡改  https 在表示层增加stl&amp;amp;CA来进行加密  首先进行非对称加密（较耗费性能）  c请求s，s返回证书&amp;amp;公钥 c请求CA来验证证书（CA地址一般内置操作系统） 验证成功，则生成一个随机串，通过公钥加密传递给s   然后进行对称加密  s通过私钥解迷，拿到随机串 通过随机串加密响应结果，返回    </description>
+    </item>
+    
+    <item>
+      <title>tcp&amp;ip-ip基础知识</title>
+      <link>http://nber1994.github.io/posts/tcpip-ip%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcpip-ip%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+      <description>ip基础知识 网络层和数据链路层的区别  数据链路层负责在直连的网络的传输 而网络层负责在没有直连的网络之间传输  ip地址属于网络层地址
+ ip用于识别地址 ip路由也叫做多跳路由，他的寻址方式  将数据报送到下一跳地址，然后在看吓一跳应该去哪里 数据包以一种十分偶然的方式进行传出    ip属于面向无连接  原因  较为简单  不需要繁琐的建立连接到步骤   为了提速  发送之前不需要家里接连，直接发送      ip定义  ip是以32位二进制表示 每8位由.隔开 大概可以容纳43亿的地址  但是一个网卡可以由多个ip 一个电脑有多个网卡    ip组成  因为ip具有寻址的功能，所以ip地址会分为  网络标识 主机标识    ip地址的分类  A类地址  1-8位网络标识 首位必须为0 0.0.0.0 - 127.0.0.0   B类地址  1-16位网络标识 首位为10 128.0.0.1 - 191.</description>
+    </item>
+    
+    <item>
+      <title>tcp&amp;ip-ping</title>
+      <link>http://nber1994.github.io/posts/tcpip-ping/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcpip-ping/</guid>
+      <description>tcp&amp;amp;ip-ping  ping A
+  基于ICMP，网络层，速度快 拼接IP包，加入A为目的地址，以及ICMP报文组成IP包发送至网络中寻址 到达目的IP机器子网后，会根据ARP协议，发送到目的IP机器，目的IP机器收到包后解析，然后封装响应包  </description>
+    </item>
+    
+    <item>
+      <title>tcp&amp;ip-tcp&amp;ip协议族</title>
+      <link>http://nber1994.github.io/posts/tcpip-tcpip%E5%8D%8F%E8%AE%AE%E6%97%8F/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcpip-tcpip%E5%8D%8F%E8%AE%AE%E6%97%8F/</guid>
+      <description>tcp&amp;amp;ip-tcp&amp;amp;ip协议族  tcp和ip是互相互补的
+ TCP协议 tcp基于字节流的传输层协议，位于应用层之下，完成的是IP协议完成不了的可靠传输
+IP协议 IP协议是不可靠的，负责在原地址和目的地址之间传输，他只关心跨越本地网络边界问题，寻址和路由
+分层  应用层  http ftp telnet dns   传输层  tcp udp   网络层  IP 负责路由寻址 ARP 地址解析协议获取统一物理网络中的物理地址 ICMP 控制消息协议 传送错误和控制信息 IGMP 组管理协议 用来实现本地广播   数据链路层  </description>
+    </item>
+    
+    <item>
+      <title>tcp&amp;ip-tcp怎么保证可靠传输</title>
+      <link>http://nber1994.github.io/posts/tcpip-tcp%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcpip-tcp%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93/</guid>
+      <description>tcp&amp;amp;ip-tcp怎么保证可靠传输  确认机制和超时重传  收到消息后会恢复ack来确认到达，如果一段时间后未收到ack则会重传   数据校验和  tcp的报文头有校验和，校验是否损坏   排序  接收方会根据顺序来进行排序，将先到的数据缓存起来，等待之前的包到达后才发送给应用   流量控制  可以根据接收方的接收能力来调整滑动窗口的大小   拥塞控制  当网络情况不好的时候，可以调整滑动窗口的大小来防止丢包    延伸  拆包和粘包 拆包就是说，发送方一次发送的数据，接收方可能两次才能收到  发送的大小大于了IP包的大小 发送过急，大于发送缓冲区剩余大小   粘包，接收方读取一次数据，接收到了发送方两次发送的内容  发送缓冲区未满，一次将多个包发出 接收太慢，缓冲区满了，一次读取多个包   解决方案  为每个包增加长度信息 将所有的包封装为固定长度 包之间设置边界    </description>
+    </item>
+    
+    <item>
+      <title>tcp&amp;ip-基础</title>
+      <link>http://nber1994.github.io/posts/tcpip-%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcpip-%E5%9F%BA%E7%A1%80/</guid>
+      <description>tcp-ip基础 分层一级对应关系  应用层  应用层 表示层 会话层   传输层  传输层   网络层  网络层   物理层  数据链路层 物理层     tcp包的结构  每一层都会在首部添加本层的数据结构  以太网首部  mac地址   ip首部  IP地址   tcp首部  端口号       </description>
+    </item>
+    
+    <item>
+      <title>tcp&amp;ip-网络基础知识</title>
+      <link>http://nber1994.github.io/posts/tcpip-%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcpip-%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+      <description>网络基础知识  协议的分层  osi分层  应用层  实现针对特定应用的协议   表示层  特定数据格式和网络通用格式的转换   会话层  通信管理，负责建立和断开通信连接   传输层  管理两个节点之间的数据传输，负责可靠传输   网络层  负责目标寻址和路由   数据链路层  互联设备之间的数据传输   物理层  负责0，1和电压高低之间的转换        osi中的每一层，都附上本层的首部，同时接收方读取本层的首部  网络层中传输方式-面向有连接和面向无连接  面向有链接，则会在通信之前首先建立一条通信连接  电路交换与分组交换  电路交换会在两个互相通信的节点之间独占一条电路，其他电路只有等到该节点之间通信完成后再进行通信 分组交换就是让所有计算机上的数据分为包，按照顺序发送，这样所有计算机都可以同时发送数据包  按照目标端数量分类  单播  一对一   广播  发送到所有与之相连的主机   多播  发送到多个满足一定条件的主机   任播  从满足条件的主机中任意选出一个    </description>
+    </item>
+    
+    <item>
+      <title>tcp&amp;ip-http</title>
+      <link>http://nber1994.github.io/posts/tcpip-http/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcpip-http/</guid>
+      <description>http  http是无状态的协议 为了保持http的状态，引入了cookie 请求报文结构  响应报文结构   http方法  get  获取资源   post  传输实体   put  传输文件   head  获取报文首部   delete  删除文件   options  获取url支持的方法   trace  将到达web服务器之前的通信节点换回给客户端 max-forward首部字段填入数值，每经过一个服务器该值就减一，当减为0时停止传输，并就地返回200 ok    持久连接节省通信量  keep-alive  一个页面上会有多个需要http请求的资源 如果每个资源都会建立和断开tcp连接，增加网络开销 因此增加了keep-alive的方法，只要任一端没有明确断开连接，就会一直保持连接   pipline  keep alive方法使得管线化成为可能 之前一个http请求完成之后，才会请求下一个http请求 管线化则同时发生多个请求，比持久化连接更快    使用cookie记录状态  客户端会根据服务端返回的响应报文中的set-cookie的首部字段，来保存cookie 当再次发生请求给服务端时，会将cookie一并发送给服务端    响应报文   请求报文</description>
+    </item>
+    
+    <item>
+      <title>tcp&amp;ip-tcp&amp;udp</title>
+      <link>http://nber1994.github.io/posts/tcpip-tcpudp/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/tcpip-tcpudp/</guid>
+      <description>tcp&amp;amp;udp  tcp/ip或者udp/ip中，唯一确认一个连接为五个元素  源IP 源端口号 协议 目的IP 目的端口号    端口号  既定端口号  telnet 23 ssh 22 fpt 21 http 80 mysql 3306 redis 6379   时序分配  交给操作系统进行分配    udp  无连接 没有流量控制 不保证包的顺序性  应用场景  即时通信 广播通信 包总量较少通信  tcp  充分实现了数据传输时的各种控制功能  丢包重传 分包保持顺序 面向连接    通过序列号和确认应答提高可靠性 确认应答  接受端收到消息后会返回一个已经收到的消息通知，叫做ACK 如果收到的消息不理解则会返回一个NACK 发送端发送一段时间之后没有收到ACK消息，则可以认定数据已经丢失，并进行重发  但是没有收到ACK也并不代表消息没有到达，也有可能是ack丢失  这种情况下也会导致发送端以为数据没有到达，进行重发 这种情况下，即使ack返回延迟了，发送端仍会重发包，而对于接收端来说  会受到重复数据，需要对数据进行去重      序列号  确认应答处理，重发控制，重复控制 序列号为每一个字节添加一个编号 接收端查询接收数据首部的序列号和数据长度，并将自己下一步应该接收的序号作为应答返回 通过序列号和确认应答号，实现可靠传输   重发超时如何确定  理想是找到一个最小时间，保证在该段时间内确认包一定能返回 但是该时间会根据网络情况不同而不同 每次发包都会计算往返时间和偏差 重发时间就是往返时间加上偏差时间稍微大一点 一般超时重发时间都是0.</description>
+    </item>
+    
+  </channel>
+</rss>

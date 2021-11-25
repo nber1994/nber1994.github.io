@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>os-文本处理</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>os-文本处理</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="os-文本处理">os-文本处理</h1>
+<h2 id="统计日志中出现最多的ip">统计日志中出现最多的IP</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">grep <span style="color:#f92672">-</span>i <span style="color:#f92672">-</span>o <span style="color:#f92672">-</span>E <span style="color:#960050;background-color:#1e0010">&#39;</span>([<span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>]{<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>}<span style="color:#960050;background-color:#1e0010">\</span>.){<span style="color:#ae81ff">3</span>}[<span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>]{<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>}<span style="color:#960050;background-color:#1e0010">&#39;</span> log.log <span style="color:#f92672">|</span> sort <span style="color:#f92672">-</span>n <span style="color:#f92672">|</span> uniq <span style="color:#f92672">-</span>c <span style="color:#f92672">|</span> sort <span style="color:#f92672">-</span>n <span style="color:#f92672">-</span>r <span style="color:#f92672">|</span> head <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>
+</code></pre></div><ul>
+<li>
+<p>grep</p>
+<ul>
+<li>-i 忽略大小写</li>
+<li>-o 输出匹配部分</li>
+<li>-E 正则表达式</li>
+</ul>
+</li>
+<li>
+<p>sort</p>
+<ul>
+<li>-n 数值排序</li>
+<li>-r 倒叙排序</li>
+</ul>
+</li>
+<li>
+<p>uniq</p>
+<ul>
+<li>-c 显示重复次数</li>
+</ul>
+</li>
+<li>
+<p>head</p>
+<ul>
+<li>-n 显示前n行</li>
+</ul>
+</li>
+</ul>
+<h2 id="awk命令">awk命令</h2>
+<p>log内容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">root:x:<span style="color:#ae81ff">0</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>root:<span style="color:#f92672">/</span>root:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>zsh
+daemon:x:<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>daemon:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+bin:x:<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2</span><span style="color:#f92672">:</span>bin:<span style="color:#f92672">/</span>bin:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+sys:x:<span style="color:#ae81ff">3</span><span style="color:#f92672">:</span><span style="color:#ae81ff">3</span><span style="color:#f92672">:</span>sys:<span style="color:#f92672">/</span>dev:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+sync:x:<span style="color:#ae81ff">4</span><span style="color:#f92672">:</span><span style="color:#ae81ff">65534</span><span style="color:#f92672">:</span>sync:<span style="color:#f92672">/</span>bin:<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>sync
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e"># awk命令结构
+</span><span style="color:#75715e"></span>awk <span style="color:#960050;background-color:#1e0010">选项</span> <span style="color:#960050;background-color:#1e0010">&#39;条件</span> <span style="color:#960050;background-color:#1e0010">动作&#39;</span> <span style="color:#960050;background-color:#1e0010">文件</span>
+
+<span style="color:#75715e"># 例如
+</span><span style="color:#75715e"></span>awk <span style="color:#960050;background-color:#1e0010">&#39;</span>{print <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">0</span>}<span style="color:#960050;background-color:#1e0010">&#39;</span> log
+
+</code></pre></div><ul>
+<li>$0 表示当前行</li>
+<li>$n 表示按照分隔符切割后的第几个（默认是空格，制表符）</li>
+<li>NF 分割了多少个字段 $(NF-n)倒数第几个</li>
+<li>-F 设置分隔符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">awk <span style="color:#f92672">-</span>F <span style="color:#e6db74">&#39;:&#39;</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>{print <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">0</span>}<span style="color:#960050;background-color:#1e0010">&#39;</span> log
+</code></pre></div><ul>
+<li>NR 当前行</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">awk <span style="color:#960050;background-color:#1e0010">&#39;</span>{print NR <span style="color:#e6db74">&#34;)&#34;</span> <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span>}<span style="color:#960050;background-color:#1e0010">&#39;</span> log
+<span style="color:#ae81ff">1</span>) root
+<span style="color:#ae81ff">2</span>) daemon
+<span style="color:#ae81ff">3</span>) bin
+<span style="color:#ae81ff">4</span>) sys
+<span style="color:#ae81ff">5</span>) sync
+</code></pre></div><ul>
+<li>函数
+<ul>
+<li>tolower()：字符转为小写。</li>
+<li>length()：返回字符串长度。</li>
+<li>substr()：返回子字符串。</li>
+<li>rand()：随机数。</li>
+</ul>
+</li>
+<li>条件</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#960050;background-color:#1e0010">$</span> awk <span style="color:#f92672">-</span>F <span style="color:#e6db74">&#39;:&#39;</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span> {print <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span>}<span style="color:#960050;background-color:#1e0010">&#39;</span> demo.txt
+root
+daemon
+bin
+sys
+<span style="color:#960050;background-color:#1e0010">$</span> awk <span style="color:#f92672">-</span>F <span style="color:#e6db74">&#39;:&#39;</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>NR <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {print <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span>}<span style="color:#960050;background-color:#1e0010">&#39;</span> demo.txt
+root
+bin
+sync
+awk <span style="color:#f92672">-</span>F <span style="color:#e6db74">&#39;:&#39;</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>{<span style="color:#66d9ef">if</span> (<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#34;m&#34;</span>) print <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span>; <span style="color:#66d9ef">else</span> print <span style="color:#e6db74">&#34;...&#34;</span>}<span style="color:#960050;background-color:#1e0010">&#39;</span> demo.txt
+root
+...
+...
+sys
+sync
+</code></pre></div>
+    </div>
+</section>
+
+    </body>
+</html>

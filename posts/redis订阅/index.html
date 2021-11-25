@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>redis订阅</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>redis订阅</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="redis订阅">redis订阅</h1>
+<ul>
+<li>redis发布订阅相关的命令
+<ul>
+<li>publish，发布</li>
+<li>subscribe，订阅</li>
+<li>psubscribe，模式订阅</li>
+</ul>
+</li>
+</ul>
+<h2 id="频道订阅和退订">频道订阅和退订</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> redisServer {
+    <span style="color:#75715e">//保存所有频道的订阅关系
+</span><span style="color:#75715e"></span>    dict <span style="color:#f92672">*</span>publish_channels;
+}
+</code></pre></div><ul>
+<li>频道的订阅信息由publish_channels保存
+<ul>
+<li>字典的键为频道名</li>
+<li>字典的值为一个客户端的指针的链表
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121172343737_94803585.png" alt=""></li>
+</ul>
+</li>
+</ul>
+<h3 id="订阅频道">订阅频道</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121172510005_2078470668.png" alt=""></p>
+<h3 id="退订频道">退订频道</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121172552580_1887514974.png" alt=""></p>
+<h2 id="模式的订阅和退订">模式的订阅和退订</h2>
+<ul>
+<li>所有模式订阅信息都保存在redsiServer中的pubsub_patterns属性里</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> redisServer {
+    <span style="color:#75715e">//保存所有模式订阅关系
+</span><span style="color:#75715e"></span>    list <span style="color:#f92672">*</span>pubsub_patterns;
+}
+</code></pre></div><ul>
+<li>pubsub_patterns是一个链表，每个链表的节点结构为</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> pubsubPatterns {
+    <span style="color:#75715e">//订阅模式的客户端
+</span><span style="color:#75715e"></span>    redisClient <span style="color:#f92672">*</span>client;
+    <span style="color:#75715e">//被订阅的模式
+</span><span style="color:#75715e"></span>    robj <span style="color:#f92672">*</span>patterns;
+}
+</code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121173009519_835734534.png" alt=""></p>
+<h2 id="发送消息">发送消息</h2>
+<ul>
+<li>publish channel message
+<ul>
+<li>首先将消息发送给channel的订阅者</li>
+<li>表里pubsub_patterns列表，符合条件的客户端发送消息</li>
+</ul>
+</li>
+</ul>
+<h2 id="重点回顾">重点回顾</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121173832939_1647261558.png" alt=""></p>
+
+    </div>
+</section>
+
+    </body>
+</html>

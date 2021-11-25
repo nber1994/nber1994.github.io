@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>else on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/tags/else/</link>
+    <description>Recent content in else on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 09 Jul 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/tags/else/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SilverBullet</title>
+      <link>http://nber1994.github.io/posts/silverbullet/</link>
+      <pubDate>Thu, 09 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/silverbullet/</guid>
+      <description>SilverBullet mysql  讲一讲myisam和innodb的区别  锁 事务 。。。   讲讲innodb的索引   索引结构 索引
+ 为什么innodb的索引是用B+树实现  平衡二叉树 叶子节点相连，范围 。。。   B+树的什么性质影响着查询性能  层高   innodb的辅助索引的叶子节点存储的是什么 为什么这么存储，有什么优劣  主键索引变动对索引的影响小 但是查询速度会编码，引入自适应hash索引   索引的最左前缀匹配原则 abc联合索引，说明什么查询条件能命中索引   事务
+ 讲一讲innodb的事务 事务隔离级别，分别会出现什么问题  脏读 幻读 不可重复读   innodb默认是哪种隔离级别，如何解决上述问题  mvcc next-key锁   innodb如何解决幻读，如何解决不可重复读 幻读和不可重复读分别对应什么场景  幻读insert 不可重复读update   快照度和当前度，innodb中，事务中的读是快照读，怎么强制读到当前的数据  sql+for update强制读当前   innodb中的锁你了解吗  行 意向 gap next-key   innodb支持哪种锁 为什么会引入next-key锁，为了解决什么问题  幻读   innodb的持久化你知道吗 redo log和undo log分别有什么作用  redo log持久化 undo log快照度，事务回滚   innodb的double-buffer-wirte你知道吗，为什么要引入这个机制 你是怎么优化sql的   sql军规</description>
+    </item>
+    
+    <item>
+      <title>Dubbo中的注释</title>
+      <link>http://nber1994.github.io/posts/dubbo%E4%B8%AD%E7%9A%84%E6%B3%A8%E9%87%8A/</link>
+      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/dubbo%E4%B8%AD%E7%9A%84%E6%B3%A8%E9%87%8A/</guid>
+      <description>Dubbo中的注释 dubbo注释 @override</description>
+    </item>
+    
+    <item>
+      <title>nsq-v0</title>
+      <link>http://nber1994.github.io/posts/nsq-v0.1.1readme/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/nsq-v0.1.1readme/</guid>
+      <description>nsq-v0.1.1README NSQ An infrastructure component designed to support highly available, distributed, fault tolerant, &amp;ldquo;guaranteed&amp;rdquo; message delivery. 一个支持高可用，分布式，容错性以及可靠消息传递的消息队列
+Background simplequeue was developed as a dead-simple in-memory message queue. It spoke HTTP and had no knowledge (or care) for the data you put in or took out. Life was good. simplequeue是一个十分简单的内存消息队列（不做持久化）。他基于HTTP并且对内部传递的消息无感知，简洁而美秒。
+We used simplequeue as the foundation for a distributed message queue. In production, we silo&amp;rsquo;d a simplequeue right where messages were produced (ie.</description>
+    </item>
+    
+    <item>
+      <title>questions</title>
+      <link>http://nber1994.github.io/posts/questions/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/questions/</guid>
+      <description>Questions OS 虚拟内存 段页式 倒排页表 LRU，LFU算法实现 共享内存 多进程，多线程 如何fork一个进程 exec waitpid exit 页表的copy-on-worite PCB
+ PCB process control block &amp;gt; task_struct存储了进程的页表，打开文件描述符表，内存描述符，通用寄存器，进程状态等
+ 进程状态 IO多路复用 select，poll，epoll实现和优劣
+用户态和内核态区别 进程，线程间通信 什么时候多线程什么时候多进程 线程ID进程组ID 线程和进程的切换和调度，切换的时什么 多进程 - 数据共享复杂，需要进程间通信 - 相对于多线程占用更多的内存 - 进程间切换相对于多线程开销较大 - 编程调试较简单 - 进程间互相不影响 - 适用于多机，性能扩展性较好 多线程 - 数据共享较简单 - 线程间可能会互相影响 - 编程调试较复杂 - 可以利用多核的优势 - 多线程之间切换开销较小
+ 文件描述符表  网络 http https https相比较于http来说，在会话层加入了stl算法加密，过程如下 1.服务端发送来证书和公钥 2.客户端根据内置的颁发机构验证证书的真伪 3.如果证书为假，则报错 4.如果证书为真，则生成随机值，并用公钥加密传递给服务端 5.服务端收到后使用私钥进行解密，拿到随机值 6.之后的通信都使用随机值进行加密
+http code 200 ok 301 moved permanly 302 Found 303 See Other 400 Bad Request 401 Nuauthorized 403 forbidden 404 Not Found 500 internal server error 502 bad gateway 503 service unavaliable 504 gateway timout</description>
+    </item>
+    
+    <item>
+      <title>redsi持久化-AOF</title>
+      <link>http://nber1994.github.io/posts/redsi%E6%8C%81%E4%B9%85%E5%8C%96-aof/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/redsi%E6%8C%81%E4%B9%85%E5%8C%96-aof/</guid>
+      <description> redsi持久化-AOF
+  除了RDB持久化之后，redis还提供了AOF持久化功能（append only file） AOF持久化使用过保存redis写命令来记录数据库状态的 在AOF文件中，除了指定数据库的select语句之外，其他的都是通过客户端发生的命令  AOF持久化实现  AOF持久化的实现是通过命令追加，文件写入，文件同步三个步骤实现的
+ 命令追加 struct redisServer { //aof缓冲区  sds aof_buf; }  在redisServer中保存了aof_buf的缓冲区，改缓冲区是由sds实现的 每次redis的写命令之后，都会讲命令追加到这个缓冲区中  文件写入和文件同步  对于redisserver来说，redis的服务进程就是一个事件循环 在每个时间循环的最后，都会调用flushAppendOnlyFile函数并评估是否需要将aof_buf中的内容写入文件 对于flushAppendOnlyFile函数来说，有三种行为：  现代操作系统中，文件写入操作并不会立即写入磁盘，而是会在文件缓存中，以一定频率写入到磁盘 默认是everysec，每次循环结束，会将aof_buf写入文件缓冲区，当上次flush时间已经距现在超过一秒，就将缓冲区同步到磁盘    文件同步的安全性  always 最多会丢失一个时间循环的命令 everysec 会丢失一秒的命令 no 以来操作系统何时将文件同步到磁盘  AOF的载入  当redis服务启动时，服务器会读入AOF文件，并还原数据库状态 步骤  由于命令需要运行在client的上下文，所以redis会创建一个伪客户端来执行命令 从AOF文件读取一行 伪客户端执行读出的命令 知道AOF被读完    AOF文件的重写  随着命令的执行，AOF文件会越来越大，会占用过多的服务器资源，如果不加以控制的话，会对宿主机造成影响 所以需要对AOF文件进行重写，redis服务器创建一个新的AOF文件替代就得AOF文件，两个文件包含的数据库状态完全相同，只是新的AOF文件不包含冗余的命令 实际上，redis并不会根据就得AOF文件进行重写，而是根据现有的数据库状态进行重写  后台重写任务  前台的AOF文件重写任务会带来大量的文件写入操作，所以导致单线程的redis阻塞 所以将AOF重写任务放入后台，bgRewriteAof会新起一个子进程来进行重写  这样在重写期间redis服务可以正常响应请求 而且相对于多线程来说，可以避免锁的使用    AOF重写缓冲区  后台重写任务期间，redis也会产生新的AOF文件，这一部分命令需要一块AOF重写缓冲区进行存储 在后台重写任务期间，redis服务器每条写命令执行完之后，会将命令分别写入AOF缓冲区和AOF重写缓冲区 当AOF重写完成之后，会想redis发送一个信号，父进程会将AOF重写缓冲区中的命令写入新的AOF文件中 之后原子性的将新的AOF文件替换就得AOF文件 整个过程中，只有信号处理函数会打断redis对请求的响应，其他都不会阻碍redis正常的响应  重点回顾 </description>
+    </item>
+    
+    <item>
+      <title>linux常用命令</title>
+      <link>http://nber1994.github.io/posts/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Sun, 02 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+      <description>title: linux常用命令 date: 2019-06-02 tags:
+ else   linux常用命令 top 任务队列信息 当前系统时间 系统累计运行时间 当前登录用户 活跃进程数1，5，15分钟 top - 11:47:19 up 298 days, 19:59, 1 user, load average: 0.99, 1.01, 1.03 进程信息 总共进程数 正在运行 休眠进程 停止进程 僵尸进程 Tasks: 175 total, 4 running, 170 sleeping, 1 stopped, 0 zombie CPU信息 用户态占用CPU百分比 内核态占用CPU百分比 改变过优先级的进程百分比 空闲百分比 IO等待百分比 硬中断 软中断 %Cpu(s): 15.9 us, 35.1 sy, 0.0 ni, 49.1 id, 0.0 wa, 0.0 hi, 0.0 si, 0.</description>
+    </item>
+    
+    <item>
+      <title>快捷键</title>
+      <link>http://nber1994.github.io/posts/%E5%BF%AB%E6%8D%B7%E9%94%AE/</link>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E5%BF%AB%E6%8D%B7%E9%94%AE/</guid>
+      <description>快捷键 VNote快捷键说明  以下按键除特别说明外，都不区分大小写； 在macOS下，Ctrl对应于Command,在Vim模式下除外。  常规快捷键  Ctrl+E E
+是否扩展编辑区域。 Ctrl+Alt+N
+在当前文件夹下新建笔记。 Ctrl+F
+页内查找和替换。 Ctrl+Alt+F
+高级查找。 Ctrl+Q
+退出VNote。 Ctrl+J/Ctrl+K
+在笔记本列表、文件夹列表、笔记列表、已打开笔记列表和大纲目录中，均支持Ctrl+J和Ctrl+K导航。 Ctrl+Left Mouse
+任意滚动。 Ctrl+Shift+T
+恢复上一个关闭的文件。 Ctrl+Alt+L
+打开灵犀页。 Ctrl+Alt+I
+打开快速访问。 Ctrl+T
+编辑当前笔记或保存更改并退出编辑模式。 Ctrl+G
+激活通用入口。 Ctrl+8/Ctrl+9
+跳转到最近一次查找的下一个/上一个匹配。  阅读模式  H/J/K/L
+导航，对应于左/下/上/右方向键。 Ctrl+U
+向上滚动半屏。 Ctrl+D
+向下滚动半屏。 gg/G
+跳转到笔记的开始或结尾。（区分大小写）。 Ctrl + +/-
+放大/缩小页面。 Ctrl+Wheel
+鼠标滚轮实现放大/缩小页面。 Ctrl+0
+恢复页面大小为100%。 标题跳转  &amp;lt;N&amp;gt;[[：跳转到上N个标题； &amp;lt;N&amp;gt;]]: 跳转到下N个标题； &amp;lt;N&amp;gt;[]：跳转到上N个同层级的标题； &amp;lt;N&amp;gt;][：跳转到下N个同层级的标题； &amp;lt;N&amp;gt;[{：跳转到上N个高一层级的标题； &amp;lt;N&amp;gt;]}：跳转到下N个高一层级的标题；   /或?向前或向后查找  N：查找下一个匹配； Shift+N：查找上一个匹配；   :执行Vim命令  :q：关闭当前笔记； :noh[lsearch]：清空查找高亮；    编辑模式  Ctrl+S</description>
+    </item>
+    
+    <item>
+      <title>存储</title>
+      <link>http://nber1994.github.io/posts/%E5%AD%98%E5%82%A8/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E5%AD%98%E5%82%A8/</guid>
+      <description>存储  存储在不同的存储器的速度   随机访问存储器
+  静态RAM和动态RAM SRAM既可以在芯片上，也可以在芯片下   访问主存   总线事务 读事务是从主存传输数据到cpu 写事务是从cpu传输数据到主存  Cpu通过系统总线链接I/O桥，主存通过内存总线链接I/O桥
+读事务： 1.cpu将地址放在系统总线中，通过I/O桥传给内存总线传递给内存 2.内存感知到内存总线传递来地址，读出地址数据，并传递到内存总线上 3.cpu感受到系统总线传递的数据，并将其复制到寄存器中
+写事务： 1.cpu将需要写数据的地址传递给内存，内存读出地址等待数据 2.cpu将数据写入系统总线 3.内存从内存总线拿到数据，写入DRAM中
+DRAM速度比磁盘快10万倍，SRAM比磁盘快100万倍
+磁盘 盘面：磁盘是由一些盘面组成的，每个盘面上下都可以使用 磁道：磁道是一组同心圆 扇区：一个磁道分为一组扇区，扇区之前尤一些间隙隔开 柱面：是所有盘面表面到主轴中心距离相等的磁道的集合
+磁盘读写 磁盘通过读写头对磁盘进行读写，读写头位于机械臂头部，通过前后摆动进行寻道操作，同一个时刻上，读写头都位于一个柱面
+磁盘读写速度 磁盘的读写速度受三个时间影响： 寻道时间+旋转时间+传送时间 影响类型	时间 寻道时间	3-9ms 旋转时间	同上 传送时间	可忽略
+访问磁盘 Cpu当前的进程访问磁盘时，会将命令，逻辑块号和内存地址写入到磁盘控制器 磁盘控制器读出数据，直接存入内存相关地址（DMA） 磁盘控制器发出一个中断给cpu
+设备可以直接执行写或者读总线事务，而不经过cpu，成为直接内存访问DMA</description>
+    </item>
+    
+    <item>
+      <title>问题汇总</title>
+      <link>http://nber1994.github.io/posts/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</guid>
+      <description>问题汇总 OS 虚拟内存 段页式 倒排页表 LRU，LFU算法实现 共享内存 多进程，多线程 如何fork一个进程 exec waitpid exit 页表的copy-on-worite PCB
+ PCB process control block &amp;gt; task_struct存储了进程的页表，打开文件描述符表，内存描述符，通用寄存器，进程状态等
+ 进程状态 IO多路复用 select，poll，epoll实现和优劣
+用户态和内核态区别 进程，线程间通信 什么时候多线程什么时候多进程 线程ID进程组ID 线程和进程的切换和调度，切换的时什么 多进程 - 数据共享复杂，需要进程间通信 - 相对于多线程占用更多的内存 - 进程间切换相对于多线程开销较大 - 编程调试较简单 - 进程间互相不影响 - 适用于多机，性能扩展性较好 多线程 - 数据共享较简单 - 线程间可能会互相影响 - 编程调试较复杂 - 可以利用多核的优势 - 多线程之间切换开销较小
+ 文件描述符表  网络 http https https相比较于http来说，在会话层加入了stl算法加密，过程如下 1.服务端发送来证书和公钥 2.客户端根据内置的颁发机构验证证书的真伪 3.如果证书为假，则报错 4.如果证书为真，则生成随机值，并用公钥加密传递给服务端 5.服务端收到后使用私钥进行解密，拿到随机值 6.之后的通信都使用随机值进行加密
+http code 200 ok 301 moved permanly 302 Found 303 See Other 400 Bad Request 401 Nuauthorized 403 forbidden 404 Not Found 500 internal server error 502 bad gateway 503 service unavaliable 504 gateway timout</description>
+    </item>
+    
+  </channel>
+</rss>

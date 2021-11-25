@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>leetcode-排序</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>leetcode-排序</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="leetcode-排序">leetcode-排序</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190304174150834_1004108609.png" alt=""></p>
+<h2 id="各个算法的比较">各个算法的比较</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190304174208470_1126893337.png" alt=""></p>
+<h2 id="归并排序">归并排序</h2>
+<ul>
+<li>将数组打散为两两一组，两两一组进行排序，然后将各个组进行合并
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190227145227328_376185148.png" alt=""></li>
+</ul>
+<ol>
+<li>把 n 个记录看成 n 个长度为1的有序子表；</li>
+<li>进行两两归并使记录关键字有序，得到 n/2 个长度为 2 的有序子表；</li>
+<li>重复第2步直到所有记录归并成一个长度为 n 的有序表为止。</li>
+</ol>
+<h3 id="归并排序非递归思路">归并排序非递归思路</h3>
+<p>按照先分组再合并的思路，我们设置一个逐渐变大的间隔，然后按照间隔来讲数据进行分组，并进行归并
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190228152620799_846213437.png" alt=""></p>
+<blockquote>
+<p>我们可以先将一个无序数组A，按照2位单位，分成诸多长度为2的子数组：<br>
+如下：<br>
+假如有数组A：[2 ,1 ,5 ,9 ,0 ,6 ,8 ,7 ,3]<br>
+可以分成以下长度为1的子数组：<br>
+{2}、{1}、{5}、{9}、{0}、{6}、{8}、{7}、{3}<br>
+那么对这9个子数组进行归并排序，也即使用上面提到的代码进行排序，那么就可以得到
+{1,2}、{5,9}、{0,6}、{7,8}、{3}
+这样我们就有5个有序的子数组了，再讲这五个子数组两两归并，即得到：
+{1,2,5,9}、{0,6,7,8}、{3}
+就这样依次归并下去，即得到一个有序的数组B
+{0 ,1 ,2 ,3 ,5 ,6 ,7 ,8 ,9}</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">test_arr</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">9</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">bubbleSort</span>(<span style="color:#a6e22e">test_arr</span>))
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">selectSort</span>(<span style="color:#a6e22e">test_arr</span>))
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">insertSort</span>(<span style="color:#a6e22e">test_arr</span>))
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">mergeSort</span>(<span style="color:#a6e22e">test_arr</span>))
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">mergeSortUnRecursion</span>(<span style="color:#a6e22e">test_arr</span>))
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">minHeapSort</span>(<span style="color:#a6e22e">test_arr</span>))
+}
+
+<span style="color:#75715e">//冒泡
+</span><span style="color:#75715e">//每一趟将最大的上升至对尾
+</span><span style="color:#75715e">//时间复杂度O(n2)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">bubbleSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">arr</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">lens</span><span style="color:#f92672">-</span><span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] &gt; <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] {
+				<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>]
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">arr</span>
+}
+
+<span style="color:#75715e">//选择排序
+</span><span style="color:#75715e">//每次选出最小的放在队首
+</span><span style="color:#75715e">//time: O(n2)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">selectSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">arr</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">min</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>]
+		<span style="color:#a6e22e">minIndex</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>; <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] &lt; <span style="color:#a6e22e">min</span> {
+				<span style="color:#a6e22e">min</span> = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>]
+				<span style="color:#a6e22e">minIndex</span> = <span style="color:#a6e22e">j</span>
+			}
+		}
+		<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">minIndex</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">minIndex</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>]
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">arr</span>
+}
+
+<span style="color:#75715e">//插入排序
+</span><span style="color:#75715e">//每次从未排序区域选出一个元素，在已排序区域找到合适位置插入
+</span><span style="color:#75715e">//time: O(n2)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">insertSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">arr</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">i</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>] &lt; <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] {
+				<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>]
+				<span style="color:#66d9ef">break</span>
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">arr</span>
+}
+
+<span style="color:#75715e">//归并排序
+</span><span style="color:#75715e">//将所有的元素打散为单个元素，然后进行两两合并，直到数组长度为原数组的长度
+</span><span style="color:#75715e">//time: O(nlogn)
+</span><span style="color:#75715e">//递归
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mergeSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">arr</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">lens</span> &lt; <span style="color:#ae81ff">2</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">arr</span>
+	}
+	<span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">lens</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+	<span style="color:#a6e22e">left</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">arr</span>[:<span style="color:#a6e22e">mid</span>]
+	<span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">mid</span>:]
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">mergeSort</span>(<span style="color:#a6e22e">left</span>), <span style="color:#a6e22e">mergeSort</span>(<span style="color:#a6e22e">right</span>))
+}
+
+<span style="color:#75715e">//这个函数时merge两个已经排好序的两个数组
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> len(<span style="color:#a6e22e">left</span>) &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> len(<span style="color:#a6e22e">right</span>) &gt; <span style="color:#ae81ff">0</span> {
+		<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">left</span>) &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> len(<span style="color:#a6e22e">right</span>) &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">left</span>[<span style="color:#ae81ff">0</span>] &lt; <span style="color:#a6e22e">right</span>[<span style="color:#ae81ff">0</span>] {
+				<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">left</span>[<span style="color:#ae81ff">0</span>])
+				<span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">left</span>[<span style="color:#ae81ff">1</span>:]
+			} <span style="color:#66d9ef">else</span> {
+				<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">right</span>[<span style="color:#ae81ff">0</span>])
+				<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">right</span>[<span style="color:#ae81ff">1</span>:]
+			}
+		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">left</span>) &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">left</span>[<span style="color:#ae81ff">0</span>])
+			<span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">left</span>[<span style="color:#ae81ff">1</span>:]
+		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">right</span>) &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">right</span>[<span style="color:#ae81ff">0</span>])
+			<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">right</span>[<span style="color:#ae81ff">1</span>:]
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#75715e">//归并排序非递归实现
+</span><span style="color:#75715e">//left, mid, right三个点确定了连续两段
+</span><span style="color:#75715e">//该函数会合并此连续两段
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mergeByIndex</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">mid</span>, <span style="color:#a6e22e">right</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">mid</span> &gt; <span style="color:#a6e22e">right</span> {
+		<span style="color:#66d9ef">return</span>
+	}
+	<span style="color:#a6e22e">sortedArr</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}
+	<span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">left</span>
+	<span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">mid</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">right</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">mid</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">right</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>] &lt; <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] {
+				<span style="color:#a6e22e">sortedArr</span> = append(<span style="color:#a6e22e">sortedArr</span>, <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>])
+				<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>
+			} <span style="color:#66d9ef">else</span> {
+				<span style="color:#a6e22e">sortedArr</span> = append(<span style="color:#a6e22e">sortedArr</span>, <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>])
+				<span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
+			}
+		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">mid</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> {
+			<span style="color:#a6e22e">sortedArr</span> = append(<span style="color:#a6e22e">sortedArr</span>, <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>])
+			<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>
+		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">right</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> {
+			<span style="color:#a6e22e">sortedArr</span> = append(<span style="color:#a6e22e">sortedArr</span>, <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>])
+			<span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
+		}
+	}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">sortedArr</span> {
+		<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#a6e22e">left</span>] = <span style="color:#a6e22e">v</span>
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mergeSortUnRecursion</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">arr</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">step</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">step</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">step</span> = <span style="color:#a6e22e">step</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">index</span> &lt; <span style="color:#a6e22e">lens</span>; <span style="color:#a6e22e">index</span> = <span style="color:#a6e22e">index</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#a6e22e">step</span> {
+			<span style="color:#a6e22e">mergeByIndex</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">index</span><span style="color:#f92672">+</span><span style="color:#a6e22e">step</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">index</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#a6e22e">step</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">lens</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">arr</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">a</span> &lt; <span style="color:#a6e22e">b</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">b</span>
+}
+
+<span style="color:#75715e">//堆排序 最小堆排序
+</span><span style="color:#75715e">//最小堆的性质是父节点小于其子节点
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">minHeap</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">heap</span> []<span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">minHeap</span>) <span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">v</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>, <span style="color:#a6e22e">v</span>)
+	<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">++</span>
+	<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">autoFixUp</span>()
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">minHeap</span>) <span style="color:#a6e22e">autoFixUp</span>() {
+	<span style="color:#66d9ef">if</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> {
+		<span style="color:#66d9ef">return</span>
+	}
+	<span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+	<span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> (<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">j</span>] <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">v</span> {
+			<span style="color:#66d9ef">break</span>
+		}
+		<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span>]
+		<span style="color:#a6e22e">i</span> = <span style="color:#a6e22e">j</span>
+		<span style="color:#a6e22e">j</span> = (<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+	}
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">minHeap</span>) <span style="color:#a6e22e">Pop</span>() <span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+	}
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#ae81ff">0</span>]
+	<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">--</span>
+	<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">autoFixDown</span>()
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">minHeap</span>) <span style="color:#a6e22e">autoFixDown</span>() {
+	<span style="color:#66d9ef">if</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> {
+		<span style="color:#66d9ef">return</span>
+	}
+	<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span>]
+	<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[:<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span>]
+	<span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> {
+		<span style="color:#a6e22e">child</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>] &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] {
+				<span style="color:#a6e22e">child</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>]
+				<span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>
+			} <span style="color:#66d9ef">else</span> {
+				<span style="color:#a6e22e">child</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]
+				<span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+			}
+		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> {
+			<span style="color:#a6e22e">child</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]
+			<span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+		}
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">child</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">child</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span>] {
+			<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">heap</span>[<span style="color:#a6e22e">i</span>]
+			<span style="color:#a6e22e">i</span> = <span style="color:#a6e22e">j</span>
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#66d9ef">break</span>
+		}
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">minHeapSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">myHeap</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">minHeap</span>{[]<span style="color:#66d9ef">int</span>{}, <span style="color:#ae81ff">0</span>}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">arr</span> {
+		<span style="color:#a6e22e">myHeap</span>.<span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">v</span>)
+	}
+	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}
+	<span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">item</span> = <span style="color:#a6e22e">myHeap</span>.<span style="color:#a6e22e">Pop</span>(); <span style="color:#a6e22e">item</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">item</span> = <span style="color:#a6e22e">myHeap</span>.<span style="color:#a6e22e">Pop</span>() {
+		<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">item</span>)
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#75715e">//快速排序
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">quickSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, len(<span style="color:#a6e22e">arr</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">quickSortRecur</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">arr</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">quickSortRecur</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">right</span> {
+		<span style="color:#66d9ef">return</span>
+	}
+	<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span>
+	<span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">left</span>
+	<span style="color:#66d9ef">for</span> {
+	    <span style="color:#75715e">//为了剔除相同元素所以增加i&lt;index,防止越界
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">index</span>] <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">index</span> {
+			<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>
+		}
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">index</span>] <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &gt; <span style="color:#a6e22e">index</span> {
+			<span style="color:#a6e22e">j</span><span style="color:#f92672">--</span>
+		}
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> {
+			<span style="color:#66d9ef">break</span>
+		}
+		<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>]
+	}
+	<span style="color:#a6e22e">quickSortRecur</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+	<span style="color:#a6e22e">quickSortRecur</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">right</span>)
+}
+
+<span style="color:#75715e">//计数排序
+</span><span style="color:#75715e">//要求数字是有范围的，将数字放入指定的新开辟的空间中
+</span></code></pre></div><h1 id="top-k问题">top k问题</h1>
+<h1 id="大数据top-k">大数据top k</h1>
+<h1 id="引用">引用：</h1>
+<ul>
+<li><a href="https://www.cnblogs.com/onepixel/articles/7674659.html">十大排序算法</a></li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

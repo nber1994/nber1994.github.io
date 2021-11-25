@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql-InnoDB文件</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>mysql-InnoDB文件</h1>
+    <div class="blog-post-subheader">
+        January 8, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="文件">文件</h1>
+<ul>
+<li>
+<h2 id="参数文件">参数文件</h2>
+</li>
+<li>
+<h2 id="日志文件">日志文件</h2>
+<ol>
+<li>错误日志</li>
+<li>二级制日志
+<ol>
+<li>恢复</li>
+<li>复制</li>
+<li>审计</li>
+</ol>
+</li>
+<li>慢查询日志</li>
+<li>查询日志</li>
+</ol>
+</li>
+<li>
+<h2 id="socket文件">socket文件</h2>
+</li>
+<li>
+<h2 id="pid文件">pid文件</h2>
+</li>
+<li>
+<h2 id="mysql表结构定义文件">Mysql表结构定义文件</h2>
+</li>
+<li>
+<h2 id="innodb存储引擎文件">InnoDB存储引擎文件</h2>
+</li>
+</ul>
+<h3 id="表空间文件">表空间文件</h3>
+<p>innodb存储按照表空间进行存放。初始化有一个10M的ibdata1文件，文件就是默认的表空间文件 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107213409117_494097334.png" alt=""></p>
+<h3 id="重做日志文件">重做日志文件</h3>
+<p>每个innodb引擎至少与一个重做日志文件组，每个组内至少有两个重做日志文件 <br>
+并以循环写入的方式运行</p>
+
+    </div>
+</section>
+
+    </body>
+</html>

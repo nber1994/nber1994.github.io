@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>tcp&amp;ip-网络基础知识</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>tcp&amp;ip-网络基础知识</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="网络基础知识">网络基础知识</h1>
+<ul>
+<li>协议的分层
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190520183254058_133855123.png" alt="">
+<ul>
+<li>osi分层
+<ul>
+<li>应用层
+<ul>
+<li>实现针对特定应用的协议</li>
+</ul>
+</li>
+<li>表示层
+<ul>
+<li>特定数据格式和网络通用格式的转换</li>
+</ul>
+</li>
+<li>会话层
+<ul>
+<li>通信管理，负责建立和断开通信连接</li>
+</ul>
+</li>
+<li>传输层
+<ul>
+<li>管理两个节点之间的数据传输，负责可靠传输</li>
+</ul>
+</li>
+<li>网络层
+<ul>
+<li>负责目标寻址和路由</li>
+</ul>
+</li>
+<li>数据链路层
+<ul>
+<li>互联设备之间的数据传输</li>
+</ul>
+</li>
+<li>物理层
+<ul>
+<li>负责0，1和电压高低之间的转换
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181126231650533_2098660147.png" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>osi中的每一层，都附上本层的首部，同时接收方读取本层的首部</li>
+</ul>
+<h2 id="网络层中传输方式-面向有连接和面向无连接">网络层中传输方式-面向有连接和面向无连接</h2>
+<ul>
+<li>面向有链接，则会在通信之前首先建立一条通信连接</li>
+</ul>
+<h2 id="电路交换与分组交换">电路交换与分组交换</h2>
+<ul>
+<li>电路交换会在两个互相通信的节点之间独占一条电路，其他电路只有等到该节点之间通信完成后再进行通信</li>
+<li>分组交换就是让所有计算机上的数据分为包，按照顺序发送，这样所有计算机都可以同时发送数据包</li>
+</ul>
+<h2 id="按照目标端数量分类">按照目标端数量分类</h2>
+<ul>
+<li>单播
+<ul>
+<li>一对一</li>
+</ul>
+</li>
+<li>广播
+<ul>
+<li>发送到所有与之相连的主机</li>
+</ul>
+</li>
+<li>多播
+<ul>
+<li>发送到多个满足一定条件的主机</li>
+</ul>
+</li>
+<li>任播
+<ul>
+<li>从满足条件的主机中任意选出一个</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

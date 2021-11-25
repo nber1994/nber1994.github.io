@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>sysDesign-缓存的常见问题</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>sysDesign-缓存的常见问题</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="sysdesign-缓存的常见问题">sysDesign-缓存的常见问题</h1>
+<ul>
+<li>缓存常见的问题
+<ul>
+<li>缓存穿透</li>
+<li>缓存雪崩</li>
+<li>缓存击穿（热点key）</li>
+</ul>
+</li>
+</ul>
+<h2 id="缓存穿透">缓存穿透</h2>
+<h3 id="现象">现象</h3>
+<p>缓存穿透问题是指，请求了一个一定不会请求到的数据，这个时候，一定会穿透缓存到达DB，如果量十分大的话，会对DB性能造成影响（攻击）</p>
+<h3 id="解决">解决</h3>
+<ul>
+<li>使用布隆过滤器，添加入所有的可能查询，对请求进行过滤，如果不存在的直接过滤</li>
+<li>空值缓存，对于拿到为空的请求，加入缓存设置空值，并给与很短的失效时间，因为可能这个值不一定是攻击，故不必存储太久</li>
+</ul>
+<h2 id="缓存雪崩">缓存雪崩</h2>
+<h3 id="现象-1">现象</h3>
+<p>缓存在同一时间大量失效，DB可能在突增的压力下崩溃</p>
+<h3 id="解决-1">解决</h3>
+<ul>
+<li>使用互斥锁来保证只有单个线程可以对DB进行请求，该方法会降低QPS</li>
+<li>种缓存时将超时时间错开，可以随机加一个秒数</li>
+</ul>
+<h2 id="缓存击穿热点key">缓存击穿（热点key）</h2>
+<h3 id="现象-2">现象</h3>
+<p>对于一些热点key，在他失效的那一段时间内，会有大量的请求走DB，对DB造成很大的压力</p>
+<h3 id="解决方案">解决方案</h3>
+<ul>
+<li>二级缓存，不同等级的缓存设置不同的失效时间</li>
+<li>互斥锁，限制只有一个线程对DB进行请求</li>
+<li>永不过期，后台异步线程去定时的刷新缓存</li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

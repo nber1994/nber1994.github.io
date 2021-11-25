@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql-常见问题</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>mysql-常见问题</h1>
+    <div class="blog-post-subheader">
+        January 8, 2019
+    </div>
+    <div class="blog-post-content">
+        <h2 id="innodb和myisam引擎的区别">innoDB和MyIsAm引擎的区别</h2>
+<h2 id="什么是存储过程视图触发器和事件">什么是存储过程，视图，触发器和事件</h2>
+<h3 id="存储过程">存储过程</h3>
+<p>存储过程就是一组完成特定功能的sql语句集合，经过编译后存储在mysql中，通过名字+参数进行调用
+但是mysql的存储过程相对较弱使用较少</p>
+<p>视图
+视图两种方式，一个是简历临时表，另一个是合并算法</p>
+<h2 id="主键的作用-索引内存管理">主键的作用， 索引，内存管理</h2>
+<h2 id="外键完整性约束">外键完整性约束</h2>
+<h2 id="join-链接">join 链接</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181102201848044_1116699279.png" alt=""></p>
+<p>join和inner join是等价的<br>
+Mysql只支持两种内连接和外连接</p>
+<p>对于left join来说，类似<br>
+slelect  on where<br>
+<strong>会先根据on条件生成临时表</strong>
+<strong>where在临时表的基础上进行数据筛选</strong>
+所以连表查询会建立临时表</p>
+<h2 id="mysql为什么要使用线程池">mysql为什么要使用线程池</h2>
+<p>随着DB访问量的增加，DB的响应时间会越来越长，同时吞吐量也会增加
+使用线程池之后，可以减少线程的重复创建和销毁的开销，同时由于对线程数量做了限制，所以可以防止内存雪崩，对系统起到保护作用</p>
+<h2 id="你常会用到的关于mysql的规范">你常会用到的关于mysql的规范</h2>
+<ul>
+<li>总体来说，mysql不善于存储大图片和大文件，同时禁止使用存储过程视图，触发器等 同时使用utf8mb4编码</li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>如何基于github pages搭建blog</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>如何基于github pages搭建blog</h1>
+    <div class="blog-post-subheader">
+        December 6, 2017
+    </div>
+    <div class="blog-post-content">
+        <blockquote>
+<p>胡乱的记载了如何在github-pages搭建bolg</p>
+</blockquote>
+<h1 id="什么是github-pages">什么是github-pages</h1>
+<p>github推出pages服务时是如下所说：</p>
+<blockquote>
+<p>GitHub Pages allow you to publish web content to a github.com subdomain named after your username. With Pages, publishing web content becomes as easy as pushing to your GitHub repository.
+If you create a repository named you.github.com, where you is your username, and push content to it, we’ll automatically publish that to <a href="http://you.github.com">http://you.github.com</a>. No FTP, no scp, no rsync, nothing. Just a simple git push and you’re done. You can put anything here you like. Use it as a customizable home for your Git repos. Create a blog and spread your ideas. Whatever you want!</p>
+</blockquote>
+<h1 id="准备工作">准备工作</h1>
+<ul>
+<li>首先你要有个github账号，添加自己电脑的公钥</li>
+<li>创建自己的专门的仓库，专用来pages，命名格式为XXXX.github.io</li>
+<li>此时，你访问XXX.github.io即可访问自己的pages</li>
+<li>如果嫌弃这加载速度，可以注册一个域名，cname解析到这个域名，这样访问速度会十分的快，因为dns缓存的原因，首次通过你自己购买的域名访问你的pages之后，下次访问会十分快，因为是直接通过国内dns服务器进行ip寻址</li>
+</ul>
+<h1 id="挑选主题">挑选主题</h1>
+<ul>
+<li>你可以自己写一个</li>
+<li>也可以获取别人开源的框架（鉴于访问速度，建议选比较简洁的主题）</li>
+<li>search jekll theme 你会找到你想要的</li>
+<li>Next是一个不错的框架</li>
+</ul>
+<h2 id="挑选好之后git-clone-到本地并添加远程仓库为你的xxxgithubio">挑选好之后，git clone 到本地，并添加远程仓库为你的XXX.github.io</h2>
+<h1 id="jekll-框架的目录结构">jekll 框架的目录结构</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">-rw-r--r--@  <span style="color:#ae81ff">1</span> jingtianyou  staff   104B  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 404.html
+-rw-r--r--@  <span style="color:#ae81ff">1</span> jingtianyou  staff   1.0K  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 LICENSE
+-rw-r--r--@  <span style="color:#ae81ff">1</span> jingtianyou  staff   375B  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 README.md
+-rw-r--r--   <span style="color:#ae81ff">1</span> jingtianyou  staff   365B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:32 _config.yml
+drwxr-xr-x@  <span style="color:#ae81ff">3</span> jingtianyou  staff   102B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 17:53 _data
+drwxr-xr-x@  <span style="color:#ae81ff">4</span> jingtianyou  staff   136B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 20:12 _includes
+drwxr-xr-x@  <span style="color:#ae81ff">5</span> jingtianyou  staff   170B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:16 _layouts
+drwxr-xr-x@ <span style="color:#ae81ff">15</span> jingtianyou  staff   510B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 20:42 _posts
+drwxr-xr-x@  <span style="color:#ae81ff">4</span> jingtianyou  staff   136B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:45 _sass
+drwxr-xr-x  <span style="color:#ae81ff">12</span> jingtianyou  staff   408B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 20:31 _site
+drwxrwxrwx@  <span style="color:#ae81ff">6</span> jingtianyou  staff   204B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:45 assets
+-rw-r--r--@  <span style="color:#ae81ff">1</span> jingtianyou  staff   219B  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 index.html
+drwxr-xr-x@  <span style="color:#ae81ff">3</span> jingtianyou  staff   102B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:45 me
+drwxr-xr-x@  <span style="color:#ae81ff">6</span> jingtianyou  staff   204B  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 categories
+</code></pre></div><h2 id="404html">404.html</h2>
+<p>404页面，同样你可以使用一些公益404页面，例如腾讯404.</p>
+<h2 id="__configyml">__config.yml</h2>
+<p>框架的配置文件,不同的框架的配置文件一般不一样，具体请参考框架文档</p>
+<h2 id="__includes">__includes</h2>
+<p>一般存储页眉页脚的格式html，可进行客制化的定制</p>
+<h2 id="__posts">__posts</h2>
+<p>你的博文都存放在这个目录下，命名方式为</p>
+<blockquote>
+<p>2017-12-08-文章名.md</p>
+</blockquote>
+<p>文章的开头一般是这样的，声明布局，标题，日期，tag等等,框架一般会自动帮你分类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">---
+title: InnoDB各类语句的加锁方式与应用
+date: 2017-12-06
+tags:
+- mysql
+tags: 
+- lnmp
+---
+...
+...
+</code></pre></div><h2 id="__site">__site</h2>
+<p>jekll运行后，会将你的文字翻译成html文件，存到该目录下</p>
+<h2 id="assets">assets</h2>
+<p>前端静态文件</p>
+<h1 id="安装本地jekll">安装本地jekll</h1>
+<p>jekll其实就是一个markdown ==&gt; html 的翻译器，将你的markdown翻译成html</p>
+<p>安装：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ gem install jekyll
+~ $ jekyll new my-awesome-site
+~ $ cd my-awesome-site
+~/my-awesome-site $ jekyll serve
+<span style="color:#75715e"># =&gt; Now browse to http://localhost:4000</span>
+</code></pre></div><ul>
+<li>安装过程我敢肯定一定会不成功</li>
+<li>具体请自行百度</li>
+<li>jekll监听4000端口
+本地运行jekyll服务之后，可以一边写，一边查看效果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> jingtianyou@jingtianyoudeMacBook-Air  ~/github/windows-95-master   master  jekyll server --future
+Configuration file: /Users/jingtianyou/github/windows-95-master/_config.yml
+            Source: /Users/jingtianyou/github/windows-95-master
+       Destination: /Users/jingtianyou/github/windows-95-master/_site
+ Incremental build: disabled. Enable with --incremental
+      Generating...
+                    <span style="color:#66d9ef">done</span> in 0.868 seconds.
+ Auto-regeneration: enabled <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;/Users/jingtianyou/github/windows-95-master&#39;</span>
+    Server address: http://127.0.0.1:4000//
+  Server running... press ctrl-c to stop.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:27:57 ...done in 0.390267 seconds.
+<span style="color:#f92672">[</span>2017-12-07 20:31:24<span style="color:#f92672">]</span> ERROR <span style="color:#e6db74">`</span>/tag/lnmp/<span style="color:#e6db74">&#39; not found.
+</span><span style="color:#e6db74">      Regenerating: 1 file(s) changed at 2017-12-07 20:31:47 ...done in 0.328509 seconds.
+</span><span style="color:#e6db74">[2017-12-07 20:31:53] ERROR `/20171207/如何基于github-pages搭建博客&#39;</span> not found.
+<span style="color:#f92672">[</span>2017-12-07 20:31:55<span style="color:#f92672">]</span> ERROR <span style="color:#e6db74">`</span>/tag/lnmp/<span style="color:#e6db74">&#39; not found.
+</span><span style="color:#e6db74">[2017-12-07 20:32:06] ERROR `/tag/lnmp/&#39;</span> not found.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:32:42 ...done in 0.408106 seconds.
+<span style="color:#f92672">[</span>2017-12-07 20:32:44<span style="color:#f92672">]</span> ERROR <span style="color:#e6db74">`</span>/tag/lnmp/<span style="color:#e6db74">&#39; not found.
+</span><span style="color:#e6db74">[2017-12-07 20:32:48] ERROR `/tag/lnmp/&#39;</span> not found.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:33:04 ...done in 0.546599 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:34:24 ...done in 0.41305 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:34:46 ...done in 0.285784 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:42:02 ...done in 0.353415 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:46:13 ...done in 0.333329 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:46:19 ...done in 0.293639 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:47:56 ...done in 0.314423 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:52:00 ...done in 0.335078 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:52:30 ...done in 0.429857 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:52:51 ...done in 0.287992 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:54:28 ...done in 0.330737 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:56:08 ...done in 0.328462 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 21:00:29 ...done in 0.342248 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 21:02:59 ...done in 0.343119 seconds.
+      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 21:03:15 ...done in 0.27084 seconds.
+</code></pre></div><h1 id="tips">tips:</h1>
+<ul>
+<li>启动jekyll时，加上&ndash;future参数，不然你今天写的文章是显示不出来的</li>
+<li>修改__posts下的文章，不用重启服务，会自动更新</li>
+<li>修改__config.yml文件时，需要重启服务才生效</li>
+</ul>
+<h1 id="have-fun">Have Fun!</h1>
+
+    </div>
+</section>
+
+    </body>
+</html>

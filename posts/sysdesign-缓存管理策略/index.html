@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>sysDesign-缓存管理策略</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>sysDesign-缓存管理策略</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="sysdesign-缓存管理策略">sysDesign-缓存管理策略</h1>
+<h1 id="常见的缓存管理策略">常见的缓存管理策略</h1>
+<h2 id="lru算法">LRU算法</h2>
+<ul>
+<li>最近最少使用算法，一般使用一个链表，最新访问的数据会移动至首部，当链表到达容量时淘汰尾部的节点</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190110215659679_273402085.png" alt=""></p>
+<h2 id="lru-k">LRU-K</h2>
+<ul>
+<li>相对于LRU，多了一个记录访问次数的链表，这个链表里记录的是每个key对应的访问次数，当访问次数达到k时，才会到达LRU链表中</li>
+<li>这个设计保证了偶然的数据访问造成命中率降低，如果某个数据到达尾部即将被淘汰，此时有一个请求，使之到达首部，但是后续可能再没有访问</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190110215713209_1601321662.png" alt=""></p>
+<ul>
+<li>实施流程
+<ul>
+<li>当有访问来时，左边链表会记录每个key被访问的次数，并且按照FIFO淘汰</li>
+<li>当某个值访问次数达到了K，会将该key移动到右边的LRU队列</li>
+<li>当右边的某个key被访问后，移动至队列首部</li>
+<li>当队列满后，淘汰对尾的key</li>
+</ul>
+</li>
+</ul>
+<h2 id="lfu">LFU</h2>
+<ul>
+<li>最近最长使用，使用的频率越高，越排在队列前面，当队列满了之后淘汰对尾元素</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190110215729346_1148109030.png" alt=""></p>
+<ul>
+<li>步骤
+<ul>
+<li>新数据进入队列，引用计数为1，重新排列队列</li>
+<li>如果相同的引用计数，则按照时间排序</li>
+<li>整体按照引用计数排序</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</section>
+
+    </body>
+</html>

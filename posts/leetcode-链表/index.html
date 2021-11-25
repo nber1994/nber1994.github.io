@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>leetcode-链表</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>leetcode-链表</h1>
+    <div class="blog-post-subheader">
+        August 9, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="leetcode-链表">leetcode-链表</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+        <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">4</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">5</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">3</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">4</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">g</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">2</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">6</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">b</span>
+        <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">c</span>
+        <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">e</span>
+        <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">f</span>
+        <span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">h</span>
+        <span style="color:#a6e22e">lists</span> <span style="color:#f92672">:=</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">d</span>, <span style="color:#a6e22e">g</span>}
+        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mergeKLists</span>(<span style="color:#a6e22e">lists</span>)
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">res</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">Val</span>)
+                <span style="color:#a6e22e">res</span> = <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">Next</span>
+        }
+}
+
+<span style="color:#75715e">//合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入:
+</span><span style="color:#75715e">//[
+</span><span style="color:#75715e">//  1-&gt;4-&gt;5,
+</span><span style="color:#75715e">//  1-&gt;3-&gt;4,
+</span><span style="color:#75715e">//  2-&gt;6
+</span><span style="color:#75715e">//]
+</span><span style="color:#75715e">//输出: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6&lt;Paste&gt;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ListNode</span> <span style="color:#66d9ef">struct</span> {
+        <span style="color:#a6e22e">Val</span>  <span style="color:#66d9ef">int</span>
+        <span style="color:#a6e22e">Next</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MinHeap</span> <span style="color:#66d9ef">struct</span> {
+        <span style="color:#a6e22e">Heap</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>
+        <span style="color:#a6e22e">Size</span> <span style="color:#66d9ef">int</span>
+        <span style="color:#a6e22e">Lens</span> <span style="color:#66d9ef">int</span> <span style="color:#75715e">//容量
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MinHeap</span>) <span style="color:#a6e22e">Pop</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+        }
+        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#ae81ff">0</span>]
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">autoFixDown</span>()
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MinHeap</span>) <span style="color:#a6e22e">autoFixDown</span>() {
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[:<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span><span style="color:#f92672">--</span>
+        <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span> {
+                <span style="color:#a6e22e">child</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">nil</span>}
+                <span style="color:#a6e22e">hasChild</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">false</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span> {
+                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>].<span style="color:#a6e22e">Val</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].<span style="color:#a6e22e">Val</span> {
+                                <span style="color:#a6e22e">child</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>]
+                                <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>
+                                <span style="color:#a6e22e">hasChild</span> = <span style="color:#66d9ef">true</span>
+                        } <span style="color:#66d9ef">else</span> {
+                                <span style="color:#a6e22e">child</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]
+                                <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+                                <span style="color:#a6e22e">hasChild</span> = <span style="color:#66d9ef">true</span>
+                        }
+                } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span> {
+                        <span style="color:#a6e22e">child</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]
+                        <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+                        <span style="color:#a6e22e">hasChild</span> = <span style="color:#66d9ef">true</span>
+                }
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">hasChild</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">Val</span> &gt; <span style="color:#a6e22e">child</span>.<span style="color:#a6e22e">Val</span> {
+                        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span>]
+                        <span style="color:#a6e22e">i</span> = <span style="color:#a6e22e">j</span>
+                } <span style="color:#66d9ef">else</span> {
+                        <span style="color:#66d9ef">break</span>
+                }
+        }
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MinHeap</span>) <span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">v</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Lens</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+        }
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+        }
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>, <span style="color:#a6e22e">v</span>)
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span><span style="color:#f92672">++</span>
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">autoFixUp</span>()
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MinHeap</span>) <span style="color:#a6e22e">autoFixUp</span>() {
+        <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Size</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> (<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> {
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">Val</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Val</span> {
+                        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Heap</span>[<span style="color:#a6e22e">i</span>]
+                        <span style="color:#a6e22e">i</span> = <span style="color:#a6e22e">j</span>
+                        <span style="color:#a6e22e">j</span> = (<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+                } <span style="color:#66d9ef">else</span> {
+                        <span style="color:#66d9ef">break</span>
+                }
+        }
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mergeKLists</span>(<span style="color:#a6e22e">lists</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#a6e22e">newHead</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">lists</span>)
+        <span style="color:#a6e22e">mh</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">MinHeap</span>{[]<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>{}, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">lens</span>}
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">lists</span> {
+                <span style="color:#a6e22e">mh</span>.<span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">v</span>)
+        }
+        <span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mh</span>.<span style="color:#a6e22e">Pop</span>()
+        <span style="color:#a6e22e">newHead</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">item</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                        <span style="color:#a6e22e">mh</span>.<span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span>)
+                }
+                <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">mh</span>.<span style="color:#a6e22e">Pop</span>()
+                <span style="color:#a6e22e">item</span> = <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span>
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newHead</span>.<span style="color:#a6e22e">Next</span>
+}
+
+<span style="color:#75715e">//删除排序链表中的重复元素
+</span><span style="color:#75715e">//给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;1-&gt;2
+</span><span style="color:#75715e">//输出: 1-&gt;2
+</span><span style="color:#75715e">//示例 2:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;1-&gt;2-&gt;3-&gt;3
+</span><span style="color:#75715e">//输出: 1-&gt;2-&gt;3
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">deleteDuplicates</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+    <span style="color:#75715e">//if head == nil {
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//  return head
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//}
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//for item := head; item != nil; item = item.Next {
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//  for item.Next != nil &amp;&amp; item.Val == item.Next.Val {
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//      item.Next = item.Next.Next
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//  }
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//}
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//return head
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">head</span>
+    }
+    <span style="color:#a6e22e">cur</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Val</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Val</span> {
+            <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#a6e22e">cur</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">head</span>
+}
+
+
+<span style="color:#75715e">//反转链表
+</span><span style="color:#75715e">//反转一个单链表。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL
+</span><span style="color:#75715e">//输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL
+</span><span style="color:#75715e">//进阶:
+</span><span style="color:#75715e">//你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverseList1</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">head</span>
+        }
+        <span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>
+        <span style="color:#a6e22e">next</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span>
+        <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#66d9ef">nil</span>
+        <span style="color:#a6e22e">pre</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">item</span>
+        <span style="color:#a6e22e">item</span> = <span style="color:#a6e22e">next</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">next</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">pre</span>
+                <span style="color:#a6e22e">pre</span> = <span style="color:#a6e22e">item</span>
+                <span style="color:#a6e22e">item</span> = <span style="color:#a6e22e">next</span>
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">pre</span>
+}
+
+<span style="color:#75715e">//递归算法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverseList2</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">head</span>
+        }
+        <span style="color:#a6e22e">newHead</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reverseList</span>(<span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>)
+        <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">head</span>
+        <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#66d9ef">nil</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newHead</span>
+}
+
+<span style="color:#75715e">//三个指针反转链表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverseList</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#a6e22e">first</span>, <span style="color:#a6e22e">ahead</span>, <span style="color:#a6e22e">flip</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ahead</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">flip</span> = <span style="color:#a6e22e">ahead</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">ahead</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">flip</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">flip</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">first</span>
+                <span style="color:#a6e22e">first</span> = <span style="color:#a6e22e">flip</span>
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">first</span>
+}
+
+<span style="color:#75715e">//反转链表II
+</span><span style="color:#75715e">//反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//说明:
+</span><span style="color:#75715e">//1 ≤ m ≤ n ≤ 链表长度。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL, m = 2, n = 4
+</span><span style="color:#75715e">//输出: 1-&gt;4-&gt;3-&gt;2-&gt;5-&gt;NULL
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverseBetween</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>, <span style="color:#a6e22e">m</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+        }
+        <span style="color:#a6e22e">newHead</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">head</span>}
+        <span style="color:#a6e22e">reverHead</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newHead</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+                <span style="color:#a6e22e">reverHead</span> = <span style="color:#a6e22e">reverHead</span>.<span style="color:#a6e22e">Next</span>
+        }
+        <span style="color:#a6e22e">first</span>, <span style="color:#a6e22e">ahead</span>, <span style="color:#a6e22e">flip</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reverHead</span>.<span style="color:#a6e22e">Next</span>, <span style="color:#a6e22e">reverHead</span>.<span style="color:#a6e22e">Next</span>, <span style="color:#a6e22e">reverHead</span>.<span style="color:#a6e22e">Next</span>
+        <span style="color:#a6e22e">time</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">m</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">time</span> &gt; <span style="color:#ae81ff">0</span> {
+                <span style="color:#a6e22e">flip</span> = <span style="color:#a6e22e">ahead</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">ahead</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">flip</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">flip</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">first</span>
+                <span style="color:#a6e22e">first</span> = <span style="color:#a6e22e">flip</span>
+                <span style="color:#a6e22e">time</span><span style="color:#f92672">--</span>
+        }
+        <span style="color:#a6e22e">reverHead</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">first</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newHead</span>.<span style="color:#a6e22e">Next</span>
+}
+
+<span style="color:#75715e">//删除排序链表中的重复元素II
+</span><span style="color:#75715e">//给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5
+</span><span style="color:#75715e">//输出: 1-&gt;2-&gt;5
+</span><span style="color:#75715e">//示例 2:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;1-&gt;1-&gt;2-&gt;3
+</span><span style="color:#75715e">//输出: 2-&gt;3
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">deleteDuplicates2</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#a6e22e">newHead</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{}
+        <span style="color:#a6e22e">newHead</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">head</span>
+        <span style="color:#a6e22e">pre</span>, <span style="color:#a6e22e">cursor</span>, <span style="color:#a6e22e">sentry</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newHead</span>, <span style="color:#a6e22e">newHead</span>, <span style="color:#a6e22e">newHead</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">sentry</span> = <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Val</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Val</span> {
+                        <span style="color:#a6e22e">pre</span> = <span style="color:#a6e22e">cursor</span>
+                        <span style="color:#a6e22e">cursor</span> = <span style="color:#a6e22e">sentry</span>
+                } <span style="color:#66d9ef">else</span> {
+                        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Val</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Val</span> {
+                                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                                        <span style="color:#a6e22e">sentry</span> = <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Next</span>
+                                } <span style="color:#66d9ef">else</span> {
+                                        <span style="color:#a6e22e">pre</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#66d9ef">nil</span>
+                                        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newHead</span>.<span style="color:#a6e22e">Next</span>
+                                }
+                        }
+                        <span style="color:#a6e22e">pre</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">sentry</span>
+                        <span style="color:#a6e22e">cursor</span> = <span style="color:#a6e22e">sentry</span>
+                }
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newHead</span>.<span style="color:#a6e22e">Next</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">deleteDuplicates21</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#a6e22e">newHead</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{}
+        <span style="color:#a6e22e">newHead</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">head</span>
+        <span style="color:#a6e22e">pre</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newHead</span>
+        <span style="color:#a6e22e">cur</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cur</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Val</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Val</span> {
+                        <span style="color:#a6e22e">cur</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>
+                }
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">pre</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">cur</span> {
+                        <span style="color:#a6e22e">pre</span> = <span style="color:#a6e22e">pre</span>.<span style="color:#a6e22e">Next</span>
+                } <span style="color:#66d9ef">else</span> {
+                        <span style="color:#a6e22e">pre</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>
+                }
+                <span style="color:#a6e22e">cur</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newHead</span>.<span style="color:#a6e22e">Next</span>
+}
+
+<span style="color:#75715e">//回文链表
+</span><span style="color:#75715e">//请判断一个链表是否为回文链表。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;2
+</span><span style="color:#75715e">//输出: false
+</span><span style="color:#75715e">//示例 2:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;2-&gt;2-&gt;1
+</span><span style="color:#75715e">//输出: true
+</span><span style="color:#75715e">//进阶：
+</span><span style="color:#75715e">//你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+</span><span style="color:#75715e">//获取中点，然后反转后半部分，然后比较
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isPalindrome1</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+}
+
+<span style="color:#75715e">//判断列表是否有环
+</span><span style="color:#75715e">//给定一个链表，判断链表中是否有环。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入：head = [3,2,0,-4], pos = 1
+</span><span style="color:#75715e">//输出：true
+</span><span style="color:#75715e">//解释：链表中有一个环，其尾部连接到第二个节点。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 2：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入：head = [1,2], pos = 0
+</span><span style="color:#75715e">//输出：true
+</span><span style="color:#75715e">//解释：链表中有一个环，其尾部连接到第一个节点。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 3：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入：head = [1], pos = -1
+</span><span style="color:#75715e">//输出：false
+</span><span style="color:#75715e">//解释：链表中没有环。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//进阶：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//你能用 O(1)（即，常量）内存解决此问题吗？
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hasCycle</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#66d9ef">bool</span> {
+        <span style="color:#a6e22e">walker</span>, <span style="color:#a6e22e">runner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">runner</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">runner</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">walker</span> = <span style="color:#a6e22e">walker</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">runner</span> = <span style="color:#a6e22e">runner</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">walker</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">runner</span> {
+                        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+                }
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+}
+
+<span style="color:#75715e">//环形链表II
+</span><span style="color:#75715e">//给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//说明：不允许修改给定的链表。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入：head = [3,2,0,-4], pos = 1
+</span><span style="color:#75715e">//输出：tail connects to node index 1
+</span><span style="color:#75715e">//解释：链表中有一个环，其尾部连接到第二个节点。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 2：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入：head = [1,2], pos = 0
+</span><span style="color:#75715e">//输出：tail connects to node index 0
+</span><span style="color:#75715e">//解释：链表中有一个环，其尾部连接到第一个节点。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 3：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入：head = [1], pos = -1
+</span><span style="color:#75715e">//输出：no cycle
+</span><span style="color:#75715e">//解释：链表中没有环。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//进阶：
+</span><span style="color:#75715e">//你是否可以不用额外空间解决此题？
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">detectCycle</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#a6e22e">walker</span>, <span style="color:#a6e22e">runner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">runner</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">runner</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">walker</span> = <span style="color:#a6e22e">walker</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">runner</span> = <span style="color:#a6e22e">runner</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">runner</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">walker</span> {
+                        <span style="color:#a6e22e">walker</span> = <span style="color:#a6e22e">head</span>
+                        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">walker</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">runner</span> {
+                                <span style="color:#a6e22e">walker</span> = <span style="color:#a6e22e">walker</span>.<span style="color:#a6e22e">Next</span>
+                                <span style="color:#a6e22e">runner</span> = <span style="color:#a6e22e">runner</span>.<span style="color:#a6e22e">Next</span>
+                        }
+                        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">walker</span>
+                }
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#75715e">//回文链表
+</span><span style="color:#75715e">//请判断一个链表是否为回文链表。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;2
+</span><span style="color:#75715e">//输出: false
+</span><span style="color:#75715e">//示例 2:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;2-&gt;2-&gt;1
+</span><span style="color:#75715e">//输出: true
+</span><span style="color:#75715e">//进阶：
+</span><span style="color:#75715e">//你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isPalindrome</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+        }
+        <span style="color:#75715e">//获取中点
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">fast</span>, <span style="color:#a6e22e">slow</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">fast</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">fast</span> = <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">slow</span> = <span style="color:#a6e22e">slow</span>.<span style="color:#a6e22e">Next</span>
+        }
+        <span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">slow</span>
+        <span style="color:#75715e">//反转链表
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">pre</span>, <span style="color:#a6e22e">cursor</span>, <span style="color:#a6e22e">sentry</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mid</span>, <span style="color:#a6e22e">mid</span>, <span style="color:#a6e22e">mid</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">sentry</span> = <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">pre</span>
+                <span style="color:#a6e22e">pre</span> = <span style="color:#a6e22e">sentry</span>
+        }
+        <span style="color:#75715e">//判断链表是否相同
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pre</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">mid</span> {
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Val</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Val</span> {
+                        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+                }
+                <span style="color:#a6e22e">head</span> = <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">item</span> = <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span>
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">echoList</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) {
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Val</span>)
+                <span style="color:#a6e22e">head</span> = <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>
+        }
+}
+
+<span style="color:#75715e">//设计链表
+</span><span style="color:#75715e">//设计链表的实现。您可以选择使用单链表或双链表。单链表中的节点应该具有两个属性：val 和 next。val 是当前节点的值，next 是指向下一个节点的指针/引用。如果要使用双向链表，则还需要一 个属性 prev 以指示链表中的上一个节点。假设链表中的所有节点都是 0-index 的。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//在链表类中实现这些功能：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//get(index)：获取链表中第 index 个节点的值。如果索引无效，则返回-1。
+</span><span style="color:#75715e">//addAtHead(val)：在链表的第一个元素之前添加一个值为 val 的节点。插入后，新节点将成为链表的第一个节点。
+</span><span style="color:#75715e">//addAtTail(val)：将值为 val 的节点追加到链表的最后一个元素。
+</span><span style="color:#75715e">//addAtIndex(index,val)：在链表中的第 index 个节点之前添加值为 val  的节点。如果 index 等于链表的长度，则该节点将附加到链表的末尾。如果 index 大于链表长度，则不会插入节点。
+</span><span style="color:#75715e">//deleteAtIndex(index)：如果索引 index 有效，则删除链表中的第 index 个节点。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//MyLinkedList linkedList = new MyLinkedList();
+</span><span style="color:#75715e">//linkedList.addAtHead(1);
+</span><span style="color:#75715e">//linkedList.addAtTail(3);
+</span><span style="color:#75715e">//linkedList.addAtIndex(1,2);   //链表变为1-&gt; 2-&gt; 3
+</span><span style="color:#75715e">//linkedList.get(1);            //返回2
+</span><span style="color:#75715e">//linkedList.deleteAtIndex(1);  //现在链表是1-&gt; 3
+</span><span style="color:#75715e">//linkedList.get(1);            //返回3
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//提示：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//所有值都在 [1, 1000] 之内。
+</span><span style="color:#75715e">//操作次数将在  [1, 1000] 之内。
+</span><span style="color:#75715e">//请不要使用内置的 LinkedList 库。
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyLinkedList</span> <span style="color:#66d9ef">struct</span> {
+        <span style="color:#a6e22e">head</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>
+        <span style="color:#a6e22e">tail</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>
+        <span style="color:#a6e22e">size</span>    <span style="color:#66d9ef">int</span>
+        <span style="color:#a6e22e">listMap</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>
+}
+
+<span style="color:#75715e">/** Initialize your data structure here. */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Constructor</span>() <span style="color:#a6e22e">MyLinkedList</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">MyLinkedList</span>{
+                <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#ae81ff">0</span>, []<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>{},
+        }
+}
+
+<span style="color:#75715e">/** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyLinkedList</span>) <span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">index</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">index</span> &lt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">index</span> &gt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>[<span style="color:#a6e22e">index</span>].<span style="color:#a6e22e">Val</span>
+}
+
+<span style="color:#75715e">/** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyLinkedList</span>) <span style="color:#a6e22e">AddAtHead</span>(<span style="color:#a6e22e">val</span> <span style="color:#66d9ef">int</span>) {
+        <span style="color:#a6e22e">node</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">head</span>}
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">head</span> = <span style="color:#a6e22e">node</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">tail</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">head</span>
+        }
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span> = append([]<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#a6e22e">node</span>}, <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span><span style="color:#f92672">...</span>)
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">++</span>
+}
+
+<span style="color:#75715e">/** Append a node of value val to the last element of the linked list. */</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyLinkedList</span>) <span style="color:#a6e22e">AddAtTail</span>(<span style="color:#a6e22e">val</span> <span style="color:#66d9ef">int</span>) {
+        <span style="color:#a6e22e">node</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#a6e22e">val</span>, <span style="color:#66d9ef">nil</span>}
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>, <span style="color:#a6e22e">node</span>)
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">tail</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">tail</span> = <span style="color:#a6e22e">node</span>
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">head</span> = <span style="color:#a6e22e">node</span>
+        } <span style="color:#66d9ef">else</span> {
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">tail</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">node</span>
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">tail</span> = <span style="color:#a6e22e">node</span>
+        }
+        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">++</span>
+}
+
+<span style="color:#75715e">/** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyLinkedList</span>) <span style="color:#a6e22e">AddAtIndex</span>(<span style="color:#a6e22e">index</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">val</span> <span style="color:#66d9ef">int</span>) {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">index</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">AddAtHead</span>(<span style="color:#a6e22e">val</span>)
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">index</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> {
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">AddAtTail</span>(<span style="color:#a6e22e">val</span>)
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">index</span> &gt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">index</span> &lt; <span style="color:#ae81ff">0</span> {
+                <span style="color:#66d9ef">return</span>
+        } <span style="color:#66d9ef">else</span> {
+                <span style="color:#a6e22e">node</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>[<span style="color:#a6e22e">index</span>]}
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>[<span style="color:#a6e22e">index</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">node</span>
+                <span style="color:#a6e22e">restMap</span> <span style="color:#f92672">:=</span> append([]<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>{}, <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>[<span style="color:#a6e22e">index</span>:]<span style="color:#f92672">...</span>)
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>[:<span style="color:#a6e22e">index</span>], <span style="color:#a6e22e">node</span>)
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>, <span style="color:#a6e22e">restMap</span><span style="color:#f92672">...</span>)
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">++</span>
+        }
+}
+
+<span style="color:#75715e">/** Delete the index-th node in the linked list, if the index is valid. */</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyLinkedList</span>) <span style="color:#a6e22e">DeleteAtIndex</span>(<span style="color:#a6e22e">index</span> <span style="color:#66d9ef">int</span>) {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+                <span style="color:#66d9ef">return</span>
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">index</span> &lt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">index</span> &gt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> {
+                <span style="color:#66d9ef">return</span>
+        } <span style="color:#66d9ef">else</span> {
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+                        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">head</span> = <span style="color:#66d9ef">nil</span>
+                        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">tail</span> = <span style="color:#66d9ef">nil</span>
+                        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span> = []<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>{}
+                } <span style="color:#66d9ef">else</span> {
+                        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>[<span style="color:#a6e22e">index</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>[<span style="color:#a6e22e">index</span>].<span style="color:#a6e22e">Next</span>
+                        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>[:<span style="color:#a6e22e">index</span>], <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">listMap</span>[<span style="color:#a6e22e">index</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>:]<span style="color:#f92672">...</span>)
+                }
+                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">--</span>
+        }
+}
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Your MyLinkedList object will be instantiated and called as such:
+</span><span style="color:#75715e"> * obj := Constructor();
+</span><span style="color:#75715e"> * param_1 := obj.Get(index);
+</span><span style="color:#75715e"> * obj.AddAtHead(val);
+</span><span style="color:#75715e"> * obj.AddAtTail(val);
+</span><span style="color:#75715e"> * obj.AddAtIndex(index,val);
+</span><span style="color:#75715e"> * obj.DeleteAtIndex(index);
+</span><span style="color:#75715e"> */</span>
+
+<span style="color:#75715e">//重排链表
+</span><span style="color:#75715e">//给定一个单链表 L：L0→L1→…→Ln-1→Ln ，
+</span><span style="color:#75715e">//将其重新排列后变为： L0→Ln→L1→Ln-1→L2→Ln-2→…
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//给定链表 1-&gt;2-&gt;3-&gt;4, 重新排列为 1-&gt;4-&gt;2-&gt;3.
+</span><span style="color:#75715e">//示例 2:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//给定链表 1-&gt;2-&gt;3-&gt;4-&gt;5, 重新排列为 1-&gt;5-&gt;2-&gt;4-&gt;3.
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reorderList</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">return</span>
+        }
+        <span style="color:#75715e">//获取中点
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">fast</span>, <span style="color:#a6e22e">slow</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">fast</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">fast</span> = <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">slow</span> = <span style="color:#a6e22e">slow</span>.<span style="color:#a6e22e">Next</span>
+        }
+        <span style="color:#a6e22e">restHead</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">slow</span>.<span style="color:#a6e22e">Next</span>
+        <span style="color:#a6e22e">slow</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#66d9ef">nil</span>
+        <span style="color:#75715e">//反转第二个链表
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">cursor</span>, <span style="color:#a6e22e">sentry</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">restHead</span>, <span style="color:#a6e22e">restHead</span>, <span style="color:#a6e22e">restHead</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">sentry</span> = <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">left</span>
+                <span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">sentry</span>
+        }
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">item1</span>, <span style="color:#a6e22e">item2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">left</span>; <span style="color:#a6e22e">item2</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span>; {
+                <span style="color:#a6e22e">tmp1</span>, <span style="color:#a6e22e">tmp2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">item1</span>, <span style="color:#a6e22e">item2</span>
+                <span style="color:#a6e22e">item1</span>, <span style="color:#a6e22e">item2</span> = <span style="color:#a6e22e">item1</span>.<span style="color:#a6e22e">Next</span>, <span style="color:#a6e22e">item2</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">tmp2</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">tmp1</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">tmp1</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">tmp2</span>
+        }
+}
+
+<span style="color:#75715e">//k个一组翻转链表
+</span><span style="color:#75715e">//给出一个链表，每 k 个节点一组进行翻转，并返回翻转后的链表。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//k 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 k 的整数倍，那么将最后剩余节点保持原有顺序。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 :
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//给定这个链表：1-&gt;2-&gt;3-&gt;4-&gt;5
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//当 k = 2 时，应当返回: 2-&gt;1-&gt;4-&gt;3-&gt;5
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//当 k = 3 时，应当返回: 3-&gt;2-&gt;1-&gt;4-&gt;5
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//说明 :
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//你的算法只能使用常数的额外空间。
+</span><span style="color:#75715e">//你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverseKGroup</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>, <span style="color:#a6e22e">k</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">k</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">k</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">head</span>
+        }
+        <span style="color:#75715e">//获取长度
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">lens</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>; <span style="color:#a6e22e">item</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span>; <span style="color:#a6e22e">item</span> = <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Next</span> {
+                <span style="color:#a6e22e">lens</span><span style="color:#f92672">++</span>
+        }
+        <span style="color:#75715e">//获取重复的次数
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">time</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">lens</span> <span style="color:#f92672">/</span> <span style="color:#a6e22e">k</span>
+        <span style="color:#a6e22e">step</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">k</span>
+        <span style="color:#a6e22e">newHead</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#a6e22e">Next</span>: <span style="color:#a6e22e">head</span>}
+        <span style="color:#a6e22e">preCursor</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">cursor</span>, <span style="color:#a6e22e">sentry</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newHead</span>, <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">time</span> &gt; <span style="color:#ae81ff">0</span> {
+                <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">step</span> &gt; <span style="color:#ae81ff">1</span> {
+                        <span style="color:#a6e22e">sentry</span> = <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span>
+                        <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Next</span>
+                        <span style="color:#a6e22e">sentry</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">left</span>
+                        <span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">sentry</span>
+                        <span style="color:#a6e22e">step</span><span style="color:#f92672">--</span>
+                }
+                <span style="color:#a6e22e">preCursor</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">left</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                        <span style="color:#66d9ef">break</span>
+                }
+                <span style="color:#a6e22e">preCursor</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">cursor</span>, <span style="color:#a6e22e">sentry</span> = <span style="color:#a6e22e">cursor</span>, <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span>, <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span>, <span style="color:#a6e22e">cursor</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">time</span><span style="color:#f92672">--</span>
+                <span style="color:#a6e22e">step</span> = <span style="color:#a6e22e">k</span>
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newHead</span>.<span style="color:#a6e22e">Next</span>
+}
+
+<span style="color:#75715e">//链表排序
+</span><span style="color:#75715e">//在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 4-&gt;2-&gt;1-&gt;3
+</span><span style="color:#75715e">//输出: 1-&gt;2-&gt;3-&gt;4
+</span><span style="color:#75715e">//示例 2:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: -1-&gt;5-&gt;3-&gt;4-&gt;0
+</span><span style="color:#75715e">//输出: -1-&gt;0-&gt;3-&gt;4-&gt;5
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sortList</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">head</span>
+        }
+        <span style="color:#a6e22e">preSlow</span>, <span style="color:#a6e22e">fast</span>, <span style="color:#a6e22e">slow</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">fast</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">preSlow</span> = <span style="color:#a6e22e">slow</span>
+                <span style="color:#a6e22e">fast</span> = <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">slow</span> = <span style="color:#a6e22e">slow</span>.<span style="color:#a6e22e">Next</span>
+        }
+        <span style="color:#a6e22e">fast</span> = <span style="color:#a6e22e">preSlow</span>
+        <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#66d9ef">nil</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">mergeList</span>(<span style="color:#a6e22e">sortList</span>(<span style="color:#a6e22e">head</span>), <span style="color:#a6e22e">sortList</span>(<span style="color:#a6e22e">slow</span>))
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mergeList</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">tail</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">b</span>
+        <span style="color:#a6e22e">item1</span>, <span style="color:#a6e22e">item2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">Next</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">Val</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">Val</span> {
+                <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">tail</span> = <span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">a</span>
+                <span style="color:#a6e22e">item1</span>, <span style="color:#a6e22e">item2</span> = <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">Next</span>, <span style="color:#a6e22e">b</span>
+        }
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">item1</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">item2</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">item1</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">item2</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">item1</span>.<span style="color:#a6e22e">Val</span> &lt; <span style="color:#a6e22e">item2</span>.<span style="color:#a6e22e">Val</span> {
+                                <span style="color:#a6e22e">tail</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">item1</span>
+                                <span style="color:#a6e22e">tail</span> = <span style="color:#a6e22e">item1</span>
+                                <span style="color:#a6e22e">item1</span> = <span style="color:#a6e22e">item1</span>.<span style="color:#a6e22e">Next</span>
+                        } <span style="color:#66d9ef">else</span> {
+                                <span style="color:#a6e22e">tail</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">item2</span>
+                                <span style="color:#a6e22e">tail</span> = <span style="color:#a6e22e">item2</span>
+                                <span style="color:#a6e22e">item2</span> = <span style="color:#a6e22e">item2</span>.<span style="color:#a6e22e">Next</span>
+                        }
+                } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">item2</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                        <span style="color:#a6e22e">tail</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">item1</span>
+                        <span style="color:#a6e22e">tail</span> = <span style="color:#a6e22e">item1</span>
+                        <span style="color:#a6e22e">item1</span> = <span style="color:#a6e22e">item1</span>.<span style="color:#a6e22e">Next</span>
+                } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">item1</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+                        <span style="color:#a6e22e">tail</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">item2</span>
+                        <span style="color:#a6e22e">tail</span> = <span style="color:#a6e22e">item2</span>
+                        <span style="color:#a6e22e">item2</span> = <span style="color:#a6e22e">item2</span>.<span style="color:#a6e22e">Next</span>
+                }
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">head</span>
+}
+
+<span style="color:#75715e">//链表中点
+</span><span style="color:#75715e">//给定一个带有头结点 head 的非空单链表，返回链表的中间结点。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//如果有两个中间结点，则返回第二个中间结点。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入：[1,2,3,4,5]
+</span><span style="color:#75715e">//输出：此列表中的结点 3 (序列化形式：[3,4,5])
+</span><span style="color:#75715e">//返回的结点值为 3 。 (测评系统对该结点序列化表述是 [3,4,5])。
+</span><span style="color:#75715e">//注意，我们返回了一个 ListNode 类型的对象 ans，这样：
+</span><span style="color:#75715e">//ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next = NULL.
+</span><span style="color:#75715e">//示例 2：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入：[1,2,3,4,5,6]
+</span><span style="color:#75715e">//输出：此列表中的结点 4 (序列化形式：[4,5,6])
+</span><span style="color:#75715e">//由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//提示：
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//给定链表的结点数介于 1 和 100 之间。
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">middleNode</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+        <span style="color:#a6e22e">fast</span>, <span style="color:#a6e22e">slow</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">fast</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">fast</span> = <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+                <span style="color:#a6e22e">slow</span> = <span style="color:#a6e22e">slow</span>.<span style="color:#a6e22e">Next</span>
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">slow</span>
+}
+
+<span style="color:#75715e">//奇偶链表
+</span><span style="color:#75715e">//给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//请尝试使用原地算法完成。你的算法的空间复杂度应为 O(1)，时间复杂度应为 O(nodes)，nodes 为节点总数。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//示例 1:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL
+</span><span style="color:#75715e">//输出: 1-&gt;3-&gt;5-&gt;2-&gt;4-&gt;NULL
+</span><span style="color:#75715e">//示例 2:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//输入: 2-&gt;1-&gt;3-&gt;5-&gt;6-&gt;4-&gt;7-&gt;NULL
+</span><span style="color:#75715e">//输出: 2-&gt;3-&gt;6-&gt;7-&gt;1-&gt;5-&gt;4-&gt;NULL
+</span><span style="color:#75715e">//说明:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//应当保持奇数节点和偶数节点的相对顺序。
+</span><span style="color:#75715e">//链表的第一个节点视为奇数节点，第二个节点视为偶数节点，以此类推。
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e">* Definition for singly-linked list.
+</span><span style="color:#75715e">* type ListNode struct {
+</span><span style="color:#75715e">*     Val int
+</span><span style="color:#75715e">*     Next *ListNode
+</span><span style="color:#75715e">* }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">oddEvenList</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+
+}
+ 
+
+</code></pre></div>
+    </div>
+</section>
+
+    </body>
+</html>

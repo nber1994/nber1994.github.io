@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>os-strace</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>os-strace</h1>
+    <div class="blog-post-subheader">
+        June 18, 2019
+    </div>
+    <div class="blog-post-content">
+        <h1 id="os-strace">os-strace</h1>
+<blockquote>
+<p>进程对用户来说就是一个黑盒，strace就是打开这个黑盒子的工具，可以解析出我们需要的调用</p>
+</blockquote>
+<h1 id="使用实例">使用实例</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">strace <span style="color:#f92672">-</span>tt <span style="color:#f92672">-</span>T <span style="color:#f92672">-</span>v <span style="color:#f92672">-</span>f <span style="color:#f92672">-</span>e trace<span style="color:#f92672">=</span>file <span style="color:#f92672">-</span>o <span style="color:#f92672">/</span>data<span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>strace.log <span style="color:#f92672">-</span>s <span style="color:#ae81ff">1024</span> <span style="color:#f92672">-</span>p <span style="color:#ae81ff">23489</span>
+</code></pre></div><blockquote>
+<p>-tt 在每行输出的前面，显示毫秒级别的时间
+-T 显示每次系统调用所花费的时间
+-v 对于某些相关调用，把完整的环境变量，文件stat结构等打出来。
+-f 跟踪目标进程，以及目标进程创建的所有子进程
+-e 控制要跟踪的事件和跟踪行为,比如指定要跟踪的系统调用名称
+-o 把strace的输出单独写到指定的文件
+-s 当系统调用的某个参数是字符串时，最多输出指定长度的内容，默认是32个字节
+-p 指定要跟踪的进程pid, 要同时跟踪多个pid, 重复多次-p选项即可。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#跟踪nginx
+</span><span style="color:#75715e"></span>strace <span style="color:#f92672">-</span>tt <span style="color:#f92672">-</span>T <span style="color:#f92672">-</span>f <span style="color:#f92672">-</span>e trace<span style="color:#f92672">=</span>file <span style="color:#f92672">-</span>o <span style="color:#f92672">/</span>data<span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>strace.log <span style="color:#f92672">-</span>s <span style="color:#ae81ff">1024</span> .<span style="color:#f92672">/</span>nginx
+<span style="color:#75715e"># -e trace=file 显示和文件访问相关的调用
+</span></code></pre></div><h2 id="-e的拓展">-e的拓展</h2>
+<p>要跟踪某个具体的系统调用，-e trace=xxx即可。但有时候我们要跟踪一类系统调用，比如所有和文件名有关的调用、所有和内存分配有关的调用。</p>
+<p>如果人工输入每一个具体的系统调用名称，可能容易遗漏。于是strace提供了几类常用的系统调用组合名字。</p>
+<blockquote>
+<p>-e trace=file     跟踪和文件访问相关的调用(参数中有文件名)
+-e trace=process  和进程管理相关的调用，比如fork/exec/exit_group
+-e trace=network  和网络通信相关的调用，比如socket/sendto/connect
+-e trace=signal    信号发送和处理相关，比如kill/sigaction
+-e trace=desc  和文件描述符相关，比如write/read/select/epoll等
+-e trace=ipc 进程见同学相关，比如shmget等</p>
+</blockquote>
+<h1 id="排查进程问题">排查进程问题</h1>
+<h2 id="vim启动慢">vim启动慢</h2>
+<p>从命令行运行vim后，要等待近半分钟才能进入编辑界面，而且没有任何错误输出。仔细检查了.vimrc和所有的vim脚本都没有错误配置，在网上也找不到类似问题的解决办法，难不成要hacking source code？没有必要，用truss就能找到问题所在：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e"># strace -f -tt -T -o vim.truss vim
+</span></code></pre></div><p>这里-tt -T参数的作用是：在每行输出前加上相对时间戳，即每执行一条系统调用所耗费的时间。我们只要关注哪些系统调用耗费的时间比较长就可以了，用less仔细查看输出文件vim.truss，很快就找到了疑点：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000021511</span> socket(<span style="color:#ae81ff">0x2</span>,<span style="color:#ae81ff">0x1</span>,<span style="color:#ae81ff">0x0</span>)       <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span> (<span style="color:#ae81ff">0x4</span>)
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000014248</span> setsockopt(<span style="color:#ae81ff">0x4</span>,<span style="color:#ae81ff">0x6</span>,<span style="color:#ae81ff">0x1</span>,<span style="color:#ae81ff">0xbfbfe3c8</span>,<span style="color:#ae81ff">0x4</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> (<span style="color:#ae81ff">0x0</span>)
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000013688</span> setsockopt(<span style="color:#ae81ff">0x4</span>,<span style="color:#ae81ff">0xffff</span>,<span style="color:#ae81ff">0x8</span>,<span style="color:#ae81ff">0xbfbfe2ec</span>,<span style="color:#ae81ff">0x4</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> (<span style="color:#ae81ff">0x0</span>)
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000203657</span> connect(<span style="color:#ae81ff">0x4</span>,{ AF_INET <span style="color:#ae81ff">10.57.18.27</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6000</span> },<span style="color:#ae81ff">16</span>) ERR<span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">61</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>Connection refused<span style="color:#960050;background-color:#1e0010">&#39;</span>
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000017042</span> close(<span style="color:#ae81ff">4</span>)          <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> (<span style="color:#ae81ff">0x0</span>)
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1.009366553</span> nanosleep(<span style="color:#ae81ff">0xbfbfe468</span>,<span style="color:#ae81ff">0xbfbfe460</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> (<span style="color:#ae81ff">0x0</span>)
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000019556</span> socket(<span style="color:#ae81ff">0x2</span>,<span style="color:#ae81ff">0x1</span>,<span style="color:#ae81ff">0x0</span>)       <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span> (<span style="color:#ae81ff">0x4</span>)
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000013409</span> setsockopt(<span style="color:#ae81ff">0x4</span>,<span style="color:#ae81ff">0x6</span>,<span style="color:#ae81ff">0x1</span>,<span style="color:#ae81ff">0xbfbfe3c8</span>,<span style="color:#ae81ff">0x4</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> (<span style="color:#ae81ff">0x0</span>)
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000013130</span> setsockopt(<span style="color:#ae81ff">0x4</span>,<span style="color:#ae81ff">0xffff</span>,<span style="color:#ae81ff">0x8</span>,<span style="color:#ae81ff">0xbfbfe2ec</span>,<span style="color:#ae81ff">0x4</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> (<span style="color:#ae81ff">0x0</span>)
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000272102</span> connect(<span style="color:#ae81ff">0x4</span>,{ AF_INET <span style="color:#ae81ff">10.57.18.27</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6000</span> },<span style="color:#ae81ff">16</span>) ERR<span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">61</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>Connection refused<span style="color:#960050;background-color:#1e0010">&#39;</span>
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.000015924</span> close(<span style="color:#ae81ff">4</span>)          <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> (<span style="color:#ae81ff">0x0</span>)
+<span style="color:#ae81ff">735</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1.009338338</span> nanosleep(<span style="color:#ae81ff">0xbfbfe468</span>,<span style="color:#ae81ff">0xbfbfe460</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> (<span style="color:#ae81ff">0x0</span>)
+</code></pre></div><p>vim试图连接10.57.18.27这台主机的6000端口（第四行的connect（）），连接失败后，睡眠一秒钟继续重试（第6行的nanosleep（））。以上片断循环出现了十几次，每次都要耗费一秒多钟的时间，这就是vim明显变慢的原因。可是，你肯定会纳闷：&ldquo;vim怎么会无缘无故连接其它计算机的6000端口呢？&quot;。问得好，那么请你回想一下6000是什么服务的端口？没错，就是X Server。看来vim是要把输出定向到一个远程X Server，那么Shell中肯定定义了DISPLAY变量，查看.cshrc，果然有这么一行： setenv DISPLAY ${REMOTEHOST}:0，把它注释掉，再重新登录，问题就解决了。</p>
+<h2 id="定位进程异常退出">定位进程异常退出</h2>
+<ul>
+<li>问题：机器上有个叫做run.sh的常驻脚本，运行一分钟后会死掉。需要查出死因。</li>
+<li>定位：进程还在运行时，通过ps命令获取其pid, 假设我们得到的pid是24298</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">strace <span style="color:#f92672">-</span>o strace.log <span style="color:#f92672">-</span>tt <span style="color:#f92672">-</span>p <span style="color:#ae81ff">24298</span>
+</code></pre></div><p>查看strace.log, 我们在最后2行看到如下内容:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">22</span><span style="color:#f92672">:</span><span style="color:#ae81ff">47</span><span style="color:#f92672">:</span><span style="color:#ae81ff">42.803937</span> wait4(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,  <span style="color:#f92672">&lt;</span>unfinished ...<span style="color:#f92672">&gt;</span>
+<span style="color:#ae81ff">22</span><span style="color:#f92672">:</span><span style="color:#ae81ff">47</span><span style="color:#f92672">:</span><span style="color:#ae81ff">43.228422</span> <span style="color:#f92672">+++</span> killed by SIGKILL <span style="color:#f92672">+++</span>
+</code></pre></div><p>这里可以看出，进程是被其他进程用KILL信号杀死的。</p>
+<p>实际上，通过分析，我们发现机器上别的服务有个监控脚本，它监控一个也叫做run.sh的进程，当发现run.sh进程数大于2时，就会把它杀死重启。结果导致我们这个run.sh脚本被误杀。</p>
+<ul>
+<li>进程被杀退出时，strace会输出killed by SIGX(SIGX代表发送给进程的信号)等，那么，进程自己退出时会输出什么呢？</li>
+</ul>
+<p>这里有个叫做test_exit的程序，其代码如下:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv) {
+       exit(<span style="color:#ae81ff">1</span>);
+}
+</code></pre></div><ul>
+<li>我们strace看下它退出时strace上能看到什么痕迹。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">strace <span style="color:#f92672">-</span>tt <span style="color:#f92672">-</span>e trace<span style="color:#f92672">=</span>process <span style="color:#f92672">-</span>f .<span style="color:#f92672">/</span>test_exit
+</code></pre></div><p>说明: -e trace=process 表示只跟踪和进程管理相关的系统调用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#960050;background-color:#1e0010">输出：</span>
+<span style="color:#ae81ff">23</span><span style="color:#f92672">:</span><span style="color:#ae81ff">07</span><span style="color:#f92672">:</span><span style="color:#ae81ff">24.672849</span> execve(<span style="color:#e6db74">&#34;./test_exit&#34;</span>, [<span style="color:#e6db74">&#34;./test_exit&#34;</span>], [<span style="color:#75715e">/* 35 vars */</span>]) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">23</span><span style="color:#f92672">:</span><span style="color:#ae81ff">07</span><span style="color:#f92672">:</span><span style="color:#ae81ff">24.674665</span> arch_prctl(ARCH_SET_FS, <span style="color:#ae81ff">0x7f1c0eca7740</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">23</span><span style="color:#f92672">:</span><span style="color:#ae81ff">07</span><span style="color:#f92672">:</span><span style="color:#ae81ff">24.675108</span> exit_group(<span style="color:#ae81ff">1</span>)           <span style="color:#f92672">=</span> <span style="color:#f92672">?</span>
+<span style="color:#ae81ff">23</span><span style="color:#f92672">:</span><span style="color:#ae81ff">07</span><span style="color:#f92672">:</span><span style="color:#ae81ff">24.675259</span> <span style="color:#f92672">+++</span> exited with <span style="color:#ae81ff">1</span> <span style="color:#f92672">+++</span>
+</code></pre></div><p>可以看出，进程自己退出时（调用exit函数，或者从main函数返回）, 最终调用的是exit_group系统调用， 并且strace会输出exited with X（X为退出码）。</p>
+<h2 id="定位共享内存异常">定位共享内存异常</h2>
+<p>有个服务启动时报错：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">shmget <span style="color:#ae81ff">267264</span> <span style="color:#ae81ff">30097568</span><span style="color:#f92672">:</span> Invalid argument
+Can not get shm...exit<span style="color:#f92672">!</span>
+</code></pre></div><p>错误日志大概告诉我们是获取共享内存出错，通过strace看下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">strace <span style="color:#f92672">-</span>tt <span style="color:#f92672">-</span>f <span style="color:#f92672">-</span>e trace<span style="color:#f92672">=</span>ipc .<span style="color:#f92672">/</span>a_mon_svr     ..<span style="color:#f92672">/</span>conf<span style="color:#f92672">/</span>a_mon_svr.conf
+</code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">22</span><span style="color:#f92672">:</span><span style="color:#ae81ff">46</span><span style="color:#f92672">:</span><span style="color:#ae81ff">36.351798</span> shmget(<span style="color:#ae81ff">0x5feb</span>, <span style="color:#ae81ff">12000</span>, <span style="color:#ae81ff">0666</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">22</span><span style="color:#f92672">:</span><span style="color:#ae81ff">46</span><span style="color:#f92672">:</span><span style="color:#ae81ff">36.351939</span> shmat(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>)          <span style="color:#f92672">=</span> <span style="color:#f92672">?</span>
+Process <span style="color:#ae81ff">21406</span> attached
+<span style="color:#ae81ff">22</span><span style="color:#f92672">:</span><span style="color:#ae81ff">46</span><span style="color:#f92672">:</span><span style="color:#ae81ff">36.355439</span> shmget(<span style="color:#ae81ff">0x41400</span>, <span style="color:#ae81ff">30097568</span>, <span style="color:#ae81ff">0666</span>) <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> EINVAL (Invalid argument)
+shmget <span style="color:#ae81ff">267264</span> <span style="color:#ae81ff">30097568</span><span style="color:#f92672">:</span> Invalid argument
+Can not get shm...exit<span style="color:#f92672">!</span>
+</code></pre></div><p>这里，我们通过-e trace=ipc 选项，让strace只跟踪和进程通信相关的系统调用。</p>
+<ul>
+<li>从strace输出，我们知道是shmget系统调用出错了，errno是EINVAL。同样， 查询下shmget手册页，搜索EINVAL的错误码的说明:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">EINVAL A new segment was to be created and size <span style="color:#f92672">&lt;</span> SHMMIN or size <span style="color:#f92672">&gt;</span> SHMMAX, or no new segment was to be created, a segment with given key existed, but size is greater than the size of that segment
+</code></pre></div><ul>
+<li>翻译下，shmget设置EINVAL错误码的原因为下列之一：
+<ul>
+<li>要创建的共享内存段比 SHMMIN小 (一般是1个字节)</li>
+<li>要创建的共享内存段比 SHMMAX 大 (内核参数kernel.shmmax配置)</li>
+<li>指定key的共享内存段已存在，其大小和调用shmget时传递的值不同。</li>
+</ul>
+</li>
+</ul>
+<p>从strace输出看，我们要连的共享内存key 0x41400, 指定的大小是30097568字节，明显与第1、2种情况不匹配。那只剩下第三种情况。使用ipcs看下是否真的是大小不匹配：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">ipcs  <span style="color:#f92672">-</span>m <span style="color:#f92672">|</span> grep <span style="color:#ae81ff">41400</span>
+<span style="color:#ae81ff">0x00041400</span> <span style="color:#ae81ff">1015822</span>    root       <span style="color:#ae81ff">666</span>        <span style="color:#ae81ff">30095516</span>   <span style="color:#ae81ff">1</span>
+</code></pre></div><p>可以看到，已经0x41400这个key已经存在，并且其大小为30095516字节，和我们调用参数中的30097568不匹配，于是产生了这个错误。</p>
+<ul>
+<li>在我们这个案例里面，导致共享内存大小不一致的原因，是一组程序中，其中一个编译为32位，另外一个编译为64位,代码里面使用了long这个变长int数据类型。</li>
+<li>把两个程序都编译为64解决了这个问题。</li>
+</ul>
+<h2 id="分析性能">分析性能</h2>
+<p>假如有个需求，统计Linux 4.5.4 版本内核中的代码行数(包含汇编和C代码)。这里提供两个Shell脚本实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">poor_script.sh:
+
+<span style="color:#f92672">!/</span>bin<span style="color:#f92672">/</span>bash
+total_line<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">while</span> read filename; <span style="color:#66d9ef">do</span>
+   line<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">$</span>(wc <span style="color:#f92672">-</span>l <span style="color:#960050;background-color:#1e0010">$</span>filename <span style="color:#f92672">|</span> awk <span style="color:#960050;background-color:#1e0010">‘</span>{print <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span>}<span style="color:#960050;background-color:#1e0010">’</span>)
+   (( total_line <span style="color:#f92672">+=</span> line ))
+done <span style="color:#f92672">&lt;</span> <span style="color:#f92672">&lt;</span>( find linux<span style="color:#f92672">-</span><span style="color:#ae81ff">4.5.4</span> <span style="color:#f92672">-</span>type f  ( <span style="color:#f92672">-</span>iname <span style="color:#960050;background-color:#1e0010">‘</span>.c<span style="color:#960050;background-color:#1e0010">’</span> <span style="color:#f92672">-</span>o <span style="color:#f92672">-</span>iname <span style="color:#960050;background-color:#1e0010">‘</span>.h<span style="color:#960050;background-color:#1e0010">’</span> <span style="color:#f92672">-</span>o <span style="color:#f92672">-</span>iname <span style="color:#960050;background-color:#1e0010">‘</span><span style="color:#f92672">*</span>.S<span style="color:#960050;background-color:#1e0010">’</span> ) )
+echo <span style="color:#960050;background-color:#1e0010">“</span>total line: <span style="color:#960050;background-color:#1e0010">$</span>total_line<span style="color:#960050;background-color:#1e0010">”</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">good_script.sh:
+
+<span style="color:#f92672">!/</span>bin<span style="color:#f92672">/</span>bash
+find linux<span style="color:#f92672">-</span><span style="color:#ae81ff">4.5.4</span> <span style="color:#f92672">-</span>type f  ( <span style="color:#f92672">-</span>iname <span style="color:#960050;background-color:#1e0010">‘</span>.c<span style="color:#960050;background-color:#1e0010">’</span> <span style="color:#f92672">-</span>o <span style="color:#f92672">-</span>iname <span style="color:#960050;background-color:#1e0010">‘</span>.h<span style="color:#960050;background-color:#1e0010">’</span> <span style="color:#f92672">-</span>o <span style="color:#f92672">-</span>iname <span style="color:#960050;background-color:#1e0010">‘</span><span style="color:#f92672">*</span>.S<span style="color:#960050;background-color:#1e0010">’</span> ) <span style="color:#f92672">-</span>print0 \
+<span style="color:#f92672">|</span> wc <span style="color:#f92672">-</span>l <span style="color:#960050;background-color:#1e0010">—</span>files0<span style="color:#f92672">-</span>from <span style="color:#f92672">-</span> <span style="color:#f92672">|</span> tail <span style="color:#f92672">-</span>n <span style="color:#ae81ff">1</span>
+</code></pre></div><ul>
+<li>两段代码实现的目的是一样的。 我们通过strace的-c选项来分别统计两种版本的系统调用情况和其所花的时间(使用-f同时统计子进程的情况)</li>
+</ul>
+<p>从两个输出可以看出，good_script.sh 只需要2秒就可以得到结果：19613114行。它大部分的调用(calls)开销是文件操作(read/open/write/close)等，统计代码行数本来就是干这些事情。</p>
+<p>而poor_script.sh完成同样的任务则花了539秒。它大部分的调用开销都在进程和内存管理上(wait4/mmap/getpid…)。</p>
+<p>实际上，从两个图中clone系统调用的次数,我们可以看出good_script.sh只需要启动3个进程，而poor_script.sh完成整个任务居然启动了126335个进程！</p>
+<p>而进程创建和销毁的代价是相当高的，性能不差才怪。</p>
+
+    </div>
+</section>
+
+    </body>
+</html>
