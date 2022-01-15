@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>channel &amp; selelct</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+
+
+    <style type="text/css">
+    *{margin: 0; padding: 0;}
+    .clearfix:after {
+          clear: both;
+          content: ".";
+          display: block;
+          height: 0;
+          visibility: hidden;
+        }
+      .wrap {
+         
+        }
+        .wrap span{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .wrap img{
+            width: 70px;
+            height: auto;
+            vertical-align: middle;
+        }
+    </style>
+
+    </head>
+    <body>
+        <section id="page-title">
+            <h1>
+        <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/0peqm120220115173256.png" alt="my icon" style="zoom:7%;" />
+                <a href="/">nber1994</a> </h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>channel &amp; selelct</h1>
+    <div class="blog-post-subheader">
+        November 23, 2020
+    </div>
+    <div class="blog-post-content">
+        <h1 id="并发编程模型">并发编程模型</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/cf91b4c995dd4ee2bbcf8662dd7d3e9120211227192856.jpeg" alt="img"></p>
+<p>并发编程的意义，这个不需要多说了，大流量，高并发全靠它，性能上来了，稳定性也就不言而喻了</p>
+<p>并发的两个基础部分：</p>
+<ol>
+<li>并发调度单位，concurrency unit</li>
+<li>并发模型，concurrency model</li>
+</ol>
+<h2 id="concurrency-unit">Concurrency unit</h2>
+<p>并发调度单位讲究 轻！快！</p>
+<p>unit占用轻！unit切换快！</p>
+<h3 id="进程作为unit">进程作为Unit</h3>
+<p>进程拥有独占的内存和指令流，是一个应用的包装，但是进程作为并发基本单元有如下问题：</p>
+<ol>
+<li>资源占用过大
+<ol>
+<li>每个进程占用的内存太大了，进程携带了自己的虚拟内存页表，文件描述符等</li>
+</ol>
+</li>
+<li>不能发挥多核的性能
+<ol>
+<li>进程不能很好的发挥多核机器的性能，常常出现一个核跑，多个核看的现象</li>
+<li><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211117181946354.png" alt="image-20211117181946354" style="zoom: 50%;" /></li>
+</ol>
+</li>
+<li>进程切换消耗过大
+<ol>
+<li>进程切换需要进行系统调用，涉及到内存从用户态拷贝至内核态</li>
+<li>保存当前进程的现场，并且恢复下一个进程</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211117192847504.png" alt="image-20211117192847504" style="zoom:50%;" /></p>
+<h3 id="线程作为unit">线程作为Unit</h3>
+<p>线程较轻量级，一个进程可以包含多个线程，则每个最小并发粒度的资源占用要小很多，且同一个进程内线程间切换只需要对指令流进行切换即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211118005842113.png" alt="image-20211118005842113" style="zoom:50%;" /></p>
+<p>但是，进程间切换仍需要进入内核进行，仍然存在大量的并发切换消耗</p>
+<h3 id="协程作为unit">协程作为Unit</h3>
+<p>协程，也叫做<strong>用户态线程</strong>，它规避了最后一个问题，切换消耗过大的问题，无需通过系统调用进入内核进行切换，协程所有的生命周期均发生在用户态。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/bVcTwI820211227195035.png" alt="img"></p>
+<p>因为协程的优点，协程类编程也开始越来越火了。比较有代表性的有Go的goroutine、Erlang的Erlang进程、Scala的actor、windows下的fibre（纤程）等，一些动态语言像Python、Ruby、Lua也慢慢支持协程。</p>
+<p><strong>但是</strong> 语言引入协程作为并发调度单位，需要实现自己的协程调度器、并提供协程间通信的方式等一系列支持模块，相较于传统的基于进程线程的并发方式，需要实现很多额外的功能组件。<strong>实现较复杂。</strong></p>
+<h2 id="concurrency-model">Concurrency model</h2>
+<p>总体来看，目前能找到的最轻量的调度单元就是协程了，虽然实现起来有些麻烦，但是现代语言也越来越多的引入协程了。</p>
+<p>那么解决了并发单元的问题后，我们再研究下并发模型，为什么需要并发模型呢，因为<strong>并发就意味着竞争</strong>：对内存的竞争，对算力的竞争等，那么如何降低竞争带来的性能损耗，就需要并发模型的设计了。简单来说，并发模型就是指导并发单元以何种方式处理竞争，尽量减少竞争带来的性能损耗。简单来说，就是<strong>定义了并发单元间的通信方式</strong>。</p>
+<h3 id="共享内存锁">共享内存+锁</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122720381900520211227203819.png" alt="image-20211227203819005" style="zoom:50%;" /></p>
+<p>最经典的模型，通过锁来保护资源，多个并发单元访问资源前首先争夺锁，然后再去访问资源。没抢到锁的unit则阻塞等待。</p>
+<p>这个应该是目前最常用的了，也最符合直觉，但是可以明显看到，在竞争时会产生<strong>阻塞耗时</strong>。</p>
+<p><strong>这就是常说的使用共享内存来进行通信</strong></p>
+<h3 id="函数式编程">函数式编程</h3>
+<p><strong>既然基于共享内存通信会产生大量的竞争，那么函数式编程的通信思想是，在并发单元执行过程中不进行通信，只在最后大家都执行完后统一对结果做收集和汇总</strong></p>
+<p><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-204x300.png" alt="img" style="zoom: 50%;" /></p>
+<p>函数式编程的特性：</p>
+<ol>
+<li>不可变数据，默认是变量是不可变的，如果你要改变变量，你需要把变量copy出去</li>
+<li>函数对于Input A一定会返回Output B，即<strong>函数内部没有状态</strong>，不会对全局变量进行修改，运行时涉及的变量都是局部变量</li>
+<li>这么一来，每个函数对输入负责，只会访问局部变量，全局不存在资源竞争</li>
+</ol>
+<p>基于函数式编程模型作为并发模型的话，性能会很高，但是会产生额外的大量的局部变量</p>
+<p><strong>代表语言：clojure</strong></p>
+<h4 id="举个例子">举个例子：</h4>
+<p>s3e在设计之初，提供了一套SDK，目的是帮助业务建模和模型可视化，大体是这样的，将一个业务功能节点抽象为了workflow，workflow中的每个task state对应一个函数，为了降低使用成本，各个函数的签名都是一致的</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Action</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">db</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Databus</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">Databus</span>, <span style="color:#66d9ef">error</span>)
+</code></pre></div><p>每个函数都会对Databus做一些自己的修改，这个修改是全局Action可见的（因为Databus传的是指针类型），因此如果存在并发的节点，会存在对全局变量的锁竞争。</p>
+<p>但是在接入业务需求时，这套设计还好，不会产生太大的问题，但是在接入拦截系统时，由于拦截系统的比较大的诉求是希望引入并发带来对耗时的优化，如果仍然采用这种粗粒度锁的方式，竞争会比较大，可预见的性能优化不会太明显，如图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122818275940220211228182800.png" alt="image-20211228182759402"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Data</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">input</span> 		<span style="color:#f92672">*</span><span style="color:#a6e22e">Input</span>
+  <span style="color:#a6e22e">collector</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ChekerCollector</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">CheckerCollector</span> <span style="color:#66d9ef">struct</span> {
+  <span style="color:#a6e22e">lock</span> 			<span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Lock</span>
+	<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">CheckRes</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cc</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CheckerCollector</span>) <span style="color:#a6e22e">Report</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">res</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CheckRes</span>) {
+  <span style="color:#a6e22e">cc</span>.<span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Lock</span>()
+  <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">key</span>] = <span style="color:#a6e22e">res</span>
+  <span style="color:#a6e22e">cc</span>.<span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Unlock</span>()
+}
+</code></pre></div><p>那么，采用函数式编程的思路，我们把databus尽量减少写操作，将需要写的字段分配到每个并发节点的运行时局部变量中，然后再对每个并发节点的结果做统一的收集，可以很好的减少并发竞争</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122818272690920211228182727.png" alt="image-20211228182726909"></p>
+<h3 id="actor">Actor</h3>
+<p>那么，我们回归到通信本身，有没有更好的通信方式呢？</p>
+<p>Actor的主要思路是，每个并发单元抽象为actor，每个actor都拥有一个邮箱**，所有actor间的通信都会异步的发送到对方的邮箱中**，这样**解耦了actor**之间的关系，各个actor都能按照自己的步调进行执行，但是他们会按照邮箱中消息的发送顺序来依次处理消息，当且仅当前一个消息处理完成后，才会开始下一个消息处理，即**保障了消息的时序性**。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122819182969720211228191830.png" alt="image-20211228191829697" style="zoom:67%;" /></p>
+<p>这样的话，在并发单元执行过程中，也不会存在锁资源的竞争，但是由于发送过程是异步的，即只将消息放入目标actor的邮箱中即完成了发送操作，但是消息什么时候会被目标actor处理，则是不可预测的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122820544288320211228205443.png" alt="image-20211228205442883"></p>
+<p><strong>代表语言：erlang，scala的akka库</strong></p>
+<h3 id="csp">CSP</h3>
+<p>csp的降低竞争的思想大体和actor保持一致，但是在消息发送上则采用了同步的方式，且与actor不同的是，csp关注的不是发送接受者，而是发送的媒介。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122820550199820211228205502.png" alt="image-20211228205501998"></p>
+<p>并发单元间通过一个FIFO队列（channel）来进行通信，而不是直接和目标单元进行通信。</p>
+<h4 id="actor和csp的区别">actor和csp的区别</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122820562839520211228205629.png" alt="image-20211228205628395"></p>
+<ol>
+<li>actor的并发单元之间直接通信，csp则通过channel通信，后者显然耦合更松散</li>
+<li>csp的消息交换是同步的，actor则是完全异步，可以在任意时间点发送消息到任何并发单元（甚至不存在的），并且actor可以自由选择处理哪些消息</li>
+<li>相应的，csp的channel空间可以使有限的，而actor的邮箱理论上是需要无限大的</li>
+<li>actor关注的是并发单元，而csp关注的则是channel</li>
+</ol>
+<h3 id="现实">现实</h3>
+<p>现实上，几乎所有并发编程语言<strong>都支持锁+共享内存</strong>的形式进行并发单元通信，而对于支持函数式编程，actor和csp等概念的大部分语言，并没有严格完全按照模型定义实现，都在使用上或多或少的做了一些折中。</p>
+<h1 id="channel">channel</h1>
+<p>步入正题！</p>
+<p>那么，显然golang深受csp模型的影响，channel和gorutinue是golang中的一等公民。</p>
+<p>但是它又没有完全按照CSP理论中的channel来实现，CSP中的channel是一个纯粹的同步信道，而go channel不仅支持同步式通信，而且支持非同步式信道。</p>
+<p>我们已经知道，channel本质上就是一个<strong>有锁的并发安全的FIFO消息队列</strong>，他负责在gorutinue之间传递消息。</p>
+<h2 id="doc">Doc</h2>
+<h3 id="类型">类型</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">ChannelType</span> = ( <span style="color:#e6db74">&#34;chan&#34;</span> | <span style="color:#e6db74">&#34;chan&#34;</span> <span style="color:#e6db74">&#34;&lt;-&#34;</span> | <span style="color:#e6db74">&#34;&lt;-&#34;</span> <span style="color:#e6db74">&#34;chan&#34;</span> ) <span style="color:#a6e22e">ElementType</span> .
+</code></pre></div><p>包含三种类型的定义，可选的'&lt;-&lsquo;代表了channel的方向，如果没有指定方向，channel就是双向的，可以接受数据，也可以发送数据。</p>
+<p>举个例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ch1</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>   <span style="color:#75715e">// 声明一个传递整型的通道
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ch2</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>  <span style="color:#75715e">// 声明一个传递布尔型的通道
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ch3</span> <span style="color:#66d9ef">chan</span> []<span style="color:#66d9ef">int</span> <span style="color:#75715e">// 声明一个传递int切片的通道
+</span></code></pre></div><h3 id="创建">创建</h3>
+<p>channel是引用类型，channel的空值为nil</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">ch</span>) <span style="color:#75715e">// &lt;nil&gt;
+</span></code></pre></div><p>所以，通道在初始化后，还需要使用make函数进行初始化后才能使用</p>
+<pre><code>make(chan 元素类型, [缓冲大小])
+</code></pre><p>缓冲区大小可选，举个例子</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">ch4</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+<span style="color:#a6e22e">ch5</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span> <span style="color:#ae81ff">10</span>)
+<span style="color:#a6e22e">ch6</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> []<span style="color:#66d9ef">int</span> <span style="color:#ae81ff">1</span>)
+</code></pre></div><h3 id="发送">发送</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">10</span> <span style="color:#75715e">//将10发送到channel中
+</span></code></pre></div><h3 id="接收">接收</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ch</span> <span style="color:#75715e">//判断ch是否已经关闭
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">x</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ch</span> <span style="color:#75715e">//从chan中接受值并赋值给x
+</span><span style="color:#75715e"></span><span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ch</span> <span style="color:#75715e">//从ch中接收值并忽略
+</span></code></pre></div><h3 id="关闭">关闭</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">close(<span style="color:#a6e22e">ch</span>)	
+</code></pre></div><p>Tips：</p>
+<p>只有在需要通知接收方所有数据已经发送完毕时，才需要显式的调用close函数关闭chan，除此之外，若不对channel进行关闭操作，它是可以被垃圾回收机制回收的，<strong>关闭通道不是必须的</strong></p>
+<p>通道关闭后：</p>
+<ul>
+<li>对一个关闭的channel再发送值回panic</li>
+<li>对一个关闭的channel进行接收会一直获取值直到channel为空</li>
+<li>对一个关闭的channel并且没有值的channel执行接收操作会得到类型的零值</li>
+<li>重复关闭channel会panic</li>
+</ul>
+<h3 id="优雅的读取channel">优雅的读取channel</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// channel 练习
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">ch1</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#a6e22e">ch2</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#75715e">// 开启goroutine将0~100的数发送到ch1中
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">100</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+            <span style="color:#a6e22e">ch1</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
+        }
+        close(<span style="color:#a6e22e">ch1</span>)
+    }()
+    <span style="color:#75715e">// 开启goroutine从ch1中接收值，并将该值的平方发送到ch2中
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+        <span style="color:#66d9ef">for</span> {
+            <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ch1</span> <span style="color:#75715e">// 通道关闭后再取值ok=false
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+                <span style="color:#66d9ef">break</span>
+            }
+            <span style="color:#a6e22e">ch2</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">i</span>
+        }
+        close(<span style="color:#a6e22e">ch2</span>)
+    }()
+    <span style="color:#75715e">// 在主goroutine中从ch2中接收值打印
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch2</span> { <span style="color:#75715e">// 通道关闭后会退出for range循环
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">i</span>)
+    }
+}
+</code></pre></div><p>可以看到👆的例子，存在两种接收channel的方式，并且都处理了channel关闭的情况，按照个人喜好选择吧。</p>
+<h3 id="查看channel容量">查看channel容量</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">len(<span style="color:#a6e22e">ch</span>) <span style="color:#75715e">//查看ch缓冲区内的元素
+</span><span style="color:#75715e"></span>cap(<span style="color:#a6e22e">ch</span>) <span style="color:#75715e">//查看ch缓冲区的最大容量
+</span></code></pre></div><h2 id="无缓冲channel">无缓冲channel</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2022010321131727020220103211317.png" alt="image-20220103211317270" style="zoom:67%;" /></p>
+<p>无缓冲区的channel又叫做阻塞channel，举个例子</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">9527</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;OK&#34;</span>)
+}
+</code></pre></div><p>上面这段代码👆，执行时会报错吗</p>
+<pre><code>$ go run main.go
+fatal error: all goroutines are asleep - deadlock!
+
+goroutine 1 [chan send]:
+main.main()
+        /home/xiaoju/gulf/test/main.go:7 +0x54
+exit status 2
+</code></pre><p>简单来说，阻塞式的channel是需要先有接收者才能发送的，否则会一直阻塞，改进：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">recv</span>(<span style="color:#a6e22e">c</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {
+    <span style="color:#a6e22e">ret</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">c</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;recv ok&#34;</span>, <span style="color:#a6e22e">ret</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">recv</span>(<span style="color:#a6e22e">ch</span>) <span style="color:#75715e">// 启用goroutine从通道接收值
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">10</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;ok&#34;</span>)
+}
+</code></pre></div><p>反之，当只有发送者时，发送者也会阻塞，等待接收者到来才能发送，因此，使用无缓冲channel进行通信将导致<strong>发送和接收的goroutine同步化</strong>，因此无缓冲channel也称为<strong>同步channel</strong>。</p>
+<h2 id="有缓冲的channel">有缓冲的channel</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2022010317133827620220103171339.png" alt="image-20220103171338276" style="zoom:67%;" /></p>
+<p>我们可以在channel初始化时声明其容量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">1</span>) <span style="color:#75715e">// 创建一个容量为1的有缓冲区通道
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">10</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;OK&#34;</span>)
+}
+</code></pre></div><p>只要缓冲区未满，则发送者发送消息不回阻塞，直到缓冲区满了之后，发送者发送消息才会阻塞，反之，缓冲区不空，接收者接收消息不阻塞，缓冲区空，接收者接收消息阻塞。</p>
+<h2 id="源码总览">源码总览</h2>
+<h3 id="主结构">主结构</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122911302169020211229113022.png" alt="image-20211229113021690"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">hchan</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">qcount</span>   <span style="color:#66d9ef">uint</span>           <span style="color:#75715e">// 队列中的所有元素个数
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">dataqsiz</span> <span style="color:#66d9ef">uint</span>           <span style="color:#75715e">// ring buffer的大小
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">buf</span>      <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span> <span style="color:#75715e">// ring buffer 数组实现
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">elemsize</span> <span style="color:#66d9ef">uint16</span>					<span style="color:#75715e">// 元素大小
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">closed</span>   <span style="color:#66d9ef">uint32</span>					<span style="color:#75715e">// 是否关闭
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">elemtype</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">_type</span> <span style="color:#75715e">// 元素类型
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">sendx</span>    <span style="color:#66d9ef">uint</span>   <span style="color:#75715e">// 发送的索引
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">recvx</span>    <span style="color:#66d9ef">uint</span>   <span style="color:#75715e">// 接受索引
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">recvq</span>    <span style="color:#a6e22e">waitq</span>  <span style="color:#75715e">// recv 等待队列 (&lt;-chane)
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">sendq</span>    <span style="color:#a6e22e">waitq</span>  <span style="color:#75715e">// send 等待列表 (chan&lt;-)
+</span><span style="color:#75715e"></span>
+	<span style="color:#a6e22e">lock</span> <span style="color:#a6e22e">mutex</span> <span style="color:#75715e">//锁
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>为什么使用ringbuffer来存元素？首先，我们需要实现一个FIFO的队列，</p>
+<p>那么第一反应是链表，新增和删除节点都是O(1)，但是链表在send操作时，需要重新分配内存创建一个链表节点。recv操作时，recv后的链表节点需要GC去识别与回收内存。这明显有点奢侈。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2022010420102572120220104201026.png" alt="image-20220104201025721" style="zoom:50%;" /></p>
+<p>那么如果使用ringbuffer的话，首先，一次分配内存后，无论send还是recv操作，都不存在内存分配操作。而且由于数组的大小是固定的，可以直接将ringbuffer和hchan放入连续内存中，提高访问速度。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2022010421265878120220104212659.png" alt="image-20220104212658781" style="zoom:50%;" /></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">waitq</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">first</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sudog</span>
+	<span style="color:#a6e22e">last</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">sudog</span>
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">sudog</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#75715e">// The following fields are protected by the hchan.lock of the
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// channel this sudog is blocking on. shrinkstack depends on
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// this for sudogs involved in channel ops.
+</span><span style="color:#75715e"></span>  	<span style="color:#75715e">//下面的字段，由hchan.lock保护
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">g</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">g</span>
+
+    <span style="color:#75715e">// isSelect indicates g is participating in a select, so
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// g.selectDone must be CAS&#39;d to win the wake-up race.
+</span><span style="color:#75715e"></span>  	<span style="color:#75715e">// isSelect 标识 g 是否正在参与一个select，因此g.selectDone必须以 CAS 的方式来避免唤醒时的race
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">isSelect</span> <span style="color:#66d9ef">bool</span>
+    <span style="color:#a6e22e">next</span>     <span style="color:#f92672">*</span><span style="color:#a6e22e">sudog</span>
+    <span style="color:#a6e22e">prev</span>     <span style="color:#f92672">*</span><span style="color:#a6e22e">sudog</span>
+    <span style="color:#a6e22e">elem</span>     <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span> <span style="color:#75715e">// data element (may point to stack) 指向要发送或者接受的元素数据，可能指向栈
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// The following fields are never accessed concurrently.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// For channels, waitlink is only accessed by g.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// For semaphores, all fields (including the ones above)
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// are only accessed when holding a semaRoot lock.
+</span><span style="color:#75715e"></span>  	<span style="color:#75715e">//以下字段永远不会被并发访问，
+</span><span style="color:#75715e"></span>
+    <span style="color:#a6e22e">acquiretime</span> <span style="color:#66d9ef">int64</span>
+    <span style="color:#a6e22e">releasetime</span> <span style="color:#66d9ef">int64</span>
+    <span style="color:#a6e22e">ticket</span>      <span style="color:#66d9ef">uint32</span>
+    <span style="color:#a6e22e">parent</span>      <span style="color:#f92672">*</span><span style="color:#a6e22e">sudog</span> <span style="color:#75715e">// semaRoot binary tree
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">waitlink</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">sudog</span> <span style="color:#75715e">// g.waiting list or semaRoot
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">waittail</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">sudog</span> <span style="color:#75715e">// semaRoot
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">c</span>           <span style="color:#f92672">*</span><span style="color:#a6e22e">hchan</span> <span style="color:#75715e">// channel 反向索引
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h2 id="创建-1">创建</h2>
+<h2 id="发送-1">发送</h2>
+<h2 id="接受">接受</h2>
+<h2 id="关闭-1">关闭</h2>
+<h1 id="select">select</h1>
+<h2 id="分类">分类</h2>
+<p>zero-case</p>
+<p>uni-case</p>
+<p>muilt-case</p>
+<p>多个case，上一个case执行过程中，下一个case的chan有数据来了的话，会怎么做</p>
+
+    </div>
+</section>
+
+</body>
+<br>
+    <div class="wrap">
+        <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mzjrW920220115184505.jpg" alt="">
+        <span style="font-size:12px">Bad programmers worry about the code. Good programmers worry about data structures<br>and their relationships.<br>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--- Linus Torvalds</span>
+    </div>
+
+
+</html>
