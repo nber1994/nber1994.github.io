@@ -11,36 +11,92 @@
         <link rel="stylesheet" href="/css/stylesheet.css">
 
 
-    <style type="text/css">
-    *{margin: 0; padding: 0;}
-    .clearfix:after {
-          clear: both;
-          content: ".";
-          display: block;
-          height: 0;
-          visibility: hidden;
-        }
+        <style type="text/css">
+*{margin: 0; padding: 0;}
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
       .wrap {
-         
-        }
-        .wrap span{
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .wrap img{
-            width: 70px;
-            height: auto;
-            vertical-align: middle;
-        }
-    </style>
+           
+          text-align: left;
+      }
+      .wrap span{
+          display: inline-block;
+          vertical-align: middle;
+          word-break:break-word; 
+          width: 50em;
+      }
+      .wrap img{
+          width: 4.5em;
+          height: auto;
+          vertical-align: middle;
+      }
+
+      .wrap p{
+          font-style:italic;
+          font-size:12px;
+      }
+
+        </style>
 
     </head>
     <body>
         <section id="page-title">
             <h1>
-        <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/0peqm120220115173256.png" alt="my icon" style="zoom:7%;" />
                 <a href="/">nber1994</a> </h1>
+            <br>
+            <div class="wrap">
+                <script type="text/javascript">
+                    
+
+                    function chunkSubstr(str, size) {
+                                            const numChunks = Math.ceil(str.length / size)
+                                            const chunks = new Array(numChunks)
+
+                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                                                                    chunks[i] = str.substr(o, size)
+                                                                }
+
+                                            return chunks
+                                        }
+                    var pic = [];
+                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+                    var talk = [];
+                    talk[0] = "Help poor children in Uganda!";
+                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+                    talk[3] = "Don't tune for speed until you've measured.";
+                    talk[4] = "C is quirky, flawed, and an enormous success.";
+                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+                    talk[6] = "Java is C++ without the guns, clubs and knives.";
+                    talk[7] = "Life is short, you need Python!";
+                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+                    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+                    
+                    document.write("<img src=" + pic[randomBgIndex] + ">")
+                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+                    
+                </script>
+            </div>
+
+
         </section>
+        <br>
 
 
 
@@ -181,8 +237,28 @@
 </body>
 <br>
     <div class="wrap">
-        <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mzjrW920220115184505.jpg" alt="">
-        <span style="font-size:12px">Bad programmers worry about the code. Good programmers worry about data structures<br>and their relationships.<br>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--- Linus Torvalds</span>
+        <script type="text/javascript">
+            
+            var pic = [];
+            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
+            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
+            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
+            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
+
+            var talk = [];
+            talk[0] = "mail : jingherego@gmail.com";
+            talk[1] = "github : github.com/nber1994";
+            talk[2] = "本站内容部分来源于网络，可转载.";
+            talk[3] = "如有错误，请联系我";
+
+            var randomBgIndex = Math.floor( Math.random() * 4 );
+
+            
+            
+            document.write("<img src=" + pic[randomBgIndex] + " width='400'>")
+            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
+            
+        </script>
     </div>
 
 
