@@ -5,7 +5,7 @@
     <link>http://nber1994.github.io/tags/else/</link>
     <description>Recent content in else on jingtianyou&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>zh-cn</language>
     <lastBuildDate>Thu, 09 Jul 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/tags/else/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SilverBullet</title>
@@ -46,7 +46,7 @@ We used simplequeue as the foundation for a distributed message queue. In produc
       <guid>http://nber1994.github.io/posts/questions/</guid>
       <description>Questions OS 虚拟内存 段页式 倒排页表 LRU，LFU算法实现 共享内存 多进程，多线程 如何fork一个进程 exec waitpid exit 页表的copy-on-worite PCB
  PCB process control block &amp;gt; task_struct存储了进程的页表，打开文件描述符表，内存描述符，通用寄存器，进程状态等
- 进程状态 IO多路复用 select，poll，epoll实现和优劣
+ 进程状态   IO多路复用 select，poll，epoll实现和优劣
 用户态和内核态区别 进程，线程间通信 什么时候多线程什么时候多进程 线程ID进程组ID 线程和进程的切换和调度，切换的时什么 多进程 - 数据共享复杂，需要进程间通信 - 相对于多线程占用更多的内存 - 进程间切换相对于多线程开销较大 - 编程调试较简单 - 进程间互相不影响 - 适用于多机，性能扩展性较好 多线程 - 数据共享较简单 - 线程间可能会互相影响 - 编程调试较复杂 - 可以利用多核的优势 - 多线程之间切换开销较小
  文件描述符表  网络 http https https相比较于http来说，在会话层加入了stl算法加密，过程如下 1.服务端发送来证书和公钥 2.客户端根据内置的颁发机构验证证书的真伪 3.如果证书为假，则报错 4.如果证书为真，则生成随机值，并用公钥加密传递给服务端 5.服务端收到后使用私钥进行解密，拿到随机值 6.之后的通信都使用随机值进行加密
 http code 200 ok 301 moved permanly 302 Found 303 See Other 400 Bad Request 401 Nuauthorized 403 forbidden 404 Not Found 500 internal server error 502 bad gateway 503 service unavaliable 504 gateway timout</description>
@@ -60,7 +60,7 @@ http code 200 ok 301 moved permanly 302 Found 303 See Other 400 Bad Request 401 
       <guid>http://nber1994.github.io/posts/redsi%E6%8C%81%E4%B9%85%E5%8C%96-aof/</guid>
       <description> redsi持久化-AOF
   除了RDB持久化之后，redis还提供了AOF持久化功能（append only file） AOF持久化使用过保存redis写命令来记录数据库状态的 在AOF文件中，除了指定数据库的select语句之外，其他的都是通过客户端发生的命令  AOF持久化实现  AOF持久化的实现是通过命令追加，文件写入，文件同步三个步骤实现的
- 命令追加 struct redisServer { //aof缓冲区  sds aof_buf; }  在redisServer中保存了aof_buf的缓冲区，改缓冲区是由sds实现的 每次redis的写命令之后，都会讲命令追加到这个缓冲区中  文件写入和文件同步  对于redisserver来说，redis的服务进程就是一个事件循环 在每个时间循环的最后，都会调用flushAppendOnlyFile函数并评估是否需要将aof_buf中的内容写入文件 对于flushAppendOnlyFile函数来说，有三种行为：  现代操作系统中，文件写入操作并不会立即写入磁盘，而是会在文件缓存中，以一定频率写入到磁盘 默认是everysec，每次循环结束，会将aof_buf写入文件缓冲区，当上次flush时间已经距现在超过一秒，就将缓冲区同步到磁盘    文件同步的安全性  always 最多会丢失一个时间循环的命令 everysec 会丢失一秒的命令 no 以来操作系统何时将文件同步到磁盘  AOF的载入  当redis服务启动时，服务器会读入AOF文件，并还原数据库状态 步骤  由于命令需要运行在client的上下文，所以redis会创建一个伪客户端来执行命令 从AOF文件读取一行 伪客户端执行读出的命令 知道AOF被读完    AOF文件的重写  随着命令的执行，AOF文件会越来越大，会占用过多的服务器资源，如果不加以控制的话，会对宿主机造成影响 所以需要对AOF文件进行重写，redis服务器创建一个新的AOF文件替代就得AOF文件，两个文件包含的数据库状态完全相同，只是新的AOF文件不包含冗余的命令 实际上，redis并不会根据就得AOF文件进行重写，而是根据现有的数据库状态进行重写  后台重写任务  前台的AOF文件重写任务会带来大量的文件写入操作，所以导致单线程的redis阻塞 所以将AOF重写任务放入后台，bgRewriteAof会新起一个子进程来进行重写  这样在重写期间redis服务可以正常响应请求 而且相对于多线程来说，可以避免锁的使用    AOF重写缓冲区  后台重写任务期间，redis也会产生新的AOF文件，这一部分命令需要一块AOF重写缓冲区进行存储 在后台重写任务期间，redis服务器每条写命令执行完之后，会将命令分别写入AOF缓冲区和AOF重写缓冲区 当AOF重写完成之后，会想redis发送一个信号，父进程会将AOF重写缓冲区中的命令写入新的AOF文件中 之后原子性的将新的AOF文件替换就得AOF文件 整个过程中，只有信号处理函数会打断redis对请求的响应，其他都不会阻碍redis正常的响应  重点回顾 </description>
+ 命令追加 struct redisServer { //aof缓冲区  sds aof_buf; }  在redisServer中保存了aof_buf的缓冲区，改缓冲区是由sds实现的 每次redis的写命令之后，都会讲命令追加到这个缓冲区中  文件写入和文件同步  对于redisserver来说，redis的服务进程就是一个事件循环 在每个时间循环的最后，都会调用flushAppendOnlyFile函数并评估是否需要将aof_buf中的内容写入文件 对于flushAppendOnlyFile函数来说，有三种行为：    现代操作系统中，文件写入操作并不会立即写入磁盘，而是会在文件缓存中，以一定频率写入到磁盘 默认是everysec，每次循环结束，会将aof_buf写入文件缓冲区，当上次flush时间已经距现在超过一秒，就将缓冲区同步到磁盘    文件同步的安全性  always 最多会丢失一个时间循环的命令 everysec 会丢失一秒的命令 no 以来操作系统何时将文件同步到磁盘  AOF的载入  当redis服务启动时，服务器会读入AOF文件，并还原数据库状态 步骤  由于命令需要运行在client的上下文，所以redis会创建一个伪客户端来执行命令 从AOF文件读取一行 伪客户端执行读出的命令 知道AOF被读完    AOF文件的重写  随着命令的执行，AOF文件会越来越大，会占用过多的服务器资源，如果不加以控制的话，会对宿主机造成影响 所以需要对AOF文件进行重写，redis服务器创建一个新的AOF文件替代就得AOF文件，两个文件包含的数据库状态完全相同，只是新的AOF文件不包含冗余的命令 实际上，redis并不会根据就得AOF文件进行重写，而是根据现有的数据库状态进行重写  后台重写任务  前台的AOF文件重写任务会带来大量的文件写入操作，所以导致单线程的redis阻塞 所以将AOF重写任务放入后台，bgRewriteAof会新起一个子进程来进行重写  这样在重写期间redis服务可以正常响应请求 而且相对于多线程来说，可以避免锁的使用    AOF重写缓冲区  后台重写任务期间，redis也会产生新的AOF文件，这一部分命令需要一块AOF重写缓冲区进行存储 在后台重写任务期间，redis服务器每条写命令执行完之后，会将命令分别写入AOF缓冲区和AOF重写缓冲区 当AOF重写完成之后，会想redis发送一个信号，父进程会将AOF重写缓冲区中的命令写入新的AOF文件中 之后原子性的将新的AOF文件替换就得AOF文件 整个过程中，只有信号处理函数会打断redis对请求的响应，其他都不会阻碍redis正常的响应  重点回顾    </description>
     </item>
     
     <item>
@@ -108,8 +108,8 @@ http code 200 ok 301 moved permanly 302 Found 303 See Other 400 Bad Request 401 
       <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>http://nber1994.github.io/posts/%E5%AD%98%E5%82%A8/</guid>
-      <description>存储  存储在不同的存储器的速度   随机访问存储器
-  静态RAM和动态RAM SRAM既可以在芯片上，也可以在芯片下   访问主存   总线事务 读事务是从主存传输数据到cpu 写事务是从cpu传输数据到主存  Cpu通过系统总线链接I/O桥，主存通过内存总线链接I/O桥
+      <description>存储  存储在不同的存储器的速度     随机访问存储器
+  静态RAM和动态RAM SRAM既可以在芯片上，也可以在芯片下   访问主存     总线事务 读事务是从主存传输数据到cpu 写事务是从cpu传输数据到主存  Cpu通过系统总线链接I/O桥，主存通过内存总线链接I/O桥
 读事务： 1.cpu将地址放在系统总线中，通过I/O桥传给内存总线传递给内存 2.内存感知到内存总线传递来地址，读出地址数据，并传递到内存总线上 3.cpu感受到系统总线传递的数据，并将其复制到寄存器中
 写事务： 1.cpu将需要写数据的地址传递给内存，内存读出地址等待数据 2.cpu将数据写入系统总线 3.内存从内存总线拿到数据，写入DRAM中
 DRAM速度比磁盘快10万倍，SRAM比磁盘快100万倍
@@ -128,7 +128,7 @@ DRAM速度比磁盘快10万倍，SRAM比磁盘快100万倍
       <guid>http://nber1994.github.io/posts/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</guid>
       <description>问题汇总 OS 虚拟内存 段页式 倒排页表 LRU，LFU算法实现 共享内存 多进程，多线程 如何fork一个进程 exec waitpid exit 页表的copy-on-worite PCB
  PCB process control block &amp;gt; task_struct存储了进程的页表，打开文件描述符表，内存描述符，通用寄存器，进程状态等
- 进程状态 IO多路复用 select，poll，epoll实现和优劣
+ 进程状态   IO多路复用 select，poll，epoll实现和优劣
 用户态和内核态区别 进程，线程间通信 什么时候多线程什么时候多进程 线程ID进程组ID 线程和进程的切换和调度，切换的时什么 多进程 - 数据共享复杂，需要进程间通信 - 相对于多线程占用更多的内存 - 进程间切换相对于多线程开销较大 - 编程调试较简单 - 进程间互相不影响 - 适用于多机，性能扩展性较好 多线程 - 数据共享较简单 - 线程间可能会互相影响 - 编程调试较复杂 - 可以利用多核的优势 - 多线程之间切换开销较小
  文件描述符表  网络 http https https相比较于http来说，在会话层加入了stl算法加密，过程如下 1.服务端发送来证书和公钥 2.客户端根据内置的颁发机构验证证书的真伪 3.如果证书为假，则报错 4.如果证书为真，则生成随机值，并用公钥加密传递给服务端 5.服务端收到后使用私钥进行解密，拿到随机值 6.之后的通信都使用随机值进行加密
 http code 200 ok 301 moved permanly 302 Found 303 See Other 400 Bad Request 401 Nuauthorized 403 forbidden 404 Not Found 500 internal server error 502 bad gateway 503 service unavaliable 504 gateway timout</description>

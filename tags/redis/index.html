@@ -1,1 +1,345 @@
-Hello List
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>redis</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="alternate" type="application/rss+xml" href="/tags/redis/index.xml" title="jingtianyou's blog">
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>redis</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		
+		
+		<div>
+			<h1>redis</h1>
+			
+		</div>
+		
+		
+<section id=content>
+    <ul class=posts_listing>
+        
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2020-03-27</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis-scan%E9%81%87%E4%B8%8Arehash/">redis-scan遇上rehash</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-11-25</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis-%E6%BA%90%E7%A0%81%E4%B9%8B%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/">redis-源码之内存分配</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">redis-常见问题</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">redis-应用场景</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis-%E9%9B%86%E7%BE%A4%E6%96%B9%E6%A1%88/">redis-集群方案</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E5%A4%8D%E5%88%B6/">redis复制</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E5%AE%A2%E6%88%B7%E7%AB%AF/">redis客户端</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/">redis数据结构--简单动态字符串</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%93%BE%E8%A1%A8/">redis数据结构--链表</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AF%B9%E8%B1%A1/">redis数据结构-对象</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88/">redis数据结构-整数集合</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E8%AE%A2%E9%98%85/">redis订阅</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-08-09</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E9%97%AE%E9%A2%98/">redis问题</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95/">redis一致性hash算法</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E4%BA%8B%E4%BB%B6/">redis事件</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E4%BA%8B%E5%8A%A1/">redis事务</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E6%8C%81%E4%B9%85%E5%8C%96-rdb/">redis持久化-RDB</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E6%95%B0%E6%8D%AE%E5%BA%93/">redis数据库</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8/">redis数据结构-压缩列表</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%AD%97%E5%85%B8/">redis数据结构-字典</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%B7%83%E8%A1%A8/">redis数据结构-跳跃表</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90/">redis相关资源</a>
+          </div>
+        </div>
+      
+        <div id="lists">
+          <div id=date class="date-time-title">
+              <time>2019-01-08</time>
+          </div>
+          <div class="date-time-title post">
+            <a href="http://nber1994.github.io/posts/redis%E9%9B%86%E7%BE%A4/">redis集群</a>
+          </div>
+        </div>
+      
+    </ul>
+    <div id="page-no">
+
+1 of 1
+
+</div>
+
+  </section>
+
+	</main>
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

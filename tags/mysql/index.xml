@@ -5,7 +5,7 @@
     <link>http://nber1994.github.io/tags/mysql/</link>
     <description>Recent content in mysql on jingtianyou&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>zh-cn</language>
     <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>mysql-InnoDB概述</title>
@@ -14,14 +14,14 @@
       
       <guid>http://nber1994.github.io/posts/mysql-innodb%E6%A6%82%E8%BF%B0/</guid>
       <description>InnoDB概述 InnoDB完整支持ACID事务
-体系架构 InnoDB内部存在多个内存块，可以看做是内存池
+体系架构    InnoDB内部存在多个内存块，可以看做是内存池
 内存池负责如下工作:
  维护内部数据结构 缓存磁盘上的数据，方便的快速读取。同时对磁盘文件的修改进行缓存 redo log的缓冲  后台线程：
  负责刷新内存池中数据，保证缓冲池中的是最近的数据 将已经修改的数据文件刷新到磁盘中 保证在发送异常时回复  后台线程 master thread 负责将缓冲池中的数据异步刷新到磁盘，脏页刷新，合并插入缓存等
 IO thread InnoDB使用了大量的AIO处理IO请求，负责IO请求的回调
 purge thread 回收事务提交后的已经使用的undo页
 内存 缓冲池 InnoDB是基于磁盘的数据库，通常使用缓冲池技术来提高数据库的整体性能
- 读取数据 缓冲池简单来说就是一块内存区域，当读取某一页时，会将数据从磁盘读取到缓冲池中，提高性能 写入数据 对数据的修改，会首先修改缓冲池中的页，然后再已一定的频率将修改刷回磁盘，这里采用的是checkpoint机制刷到磁盘，而不是每次发生页更新时触发 相关参数 innodb_buffer_pool_size 缓冲池缓冲页类型：索引页，数据页，undo页，插入缓冲，自适应哈希索引，innodb存储的锁信息等  LRU list和Free list和flush list 通常来说缓冲池是通过LRU算法来实现的，使用最频繁的页在列表的最前面，最少使用的页在对尾，当没有更多的内存时，首先释放列尾的页
+ 读取数据 缓冲池简单来说就是一块内存区域，当读取某一页时，会将数据从磁盘读取到缓冲池中，提高性能 写入数据 对数据的修改，会首先修改缓冲池中的页，然后再已一定的频率将修改刷回磁盘，这里采用的是checkpoint机制刷到磁盘，而不是每次发生页更新时触发 相关参数 innodb_buffer_pool_size 缓冲池缓冲页类型：索引页，数据页，undo页，插入缓冲，自适应哈希索引，innodb存储的锁信息等     LRU list和Free list和flush list 通常来说缓冲池是通过LRU算法来实现的，使用最频繁的页在列表的最前面，最少使用的页在对尾，当没有更多的内存时，首先释放列尾的页
 在缓冲池中，每页的大小为16K
 lru算法的改进 引入midpoint，新进入的页会放在midpoint的位置
 改进的原因是因为当有大的结果的sql出现时，如果放入对首的话，会把热点数据给覆盖掉，而该sql不一定是会频繁出现的
@@ -30,8 +30,7 @@ free list 该list记录得是所有的未分配的页面，当innodb刚启动是
 flush list 当LRU列表中的页被修改后，该页面被称为脏页，缓冲池中的数据与磁盘中的数据不一致。此时会通过checkpoint机制来讲脏页刷回磁盘，
 所以flush list中的都是脏页，同时lru列表中也会存在脏页
 重做日志缓冲 InnoDB中除了缓冲池外，还有redo log缓冲，InnoDB会先将redo log存到这个缓冲区，然后按照一定概率将其刷新到日志文件中
-redo log会在如下情况下刷入磁盘：
- master thread每秒会刷新到文件 事务提交时会将日志刷新到文件（不一定commit group） 重做日志缓冲剩余空间小于1/2时  checkpoint技术 当页发送变化时将页的版本刷新到磁盘，开销是十分大的。同时如果从缓存页落地磁盘时发送宕机时，是无法恢复的。 所以采用了wirte ahead技术，在事务提交时，先写重做日志，再去修改页面，这样一来，宕机之后可以通过redo log 来恢复数据</description>
+redo log会在如下情况下刷入磁盘：</description>
     </item>
     
     <item>
@@ -74,7 +73,7 @@ undolog作业 一个是进行事务的回滚 另一个是实现mvcc 当一个事
 线上环境 dj.xxx.db
 测试环境 dj.xxx.tdb
 开发环境 dj.xxx.rdb
-从库-s标识 备库-ss 库名，表名，字段名:小写，下划线 表名t_xxx,索引名idx_xxx,唯一索引uniq_xxx   表设计规范  单实例表数目必须小于500 单表列数目必须小于30 表必须有主键     ？？ 主键的作用， 索引，内存管理 *   禁止使用外键，若有外键完整性约束，需要应用程序控制   外键会造成表之间的耦合，update和delete操作会涉及相关联的表</description>
+从库-s标识 备库-ss 库名，表名，字段名:小写，下划线 表名t_xxx,索引名idx_xxx,唯一索引uniq_xxx   表设计规范  单实例表数目必须小于500 单表列数目必须小于30 表必须有主键       ？？ 主键的作用， 索引，内存管理 *   禁止使用外键，若有外键完整性约束，需要应用程序控制   外键会造成表之间的耦合，update和delete操作会涉及相关联的表</description>
     </item>
     
     <item>
@@ -86,11 +85,11 @@ undolog作业 一个是进行事务的回滚 另一个是实现mvcc 当一个事
       <description>mysql-索引结构  索引的结构是B+Tree，这个众所周知，但是具体的结构以及原因我们来探究下
  聚簇索引和非聚簇索引 首先要知道  聚簇索引即数据行放在索引的叶子页面中，而非聚簇索引则是数据和索引分开存放 索引和表属于比较大的数据，所以存放在磁盘中，索引的变更等操作都会导致节点的分裂和新增 考量一个索引结构的性能和设计时，不能只考虑查询性能，还要考虑对数据的修改以及对索引调整的复杂度 一般一个B+Tree的节点为innodb的一页的大小，即16k  聚簇索引  数据文件存放在叶子节点中 数据存放顺序和索引顺序是一致的，索引相邻的话，磁盘存放位置就是相邻的  聚簇索引的特点   优点
  由于相邻索引的数据是在磁盘相邻存放的，所以可以将一类的数据的索引值相邻，这样一旦查询一类数据时，可以一次读取磁盘，将所有数据都读取，避免了随机读 数据访问会很快，因为到达叶子节点直接就能拿到数据    缺点
- 脱离了IO密集型场景则失去优势 插入速度依赖插入的顺序，如果顺序插入速度最快，但是会在主键的上界产生明显的竞争 更新索引列的代价很高，因为会强制的对数据进行移动 使用辅助索引会带来两次查找（自适应哈希索引解决）     顺序写入与读取的性能要大于随机写入读取，所以你会发现很多地方的设计其实都是将随机写入转变为顺序写入的， 例如mysql的doublewirte，先将需要落磁盘的数据写入内存缓冲区之后，在顺序写入到磁盘的共享表空间中，再写入实际的页面中，来解决写磁盘时崩溃导致的数据丢失问题  非聚簇索引   数据和索引分开存放
+ 脱离了IO密集型场景则失去优势 插入速度依赖插入的顺序，如果顺序插入速度最快，但是会在主键的上界产生明显的竞争 更新索引列的代价很高，因为会强制的对数据进行移动 使用辅助索引会带来两次查找（自适应哈希索引解决）     顺序写入与读取的性能要大于随机写入读取，所以你会发现很多地方的设计其实都是将随机写入转变为顺序写入的， 例如mysql的doublewirte，先将需要落磁盘的数据写入内存缓冲区之后，在顺序写入到磁盘的共享表空间中，再写入实际的页面中，来解决写磁盘时崩溃导致的数据丢失问题    非聚簇索引   数据和索引分开存放
   数据的存放于索引的顺序没有关系，叶子节点指向数据的地址
   优点
  插入索引非顺序时也很快 更新索引代价不大，不需要移动数据行    两种索引的数据存储 MyIsam 例如按照下述代码建表，col1为主键
-create table layout_test( col1 int not null, col2 int not null, primary key(col1), key(col2) ); 主键索引的结构是按照行号来组织的，其结构如下 如下图，索引文件按照行号来进行组织，叶子节点存储的是数据行的地址指针 而对于col2对应的索引结构，与主键上的一致</description>
+create table layout_test( col1 int not null, col2 int not null, primary key(col1), key(col2) ); 主键索引的结构是按照行号来组织的，其结构如下   如下图，索引文件按照行号来进行组织，叶子节点存储的是数据行的地址指针   而对于col2对应的索引结构，与主键上的一致</description>
     </item>
     
     <item>
@@ -100,13 +99,13 @@ create table layout_test( col1 int not null, col2 int not null, primary key(col1
       
       <guid>http://nber1994.github.io/posts/mysql-5.7%E8%BF%9E%E6%8E%A5%E6%B1%A0/</guid>
       <description>mysql5.7之后，引进了线程池的概念
- 为什么要是有线程池 没有线程池的现象  随着DB访问的增大，DB的响应时间也会随之增大  而当DB访问达到一定程度的时候，DB吞吐量也会出现下降，并且会越来越差   原因 减少线程重复创建与销毁的开销，提高性能 线程池采用预线程技术，在监听到新的请求到来时，会从线程池中分配一个线程来处理，
+ 为什么要是有线程池 没有线程池的现象  随着DB访问的增大，DB的响应时间也会随之增大    而当DB访问达到一定程度的时候，DB吞吐量也会出现下降，并且会越来越差     原因 减少线程重复创建与销毁的开销，提高性能 线程池采用预线程技术，在监听到新的请求到来时，会从线程池中分配一个线程来处理，
 处理后该线程不会销毁而是去处理其他请求 这样避免了频繁的线程的创建和销毁，减少了上线文切换
 对系统起到保护作用 线程池限制了并发线程数，相当于限制了runing的线程数。
 不论出现多大的请求，超过最大线程都需要排队，所以讲系统保持在高性能的状态， 防止DB雪崩现象
 线程池和连接池的区别 连接池一般是在客户端设置的，避免连接的频繁销毁和创建，但是并不能起到对DB的保护作用 所以一般线程池和连接池一起使用
-Mysql线程池介绍 简介 为了应付频繁创建销毁线程的开销以及高并发导致的雪崩问题 架构 线程池被划分为多个组group，每个组下面有对应的工作线程
-架构图 thread pool 组成 线程池由一个timer thread线程和多个线程组组成，而每个线程组又是由两个队列，已和listener线程和多个worker线程组成
+Mysql线程池介绍 简介 为了应付频繁创建销毁线程的开销以及高并发导致的雪崩问题   架构 线程池被划分为多个组group，每个组下面有对应的工作线程
+架构图    thread pool 组成 线程池由一个timer thread线程和多个线程组组成，而每个线程组又是由两个队列，已和listener线程和多个worker线程组成
 队列(高优先级队列和低优先级队列) 高优先级队列会优先存放事务中的语句,同时如果一个任务存在于低优先级太长时间也会到高优先级里。如果是非事务队列，
 或者是autocommit的事务，都会直接放在低优先级队列
 listener线程 listener线程监听该group的语句，当队列中存在待处理的任务，说明这时有worker在工作，那么直接把任务放入队列中。
@@ -114,8 +113,7 @@ listener线程 listener线程监听该group的语句，当队列中存在待处�
 worker线程 真正干活的线程
 timer线程 检查阻塞  timer线程周期性的检查group是否处理阻塞状态,当出现阻塞，会唤醒线程或者新建线程来解决   检查方法：worker线程去检查队列时，会将queue_event_count+1，而timer线程检查完是否阻塞后会将其置为0
 如果此时,queue_event_count=0并且队列不为空，则说明所有的worker都在工作，group阻塞
- 怎么工作  请求连接到mysql， threadid%thread_pool_size确定落在那个group group接收到请求后，检查队列是否为空，如果为空，则自己作为worker处理请求，否则将任务放入队列中 worker检查队列请求，如果有请求的话，首先检查运行的线程数是否超过thread_pool_oversubscribe+1, 如果没有则执行，没有拿到任务的线程会在thread_pool_idle_timeout之后被回收 timer线程会检查各个group是否存在阻塞出现，一旦出现阻塞，则会创建新的线程去处理请求  更多细节  一个连接可以被一个group中的一个或多个worker线程处理的 listener线程不是固定的 listener线程是通过epoll的方式来监听group中的连接事件的。  连接推荐 MYSQL线程池总结 https://www.cnblogs.com/cchust/p/4510039.html
-MySQL线程池问题个人整理 https://cloud.</description>
+ 怎么工作  请求连接到mysql， threadid%thread_pool_size确定落在那个group group接收到请求后，检查队列是否为空，如果为空，则自己作为worker处理请求，否则将任务放入队列中 worker检查队列请求，如果有请求的话，首先检查运行的线程数是否超过thread_pool_oversubscribe+1, 如果没有则执行，没有拿到任务的线程会在thread_pool_idle_timeout之后被回收 timer线程会检查各个group是否存在阻塞出现，一旦出现阻塞，则会创建新的线程去处理请求  更多细节  一个连接可以被一个group中的一个或多个worker线程处理的 listener线程不是固定的 listener线程是通过epoll的方式来监听group中的连接事件的。       连接推荐 MYSQL线程池总结 https://www.</description>
     </item>
     
     <item>
@@ -124,7 +122,7 @@ MySQL线程池问题个人整理 https://cloud.</description>
       <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>http://nber1994.github.io/posts/mysql-innodb%E6%96%87%E4%BB%B6/</guid>
-      <description>文件   参数文件   日志文件  错误日志 二级制日志  恢复 复制 审计   慢查询日志 查询日志    socket文件   pid文件   Mysql表结构定义文件   InnoDB存储引擎文件   表空间文件 innodb存储按照表空间进行存放。初始化有一个10M的ibdata1文件，文件就是默认的表空间文件 重做日志文件 每个innodb引擎至少与一个重做日志文件组，每个组内至少有两个重做日志文件 并以循环写入的方式运行</description>
+      <description>文件   参数文件   日志文件  错误日志 二级制日志  恢复 复制 审计   慢查询日志 查询日志    socket文件   pid文件   Mysql表结构定义文件   InnoDB存储引擎文件   表空间文件 innodb存储按照表空间进行存放。初始化有一个10M的ibdata1文件，文件就是默认的表空间文件   重做日志文件 每个innodb引擎至少与一个重做日志文件组，每个组内至少有两个重做日志文件 并以循环写入的方式运行</description>
     </item>
     
     <item>
@@ -144,11 +142,10 @@ MySQL线程池问题个人整理 https://cloud.</description>
       <guid>http://nber1994.github.io/posts/mysql-innodb%E9%94%81/</guid>
       <description>锁用于控制对共享资源的并发访问 对于innodb来说，支持行锁 对于myisam，支持表锁 表锁一般ddl时会用到
 锁概述 lock的对象是事务，用来锁定数据库的对象，表，页，行。一般是在事务的commit和rollback之后释放 innodb中锁有两种类型
- s锁（共享锁），允许事务读取一行数据 x锁（排他锁），允许事务删除或更新一行数据   意向锁  InnoDB支持多粒度的锁定，这种锁定允许事务在行级锁上和表级锁上同时存在 为了支持这种操作，innodb支持一种额外的枷锁方式，成为意向锁  对于最细粒度进行上锁，首先需要对粗粒度的对象进行上锁，如果需要对行r上X锁，则需要对数据库A，表，页上意向所IX，然后再对行r上X锁 对于innodb来说，意向锁设计的比较简单，意向锁即是表锁。设计目的是为了在一个事务中揭示下一行将要被请求的锁类型
- 意向共享锁（IS lock）事务想要获得一张表中几行的共享锁 意向排它锁（IX lock）事务想要获得一张表中几行的排他锁 可以看到，意向锁和s和x锁都是兼容的，而只有s和IS锁之间兼容 IS和IX都是表级锁，对于行级锁的X和S锁并不会冲突，只会和表级的S和X锁冲突 而对于行级锁的S和X锁，还是按照基本的原则  意向锁的作用  如果不存在意向锁，加锁时需要便利所有行来判断是否会有冲突 存在意向锁时，只需要判断意向锁与枷锁的兼容性即可。因为存在意向锁代表有行级锁的存在  一致性非锁定读 多版本控制技术MVCC，innodb是基于undo log来实现的 对于read commited隔离级别，每行数据读的是最新版本的数据 而对于repetable read隔离级别，没行数据读的都是事务开始时数据版本数据 对于read commited隔离级别来说，违反了一致性准则
+ s锁（共享锁），允许事务读取一行数据 x锁（排他锁），允许事务删除或更新一行数据     意向锁  InnoDB支持多粒度的锁定，这种锁定允许事务在行级锁上和表级锁上同时存在 为了支持这种操作，innodb支持一种额外的枷锁方式，成为意向锁       对于最细粒度进行上锁，首先需要对粗粒度的对象进行上锁，如果需要对行r上X锁，则需要对数据库A，表，页上意向所IX，然后再对行r上X锁   对于innodb来说，意向锁设计的比较简单，意向锁即是表锁。设计目的是为了在一个事务中揭示下一行将要被请求的锁类型
+ 意向共享锁（IS lock）事务想要获得一张表中几行的共享锁 意向排它锁（IX lock）事务想要获得一张表中几行的排他锁   可以看到，意向锁和s和x锁都是兼容的，而只有s和IS锁之间兼容 IS和IX都是表级锁，对于行级锁的X和S锁并不会冲突，只会和表级的S和X锁冲突 而对于行级锁的S和X锁，还是按照基本的原则  意向锁的作用  如果不存在意向锁，加锁时需要便利所有行来判断是否会有冲突 存在意向锁时，只需要判断意向锁与枷锁的兼容性即可。因为存在意向锁代表有行级锁的存在  一致性非锁定读    多版本控制技术MVCC，innodb是基于undo log来实现的 对于read commited隔离级别，每行数据读的是最新版本的数据 而对于repetable read隔离级别，没行数据读的都是事务开始时数据版本数据 对于read commited隔离级别来说，违反了一致性准则
 一致性锁定度 两种一致性锁定度的语句
- select * from A &amp;hellip; for update 加X锁 select * from A ,,, lock in share mode 加S锁 对于innodb，在没有引入next-key锁之前，即使加上以上语句，即使读取的行加了for update，其他的事务特使可以读取的  锁的算法 行锁的三种算法：
-  record lock 单个记录的锁   gap lock 间隙所，一个范围上的锁，但是不包括记录本身   next-key lock gap lock+record lock锁，锁定一个范围，而且包括记录本身   next-key lock是为了解决幻读的问题</description>
+ select * from A &amp;hellip; for update 加X锁 select * from A ,,, lock in share mode 加S锁 对于innodb，在没有引入next-key锁之前，即使加上以上语句，即使读取的行加了for update，其他的事务特使可以读取的  锁的算法 行锁的三种算法：</description>
     </item>
     
     <item>
@@ -168,7 +165,7 @@ MySQL线程池问题个人整理 https://cloud.</description>
       <guid>http://nber1994.github.io/posts/mysql-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</guid>
       <description>innoDB和MyIsAm引擎的区别 什么是存储过程，视图，触发器和事件 存储过程 存储过程就是一组完成特定功能的sql语句集合，经过编译后存储在mysql中，通过名字+参数进行调用 但是mysql的存储过程相对较弱使用较少
 视图 视图两种方式，一个是简历临时表，另一个是合并算法
-主键的作用， 索引，内存管理 外键完整性约束 join 链接 join和inner join是等价的
+主键的作用， 索引，内存管理 外键完整性约束 join 链接    join和inner join是等价的
 Mysql只支持两种内连接和外连接
 对于left join来说，类似
 slelect on where
@@ -217,23 +214,18 @@ switch sejlect语句： 调用查询缓存，失败后调用查询优化器，�
   联合索引结构原理 https://blog.csdn.net/weixin_30531261/article/details/79329722
   覆盖索引 https://yq.aliyun.com/articles/62419
   联合索引如何选取wherer http://hedengcheng.com/?p=577
- 索引数据结构基础知识 平衡二叉树 平衡二叉树是基于二分法的策略提高数据查找速度的数据结构 B-tree 与平衡二叉树的区别是B树属于多叉树，每个节点多于两个查找路径 规则 B+树 B+树让查询速度更加稳定，完全趋近于二分查找
-与B树的区别 特点：飞叶子节点中不保存记录指针，每个节点可以存更多的关键字，数据只保存在叶子节点，每次查询的速度一定
+ 索引数据结构基础知识 平衡二叉树 平衡二叉树是基于二分法的策略提高数据查找速度的数据结构      B-tree 与平衡二叉树的区别是B树属于多叉树，每个节点多于两个查找路径   规则    B+树 B+树让查询速度更加稳定，完全趋近于二分查找
+  与B树的区别    特点：飞叶子节点中不保存记录指针，每个节点可以存更多的关键字，数据只保存在叶子节点，每次查询的速度一定
 每个节点的出度增加，进而树高会降低，提高了查找速度。
 为什么使用B/B+树 一般来说，索引本身都很大，所以一般会存在磁盘上，而相对于内存读取，读取磁盘的开销是十分大的，所以衡量一个索引性能的一个标准
 就是一次查询IO的次数
 mysql索引实现 MyIsAM索引结构是通过B+树实现的，叶子节点存放的是数据的地址
-而对于辅助索引来说，其结构和主键索引没有任何区别
- 这类索引成为非聚簇索引，即数据和索引文件是分开的
+  而对于辅助索引来说，其结构和主键索引没有任何区别
+   这类索引成为非聚簇索引，即数据和索引文件是分开的
  InnoDB索引实现  对于InnoDB来说，数据本身就是主索引文件，
  因为索引和数据是被保存在一起的，与MyIsAm不同的是，InnoDB的B+树的叶子节点
 包含完整的数据行记录，因而该索引称为聚簇索引
-因而InnoDB表必须有主键，如果没有的话，InnoDB会自动隐世的创建主键索引
- 另外对于InnoDB引擎来说，辅助索引叶子节点存储的是主键的值而不是地址
- 因而InnoDB检索需要经过两边索引：首先通过辅助索引拿到主键的值，在检索一遍主键索引
-因而不建议将索引做的过大，因为会导致过大的索引文件
-不单调的字段作为索引会导致数据插入时频繁的分裂调整
-索引使用策略&amp;amp;优化 最左前缀原理&amp;amp;优化 SHOW INDEX FROM employees.titles; +--------+------------+----------+--------------+-------------+-----------+-------------+------+------------+ | Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Null | Index_type | +--------+------------+----------+--------------+-------------+-----------+-------------+------+------------+ | titles | 0 | PRIMARY | 1 | emp_no | A | NULL | | BTREE | | titles | 0 | PRIMARY | 2 | title | A | NULL | | BTREE | | titles | 0 | PRIMARY | 3 | from_date | A | 443308 | | BTREE | +--------+------------+----------+--------------+-------------+-----------+-------------+------+------------+  情况一：全列匹配</description>
+因而InnoDB表必须有主键，如果没有的话，InnoDB会自动隐世的创建主键索引</description>
     </item>
     
     <item>
@@ -286,7 +278,8 @@ mysql索引实现 MyIsAM索引结构是通过B+树实现的，叶子节点存放
       <description>胡乱的记录了一些explain关键字的一些用法,以及相关的评判参数
  explain概述 EXPLAIN关键字一般放在SELECT查询语句的前面，用于描述MySQL如何执行查询操作、以及MySQL成功返回结果集需要执行的行数。explain 可以帮助我们分析 select 语句,让我们知道查询效率低下的原因,从而改进我们查询,让查询优化器能够更好的工作。
 how to work MySQL 查询优化器有几个目标,但是其中最主要的目标是尽可能地使用索引,并且使用最严格的索引来消除尽可能多的数据行。最终目标是提交 SELECT 语句查找数据行,而不是排除数据行。优化器试图排除数据行的原因在于它排除数据行的速度越快,那么找到与条件匹配的数据行也就越快。如果能够首先进行最严格的测试,查询就可以执行地更快。
-explain的各个参数的详解 id    项目 说明     id MySQL Query Optimizer 选定的执行计划中查询的序列号。表示查询中执行 select 子句或操作表的顺序,id 值越大优先级越高,越先被执行。id 相同,执行顺序由上至下    **id**SQL执行的顺利的标识,SQL从大到小的执行. 例如: mysql&amp;gt; explain select * from (select * from ( select * from t3 where id=3952602) a) b; +----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+ | id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra | +----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+ | 1 | PRIMARY | &amp;lt;derived2&amp;gt; | system | NULL | NULL | NULL | NULL | 1 | | | 2 | DERIVED | &amp;lt;derived3&amp;gt; | system | NULL | NULL | NULL | NULL | 1 | | | 3 | DERIVED | t3 | const | PRIMARY,idx_t3_id | PRIMARY | 4 | | 1 | | +----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+  很显然这条SQL是从里向外的执行,就是从id=3 向上执行.</description>
+explain的各个参数的详解 id    项目 说明     id MySQL Query Optimizer 选定的执行计划中查询的序列号。表示查询中执行 select 子句或操作表的顺序,id 值越大优先级越高,越先被执行。id 相同,执行顺序由上至下    **id**SQL执行的顺利的标识,SQL从大到小的执行.例如:mysql&amp;gt;explainselect*from(select*from(select*fromt3whereid=3952602)a)b;+----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+ |id|select_type|table|type|possible_keys|key|key_len|ref|rows|Extra|+----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+ |1|PRIMARY|&amp;lt;derived2&amp;gt;|system|NULL|NULL|NULL|NULL|1|||2|DERIVED|&amp;lt;derived3&amp;gt;|system|NULL|NULL|NULL|NULL|1|||3|DERIVED|t3|const|PRIMARY,idx_t3_id|PRIMARY|4||1||+----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+ 很显然这条SQL是从里向外的执行,就是从id=3向上执行.select_type select_type-SIMPLE 首先是select__type:将select查询分为简单(simple)和复杂两种类型复杂类型又分为子查询(subquery)和from列表中包含子查询(drived)
+   select_type 查询类型 说明     SIMPLE 简单的 select 查询,不使用 union 及子查询    简单SELECT(不使用UNION或子查询等)例如:mysql&amp;gt;explainselect*fromt3whereid=3952602;+----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------+ |id|select_type|table|type|possible_keys|key|key_len|ref|rows|Extra|+----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------+ |1|SIMPLE|t3|const|PRIMARY,idx_t3_id|PRIMARY|4|const|1||+----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------+ select_type-PEIMARY    select_type 查询类型 说明     PRIMARY 最外层的 select 查询    mysql&amp;gt;explainselect*from(select*fromt3whereid=3952602)a;+----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+ |id|select_type|table|type|possible_keys|key|key_len|ref|rows|Extra|+----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+ |1|PRIMARY|&amp;lt;derived2&amp;gt;|system|NULL|NULL|NULL|NULL|1|||2|DERIVED|t3|const|PRIMARY,idx_t3_id|PRIMARY|4||1||+----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+ select_type-UNION    select_type 查询类型 说明     UNION UNION 中的第二个或随后的 select 查询,不依赖于外部查询的结果集    UNION中的第二个或后面的SELECT语句.</description>
     </item>
     
     <item>
@@ -311,7 +304,7 @@ innoDB对不同的语句加不同的锁  SELECT&amp;hellip;FROM读数据库快�
  mysql的事务并发 事务并发问题  第一类丢失更新(lost update)： 在完全未隔离事务的情况下，两个事物更新同一条数据资源，某一事物异常终止，回滚造成第一个完成的更新也同时丢失。 脏读(dirty read)：如果第二个事务查询到第一个事务还未提交的更新数据，形成脏读。 虚读(phantom read)：一个事务执行两次查询，第二次查询比第一次多出或少一些数据，造成两次结果不一致。只是另一个事务在这两次查询中间插入或者删除了数据造成的。 不可重复读(unrepeated read)：一个事务两次读取同一行数据，结果得到不同状态结果，如中间正好另一个事务更新了该数据，两次结果相异，不可信任。 第二类丢失更新(second lost updates)：是不可重复读的特殊情况，如果两个事务都读取同一行，然后两个都进行写操作，并提交，第一个事务所做的改变就会丢失。  事务隔离级别 为了解决数据库事务并发运行时的各种问题数据库系统提供四种事务隔离级别：
  Serializable 串行化 Repeatable Read 可重复读 Read Commited 可读已提交 Read Uncommited 可读未提交  并发控制  数据库系统采用不同的锁类型来实现以上四种隔离级别，具体的实现过程对用户是透明的。用户应该关心的是如何选择合适的隔离级别。 对于多数应用程序，可以优先考虑把数据库系统的隔离级别设为Read Committed，它能够避免脏读，而且具有较好的并发性能。 每个数据库连接都有一个全局变量@@tx__isolation，表示当前的事务隔离级别。 每一种隔离级别对应着一个正整数。 当数据库系统采用Red Committed隔离级别时，会导致不可重复读和第二类丢失更新的并发问题，在可能出现这种问题的场合。可以在应用程序中采用悲观锁或乐观锁来避免这类问题。  常用的解决方法  罗列的技术有些是数据库系统已经实现，有些需要开发者自主完成。
  版本检查 在数据库中保留标识版本的字段，跟随数据同时读写，一次判断数据版本马版本可能是时间戳或者状态字段
-UPDATE table SET status = 1 WHERE id=1 AND status = 0; 版本检查能够作为乐观锁，解决更新丢失问题
+UPDATEtableSETstatus=1WHEREid=1ANDstatus=0;版本检查能够作为乐观锁，解决更新丢失问题
 锁 共享锁与排它锁 共享锁（Shared locks, S-locks）  基本锁类型之一。加共享锁的对象只允许被当前事务和其他事务读。也称读锁。 能给未加锁和添加了S锁的对象添加S锁。对象可以接受添加多把S锁。  排它锁（Exclusive locks, X-locks）  基本锁类型之一。加排它锁的对象只允许被当前事务读和写。也称独占锁，写锁。 只能给未加锁的对象添加X锁。对象只能接受一把X锁。加X锁的对象不能再加任何锁。  更新锁（Update locks, U-locks）  锁类型之一。引入它是因为多数数据库在实现加X锁时是执行了如下流程：先加S锁，添加成功后尝试更换为X锁。这时如果有两个事务同时加了S锁，尝试换X锁，就会发生死锁。因此增加U锁，U锁代表有更新意向，只允许有一个事务拿到U锁，该事务在发生写后U锁变X锁，未写时看做S锁。  临时锁与持续锁  锁的时效性。指明了加锁生效期是到当前语句结束还是当前事务结束。</description>
     </item>
     
@@ -339,8 +332,9 @@ UPDATE table SET status = 1 WHERE id=1 AND status = 0; 版本检查能够作为�
       <guid>http://nber1994.github.io/posts/mysql%E9%94%81%E8%A1%A8update/</guid>
       <description>胡乱探讨了for update的语句应用与使用场景
  锁表 for update select for update 是为了在查询时,避免其他用户以该表进行插入,修改或删除等操作,造成表的不一致性.
-一些例子 select * from t for update 会等待行锁释放之后，返回查询结果。 select * from t for update nowait 不等待行锁释放，提示锁冲突，不返回结果 select * from t for update wait 5 等待5秒，若行锁仍未释放，则提示锁冲突，不返回结果 select * from t for update skip locked 查询返回查询结果，但忽略有行锁的记录 语法 SELECT...FOR UPDATE 语句的语法如下： SELECT ... FOR UPDATE [OF column_list][WAIT n|NOWAIT][SKIP LOCKED]; 其中： OF 子句用于指定即将更新的列，即锁定行上的特定列。 WAIT 子句指定等待其他用户释放锁的秒数，防止无限期的等待。 优点 使用FOR UPDATE WAIT”子句的优点如下：
- 防止无限期地等待被锁定的行； 允许应用程序中对锁的等待时间进行更多的控制。 对于交互式应用程序非常有用，因为这些用户不能等待不确定 若使用了skip locked，则可以越过锁定的行，不会报告由wait n 引发的‘资源忙’异常报告   当我们进行for update的操作时，与普通select存在很大不同。一般select是不需要考虑数据是否被锁定，最多根据多版本一致读的特性读取之前的版本。加入for update之后，Oracle就要求启动一个新事务，尝试对数据进行加锁。如果当前已经被加锁，默认的行为必然是block等待。使用nowait子句的作用就是避免进行等待，当发现请求加锁资源被锁定未释放的时候，直接报错返回。 在日常中，我们对for update的使用还是比较普遍的，特别是在如pl/sql developer中手工修改数据。此时只是觉得方便，而对for update真正的含义缺乏理解。 For update是Oracle提供的手工提高锁级别和范围的特例语句。Oracle的锁机制是目前各类型数据库锁机制中比较优秀的。所以，Oracle认为一般不需要用户和应用直接进行锁的控制和提升。甚至认为死锁这类锁相关问题的出现场景，大都与手工提升锁有关。所以，Oracle并不推荐使用for update作为日常开发使用。而且，在平时开发和运维中，使用了for update却忘记提交，会引起很多锁表故障。</description>
+一些例子 select*fromtforupdate会等待行锁释放之后，返回查询结果。select*fromtforupdatenowait不等待行锁释放，提示锁冲突，不返回结果select*fromtforupdatewait5等待5秒，若行锁仍未释放，则提示锁冲突，不返回结果select*fromtforupdateskiplocked查询返回查询结果，但忽略有行锁的记录语法 SELECT...FORUPDATE语句的语法如下：SELECT...FORUPDATE[OFcolumn_list][WAITn|NOWAIT][SKIPLOCKED];其中：OF子句用于指定即将更新的列，即锁定行上的特定列。WAIT子句指定等待其他用户释放锁的秒数，防止无限期的等待。优点 使用FOR UPDATE WAIT”子句的优点如下：
+ 防止无限期地等待被锁定的行； 允许应用程序中对锁的等待时间进行更多的控制。 对于交互式应用程序非常有用，因为这些用户不能等待不确定 若使用了skip locked，则可以越过锁定的行，不会报告由wait n 引发的‘资源忙’异常报告   当我们进行for update的操作时，与普通select存在很大不同。一般select是不需要考虑数据是否被锁定，最多根据多版本一致读的特性读取之前的版本。加入for update之后，Oracle就要求启动一个新事务，尝试对数据进行加锁。如果当前已经被加锁，默认的行为必然是block等待。使用nowait子句的作用就是避免进行等待，当发现请求加锁资源被锁定未释放的时候，直接报错返回。 在日常中，我们对for update的使用还是比较普遍的，特别是在如pl/sql developer中手工修改数据。此时只是觉得方便，而对for update真正的含义缺乏理解。 For update是Oracle提供的手工提高锁级别和范围的特例语句。Oracle的锁机制是目前各类型数据库锁机制中比较优秀的。所以，Oracle认为一般不需要用户和应用直接进行锁的控制和提升。甚至认为死锁这类锁相关问题的出现场景，大都与手工提升锁有关。所以，Oracle并不推荐使用for update作为日常开发使用。而且，在平时开发和运维中，使用了for update却忘记提交，会引起很多锁表故障。
+ 使用场景 就是那些需要业务层面数据独占时，可以考虑使用for update。场景上，比如火车票订票，在屏幕上显示邮票，而真正进行出票时，需要重新确定一下这个数据没有被其他客户端修改。所以，在这个确认过程中，可以使用for update。这是统一的解决方案方案问题，需要前期有所准备。</description>
     </item>
     
   </channel>

@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>os-网络IO模型</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>os-网络IO模型</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>os-网络IO模型</h1>
-    <div class="blog-post-subheader">
-        May 31, 2019
-    </div>
-    <div class="blog-post-content">
-        <h1 id="os-网络io模型">os-网络IO模型</h1>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>os-网络IO模型</h1>
+			<b><time>2019-05-31</time></b>
+		       
+		           <a href="/tags/os">os</a>
+        	       
+
+			<div>
+				<h1 id="os-网络io模型">os-网络IO模型</h1>
 <h1 id="io多路复用">IO多路复用</h1>
 <h2 id="selectpollepoll之间的区别总结整理">select、poll、epoll之间的区别总结[整理]</h2>
 <ul>
@@ -120,7 +127,13 @@
 <h2 id="select实现">select实现</h2>
 <ul>
 <li>select的调用过程如下所示：
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190528115137282_1712659801.png" alt="">
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190528115137282_1712659801.png" alt="" />
+</figure>
+
+
+
 （1）使用copy_from_user从用户空间拷贝fd_set到内核空间     <br>
 （2）注册回调函数__pollwait <br>
 （3）遍历所有fd，调用其对应的poll方法（对于socket，这个poll方法是sock_poll，sock_poll根据情况会调用到tcp_poll,udp_poll或者datagram_poll） <br>
@@ -161,61 +174,61 @@
 <li>对于第三个缺点，epoll没有这个限制，它所支持的FD上限是最大可以打开文件的数目，这个数字一般远大于2048,举个例子,在1GB内存的机器上大约是10万左右，具体数目可以cat /proc/sys/fs/file-max察看,一般来说这个数目和系统内存关系很大。</li>
 </ul>
 <h2 id="代码对比">代码对比</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/*select的回调函数，将当前进程添加到fd的等待队列上
-</span><span style="color:#75715e"> * 该函数可以看到，是初始化了一个entry的结构，在init_waitqueue_entry函数中，将当前进程设置为了该entry的私有值，
-</span><span style="color:#75715e"> * 并且在将唤醒函数绑定
-</span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">__pollwait</span>(<span style="color:#66d9ef">struct</span> file <span style="color:#f92672">*</span>filp, wait_queue_head_t <span style="color:#f92672">*</span>wait_address, poll_table <span style="color:#f92672">*</span>p)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#998;font-style:italic">/*select的回调函数，将当前进程添加到fd的等待队列上
+</span><span style="color:#998;font-style:italic"> * 该函数可以看到，是初始化了一个entry的结构，在init_waitqueue_entry函数中，将当前进程设置为了该entry的私有值，
+</span><span style="color:#998;font-style:italic"> * 并且在将唤醒函数绑定
+</span><span style="color:#998;font-style:italic"> */</span>
+<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">__pollwait</span>(<span style="color:#000;font-weight:bold">struct</span> file <span style="color:#000;font-weight:bold">*</span>filp, wait_queue_head_t <span style="color:#000;font-weight:bold">*</span>wait_address, poll_table <span style="color:#000;font-weight:bold">*</span>p)
 {
-	<span style="color:#66d9ef">struct</span> poll_table_entry <span style="color:#f92672">*</span>entry <span style="color:#f92672">=</span> poll_get_entry(p);
-	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>entry)
-		<span style="color:#66d9ef">return</span>;
+	<span style="color:#000;font-weight:bold">struct</span> poll_table_entry <span style="color:#000;font-weight:bold">*</span>entry <span style="color:#000;font-weight:bold">=</span> poll_get_entry(p);
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>entry)
+		<span style="color:#000;font-weight:bold">return</span>;
 	get_file(filp);
-	entry<span style="color:#f92672">-&gt;</span>filp <span style="color:#f92672">=</span> filp;
-	entry<span style="color:#f92672">-&gt;</span>wait_address <span style="color:#f92672">=</span> wait_address;
-	init_waitqueue_entry(<span style="color:#f92672">&amp;</span>entry<span style="color:#f92672">-&gt;</span>wait, current);
-	add_wait_queue(wait_address, <span style="color:#f92672">&amp;</span>entry<span style="color:#f92672">-&gt;</span>wait);
+	entry<span style="color:#000;font-weight:bold">-&gt;</span>filp <span style="color:#000;font-weight:bold">=</span> filp;
+	entry<span style="color:#000;font-weight:bold">-&gt;</span>wait_address <span style="color:#000;font-weight:bold">=</span> wait_address;
+	init_waitqueue_entry(<span style="color:#000;font-weight:bold">&amp;</span>entry<span style="color:#000;font-weight:bold">-&gt;</span>wait, current);
+	add_wait_queue(wait_address, <span style="color:#000;font-weight:bold">&amp;</span>entry<span style="color:#000;font-weight:bold">-&gt;</span>wait);
 }
 
-<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init_waitqueue_entry</span>(wait_queue_t <span style="color:#f92672">*</span>q, <span style="color:#66d9ef">struct</span> task_struct <span style="color:#f92672">*</span>p)
+<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">inline</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">init_waitqueue_entry</span>(wait_queue_t <span style="color:#000;font-weight:bold">*</span>q, <span style="color:#000;font-weight:bold">struct</span> task_struct <span style="color:#000;font-weight:bold">*</span>p)
 {
-	q<span style="color:#f92672">-&gt;</span>flags <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	q<span style="color:#f92672">-&gt;</span>private <span style="color:#f92672">=</span> p;
-	q<span style="color:#f92672">-&gt;</span>func <span style="color:#f92672">=</span> default_wake_function;
+	q<span style="color:#000;font-weight:bold">-&gt;</span>flags <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
+	q<span style="color:#000;font-weight:bold">-&gt;</span>private <span style="color:#000;font-weight:bold">=</span> p;
+	q<span style="color:#000;font-weight:bold">-&gt;</span>func <span style="color:#000;font-weight:bold">=</span> default_wake_function;
 }
 
 
 
-<span style="color:#75715e">/*
-</span><span style="color:#75715e"> * epoll的回调函数
-</span><span style="color:#75715e"> * This is the callback that is used to add our wait queue to the
-</span><span style="color:#75715e"> * target file wakeup lists.
-</span><span style="color:#75715e"> * 该函数与select差不多，但是初始化等待队列的item时，并未把当前进程设置为私有值
-</span><span style="color:#75715e"> * 而item的func并不是唤醒函数，而是一个回调函数
-</span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">ep_ptable_queue_proc</span>(<span style="color:#66d9ef">struct</span> file <span style="color:#f92672">*</span>file, wait_queue_head_t <span style="color:#f92672">*</span>whead, poll_table <span style="color:#f92672">*</span>pt)
+<span style="color:#998;font-style:italic">/*
+</span><span style="color:#998;font-style:italic"> * epoll的回调函数
+</span><span style="color:#998;font-style:italic"> * This is the callback that is used to add our wait queue to the
+</span><span style="color:#998;font-style:italic"> * target file wakeup lists.
+</span><span style="color:#998;font-style:italic"> * 该函数与select差不多，但是初始化等待队列的item时，并未把当前进程设置为私有值
+</span><span style="color:#998;font-style:italic"> * 而item的func并不是唤醒函数，而是一个回调函数
+</span><span style="color:#998;font-style:italic"> */</span>
+<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">ep_ptable_queue_proc</span>(<span style="color:#000;font-weight:bold">struct</span> file <span style="color:#000;font-weight:bold">*</span>file, wait_queue_head_t <span style="color:#000;font-weight:bold">*</span>whead, poll_table <span style="color:#000;font-weight:bold">*</span>pt)
 {
-	<span style="color:#66d9ef">struct</span> epitem <span style="color:#f92672">*</span>epi <span style="color:#f92672">=</span> ep_item_from_epqueue(pt);
-	<span style="color:#66d9ef">struct</span> eppoll_entry <span style="color:#f92672">*</span>pwq;
+	<span style="color:#000;font-weight:bold">struct</span> epitem <span style="color:#000;font-weight:bold">*</span>epi <span style="color:#000;font-weight:bold">=</span> ep_item_from_epqueue(pt);
+	<span style="color:#000;font-weight:bold">struct</span> eppoll_entry <span style="color:#000;font-weight:bold">*</span>pwq;
  
-	<span style="color:#66d9ef">if</span> (epi<span style="color:#f92672">-&gt;</span>nwait <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> (pwq <span style="color:#f92672">=</span> kmem_cache_alloc(pwq_cache, GFP_KERNEL))) {
-		init_waitqueue_func_entry(<span style="color:#f92672">&amp;</span>pwq<span style="color:#f92672">-&gt;</span>wait, ep_poll_callback);
-		pwq<span style="color:#f92672">-&gt;</span>whead <span style="color:#f92672">=</span> whead;
-		pwq<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">=</span> epi;
-		add_wait_queue(whead, <span style="color:#f92672">&amp;</span>pwq<span style="color:#f92672">-&gt;</span>wait);
-		list_add_tail(<span style="color:#f92672">&amp;</span>pwq<span style="color:#f92672">-&gt;</span>llink, <span style="color:#f92672">&amp;</span>epi<span style="color:#f92672">-&gt;</span>pwqlist);
-		epi<span style="color:#f92672">-&gt;</span>nwait<span style="color:#f92672">++</span>;
-	} <span style="color:#66d9ef">else</span> {
-		<span style="color:#75715e">/* We have to signal that an error occurred */</span>
-		epi<span style="color:#f92672">-&gt;</span>nwait <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+	<span style="color:#000;font-weight:bold">if</span> (epi<span style="color:#000;font-weight:bold">-&gt;</span>nwait <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> (pwq <span style="color:#000;font-weight:bold">=</span> kmem_cache_alloc(pwq_cache, GFP_KERNEL))) {
+		init_waitqueue_func_entry(<span style="color:#000;font-weight:bold">&amp;</span>pwq<span style="color:#000;font-weight:bold">-&gt;</span>wait, ep_poll_callback);
+		pwq<span style="color:#000;font-weight:bold">-&gt;</span>whead <span style="color:#000;font-weight:bold">=</span> whead;
+		pwq<span style="color:#000;font-weight:bold">-&gt;</span>base <span style="color:#000;font-weight:bold">=</span> epi;
+		add_wait_queue(whead, <span style="color:#000;font-weight:bold">&amp;</span>pwq<span style="color:#000;font-weight:bold">-&gt;</span>wait);
+		list_add_tail(<span style="color:#000;font-weight:bold">&amp;</span>pwq<span style="color:#000;font-weight:bold">-&gt;</span>llink, <span style="color:#000;font-weight:bold">&amp;</span>epi<span style="color:#000;font-weight:bold">-&gt;</span>pwqlist);
+		epi<span style="color:#000;font-weight:bold">-&gt;</span>nwait<span style="color:#000;font-weight:bold">++</span>;
+	} <span style="color:#000;font-weight:bold">else</span> {
+		<span style="color:#998;font-style:italic">/* We have to signal that an error occurred */</span>
+		epi<span style="color:#000;font-weight:bold">-&gt;</span>nwait <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
 	}
 }
 
-<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init_waitqueue_func_entry</span>(wait_queue_t <span style="color:#f92672">*</span>q, wait_queue_func_t func)
+<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">inline</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">init_waitqueue_func_entry</span>(wait_queue_t <span style="color:#000;font-weight:bold">*</span>q, wait_queue_func_t func)
 {
-	q<span style="color:#f92672">-&gt;</span>flags <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	q<span style="color:#f92672">-&gt;</span>private <span style="color:#f92672">=</span> NULL;
-	q<span style="color:#f92672">-&gt;</span>func <span style="color:#f92672">=</span> func;
+	q<span style="color:#000;font-weight:bold">-&gt;</span>flags <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
+	q<span style="color:#000;font-weight:bold">-&gt;</span>private <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">NULL</span>;
+	q<span style="color:#000;font-weight:bold">-&gt;</span>func <span style="color:#000;font-weight:bold">=</span> func;
 }
 
 </code></pre></div><h2 id="总结">总结：</h2>
@@ -231,35 +244,74 @@
 <li><a href="https://banu.com/blog/2/how-to-use-epoll-a-complete-example-in-c/epoll-example.c">https://banu.com/blog/2/how-to-use-epoll-a-complete-example-in-c/epoll-example.c</a></li>
 </ul>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

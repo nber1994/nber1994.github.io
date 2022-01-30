@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>如何基于github pages搭建blog</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>如何基于github pages搭建blog</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>如何基于github pages搭建blog</h1>
-    <div class="blog-post-subheader">
-        December 6, 2017
-    </div>
-    <div class="blog-post-content">
-        <blockquote>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>如何基于github pages搭建blog</h1>
+			<b><time>2017-12-06</time></b>
+		       
+		           <a href="/tags/tools">tools</a>
+        	       
+
+			<div>
+				<blockquote>
 <p>胡乱的记载了如何在github-pages搭建bolg</p>
 </blockquote>
 <h1 id="什么是github-pages">什么是github-pages</h1>
@@ -131,20 +138,20 @@ If you create a repository named you.github.com, where you is your username, and
 </ul>
 <h2 id="挑选好之后git-clone-到本地并添加远程仓库为你的xxxgithubio">挑选好之后，git clone 到本地，并添加远程仓库为你的XXX.github.io</h2>
 <h1 id="jekll-框架的目录结构">jekll 框架的目录结构</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">-rw-r--r--@  <span style="color:#ae81ff">1</span> jingtianyou  staff   104B  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 404.html
--rw-r--r--@  <span style="color:#ae81ff">1</span> jingtianyou  staff   1.0K  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 LICENSE
--rw-r--r--@  <span style="color:#ae81ff">1</span> jingtianyou  staff   375B  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 README.md
--rw-r--r--   <span style="color:#ae81ff">1</span> jingtianyou  staff   365B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:32 _config.yml
-drwxr-xr-x@  <span style="color:#ae81ff">3</span> jingtianyou  staff   102B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 17:53 _data
-drwxr-xr-x@  <span style="color:#ae81ff">4</span> jingtianyou  staff   136B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 20:12 _includes
-drwxr-xr-x@  <span style="color:#ae81ff">5</span> jingtianyou  staff   170B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:16 _layouts
-drwxr-xr-x@ <span style="color:#ae81ff">15</span> jingtianyou  staff   510B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 20:42 _posts
-drwxr-xr-x@  <span style="color:#ae81ff">4</span> jingtianyou  staff   136B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:45 _sass
-drwxr-xr-x  <span style="color:#ae81ff">12</span> jingtianyou  staff   408B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 20:31 _site
-drwxrwxrwx@  <span style="color:#ae81ff">6</span> jingtianyou  staff   204B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:45 assets
--rw-r--r--@  <span style="color:#ae81ff">1</span> jingtianyou  staff   219B  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 index.html
-drwxr-xr-x@  <span style="color:#ae81ff">3</span> jingtianyou  staff   102B <span style="color:#ae81ff">12</span>  <span style="color:#ae81ff">7</span> 18:45 me
-drwxr-xr-x@  <span style="color:#ae81ff">6</span> jingtianyou  staff   204B  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">18</span> 07:47 categories
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">-rw-r--r--@  <span style="color:#099">1</span> jingtianyou  staff   104B  <span style="color:#099">9</span> <span style="color:#099">18</span> 07:47 404.html
+-rw-r--r--@  <span style="color:#099">1</span> jingtianyou  staff   1.0K  <span style="color:#099">9</span> <span style="color:#099">18</span> 07:47 LICENSE
+-rw-r--r--@  <span style="color:#099">1</span> jingtianyou  staff   375B  <span style="color:#099">9</span> <span style="color:#099">18</span> 07:47 README.md
+-rw-r--r--   <span style="color:#099">1</span> jingtianyou  staff   365B <span style="color:#099">12</span>  <span style="color:#099">7</span> 18:32 _config.yml
+drwxr-xr-x@  <span style="color:#099">3</span> jingtianyou  staff   102B <span style="color:#099">12</span>  <span style="color:#099">7</span> 17:53 _data
+drwxr-xr-x@  <span style="color:#099">4</span> jingtianyou  staff   136B <span style="color:#099">12</span>  <span style="color:#099">7</span> 20:12 _includes
+drwxr-xr-x@  <span style="color:#099">5</span> jingtianyou  staff   170B <span style="color:#099">12</span>  <span style="color:#099">7</span> 18:16 _layouts
+drwxr-xr-x@ <span style="color:#099">15</span> jingtianyou  staff   510B <span style="color:#099">12</span>  <span style="color:#099">7</span> 20:42 _posts
+drwxr-xr-x@  <span style="color:#099">4</span> jingtianyou  staff   136B <span style="color:#099">12</span>  <span style="color:#099">7</span> 18:45 _sass
+drwxr-xr-x  <span style="color:#099">12</span> jingtianyou  staff   408B <span style="color:#099">12</span>  <span style="color:#099">7</span> 20:31 _site
+drwxrwxrwx@  <span style="color:#099">6</span> jingtianyou  staff   204B <span style="color:#099">12</span>  <span style="color:#099">7</span> 18:45 assets
+-rw-r--r--@  <span style="color:#099">1</span> jingtianyou  staff   219B  <span style="color:#099">9</span> <span style="color:#099">18</span> 07:47 index.html
+drwxr-xr-x@  <span style="color:#099">3</span> jingtianyou  staff   102B <span style="color:#099">12</span>  <span style="color:#099">7</span> 18:45 me
+drwxr-xr-x@  <span style="color:#099">6</span> jingtianyou  staff   204B  <span style="color:#099">9</span> <span style="color:#099">18</span> 07:47 categories
 </code></pre></div><h2 id="404html">404.html</h2>
 <p>404页面，同样你可以使用一些公益404页面，例如腾讯404.</p>
 <h2 id="__configyml">__config.yml</h2>
@@ -157,7 +164,7 @@ drwxr-xr-x@  <span style="color:#ae81ff">6</span> jingtianyou  staff   204B  <sp
 <p>2017-12-08-文章名.md</p>
 </blockquote>
 <p>文章的开头一般是这样的，声明布局，标题，日期，tag等等,框架一般会自动帮你分类</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">---
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">---
 title: InnoDB各类语句的加锁方式与应用
 date: 2017-12-06
 tags:
@@ -174,51 +181,51 @@ tags:
 <h1 id="安装本地jekll">安装本地jekll</h1>
 <p>jekll其实就是一个markdown ==&gt; html 的翻译器，将你的markdown翻译成html</p>
 <p>安装：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ gem install jekyll
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ gem install jekyll
 ~ $ jekyll new my-awesome-site
-~ $ cd my-awesome-site
+~ $ <span style="color:#0086b3">cd</span> my-awesome-site
 ~/my-awesome-site $ jekyll serve
-<span style="color:#75715e"># =&gt; Now browse to http://localhost:4000</span>
+<span style="color:#998;font-style:italic"># =&gt; Now browse to http://localhost:4000</span>
 </code></pre></div><ul>
 <li>安装过程我敢肯定一定会不成功</li>
 <li>具体请自行百度</li>
 <li>jekll监听4000端口
 本地运行jekyll服务之后，可以一边写，一边查看效果</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> jingtianyou@jingtianyoudeMacBook-Air  ~/github/windows-95-master   master  jekyll server --future
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> jingtianyou@jingtianyoudeMacBook-Air  ~/github/windows-95-master   master  jekyll server --future
 Configuration file: /Users/jingtianyou/github/windows-95-master/_config.yml
             Source: /Users/jingtianyou/github/windows-95-master
        Destination: /Users/jingtianyou/github/windows-95-master/_site
  Incremental build: disabled. Enable with --incremental
       Generating...
-                    <span style="color:#66d9ef">done</span> in 0.868 seconds.
- Auto-regeneration: enabled <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;/Users/jingtianyou/github/windows-95-master&#39;</span>
+                    <span style="color:#000;font-weight:bold">done</span> in 0.868 seconds.
+ Auto-regeneration: enabled <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/Users/jingtianyou/github/windows-95-master&#39;</span>
     Server address: http://127.0.0.1:4000//
   Server running... press ctrl-c to stop.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:27:57 ...done in 0.390267 seconds.
-<span style="color:#f92672">[</span>2017-12-07 20:31:24<span style="color:#f92672">]</span> ERROR <span style="color:#e6db74">`</span>/tag/lnmp/<span style="color:#e6db74">&#39; not found.
-</span><span style="color:#e6db74">      Regenerating: 1 file(s) changed at 2017-12-07 20:31:47 ...done in 0.328509 seconds.
-</span><span style="color:#e6db74">[2017-12-07 20:31:53] ERROR `/20171207/如何基于github-pages搭建博客&#39;</span> not found.
-<span style="color:#f92672">[</span>2017-12-07 20:31:55<span style="color:#f92672">]</span> ERROR <span style="color:#e6db74">`</span>/tag/lnmp/<span style="color:#e6db74">&#39; not found.
-</span><span style="color:#e6db74">[2017-12-07 20:32:06] ERROR `/tag/lnmp/&#39;</span> not found.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:32:42 ...done in 0.408106 seconds.
-<span style="color:#f92672">[</span>2017-12-07 20:32:44<span style="color:#f92672">]</span> ERROR <span style="color:#e6db74">`</span>/tag/lnmp/<span style="color:#e6db74">&#39; not found.
-</span><span style="color:#e6db74">[2017-12-07 20:32:48] ERROR `/tag/lnmp/&#39;</span> not found.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:33:04 ...done in 0.546599 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:34:24 ...done in 0.41305 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:34:46 ...done in 0.285784 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:42:02 ...done in 0.353415 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:46:13 ...done in 0.333329 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:46:19 ...done in 0.293639 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:47:56 ...done in 0.314423 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:52:00 ...done in 0.335078 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:52:30 ...done in 0.429857 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:52:51 ...done in 0.287992 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:54:28 ...done in 0.330737 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 20:56:08 ...done in 0.328462 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 21:00:29 ...done in 0.342248 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 21:02:59 ...done in 0.343119 seconds.
-      Regenerating: <span style="color:#ae81ff">1</span> file<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> changed at 2017-12-07 21:03:15 ...done in 0.27084 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:27:57 ...done in 0.390267 seconds.
+<span style="color:#000;font-weight:bold">[</span>2017-12-07 20:31:24<span style="color:#000;font-weight:bold">]</span> ERROR <span style="color:#d14">`</span>/tag/lnmp/<span style="color:#d14">&#39; not found.
+</span><span style="color:#d14">      Regenerating: 1 file(s) changed at 2017-12-07 20:31:47 ...done in 0.328509 seconds.
+</span><span style="color:#d14">[2017-12-07 20:31:53] ERROR `/20171207/如何基于github-pages搭建博客&#39;</span> not found.
+<span style="color:#000;font-weight:bold">[</span>2017-12-07 20:31:55<span style="color:#000;font-weight:bold">]</span> ERROR <span style="color:#d14">`</span>/tag/lnmp/<span style="color:#d14">&#39; not found.
+</span><span style="color:#d14">[2017-12-07 20:32:06] ERROR `/tag/lnmp/&#39;</span> not found.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:32:42 ...done in 0.408106 seconds.
+<span style="color:#000;font-weight:bold">[</span>2017-12-07 20:32:44<span style="color:#000;font-weight:bold">]</span> ERROR <span style="color:#d14">`</span>/tag/lnmp/<span style="color:#d14">&#39; not found.
+</span><span style="color:#d14">[2017-12-07 20:32:48] ERROR `/tag/lnmp/&#39;</span> not found.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:33:04 ...done in 0.546599 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:34:24 ...done in 0.41305 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:34:46 ...done in 0.285784 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:42:02 ...done in 0.353415 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:46:13 ...done in 0.333329 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:46:19 ...done in 0.293639 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:47:56 ...done in 0.314423 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:52:00 ...done in 0.335078 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:52:30 ...done in 0.429857 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:52:51 ...done in 0.287992 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:54:28 ...done in 0.330737 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 20:56:08 ...done in 0.328462 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 21:00:29 ...done in 0.342248 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 21:02:59 ...done in 0.343119 seconds.
+      Regenerating: <span style="color:#099">1</span> file<span style="color:#000;font-weight:bold">(</span>s<span style="color:#000;font-weight:bold">)</span> changed at 2017-12-07 21:03:15 ...done in 0.27084 seconds.
 </code></pre></div><h1 id="tips">tips:</h1>
 <ul>
 <li>启动jekyll时，加上&ndash;future参数，不然你今天写的文章是显示不出来的</li>
@@ -227,35 +234,74 @@ Configuration file: /Users/jingtianyou/github/windows-95-master/_config.yml
 </ul>
 <h1 id="have-fun">Have Fun!</h1>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

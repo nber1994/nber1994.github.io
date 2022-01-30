@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>shell常用的文本处理命令</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>shell常用的文本处理命令</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>shell常用的文本处理命令</h1>
-    <div class="blog-post-subheader">
-        October 27, 2017
-    </div>
-    <div class="blog-post-content">
-        <blockquote>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>shell常用的文本处理命令</h1>
+			<b><time>2017-10-27</time></b>
+		       
+		           <a href="/tags/shell">shell</a>
+        	       
+
+			<div>
+				<blockquote>
 <p>先挖个坑,还未完成</p>
 </blockquote>
 <h1 id="sed-命令">sed 命令</h1>
@@ -139,11 +146,11 @@
 </ul>
 <h1 id="例子">例子</h1>
 <p>写入文本</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ vi quote.txt 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ vi quote.txt 
 少一些以功利为目的的追求，对一些不为什么的坚持
                                             --nber1994
 
-$ sed <span style="color:#e6db74">&#39;&#39;</span> quote.txt
+$ sed <span style="color:#d14">&#39;&#39;</span> quote.txt
 
 少一些以功利为目的的追求，对一些不为什么的坚持
                                             --nber1994
@@ -152,27 +159,27 @@ $ sed <span style="color:#e6db74">&#39;&#39;</span> quote.txt
 <li>首先，SED将会读取quote.txt文件中的一行内容存储到它的模式空间中，然后会在该缓冲区中执行SED命令。在这里，没有提供SED命令，因此对该缓冲区没有要执行的操作，最后它会删除模式空间中的内容并且打印该内容到标准输出，很简单的过程</li>
 </ul>
 <h1 id="基础语法">基础语法</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">SED可以用下列两种方式调用：
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">SED可以用下列两种方式调用：
 
-sed <span style="color:#f92672">[</span>-n<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-e<span style="color:#f92672">]</span> <span style="color:#e6db74">&#39;command(s)&#39;</span> files
-sed <span style="color:#f92672">[</span>-n<span style="color:#f92672">]</span> -f scriptfile files
+sed <span style="color:#000;font-weight:bold">[</span>-n<span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">[</span>-e<span style="color:#000;font-weight:bold">]</span> <span style="color:#d14">&#39;command(s)&#39;</span> files
+sed <span style="color:#000;font-weight:bold">[</span>-n<span style="color:#000;font-weight:bold">]</span> -f scriptfile files
 </code></pre></div><p>第一种方式在命令行中使用单引号指定要执行的命令，第二种方式则指定了包含SED命令的脚本文件。当然，这两种方法也可以同时使用，SED提供了很多参数用于控制这种行为。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 
 //删除三行
-$ sed -e <span style="color:#e6db74">&#39;1d&#39;</span> -e <span style="color:#e6db74">&#39;2d&#39;</span> -e <span style="color:#e6db74">&#39;5d&#39;</span> books.txt
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+$ sed -e <span style="color:#d14">&#39;1d&#39;</span> -e <span style="color:#d14">&#39;2d&#39;</span> -e <span style="color:#d14">&#39;5d&#39;</span> books.txt
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 
 或者文件模式:
-$ echo -e <span style="color:#e6db74">&#34;1d\n2d\n5d&#34;</span> &gt; commands.txt 
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;1d\n2d\n5d&#34;</span> &gt; commands.txt 
 $ cat commands.txt
 1d 
 2d 
@@ -180,19 +187,19 @@ $ cat commands.txt
 
 //删除三行
 $ sed -f commands.txt books.txt
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><h1 id="标准选项">标准选项</h1>
 <p>SED支持下列标准选项：</p>
 <ul>
 <li>-n 默认情况下，模式空间中的内容在处理完成后将会打印到标准输出，该选项用于阻止该行为:</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;&#39;</span> quote.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;&#39;</span> quote.txt
 </code></pre></div><ul>
 <li>-e 指定要执行的命令，使用该参数，我们可以指定多个命令，让我们打印每一行两次：</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -e <span style="color:#e6db74">&#39;&#39;</span> -e <span style="color:#e6db74">&#39;p&#39;</span> quote.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -e <span style="color:#d14">&#39;&#39;</span> -e <span style="color:#d14">&#39;p&#39;</span> quote.txt
 There is only one thing that makes a dream impossible to achieve: the fear of failure.
 There is only one thing that makes a dream impossible to achieve: the fear of failure.
  - Paulo Coelho, The Alchemist
@@ -200,19 +207,19 @@ There is only one thing that makes a dream impossible to achieve: the fear of fa
 </code></pre></div><ul>
 <li>-f 指定包含要执行的命令的脚本文件</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#34;p&#34;</span> &gt; commands
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;p&#34;</span> &gt; commands
 $
 $ sed -n -f commands quote.txt
 There is only one thing that makes a dream impossible to achieve: the fear of failure.
  - Paulo Coelho, The Alchemist
 </code></pre></div><h1 id="gun选项">GUN选项</h1>
 <p>这些选项是GNU规范定义的，可能对于某些版本的SED并不支持。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">* -n， –quiet, –slient：与标准的-n选项相同
-* -e script，–expression<span style="color:#f92672">=</span>script：与标准的-e选项相同
-* -f script-file， –file<span style="color:#f92672">=</span>script-file：与标准的-f选项相同
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">* -n， –quiet, –slient：与标准的-n选项相同
+* -e script，–expression<span style="color:#000;font-weight:bold">=</span>script：与标准的-e选项相同
+* -f script-file， –file<span style="color:#000;font-weight:bold">=</span>script-file：与标准的-f选项相同
 * –follow-symlinks：如果提供该选项的话，在编辑的文件是符号链接时，SED将会跟随链接
-* -i<span style="color:#f92672">[</span>SUFFIX<span style="color:#f92672">]</span>，–in-place<span style="color:#f92672">[=</span>SUFFIX<span style="color:#f92672">]</span>：该选项用于对当前文件进行编辑，如果提供了SUFFIX的话，将会备份原始文件，否则将会覆盖原始文件
-* -l N， –line-lenght<span style="color:#f92672">=</span>N：该选项用于设置行的长度为N个字符
+* -i<span style="color:#000;font-weight:bold">[</span>SUFFIX<span style="color:#000;font-weight:bold">]</span>，–in-place<span style="color:#000;font-weight:bold">[=</span>SUFFIX<span style="color:#000;font-weight:bold">]</span>：该选项用于对当前文件进行编辑，如果提供了SUFFIX的话，将会备份原始文件，否则将会覆盖原始文件
+* -l N， –line-lenght<span style="color:#000;font-weight:bold">=</span>N：该选项用于设置行的长度为N个字符
 * –posix：该选项禁用所有的GNU扩展
 * -r，–regexp-extended：该选项将启用扩展的正则表达式
 * -u， –unbuffered：指定该选项的时候，SED将会从输入文件中加载最少的数据，并且更加频繁的刷出到输出缓冲区。在编辑tail -f命令的输出，你不希望等待输出的时候该选项是非常有用的。
@@ -220,14 +227,14 @@ There is only one thing that makes a dream impossible to achieve: the fear of fa
 </code></pre></div><h1 id="循环">循环</h1>
 <p>与其它编程语言类似，SED提供了用于控制执行流的循环和分支语句。</p>
 <p>SED中的循环有点类似于goto语句，SED可以根据标签（label）跳转到某一行继续执行，在SED中，我们可以定义如下的标签：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">:label 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">:label 
 :start 
 :end 
 :up
 </code></pre></div><p>要跳转到指定的标签，使用 b 命令后面跟着标签名，如果忽略标签名的话，SED将会跳转到SED文件的结尾。</p>
 <p>b标签用于无条件的跳转到指定的label。</p>
 <h1 id="例子-1">例子</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat books2.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat books2.txt
 A Storm of Swords
 George R. R. Martin
 The Two Towers
@@ -241,13 +248,13 @@ Paulo Coelho
 A Game of Thrones
 George R. R. Martin
 
-$ sed -n <span style="color:#e6db74">&#39;
-</span><span style="color:#e6db74">h;n;H;x
-</span><span style="color:#e6db74">s/\n/, /
-</span><span style="color:#e6db74">/Paulo/!b Print
-</span><span style="color:#e6db74">s/^/- /
-</span><span style="color:#e6db74">:Print
-</span><span style="color:#e6db74">p&#39;</span> books2.txt
+$ sed -n <span style="color:#d14">&#39;
+</span><span style="color:#d14">h;n;H;x
+</span><span style="color:#d14">s/\n/, /
+</span><span style="color:#d14">/Paulo/!b Print
+</span><span style="color:#d14">s/^/- /
+</span><span style="color:#d14">:Print
+</span><span style="color:#d14">p&#39;</span> books2.txt
 A Storm of Swords , George R. R. Martin
 The Two Towers , J. R. R. Tolkien
 - The Alchemist , Paulo Coelho
@@ -276,13 +283,13 @@ x:用于交换模式空间和保持空间中的内容</p>
 <p>使用 t 命令创建分支。只有当前置条件成功的时候，t 命令才会跳转到该标签
 t命令只有在前一个替换（s）命令执行成功的时候才会执行</p>
 <p>将打印四个-符号</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;
-</span><span style="color:#e6db74">h;n;H;x
-</span><span style="color:#e6db74">s/\n/, /
-</span><span style="color:#e6db74">:Loop
-</span><span style="color:#e6db74">/Paulo/s/^/-/
-</span><span style="color:#e6db74">/----/!t Loop
-</span><span style="color:#e6db74">p&#39;</span> books2.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;
+</span><span style="color:#d14">h;n;H;x
+</span><span style="color:#d14">s/\n/, /
+</span><span style="color:#d14">:Loop
+</span><span style="color:#d14">/Paulo/s/^/-/
+</span><span style="color:#d14">/----/!t Loop
+</span><span style="color:#d14">p&#39;</span> books2.txt
 A Storm of Swords , George R. R. Martin
 The Two Towers , J. R. R. Tolkien
 ----The Alchemist , Paulo Coelho
@@ -296,98 +303,98 @@ A Game of Thrones , George R. R. Martin
 <h1 id="模式空间与保持空间">模式空间与保持空间</h1>
 <h1 id="模式空间">模式空间</h1>
 <p>对任何文件的来说，最基本的操作就是输出它的内容，为了实现该目的，在SED中可以使用print命令打印出模式空间中的内容</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ vi books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho,288
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ vi books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho,288
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>执行p命令</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;p&#39;</span> books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;p&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>可以看到，每一行都显示了两次</p>
 <p>默认情况下，SED将会输出模式空间中的内容，另外，我们的命令中包含了输出命令p，因此每一行被打印两次。但是不要担心，SED提供了-n参数用于禁止自动输出模式空间的每一行的行为</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;p&#39;</span> books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;p&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><h1 id="行寻址">行寻址</h1>
 <p>默认情况下，在SED中使用的命令会作用于文本数据的所有行。如果只想将命令作用于特定的行或者某些行，则需要使用 行寻址 功能。</p>
 <p>在SED中包含两种形式的行寻址：</p>
 <p>以数字形式表示的行区间
 以文本模式来过滤行
 两种形式都使用相同的语法格式</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>command
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address<span style="color:#000;font-weight:bold">]</span><span style="color:#0086b3">command</span>
 </code></pre></div><h1 id="数字方式进行寻址">数字方式进行寻址</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;3p&#39;</span> books.txt 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;3p&#39;</span> books.txt 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
 </code></pre></div><p>当然，我们还可以让SED输出某些行。在SED中使用逗号,分隔输出行号的范围，例如下面的代码会输出出2-5行的内容</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;2,5 p&#39;</span> books.txt 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;2,5 p&#39;</span> books.txt 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
 </code></pre></div><p>特殊字符 $ 代表了文件的最后一行，输出文件的最后一行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;$ p&#39;</span> books.txt 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;$ p&#39;</span> books.txt 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>SED还提供了另外两种操作符用于指定地址范围，第一个是加号（+）操作符，它可以与逗号（,）操作符一起使用，例如 M, +n 将会打印出从第M行开始的下n行。下面的示例将会输出第二行开始的下面四行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;2,+4 p&#39;</span> books.txt 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;2,+4 p&#39;</span> books.txt 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 
 </code></pre></div><p>我们还可以使用波浪线操作符（~）指定地址范围，它使用M~N的形式，它告诉SED应该处理M行开始的每N行。例如，50~5匹配行号50，55，60，65等，让我们只输出文件中的奇数行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;1~2 p&#39;</span> books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;1~2 p&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
 </code></pre></div><blockquote>
 <p>注意，如果使用的是Mac系统自带的sed命令，可能不支持~和+操作符。可以使用brew install gnu-sed –with-default-names重新安装GNU-SED。</p>
 </blockquote>
 <h1 id="使用文本模式过滤器">使用文本模式过滤器</h1>
 <p>SED编辑器允许指定文本模式来过滤出命令要作用的行。格式如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/pattern/command
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/pattern/command
 </code></pre></div><p>必须用正斜线将要指定的pattern封起来。sed编辑器会将该命令作用到包含指定文本模式的行上。</p>
 <p>下面的示例中，将会输出所有作者为Paulo Coelho的书籍。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;/Paulo/ p&#39;</span> books.txt
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;/Paulo/ p&#39;</span> books.txt
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
 </code></pre></div><p>模式匹配也可以与数字形式的寻址同时使用，在下面的示例会从第一次匹配到Alchemist开始输出，直到第5行为止。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;/Alchemist/, 5 p&#39;</span> books.txt
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;/Alchemist/, 5 p&#39;</span> books.txt
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
 </code></pre></div><p>使用逗号（,）操作符指定匹配多个匹配的模式。下列的示例将会输出Two和Pilgrimage之间的所有行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;/Two/, /Pilgrimage/ p&#39;</span> books.txt
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;/Two/, /Pilgrimage/ p&#39;</span> books.txt
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
 
 </code></pre></div><p>在使用文本模式过滤器的时候，与数字方式的行寻址类似，可以使用加号操作符 +，它会输出从当前匹配位置开始的某几行，下面的示例会从第一次Two出现的位置开始输出接下来的4行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;/Two/, +4 p&#39;</span> books.txt
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;/Two/, +4 p&#39;</span> books.txt
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><h1 id="保持空间">保持空间</h1>
 <p>在处理模式空间中的某些行时，可以用保持空间来临时保存一些行。有5条命令可用来操作保持空间</p>
 <table>
@@ -421,7 +428,7 @@ A Game of Thrones , George R. R. Martin
 <p>本章将会讲解一些常用的SED命令，主要包括DELETE，WRITE，APPEND，CHANGE，INSERT，TRANSLATE，QUIT，READ，EXECUTE等命令</p>
 <h2 id="删除命令-d">删除命令 d</h2>
 <p>删除命令格式如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>d
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>d
 </code></pre></div><ul>
 <li>
 <p>address1和address2是开始和截止地址，它们可以是行号或者字符串匹配模式，这两种地址都是可选的。</p>
@@ -430,265 +437,265 @@ A Game of Thrones , George R. R. Martin
 <p>由命令的名称可以知道，delete 命令是用来执行删除操作的，并且因为SED是基于行的编辑器，因此我们说该命令是用来删除行的。注意的是，该命令只会移除模式空间中的行，这样该行就不会被发送到输出流，但原始内容不会改变</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;d&#39;</span> books.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;d&#39;</span> books.txt
 </code></pre></div><p>为什么没有输出任何内容？默认情况下，SED将会对每一行执行删除操作，这就是该命令为什么没有在标准输出中输出任何内容的原因。
 下列命令只移除第四行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>jerry<span style="color:#f92672">]</span>$ sed <span style="color:#e6db74">&#39;4d&#39;</span> books.txt 
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>jerry<span style="color:#000;font-weight:bold">]</span>$ sed <span style="color:#d14">&#39;4d&#39;</span> books.txt 
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>SED也接受使用逗号(,)分隔的地址范围。我们可以构造地址范围去移除N1到N2行，例如，下列命令将删除2-4行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;2, 4 d&#39;</span> books.txt     
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;2, 4 d&#39;</span> books.txt     
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>SED的地址范围并不仅仅限于数字，我们也可以指定模式匹配作为地址，下面的示例会移除所有作者为Paulo Coelho的书籍</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;/Paulo Coelho/d&#39;</span> books.txt 
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;/Paulo Coelho/d&#39;</span> books.txt 
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>移除所有以Storm和Fellowship开头的行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;/Storm/,/Fellowship/d&#39;</span> books.txt  
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;/Storm/,/Fellowship/d&#39;</span> books.txt  
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><h2 id="文件写入命令-w">文件写入命令 w</h2>
 <p>SED提供了 write 命令用于将模式空间中的内容写入到文件，与 delete 命令类似，下面是 write 命令的语法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>w file
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>w file
 </code></pre></div><p>w 指定是写命令， file 指的是存储文件内容的文件名。使用 file 操作符的时候要小心，当提供了文件名但是文件不存在的时候它会自动创建，如果已经存在的话则会覆盖原文件的内容。</p>
 <p>下面的SED命令会创建文件books.txt的副本，在 w 和 file 之间只能有一个空格</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;w books.bak&#39;</span> books.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;w books.bak&#39;</span> books.txt
 </code></pre></div><p>上述命令创建了一个名为 books.bak 的文件，验证一下两个文件的内容是否相同</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ diff books.txt books.bak
-$ echo $?
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ diff books.txt books.bak
+$ <span style="color:#0086b3">echo</span> <span style="color:#008080">$?</span>
 </code></pre></div><p>一旦执行上述的代码，你将会得到下列输出</p>
 <p>聪明的你可能已经想到了，这不就是 cp 命令做的事情吗！确实如此，cp 命令也做了同一件事情，但是SED是一个成熟的工具，使用它你可以只复制文件中的某些行到新的文件中，如下代码会存储文件中的奇数行到另一个文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;2~2 w junk.txt&#39;</span> books.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;2~2 w junk.txt&#39;</span> books.txt
 $ cat junk.txt
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>假设你希望存储所有独立作者的书到单独的文件。如果人工去做的话，肯定是非常无聊而且没有技术含量的，但是使用SED，你就有了更加聪明的方法去实现</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n -e <span style="color:#e6db74">&#39;/Martin/ w Martin.txt&#39;</span> -e <span style="color:#e6db74">&#39;/Paulo/ w Paulo.txt&#39;</span> -e <span style="color:#e6db74">&#39;/Tolkien/ w Tolkien.txt&#39;</span> books.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n -e <span style="color:#d14">&#39;/Martin/ w Martin.txt&#39;</span> -e <span style="color:#d14">&#39;/Paulo/ w Paulo.txt&#39;</span> -e <span style="color:#d14">&#39;/Tolkien/ w Tolkien.txt&#39;</span> books.txt
 
 $ cat Martin.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 
 $ cat Paulo.txt
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
 
 $ cat Tolkien.txt
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
 </code></pre></div><h2 id="追加命令-a">追加命令 a</h2>
 <p>文本追加命令语法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>a<span style="color:#ae81ff">\ </span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address<span style="color:#000;font-weight:bold">]</span>a<span style="color:#d14">\ </span>
 Append text
 </code></pre></div><p>在第四行之后追加一本新书：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;4 a 7) Adultry, Paulo Coelho, 234&#39;</span> books.txt 
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-7<span style="color:#f92672">)</span> Adultry, Paulo Coelho, <span style="color:#ae81ff">234</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;4 a 7) Adultry, Paulo Coelho, 234&#39;</span> books.txt 
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+7<span style="color:#000;font-weight:bold">)</span> Adultry, Paulo Coelho, <span style="color:#099">234</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>在命令部分，4指的是行号，a 是append命令，剩余部分为要追加的文本。</p>
 <p>在文件的结尾插入一行文本，使用 $ 作为地址</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;$ a 7) Adultry, Paulo Coelho, 234&#39;</span> books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span> 
-7<span style="color:#f92672">)</span> Adultry, Paulo Coelho, <span style="color:#ae81ff">234</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;$ a 7) Adultry, Paulo Coelho, 234&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span> 
+7<span style="color:#000;font-weight:bold">)</span> Adultry, Paulo Coelho, <span style="color:#099">234</span>
 </code></pre></div><p>除了行号，我们也可以使用文本模式指定地址，例如，在匹配 The Alchemist 的行之后追加文本</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;/The Alchemist/ a 7) Adultry, Paulo Coelho, 234&#39;</span> books.txt  
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-7<span style="color:#f92672">)</span> Adultry, Paulo Coelho, <span style="color:#ae81ff">234</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;/The Alchemist/ a 7) Adultry, Paulo Coelho, 234&#39;</span> books.txt  
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+7<span style="color:#000;font-weight:bold">)</span> Adultry, Paulo Coelho, <span style="color:#099">234</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><h2 id="行替换命令-c">行替换命令 c</h2>
 <p>SED通过 c 提供了 change 和 replace 命令，该命令帮助我们使用新文本替换已经存在的行，当提供行的地址范围时，所有的行都被作为一组被替换为单行文本，下面是该命令的语法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>c<span style="color:#ae81ff">\ </span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>c<span style="color:#d14">\ </span>
 Replace text
 </code></pre></div><p>比如，替换文本中的第三行为新的内容</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;3 c 3) Adultry, Paulo Coelho, 324&#39;</span> books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> Adultry, Paulo Coelho, <span style="color:#ae81ff">324</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;3 c 3) Adultry, Paulo Coelho, 324&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> Adultry, Paulo Coelho, <span style="color:#099">324</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>SED也接受模式作为地址</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;/The Alchemist/ c 3) Adultry, Paulo Coelho, 324&#39;</span> books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> Adultry, Paulo Coelho, <span style="color:#ae81ff">324</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;/The Alchemist/ c 3) Adultry, Paulo Coelho, 324&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> Adultry, Paulo Coelho, <span style="color:#099">324</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>多行替换也是支持的，下面的命令实现了将第4-6行内容替换为单行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;4, 6 c 4) Adultry, Paulo Coelho, 324&#39;</span> books.txt  
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-4<span style="color:#f92672">)</span> Adultry, Paulo Coelho, <span style="color:#ae81ff">324</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;4, 6 c 4) Adultry, Paulo Coelho, 324&#39;</span> books.txt  
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+4<span style="color:#000;font-weight:bold">)</span> Adultry, Paulo Coelho, <span style="color:#099">324</span>
 </code></pre></div><h2 id="插入命令-i">插入命令 i</h2>
 <p>插入命令与追加命令类似，唯一的区别是插入命令是在匹配的位置前插入新的一行。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>i<span style="color:#ae81ff">\ </span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address<span style="color:#000;font-weight:bold">]</span>i<span style="color:#d14">\ </span>
 Insert text
 </code></pre></div><p>下面的命令会在第四行前插入新的一行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;4 i 7) Adultry, Paulo Coelho, 324&#39;</span> books.txt 
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
-7<span style="color:#f92672">)</span> Adultry, Paulo Coelho, <span style="color:#ae81ff">324</span> 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;4 i 7) Adultry, Paulo Coelho, 324&#39;</span> books.txt 
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
+7<span style="color:#000;font-weight:bold">)</span> Adultry, Paulo Coelho, <span style="color:#099">324</span> 
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><h2 id="转换命令-y">转换命令 y</h2>
 <p>转换（Translate）命令 y 是唯一可以处理单个字符的sed编辑器命令。转换命令格式 如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>y/inchars/outchars/
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address<span style="color:#000;font-weight:bold">]</span>y/inchars/outchars/
 </code></pre></div><p>转换命令会对inchars和outchars值进行一对一的映射。inchars中的第一个字符会被转换为outchars中的第一个字符，第二个字符会被转换成outchars中的第二个字符。这个映射过程会一直持续到处理完指定字符。如果inchars和outchars的长度不同，则sed编辑器会产生一 条错误消息。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#34;1 5 15 20&#34;</span> | sed <span style="color:#e6db74">&#39;y/151520/IVXVXX/&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;1 5 15 20&#34;</span> | sed <span style="color:#d14">&#39;y/151520/IVXVXX/&#39;</span>
 I V IV XX
 </code></pre></div><h2 id="输出隐藏字符命令-l">输出隐藏字符命令 l</h2>
 <p>你能通过直接观察区分出单词是通过空格还是tab进行分隔的吗？显然是不能的，但是SED可以为你做到这点。使用l命令（英文字母L的小写）可以显示文本中的隐藏字符（例如\t或者$字符）。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>l 
-<span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>l <span style="color:#f92672">[</span>len<span style="color:#f92672">]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>l 
+<span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>l <span style="color:#000;font-weight:bold">[</span>len<span style="color:#000;font-weight:bold">]</span>
 </code></pre></div><p>为了测试该命令，我们首先将books.txt中的空格替换为tab。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;s/ /\t/g&#39;</span> books.txt &gt; junk.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;s/ /\t/g&#39;</span> books.txt &gt; junk.txt
 </code></pre></div><p>接下来执行l命令</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;l&#39;</span> junk.txt
-1<span style="color:#f92672">)</span><span style="color:#ae81ff">\t</span>Storm<span style="color:#ae81ff">\t</span>of<span style="color:#ae81ff">\t</span>Swords,<span style="color:#ae81ff">\t</span>George<span style="color:#ae81ff">\t</span>R.<span style="color:#ae81ff">\t</span>R.<span style="color:#ae81ff">\t</span>Martin,<span style="color:#ae81ff">\t</span>1216<span style="color:#ae81ff">\t</span>$
-2<span style="color:#f92672">)</span><span style="color:#ae81ff">\t</span>The<span style="color:#ae81ff">\t</span>Two<span style="color:#ae81ff">\t</span>Towers,<span style="color:#ae81ff">\t</span>J.<span style="color:#ae81ff">\t</span>R.<span style="color:#ae81ff">\t</span>R.<span style="color:#ae81ff">\t</span>Tolkien,<span style="color:#ae81ff">\t</span>352<span style="color:#ae81ff">\t</span>$
-3<span style="color:#f92672">)</span><span style="color:#ae81ff">\t</span>The<span style="color:#ae81ff">\t</span>Alchemist,<span style="color:#ae81ff">\t</span>Paulo<span style="color:#ae81ff">\t</span>Coelho,<span style="color:#ae81ff">\t</span>197<span style="color:#ae81ff">\t</span>$
-4<span style="color:#f92672">)</span><span style="color:#ae81ff">\t</span>The<span style="color:#ae81ff">\t</span>Fellowship<span style="color:#ae81ff">\t</span>of<span style="color:#ae81ff">\t</span>the<span style="color:#ae81ff">\t</span>Ring,<span style="color:#ae81ff">\t</span>J.<span style="color:#ae81ff">\t</span>R.<span style="color:#ae81ff">\t</span>R.<span style="color:#ae81ff">\t</span>Tolkien,<span style="color:#ae81ff">\t</span>432<span style="color:#ae81ff">\t</span>$
-5<span style="color:#f92672">)</span><span style="color:#ae81ff">\t</span>The<span style="color:#ae81ff">\t</span>Pilgrimage,<span style="color:#ae81ff">\t</span>Paulo<span style="color:#ae81ff">\t</span>Coelho,<span style="color:#ae81ff">\t</span>288<span style="color:#ae81ff">\t</span>$
-6<span style="color:#f92672">)</span><span style="color:#ae81ff">\t</span>A<span style="color:#ae81ff">\t</span>Game<span style="color:#ae81ff">\t</span>of<span style="color:#ae81ff">\t</span>Thrones,<span style="color:#ae81ff">\t</span>George<span style="color:#ae81ff">\t</span>R.<span style="color:#ae81ff">\t</span>R.<span style="color:#ae81ff">\t</span>Martin,<span style="color:#ae81ff">\t</span>864$
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;l&#39;</span> junk.txt
+1<span style="color:#000;font-weight:bold">)</span><span style="color:#d14">\t</span>Storm<span style="color:#d14">\t</span>of<span style="color:#d14">\t</span>Swords,<span style="color:#d14">\t</span>George<span style="color:#d14">\t</span>R.<span style="color:#d14">\t</span>R.<span style="color:#d14">\t</span>Martin,<span style="color:#d14">\t</span>1216<span style="color:#d14">\t</span>$
+2<span style="color:#000;font-weight:bold">)</span><span style="color:#d14">\t</span>The<span style="color:#d14">\t</span>Two<span style="color:#d14">\t</span>Towers,<span style="color:#d14">\t</span>J.<span style="color:#d14">\t</span>R.<span style="color:#d14">\t</span>R.<span style="color:#d14">\t</span>Tolkien,<span style="color:#d14">\t</span>352<span style="color:#d14">\t</span>$
+3<span style="color:#000;font-weight:bold">)</span><span style="color:#d14">\t</span>The<span style="color:#d14">\t</span>Alchemist,<span style="color:#d14">\t</span>Paulo<span style="color:#d14">\t</span>Coelho,<span style="color:#d14">\t</span>197<span style="color:#d14">\t</span>$
+4<span style="color:#000;font-weight:bold">)</span><span style="color:#d14">\t</span>The<span style="color:#d14">\t</span>Fellowship<span style="color:#d14">\t</span>of<span style="color:#d14">\t</span>the<span style="color:#d14">\t</span>Ring,<span style="color:#d14">\t</span>J.<span style="color:#d14">\t</span>R.<span style="color:#d14">\t</span>R.<span style="color:#d14">\t</span>Tolkien,<span style="color:#d14">\t</span>432<span style="color:#d14">\t</span>$
+5<span style="color:#000;font-weight:bold">)</span><span style="color:#d14">\t</span>The<span style="color:#d14">\t</span>Pilgrimage,<span style="color:#d14">\t</span>Paulo<span style="color:#d14">\t</span>Coelho,<span style="color:#d14">\t</span>288<span style="color:#d14">\t</span>$
+6<span style="color:#000;font-weight:bold">)</span><span style="color:#d14">\t</span>A<span style="color:#d14">\t</span>Game<span style="color:#d14">\t</span>of<span style="color:#d14">\t</span>Thrones,<span style="color:#d14">\t</span>George<span style="color:#d14">\t</span>R.<span style="color:#d14">\t</span>R.<span style="color:#d14">\t</span>Martin,<span style="color:#d14">\t</span>864$
 </code></pre></div><p>使用l命令的时候，一个很有趣的特性是我们可以使用它来实现文本按照指定的宽度换行。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;l 25&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords, Geor<span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>ge R. R. Martin, <span style="color:#ae81ff">1216</span> $
-2<span style="color:#f92672">)</span> The Two Towers, J. R.<span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span> R. Tolkien, <span style="color:#ae81ff">352</span> $
-3<span style="color:#f92672">)</span> The Alchemist, Paulo <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>Coelho, <span style="color:#ae81ff">197</span> $
-4<span style="color:#f92672">)</span> The Fellowship of the<span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span> Ring, J. R. R. Tolkien,<span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span> <span style="color:#ae81ff">432</span> $
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo<span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span> Coelho, <span style="color:#ae81ff">288</span> $
-6<span style="color:#f92672">)</span> A Game of Thrones, Ge<span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>orge R. R. Martin, 864$
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;l 25&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, Geor<span style="color:#d14">\
+</span><span style="color:#d14"></span>ge R. R. Martin, <span style="color:#099">1216</span> $
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R.<span style="color:#d14">\
+</span><span style="color:#d14"></span> R. Tolkien, <span style="color:#099">352</span> $
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo <span style="color:#d14">\
+</span><span style="color:#d14"></span>Coelho, <span style="color:#099">197</span> $
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the<span style="color:#d14">\
+</span><span style="color:#d14"></span> Ring, J. R. R. Tolkien,<span style="color:#d14">\
+</span><span style="color:#d14"></span> <span style="color:#099">432</span> $
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo<span style="color:#d14">\
+</span><span style="color:#d14"></span> Coelho, <span style="color:#099">288</span> $
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, Ge<span style="color:#d14">\
+</span><span style="color:#d14"></span>orge R. R. Martin, 864$
 </code></pre></div><p>上面的示例中在l命令后跟了一个数字25，它告诉SED按照每行25个字符进行换行，如果指定这个数字为0的话，则只有在存在换行符的情况下才进行换行。</p>
 <p>l命令是GNU-SED的一部分，其它的一些变体中可能无法使用该命令。</p>
 <h2 id="退出命令-q">退出命令 q</h2>
 <p>在SED中，可以使用Quit命令退出当前的执行流</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>q 
-<span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>q <span style="color:#f92672">[</span>value<span style="color:#f92672">]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address<span style="color:#000;font-weight:bold">]</span>q 
+<span style="color:#000;font-weight:bold">[</span>address<span style="color:#000;font-weight:bold">]</span>q <span style="color:#000;font-weight:bold">[</span>value<span style="color:#000;font-weight:bold">]</span>
 </code></pre></div><p>需要注意的是，q命令不支持地址范围，只支持单个地址匹配。默认情况下SED会按照读取、执行、重复的工作流执行，但当它遇到q命令的时候，它会退出当前的执行流。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;3 q&#39;</span> books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;3 q&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
 
-$ sed <span style="color:#e6db74">&#39;/The Alchemist/ q&#39;</span> books.txt 
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
+$ sed <span style="color:#d14">&#39;/The Alchemist/ q&#39;</span> books.txt 
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
 </code></pre></div><p>q命令也支持提供一个value，这个value将作为程序的返回代码返回</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;/The Alchemist/ q 100&#39;</span> books.txt
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;/The Alchemist/ q 100&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
 
-$ echo $? 
-<span style="color:#ae81ff">100</span>
+$ <span style="color:#0086b3">echo</span> <span style="color:#008080">$?</span> 
+<span style="color:#099">100</span>
 </code></pre></div><h2 id="文件读取命令-r">文件读取命令 r</h2>
 <p>在SED中，我们可以让SED使用Read命令从外部文件中读取内容并且在满足条件的时候显示出来。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>r file
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address<span style="color:#000;font-weight:bold">]</span>r file
 </code></pre></div><p>需要注意的是，r命令和文件名之间必须只有一个空格。</p>
 <p>下面的示例会打开junk.txt文件，将其内容插入到books.txt文件的第三行之后</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#34;This is junk text.&#34;</span> &gt; junk.txt 
-$ sed <span style="color:#e6db74">&#39;3 r junk.txt&#39;</span> books.txt 
-1<span style="color:#f92672">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span> 
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span> 
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span> 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;This is junk text.&#34;</span> &gt; junk.txt 
+$ sed <span style="color:#d14">&#39;3 r junk.txt&#39;</span> books.txt 
+1<span style="color:#000;font-weight:bold">)</span> A Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span> 
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span> 
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span> 
 This is junk text. 
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span> 
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span> 
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span> 
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span> 
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>r命令也支持地址范围，例如3, 5 r junk.txt会在第三行，第四行，第五行后面分别插入junk.txt的内容</p>
 <h2 id="执行外部命令-e">执行外部命令 e</h2>
 <p>你可能已经知道了在AWK中可以执行外部的命令，那么在SED中我们是否也可以这样做？</p>
 <p>答案是肯定的，在SED中，我们可以使用e命令执行外部命令</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>e <span style="color:#f92672">[</span>command<span style="color:#f92672">]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>e <span style="color:#000;font-weight:bold">[</span>command<span style="color:#000;font-weight:bold">]</span>
 </code></pre></div><p>下面的命令会在第三行之前执行date命令</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;3 e date&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;3 e date&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
 2016年11月29日 星期二 22时46分14秒 CST
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>另一个示例</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;3,5 e who&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-mylxsw   console  Nov <span style="color:#ae81ff">29</span> 19:30
-mylxsw   ttys000  Nov <span style="color:#ae81ff">29</span> 22:45
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-mylxsw   console  Nov <span style="color:#ae81ff">29</span> 19:30
-mylxsw   ttys000  Nov <span style="color:#ae81ff">29</span> 22:45
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-mylxsw   console  Nov <span style="color:#ae81ff">29</span> 19:30
-mylxsw   ttys000  Nov <span style="color:#ae81ff">29</span> 22:45
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;3,5 e who&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+mylxsw   console  Nov <span style="color:#099">29</span> 19:30
+mylxsw   ttys000  Nov <span style="color:#099">29</span> 22:45
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+mylxsw   console  Nov <span style="color:#099">29</span> 19:30
+mylxsw   ttys000  Nov <span style="color:#099">29</span> 22:45
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+mylxsw   console  Nov <span style="color:#099">29</span> 19:30
+mylxsw   ttys000  Nov <span style="color:#099">29</span> 22:45
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>如果你仔细观察e命令的语法，你会发现其实它的command参数是可选的。在没有提供外部命令的时候，SED会将模式空间中的内容作为要执行的命令。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;date\ncal\nuname&#34;</span> &gt; commands.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;date\ncal\nuname&#34;</span> &gt; commands.txt
 $ cat commands.txt
 cal
 uname
-$ sed <span style="color:#e6db74">&#39;e&#39;</span> commands.txt
+$ sed <span style="color:#d14">&#39;e&#39;</span> commands.txt
 2016年11月29日 星期二 22时50分30秒 CST
-    十一月 <span style="color:#ae81ff">2016</span>
+    十一月 <span style="color:#099">2016</span>
 日 一 二 三 四 五 六
-       <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">3</span>  <span style="color:#ae81ff">4</span>  <span style="color:#ae81ff">5</span>
- <span style="color:#ae81ff">6</span>  <span style="color:#ae81ff">7</span>  <span style="color:#ae81ff">8</span>  <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">12</span>
-<span style="color:#ae81ff">13</span> <span style="color:#ae81ff">14</span> <span style="color:#ae81ff">15</span> <span style="color:#ae81ff">16</span> <span style="color:#ae81ff">17</span> <span style="color:#ae81ff">18</span> <span style="color:#ae81ff">19</span>
-<span style="color:#ae81ff">20</span> <span style="color:#ae81ff">21</span> <span style="color:#ae81ff">22</span> <span style="color:#ae81ff">23</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">25</span> <span style="color:#ae81ff">26</span>
-<span style="color:#ae81ff">27</span> <span style="color:#ae81ff">28</span> <span style="color:#ae81ff">29</span> <span style="color:#ae81ff">30</span>
+       <span style="color:#099">1</span>  <span style="color:#099">2</span>  <span style="color:#099">3</span>  <span style="color:#099">4</span>  <span style="color:#099">5</span>
+ <span style="color:#099">6</span>  <span style="color:#099">7</span>  <span style="color:#099">8</span>  <span style="color:#099">9</span> <span style="color:#099">10</span> <span style="color:#099">11</span> <span style="color:#099">12</span>
+<span style="color:#099">13</span> <span style="color:#099">14</span> <span style="color:#099">15</span> <span style="color:#099">16</span> <span style="color:#099">17</span> <span style="color:#099">18</span> <span style="color:#099">19</span>
+<span style="color:#099">20</span> <span style="color:#099">21</span> <span style="color:#099">22</span> <span style="color:#099">23</span> <span style="color:#099">24</span> <span style="color:#099">25</span> <span style="color:#099">26</span>
+<span style="color:#099">27</span> <span style="color:#099">28</span> <span style="color:#099">29</span> <span style="color:#099">30</span>
 Darwin
 </code></pre></div><h2 id="排除命令-">排除命令 !</h2>
 <p>感叹号命令（!）用来排除命令，也就是让原本会起作用的命令不起作用。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;/Paulo/p&#39;</span> books.txt
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-$ sed -n <span style="color:#e6db74">&#39;/Paulo/!p&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;/Paulo/p&#39;</span> books.txt
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+$ sed -n <span style="color:#d14">&#39;/Paulo/!p&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>如上例所示，p命令原先是只输出匹配Paulo的行，添加!之后，变成了只输出不匹配Paulo的行。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;1!G; h; $p&#39;</span> books.txt
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-1<span style="color:#f92672">)</span> Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;1!G; h; $p&#39;</span> books.txt
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
 </code></pre></div><p>上面的命令实现了类似tac命令类似的输出，将文本内容倒序输出。看起来有些晦涩难懂，分解一下却十分简单：</p>
 <p>1!G 这句的意思是出了第一行之外，处理每一行的时候都将保持空间中的内容追加到模式空间（正序-&gt;倒序）
 h 将模式空间中的内容复制到保持空间以备下一行匹配的时候追加到下一行的后面
@@ -702,9 +709,9 @@ D：删除多行组中的一行
 P：打印多行组中的一行</p>
 <h2 id="n--加载下一行">N – 加载下一行</h2>
 <p>默认情况下，SED是基于单行进行操作的，有些情况下我们可能需要使用多行进行编辑，启用多行编辑使用N命令，与n不同的是，N并不会清除、输出模式空间的内容，而是采用了追加模式。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>N
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>N
 </code></pre></div><p>下面的示例将会把books2.txt中的标题和作者放到同一行展示，并且使用逗号进行分隔</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;N; s/\n/,/g&#39;</span> books2.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;N; s/\n/,/g&#39;</span> books2.txt
 A Storm of Swords ,George R. R. Martin
 The Two Towers ,J. R. R. Tolkien
 The Alchemist ,Paulo Coelho
@@ -713,15 +720,15 @@ The Pilgrimage ,Paulo Coelho
 A Game of Thrones ,George R. R. Martin
 </code></pre></div><h2 id="d--删除多行中的一行">D – 删除多行中的一行</h2>
 <p>sed编辑器提供了多行删除命令D，它只删除模式空间中的第一行。该命令会删除到换行符（含 换行符）为止的所有字符。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#39;\nThis is the header line.\nThis is a data line.\n\nThis is the last line.&#39;</span> | sed <span style="color:#e6db74">&#39;/^$/{N; /header/D}&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> <span style="color:#d14">&#39;\nThis is the header line.\nThis is a data line.\n\nThis is the last line.&#39;</span> | sed <span style="color:#d14">&#39;/^$/{N; /header/D}&#39;</span>
 This is the header line.
 This is a data line.
 This is the last line.
 </code></pre></div><h2 id="p--输出多行中的一行">P – 输出多行中的一行</h2>
 <p>P命令用于输出N命令创建的多行文本的模式空间中的第一行。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>P 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>P 
 </code></pre></div><p>例如下面的命令只输出了图书的标题</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;N;P&#39;</span> books2.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;N;P&#39;</span> books2.txt
 A Storm of Swords
 The Two Towers
 The Alchemist
@@ -731,13 +738,13 @@ A Game of Thrones
 </code></pre></div><h2 id="其它命令">其它命令</h2>
 <h3 id="n--单行next">n – 单行next</h3>
 <p>小写的n命令会告诉sed编辑器移动到数据流中的下一文本行，并且覆盖当前模式空间中的行。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat data1.txt 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat data1.txt 
 This is the header line.
 
 This is a data line.
 
 This is the last line.
-$ sed <span style="color:#e6db74">&#39;/header/{n ; d}&#39;</span> data1.txt 
+$ sed <span style="color:#d14">&#39;/header/{n ; d}&#39;</span> data1.txt 
 This is the header line.
 This is a data line.
 
@@ -745,44 +752,44 @@ This is the last line.
 </code></pre></div><p>上面的命令中，首先会匹配包含header的行，之后将移动到数据流的下一行，这里是一个空行，然后执行d命令对改行进行删除，所有就看到了这样的结果：第一个空行被删除掉了。</p>
 <h3 id="v--sed版本检查">v – SED版本检查</h3>
 <p>v命令用于检查SED的版本，如果版本大于参数中的版本则正常执行，否则失败</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>v <span style="color:#f92672">[</span>version<span style="color:#f92672">]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>v <span style="color:#000;font-weight:bold">[</span>version<span style="color:#000;font-weight:bold">]</span>
 </code></pre></div><p>例如</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed --version
-sed <span style="color:#f92672">(</span>GNU sed<span style="color:#f92672">)</span> 4.2.2
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed --version
+sed <span style="color:#000;font-weight:bold">(</span>GNU sed<span style="color:#000;font-weight:bold">)</span> 4.2.2
 
-$ sed <span style="color:#e6db74">&#39;v 4.2.3&#39;</span> books.txt
-sed: -e expression <span style="color:#75715e">#1, char 7: expected newer version of sed</span>
+$ sed <span style="color:#d14">&#39;v 4.2.3&#39;</span> books.txt
+sed: -e expression <span style="color:#998;font-style:italic">#1, char 7: expected newer version of sed</span>
 
-$ sed <span style="color:#e6db74">&#39;v 4.2.2&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+$ sed <span style="color:#d14">&#39;v 4.2.2&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><h3 id="特殊字符">特殊字符</h3>
 <p>在SED中提供了两个可以用作命令的特殊字符：= 和 &amp; 。</p>
 <p>=命令</p>
 <p>=命令用于输出行号，语法格式为</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-<span style="color:#f92672">[</span>/pattern/<span style="color:#f92672">]=</span> 
-<span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]=</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#000;font-weight:bold">[</span>/pattern/<span style="color:#000;font-weight:bold">]=</span> 
+<span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]=</span>
 </code></pre></div><p>例如为每一行输出行号</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;=&#39;</span> books2.txt
-<span style="color:#ae81ff">1</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;=&#39;</span> books2.txt
+<span style="color:#099">1</span>
 A Storm of Swords
-<span style="color:#ae81ff">2</span>
+<span style="color:#099">2</span>
 George R. R. Martin
 ...
 </code></pre></div><p>只为1-4行输出行号</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;1, 4=&#39;</span> books2.txt
-<span style="color:#ae81ff">1</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;1, 4=&#39;</span> books2.txt
+<span style="color:#099">1</span>
 A Storm of Swords
-<span style="color:#ae81ff">2</span>
+<span style="color:#099">2</span>
 George R. R. Martin
-<span style="color:#ae81ff">3</span>
+<span style="color:#099">3</span>
 The Two Towers
-<span style="color:#ae81ff">4</span>
+<span style="color:#099">4</span>
 J. R. R. Tolkien
 The Alchemist
 Paulo Coelho
@@ -793,62 +800,62 @@ Paulo Coelho
 A Game of Thrones
 George R. R. Martin
 </code></pre></div><p>匹配Paulo的行输出行号</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ sed <span style="color:#e6db74">&#39;/Paulo/ =&#39;</span> books2.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ sed <span style="color:#d14">&#39;/Paulo/ =&#39;</span> books2.txt
 A Storm of Swords
 George R. R. Martin
 The Two Towers
 J. R. R. Tolkien
 The Alchemist
-<span style="color:#ae81ff">6</span>
+<span style="color:#099">6</span>
 Paulo Coelho
 The Fellowship of the Ring
 J. R. R. Tolkien
 The Pilgrimage
-<span style="color:#ae81ff">10</span>
+<span style="color:#099">10</span>
 Paulo Coelho
 A Game of Thrones
 George R. R. Martin
 </code></pre></div><p>最后一行输出行号，这个命令比较有意思了，可以用于输出文件总共有多少行</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;$ =&#39;</span> books2.txt
-<span style="color:#ae81ff">12</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;$ =&#39;</span> books2.txt
+<span style="color:#099">12</span>
 </code></pre></div><h3 id="命令">&amp;命令</h3>
 <p>特殊字符&amp;用于存储匹配模式的内容，通常与替换命令s一起使用。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;s/[[:digit:]]/Book number &amp;/&#39;</span> books.txt
-Book number 1<span style="color:#f92672">)</span> Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-Book number 2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-Book number 3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-Book number 4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-Book number 5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-Book number 6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;s/[[:digit:]]/Book number &amp;/&#39;</span> books.txt
+Book number 1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+Book number 2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+Book number 3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+Book number 4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+Book number 5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+Book number 6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>上述命令用于匹配每一行第一个数字，在其前面添加 Book number 。而下面这个命令则匹配最后一个数字，并修改为Pages =。其中[[:digit:]]* *$可能比较费解，这一部分其实是：匹配0个或多个数字+0个或多个空格+行尾。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sed <span style="color:#e6db74">&#39;s/[[:digit:]]* *$/Pages = &amp;/&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords, George R. R. Martin, Pages <span style="color:#f92672">=</span> <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, Pages <span style="color:#f92672">=</span> <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, Pages <span style="color:#f92672">=</span> <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, Pages <span style="color:#f92672">=</span> <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, Pages <span style="color:#f92672">=</span> <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, Pages <span style="color:#f92672">=</span> <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sed <span style="color:#d14">&#39;s/[[:digit:]]* *$/Pages = &amp;/&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, George R. R. Martin, <span style="color:#008080">Pages</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#008080">Pages</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#008080">Pages</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#008080">Pages</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#008080">Pages</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#008080">Pages</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">864</span>
 </code></pre></div><h2 id="字符串">字符串</h2>
 <h3 id="替换命令-s">替换命令 s</h3>
 <p>文本替换命令非常常见，其格式如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>address1<span style="color:#f92672">[</span>,address2<span style="color:#f92672">]]</span>s/pattern/replacement/<span style="color:#f92672">[</span>flags<span style="color:#f92672">]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">[</span>address1<span style="color:#000;font-weight:bold">[</span>,address2<span style="color:#000;font-weight:bold">]]</span>s/pattern/replacement/<span style="color:#000;font-weight:bold">[</span>flags<span style="color:#000;font-weight:bold">]</span>
 </code></pre></div><p>在前面我们使用的books.txt文件中，我们使用逗号“,”分隔每一列，下面的示例中，我们会使用替换命令将其替换为管道符“|”：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;s/,/ |/&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords | George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers | J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist | Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring | J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage | Paulo Coelho, <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones | George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;s/,/ |/&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords | George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers | J. R. R. Tolkien, <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist | Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring | J. R. R. Tolkien, <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage | Paulo Coelho, <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones | George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><p>是不是觉得哪里不对？相信你已经发现，每一行的第二个逗号都没有被替换，只有第一个被替换了，确实如此，在SED中，使用替换命令的时候默认只会对第一个匹配的位置进行替换。使用g选项告诉SED对所有内容进行替换：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;s/,/ | /g&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords |  George R. R. Martin |  <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers |  J. R. R. Tolkien |  <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist |  Paulo Coelho |  <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring |  J. R. R. Tolkien |  <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage |  Paulo Coelho |  <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones |  George R. R. Martin |  <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;s/,/ | /g&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords |  George R. R. Martin |  <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers |  J. R. R. Tolkien |  <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist |  Paulo Coelho |  <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring |  J. R. R. Tolkien |  <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage |  Paulo Coelho |  <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones |  George R. R. Martin |  <span style="color:#099">864</span>
 </code></pre></div><p>如果对匹配模式（或地址范围）的行进行替换，则只需要在s命令前添加地址即可。比如只替换匹配The Pilgrimage的行：sed ‘/The Pilgrimage/ s/,/ | /g’ books.txt
 还有一些其它的选项，这里就简单的描述一下，不在展开讲解</p>
 <p>数字n: 只替换第n次匹配，比如sed ‘s/,/ | /2’ books.txt，只替换每行中第二个逗号
@@ -856,17 +863,17 @@ p：只输出改变的行，比如sed -n ‘s/Paulo Coelho/PAULO COELHO/p’ boo
 w：存储改变的行到文件，比如sed -n ‘s/Paulo Coelho/PAULO COELHO/w junk.txt’ books.txt
 i：匹配时忽略大小写，比如sed -n ‘s/pAuLo CoElHo/PAULO COELHO/pi’ books.txt
 在执行替换操作的时候，如果要替换的内容中包含/，这个时候怎么办？很简单，添加转义操作符。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#34;/bin/sed&#34;</span> | sed <span style="color:#e6db74">&#39;s/\/bin\/sed/\/home\/mylxsw\/src\/sed\/sed-4.2.2\/sed/&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;/bin/sed&#34;</span> | sed <span style="color:#d14">&#39;s/\/bin\/sed/\/home\/mylxsw\/src\/sed\/sed-4.2.2\/sed/&#39;</span>
 /home/mylxsw/src/sed/sed-4.2.2/sed
 </code></pre></div><p>上面的命令中，我们使用\对/进行了转义，不过表达式已经看起来非常难看了，在SED中还可以使用|，@，^，!作为命令的分隔符，所以，下面的几个命令和上面的是等价的</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">echo <span style="color:#e6db74">&#34;/bin/sed&#34;</span> | sed <span style="color:#e6db74">&#39;s|/bin/sed|/mylxsw/mylxsw/src/sed/sed-4.2.2/sed|&#39;</span>
-echo <span style="color:#e6db74">&#34;/bin/sed&#34;</span> | sed <span style="color:#e6db74">&#39;s@/bin/sed@/home/mylxsw/src/sed/sed-4.2.2/sed@&#39;</span>
-echo <span style="color:#e6db74">&#34;/bin/sed&#34;</span> | sed <span style="color:#e6db74">&#39;s^/bin/sed^/home/mylxsw/src/sed/sed-4.2.2/sed^&#39;</span>
-echo <span style="color:#e6db74">&#34;/bin/sed&#34;</span> | sed <span style="color:#e6db74">&#39;s!/bin/sed!/home/mylxsw/src/sed/sed-4.2.2/sed!&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;/bin/sed&#34;</span> | sed <span style="color:#d14">&#39;s|/bin/sed|/mylxsw/mylxsw/src/sed/sed-4.2.2/sed|&#39;</span>
+<span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;/bin/sed&#34;</span> | sed <span style="color:#d14">&#39;s@/bin/sed@/home/mylxsw/src/sed/sed-4.2.2/sed@&#39;</span>
+<span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;/bin/sed&#34;</span> | sed <span style="color:#d14">&#39;s^/bin/sed^/home/mylxsw/src/sed/sed-4.2.2/sed^&#39;</span>
+<span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;/bin/sed&#34;</span> | sed <span style="color:#d14">&#39;s!/bin/sed!/home/mylxsw/src/sed/sed-4.2.2/sed!&#39;</span>
 </code></pre></div><h2 id="匹配子字符串">匹配子字符串</h2>
 <p>前面我们学习了替换命令的用法，现在让我们看看如何获取匹配文本中的某个子串。</p>
 <p>在SED中，使用(?)对匹配的内容进行分组，使用\N的方式进行引用。请看下面示例</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#34;Three One Two&#34;</span> | sed <span style="color:#e6db74">&#39;s|&lt;span class=&#39;</span>MathJax_Preview<span style="color:#e6db74">&#39;&gt;\(\w\+\)&lt;/span&gt; &lt;span class=&#39;</span>MathJax_Preview<span style="color:#e6db74">&#39;&gt;\(\w\+\)&lt;/span&gt; &lt;span class=&#39;</span>MathJax_Preview<span style="color:#e6db74">&#39;&gt;\(\w\+\)&lt;/span&gt;|\2 \3 \1|&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;Three One Two&#34;</span> | sed <span style="color:#d14">&#39;s|&lt;span class=&#39;</span>MathJax_Preview<span style="color:#d14">&#39;&gt;\(\w\+\)&lt;/span&gt; &lt;span class=&#39;</span>MathJax_Preview<span style="color:#d14">&#39;&gt;\(\w\+\)&lt;/span&gt; &lt;span class=&#39;</span>MathJax_Preview<span style="color:#d14">&#39;&gt;\(\w\+\)&lt;/span&gt;|\2 \3 \1|&#39;</span>
 One Two Three
 </code></pre></div><p>我们输出了Three，One，Two三个单词，在SED的替换规则中，使用空格分隔了三小段正则表达式(\w+)来匹配每一个单词，后面使用\1，，\2，\3分别引用它们的值。</p>
 <h2 id="管理模式">管理模式</h2>
@@ -877,35 +884,35 @@ One Two Three
 <h2 id="标准正则表达式">标准正则表达式</h2>
 <h3 id="heading">^</h3>
 <p>匹配行的开始。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;/^The/ p&#39;</span> books2.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;/^The/ p&#39;</span> books2.txt
 The Two Towers, J. R. R. Tolkien 
 The Alchemist, Paulo Coelho 
 The Fellowship of the Ring, J. R. R. Tolkien 
 The Pilgrimage, Paulo Coelho
 </code></pre></div><h3 id="heading-1">$</h3>
 <p>匹配行的结尾</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#e6db74">&#39;/Coelho$/ p&#39;</span> books2.txt 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed -n <span style="color:#d14">&#39;/Coelho$/ p&#39;</span> books2.txt 
 The Alchemist, Paulo Coelho 
 The Pilgrimage, Paulo Coelho
 </code></pre></div><h3 id="heading-2">.</h3>
 <p>匹配单个字符（除行尾）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;cat\nbat\nrat\nmat\nbatting\nrats\nmats&#34;</span> | sed -n <span style="color:#e6db74">&#39;/^..t$/p&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;cat\nbat\nrat\nmat\nbatting\nrats\nmats&#34;</span> | sed -n <span style="color:#d14">&#39;/^..t$/p&#39;</span>
 cat
 bat
 rat
 mat
 </code></pre></div><h3 id="heading-3">[]</h3>
 <p>匹配字符集</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Call\nTall\nBall&#34;</span> | sed -n <span style="color:#e6db74">&#39;/[CT]all/ p&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Call\nTall\nBall&#34;</span> | sed -n <span style="color:#d14">&#39;/[CT]all/ p&#39;</span>
 Call
 Tall
 </code></pre></div><h3 id="heading-4">[^]</h3>
 <p>排除字符集</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Call\nTall\nBall&#34;</span> | sed -n <span style="color:#e6db74">&#39;/[^CT]all/ p&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Call\nTall\nBall&#34;</span> | sed -n <span style="color:#d14">&#39;/[^CT]all/ p&#39;</span>
 Ball
 </code></pre></div><h3 id="-">[-]</h3>
 <p>字符范围。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Call\nTall\nBall&#34;</span> | sed -n <span style="color:#e6db74">&#39;/[C-Z]all/ p&#39;</span> 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Call\nTall\nBall&#34;</span> | sed -n <span style="color:#d14">&#39;/[C-Z]all/ p&#39;</span> 
 Call 
 Tall
 </code></pre></div><h3 id="--">? ，+ ，*</h3>
@@ -914,7 +921,7 @@ Tall
 <p>精确匹配N次，至少匹配N次，匹配M-N次</p>
 <h3 id="heading-5">|</h3>
 <p>或操作。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;str1\nstr2\nstr3\nstr4&#34;</span> | sed -n <span style="color:#e6db74">&#39;/str&lt;span class=&#39;</span>MathJax_Preview<span style="color:#e6db74">&#39;&gt;\(1\|3\)&lt;/span&gt;/ p&#39;</span> 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;str1\nstr2\nstr3\nstr4&#34;</span> | sed -n <span style="color:#d14">&#39;/str&lt;span class=&#39;</span>MathJax_Preview<span style="color:#d14">&#39;&gt;\(1\|3\)&lt;/span&gt;/ p&#39;</span> 
 str1
 str3
 </code></pre></div><h2 id="posix兼容的正则">POSIX兼容的正则</h2>
@@ -922,8 +929,8 @@ str3
 <p>元字符</p>
 <h3 id="s">\s</h3>
 <p>匹配单个空白内容</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Line\t1\nLine2&#34;</span> | sed -n <span style="color:#e6db74">&#39;/Line\s/ p&#39;</span>
-Line <span style="color:#ae81ff">1</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line\t1\nLine2&#34;</span> | sed -n <span style="color:#d14">&#39;/Line\s/ p&#39;</span>
+Line <span style="color:#099">1</span>
 </code></pre></div><h3 id="s-1">\S</h3>
 <p>匹配单个非空白内容。</p>
 <h3 id="w--w">\w ， \W</h3>
@@ -931,53 +938,53 @@ Line <span style="color:#ae81ff">1</span>
 <h2 id="常用代码段">常用代码段</h2>
 <h3 id="cat命令">Cat命令</h3>
 <p>模拟cat命令比较简单，有下面两种方式</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 
-$ sed -n <span style="color:#e6db74">&#39;p&#39;</span> books.txt
-1<span style="color:#f92672">)</span> Storm of Swords, George R. R. Martin, <span style="color:#ae81ff">1216</span>
-2<span style="color:#f92672">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#ae81ff">352</span>
-3<span style="color:#f92672">)</span> The Alchemist, Paulo Coelho, <span style="color:#ae81ff">197</span>
-4<span style="color:#f92672">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#ae81ff">432</span>
-5<span style="color:#f92672">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#ae81ff">288</span>
-6<span style="color:#f92672">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#ae81ff">864</span>
+$ sed -n <span style="color:#d14">&#39;p&#39;</span> books.txt
+1<span style="color:#000;font-weight:bold">)</span> Storm of Swords, George R. R. Martin, <span style="color:#099">1216</span>
+2<span style="color:#000;font-weight:bold">)</span> The Two Towers, J. R. R. Tolkien, <span style="color:#099">352</span>
+3<span style="color:#000;font-weight:bold">)</span> The Alchemist, Paulo Coelho, <span style="color:#099">197</span>
+4<span style="color:#000;font-weight:bold">)</span> The Fellowship of the Ring, J. R. R. Tolkien, <span style="color:#099">432</span>
+5<span style="color:#000;font-weight:bold">)</span> The Pilgrimage, Paulo Coelho, <span style="color:#099">288</span>
+6<span style="color:#000;font-weight:bold">)</span> A Game of Thrones, George R. R. Martin, <span style="color:#099">864</span>
 </code></pre></div><h3 id="移除空行">移除空行</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Line #1\n\n\nLine #2&#34;</span> | sed <span style="color:#e6db74">&#39;/^$/d&#39;</span>
-Line <span style="color:#75715e">#1</span>
-Line <span style="color:#75715e">#2</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\n\n\nLine #2&#34;</span> | sed <span style="color:#d14">&#39;/^$/d&#39;</span>
+Line <span style="color:#998;font-style:italic">#1</span>
+Line <span style="color:#998;font-style:italic">#2</span>
 </code></pre></div><h3 id="删除连续空行">删除连续空行</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Line #1\n\n\nLine #2&#34;</span> | sed <span style="color:#e6db74">&#39;/./,/^$/!d&#39;</span>
-Line <span style="color:#75715e">#1</span>
-Line <span style="color:#75715e">#2</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\n\n\nLine #2&#34;</span> | sed <span style="color:#d14">&#39;/./,/^$/!d&#39;</span>
+Line <span style="color:#998;font-style:italic">#1</span>
+Line <span style="color:#998;font-style:italic">#2</span>
 </code></pre></div><h3 id="删除开头的空行">删除开头的空行</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;\nLine #1\n\nLine #2&#34;</span> | sed <span style="color:#e6db74">&#39;/./,$!d&#39;</span>
-Line <span style="color:#75715e">#1</span>
-Line <span style="color:#75715e">#2</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;\nLine #1\n\nLine #2&#34;</span> | sed <span style="color:#d14">&#39;/./,$!d&#39;</span>
+Line <span style="color:#998;font-style:italic">#1</span>
+Line <span style="color:#998;font-style:italic">#2</span>
 </code></pre></div><h3 id="删除结尾的空行">删除结尾的空行</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;\nLine #1\nLine #2\n\n&#34;</span> | sed <span style="color:#e6db74">&#39;:start /^\n*$/{$d; N; b start }&#39;</span>
-Line <span style="color:#75715e">#1</span>
-Line <span style="color:#75715e">#2</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;\nLine #1\nLine #2\n\n&#34;</span> | sed <span style="color:#d14">&#39;:start /^\n*$/{$d; N; b start }&#39;</span>
+Line <span style="color:#998;font-style:italic">#1</span>
+Line <span style="color:#998;font-style:italic">#2</span>
 </code></pre></div><h3 id="过滤所有的html标签">过滤所有的html标签</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat html.txtThis is the page title
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat html.txtThis is the page title
 </code></pre></div><p>This is the first line in the Web page. This should provide some useful information to use in our sed script. $ sed ‘s/]*&gt;//g ; /^$/d’ html.txt This is the page title This is the first line in the Web page. This should provide some useful information to use in our sed script.</p>
 <h3 id="从c程序中移除注释">从C++程序中移除注释</h3>
 <p>有下面这样一个cpp文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat hello.cpp
-<span style="color:#75715e">#include  </span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat hello.cpp
+<span style="color:#998;font-style:italic">#include  </span>
 using namespace std; 
-int main<span style="color:#f92672">(</span>void<span style="color:#f92672">)</span> 
-<span style="color:#f92672">{</span> 
+int main<span style="color:#000;font-weight:bold">(</span>void<span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#000;font-weight:bold">{</span> 
    // Displays message on stdout. 
-   cout &gt;&gt; <span style="color:#e6db74">&#34;Hello, World !!!&#34;</span> &gt;&gt; endl;  
-   <span style="color:#66d9ef">return</span> 0; // Return success. 
-<span style="color:#f92672">}</span>
+   cout &gt;&gt; <span style="color:#d14">&#34;Hello, World !!!&#34;</span> &gt;&gt; endl;  
+   <span style="color:#000;font-weight:bold">return</span> 0; // Return success. 
+<span style="color:#000;font-weight:bold">}</span>
 </code></pre></div><h4 id="执行下面的命令可以移除注释">执行下面的命令可以移除注释</h4>
-<pre><code>$ sed 's|//.\*||g' hello.cpp
+<pre tabindex="0"><code>$ sed 's|//.\*||g' hello.cpp
 #include 
 using namespace std;
 int main(void)
@@ -987,22 +994,22 @@ int main(void)
    return 0;
  }
 </code></pre><h4 id="为某些行添加注释">为某些行添加注释</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#e6db74">&#39;3,5 s/^/#/&#39;</span> hello.sh 
-<span style="color:#75715e">#!/bin/bash </span>
-<span style="color:#75715e">#pwd </span>
-<span style="color:#75715e">#hostname </span>
-<span style="color:#75715e">#uname -a </span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sed <span style="color:#d14">&#39;3,5 s/^/#/&#39;</span> hello.sh 
+<span style="color:#998;font-style:italic">#!/bin/bash </span>
+<span style="color:#998;font-style:italic">#pwd </span>
+<span style="color:#998;font-style:italic">#hostname </span>
+<span style="color:#998;font-style:italic">#uname -a </span>
 who 
 who -r 
 lsb_release -a
 </code></pre></div><h3 id="实现wc--l命令">实现Wc -l命令</h3>
 <p>wc -l命令用于统计文件中的行数，使用SED也可以模拟该命令</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ wc -l hello.cpp
-       <span style="color:#ae81ff">9</span> hello.cpp
-$ sed -n <span style="color:#e6db74">&#39;$ =&#39;</span> hello.cpp
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ wc -l hello.cpp
+       <span style="color:#099">9</span> hello.cpp
+$ sed -n <span style="color:#d14">&#39;$ =&#39;</span> hello.cpp
 </code></pre></div><h3 id="模拟实现head命令">模拟实现head命令</h3>
 <p>head命令用于输出文件中的前10行内容。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ head books2.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ head books2.txt
 A Storm of Swords
 George R. R. Martin
 The Two Towers
@@ -1014,8 +1021,8 @@ J. R. R. Tolkien
 The Pilgrimage
 Paulo Coelho
 </code></pre></div><p>使用SED中的sed ’10 q’可以模拟它的实现</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ sed <span style="color:#e6db74">&#39;10 q&#39;</span> books.txt 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ sed <span style="color:#d14">&#39;10 q&#39;</span> books.txt 
 A Storm of Swords 
 George R. R. Martin 
 The Two Towers 
@@ -1028,156 +1035,195 @@ The Pilgrimage
 Paulo Coelho
 </code></pre></div><h3 id="模拟tail--1命令">模拟tail -1命令</h3>
 <p>tail -1输出文件的最后一行。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
 $ cat test.txt
-Line <span style="color:#75715e">#1 </span>
-Line <span style="color:#75715e">#2 </span>
+Line <span style="color:#998;font-style:italic">#1 </span>
+Line <span style="color:#998;font-style:italic">#2 </span>
 
 $ tail -1 test.txt
-Line <span style="color:#75715e">#2</span>
-$ sed $ sed -n <span style="color:#e6db74">&#39;$p&#39;</span> test.txt
-Line <span style="color:#75715e">#2</span>
+Line <span style="color:#998;font-style:italic">#2</span>
+$ sed $ sed -n <span style="color:#d14">&#39;$p&#39;</span> test.txt
+Line <span style="color:#998;font-style:italic">#2</span>
 </code></pre></div><h3 id="模拟dos2unix命令">模拟Dos2unix命令</h3>
 <p>在DOS环境中，换行符是使用CR/LF两个字符一起表示的，下面命令模拟了dos2unix命令转换这些换行符为UNIX换行符。</p>
 <p>在GNU/Linux环境中，CR/LF通常使用”^M”（不是简单的两个符号组合，请使用快捷键Ctrl+v,Ctrl+m输入）进行表示。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Line #1\r\nLine #2\r&#34;</span> &gt; test.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\r\nLine #2\r&#34;</span> &gt; test.txt
 $ file test.txt
 test.txt: ASCII text, with CRLF line terminators
-$ sed <span style="color:#e6db74">&#39;s/^M$//&#39;</span> test.txt &gt; new.txt
+$ sed <span style="color:#d14">&#39;s/^M$//&#39;</span> test.txt &gt; new.txt
 $ file new.txt
 new.txt: ASCII text
 $ cat -vte new.txt
-Line <span style="color:#75715e">#1$</span>
-Line <span style="color:#75715e">#2$</span>
+Line <span style="color:#998;font-style:italic">#1$</span>
+Line <span style="color:#998;font-style:italic">#2$</span>
 </code></pre></div><h3 id="模拟unix2dos命令">模拟Unix2dos命令</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
 $ file new.txt
 new.txt: ASCII text
-$ sed <span style="color:#e6db74">&#39;s/$/\r/&#39;</span> new.txt &gt; new2.txt
+$ sed <span style="color:#d14">&#39;s/$/\r/&#39;</span> new.txt &gt; new2.txt
 $ file new2.txt
 new2.txt: ASCII text, with CRLF line terminators
 $ cat -vte new2.txt
-Line <span style="color:#75715e">#1^M$</span>
-Line <span style="color:#75715e">#2^M$</span>
+Line <span style="color:#998;font-style:italic">#1^M$</span>
+Line <span style="color:#998;font-style:italic">#2^M$</span>
 </code></pre></div><h3 id="模拟cat--e命令">模拟cat -E命令</h3>
 <p>cat -E命令会在每一行的行尾输出一个$符号。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ echo -e <span style="color:#e6db74">&#34;Line #1\nLine #2&#34;</span> | cat -E
-Line <span style="color:#75715e">#1$</span>
-Line <span style="color:#75715e">#2$</span>
-$ echo -e <span style="color:#e6db74">&#34;Line #1\nLine #2&#34;</span> | sed <span style="color:#e6db74">&#39;s|$|&amp;$|&#39;</span>
-Line <span style="color:#75715e">#1$</span>
-Line <span style="color:#75715e">#2$</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\nLine #2&#34;</span> | cat -E
+Line <span style="color:#998;font-style:italic">#1$</span>
+Line <span style="color:#998;font-style:italic">#2$</span>
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\nLine #2&#34;</span> | sed <span style="color:#d14">&#39;s|$|&amp;$|&#39;</span>
+Line <span style="color:#998;font-style:italic">#1$</span>
+Line <span style="color:#998;font-style:italic">#2$</span>
 </code></pre></div><p>注意，在Mac下不支持cat -E，可以直接使用sed代替</p>
 <h3 id="模拟cat--et命令">模拟cat -ET命令</h3>
 <p>cat -ET命令不仅对每一行的行尾添加$，还会将每一行中的TAB显示为I。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Line #1\tLine #2&#34;</span> | cat -ET
-Line <span style="color:#75715e">#1^ILine #2$</span>
-$ echo -e <span style="color:#e6db74">&#34;Line #1\tLine #2&#34;</span> | sed -n <span style="color:#e6db74">&#39;l&#39;</span> | sed <span style="color:#e6db74">&#39;y/\\t/^I/&#39;</span>
-Line <span style="color:#75715e">#1^ILine #2$</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\tLine #2&#34;</span> | cat -ET
+Line <span style="color:#998;font-style:italic">#1^ILine #2$</span>
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\tLine #2&#34;</span> | sed -n <span style="color:#d14">&#39;l&#39;</span> | sed <span style="color:#d14">&#39;y/\\t/^I/&#39;</span>
+Line <span style="color:#998;font-style:italic">#1^ILine #2$</span>
 </code></pre></div><h3 id="模拟nl命令">模拟nl命令</h3>
 <p>命令nl可以为输入内容的每一行添加行号，记得之前介绍的=操作符吧，在SED中我们可以用它来实现与nl命令类似的功能。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ echo -e <span style="color:#e6db74">&#34;Line #1\nLine #2&#34;</span> |nl
-     <span style="color:#ae81ff">1</span>  Line <span style="color:#75715e">#1</span>
-     <span style="color:#ae81ff">2</span>  Line <span style="color:#75715e">#2</span>
-$ echo -e <span style="color:#e6db74">&#34;Line #1\nLine #2&#34;</span> | sed <span style="color:#f92672">=</span> |  sed <span style="color:#e6db74">&#39;N;s/\n/\t/&#39;</span>
-<span style="color:#ae81ff">1</span>   Line <span style="color:#75715e">#1</span>
-<span style="color:#ae81ff">2</span>   Line <span style="color:#75715e">#2</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\nLine #2&#34;</span> |nl
+     <span style="color:#099">1</span>  Line <span style="color:#998;font-style:italic">#1</span>
+     <span style="color:#099">2</span>  Line <span style="color:#998;font-style:italic">#2</span>
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\nLine #2&#34;</span> | <span style="color:#008080">sed</span> <span style="color:#000;font-weight:bold">=</span> |  sed <span style="color:#d14">&#39;N;s/\n/\t/&#39;</span>
+<span style="color:#099">1</span>   Line <span style="color:#998;font-style:italic">#1</span>
+<span style="color:#099">2</span>   Line <span style="color:#998;font-style:italic">#2</span>
 </code></pre></div><p>上面的SED命令使用了两次，第一次使用=操作符为每一行输出行号，注意这个行号是独占一行的，因此使用管道符连接了第二个SED命令，每次读取两行，将换行符替换为Tab，这样就模拟出了nl命令的效果。</p>
 <h3 id="模拟cp命令">模拟cp命令</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ sed -n <span style="color:#e6db74">&#39;w dup.txt&#39;</span> data.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ sed -n <span style="color:#d14">&#39;w dup.txt&#39;</span> data.txt
 $ diff data.txt dup.txt
-$ echo $?
-<span style="color:#ae81ff">0</span>
+$ <span style="color:#0086b3">echo</span> <span style="color:#008080">$?</span>
+<span style="color:#099">0</span>
 </code></pre></div><h3 id="模拟expand命令">模拟expand命令</h3>
 <p>expand命令会转换输入中的TAB为空格，在SED中也可以模拟它</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ echo -e <span style="color:#e6db74">&#34;One\tTwo\tThree&#34;</span> &gt; test.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;One\tTwo\tThree&#34;</span> &gt; test.txt
 $ expand test.txt &gt; expand.txt
-$ sed <span style="color:#e6db74">&#39;s/\t/     /g&#39;</span> test.txt &gt; new.txt
+$ sed <span style="color:#d14">&#39;s/\t/     /g&#39;</span> test.txt &gt; new.txt
 $ diff new.txt expand.txt
-$ echo $?
-<span style="color:#ae81ff">0</span>
+$ <span style="color:#0086b3">echo</span> <span style="color:#008080">$?</span>
+<span style="color:#099">0</span>
 </code></pre></div><h3 id="模拟tee命令">模拟tee命令</h3>
 <p>tee命令会将数据输出到标准输出的同时写入文件。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Line #1\nLine #2&#34;</span> | tee test.txt  
-Line <span style="color:#75715e">#1 </span>
-Line <span style="color:#75715e">#2</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\nLine #2&#34;</span> | tee test.txt  
+Line <span style="color:#998;font-style:italic">#1 </span>
+Line <span style="color:#998;font-style:italic">#2</span>
 </code></pre></div><p>在SED中，实现该命令非常简单</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ sed -n <span style="color:#e6db74">&#39;p; w new.txt&#39;</span> test.txt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ sed -n <span style="color:#d14">&#39;p; w new.txt&#39;</span> test.txt
 One Two Three
 </code></pre></div><h3 id="模拟cat--s命令">模拟cat -s命令</h3>
 <p>cat -s命令会将输入文件中的多行空格合并为一行。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ echo -e <span style="color:#e6db74">&#34;Line #1nnnnLine #2nnnLine #3&#34;</span> | cat -s
-Line <span style="color:#75715e">#1</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1nnnnLine #2nnnLine #3&#34;</span> | cat -s
+Line <span style="color:#998;font-style:italic">#1</span>
 
-Line <span style="color:#75715e">#2</span>
+Line <span style="color:#998;font-style:italic">#2</span>
 
-Line <span style="color:#75715e">#3</span>
+Line <span style="color:#998;font-style:italic">#3</span>
 </code></pre></div><p>在SED中实现</p>
-<pre><code>
+<pre tabindex="0"><code>
 $ echo -e &quot;Line #1\n\n\n\nLine #2\n\n\nLine #3&quot; | cat -s
 Line #1
 Line #2
 Line #3
 </code></pre><p>这里需要注意的是/./,/^$/!d这个命令，它的意思是匹配区间/./到/^$，区间的开始会匹配至少包含一个字符的行，结束会匹配一个空行，在这个区间中的行不会被删除。</p>
 <h3 id="模拟grep命令">模拟grep命令</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ echo -e <span style="color:#e6db74">&#34;Line #1\n\n\n\nLine #2\n\n\nLine #3&#34;</span> | sed <span style="color:#e6db74">&#39;1s/^$//p;/./,/^$/!d&#39;</span>
-Line <span style="color:#75715e">#1</span>
-Line <span style="color:#75715e">#2</span>
-Line <span style="color:#75715e">#3</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\n\n\n\nLine #2\n\n\nLine #3&#34;</span> | sed <span style="color:#d14">&#39;1s/^$//p;/./,/^$/!d&#39;</span>
+Line <span style="color:#998;font-style:italic">#1</span>
+Line <span style="color:#998;font-style:italic">#2</span>
+Line <span style="color:#998;font-style:italic">#3</span>
 </code></pre></div><h3 id="模拟grep--v命令">模拟grep -v命令</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo -e <span style="color:#e6db74">&#34;Line #1\nLine #2\nLine #3&#34;</span> | grep -v <span style="color:#e6db74">&#39;Line #1&#39;</span>
-Line <span style="color:#75715e">#2</span>
-Line <span style="color:#75715e">#3</span>
-$ echo -e <span style="color:#e6db74">&#34;Line #1\nLine #2\nLine #3&#34;</span> | sed -n <span style="color:#e6db74">&#39;/Line #1/!p&#39;</span>
-Line <span style="color:#75715e">#2</span>
-Line <span style="color:#75715e">#3</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\nLine #2\nLine #3&#34;</span> | grep -v <span style="color:#d14">&#39;Line #1&#39;</span>
+Line <span style="color:#998;font-style:italic">#2</span>
+Line <span style="color:#998;font-style:italic">#3</span>
+$ <span style="color:#0086b3">echo</span> -e <span style="color:#d14">&#34;Line #1\nLine #2\nLine #3&#34;</span> | sed -n <span style="color:#d14">&#39;/Line #1/!p&#39;</span>
+Line <span style="color:#998;font-style:italic">#2</span>
+Line <span style="color:#998;font-style:italic">#3</span>
 </code></pre></div><h3 id="模拟tr命令">模拟tr命令</h3>
 <p>tr命令用于字符转换</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-$ echo <span style="color:#e6db74">&#34;ABC&#34;</span> | tr <span style="color:#e6db74">&#34;ABC&#34;</span> <span style="color:#e6db74">&#34;abc&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;ABC&#34;</span> | tr <span style="color:#d14">&#34;ABC&#34;</span> <span style="color:#d14">&#34;abc&#34;</span>
 abc
-$ echo <span style="color:#e6db74">&#34;ABC&#34;</span> | sed <span style="color:#e6db74">&#39;y/ABC/abc/&#39;</span>
+$ <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;ABC&#34;</span> | sed <span style="color:#d14">&#39;y/ABC/abc/&#39;</span>
 abc
 </code></pre></div><h3 id="日志格式化工具">日志格式化工具</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-tail -f xxx | sed <span style="color:#e6db74">&#39;s/[{,]/&amp;\n\t/g;s/}/\n&amp;/;&#39;</span> 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+tail -f xxx | sed <span style="color:#d14">&#39;s/[{,]/&amp;\n\t/g;s/}/\n&amp;/;&#39;</span> 
 </code></pre></div>
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

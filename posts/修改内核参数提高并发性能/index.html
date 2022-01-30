@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>修改内核参数提高并发性能</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>修改内核参数提高并发性能</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>修改内核参数提高并发性能</h1>
-    <div class="blog-post-subheader">
-        December 11, 2017
-    </div>
-    <div class="blog-post-content">
-        <blockquote>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>修改内核参数提高并发性能</h1>
+			<b><time>2017-12-11</time></b>
+		       
+		           <a href="/tags/shell">shell</a>
+        	       
+
+			<div>
+				<blockquote>
 <p>如何修改linux内核参数提高并发数</p>
 </blockquote>
 <h1 id="修改用户进程可打开文件数限制">&gt;修改用户进程可打开文件数限制</h1>
@@ -114,8 +121,8 @@
 <p>在Linux平台上，无论编写客户端程序还是服务端程序，在进行高并发TCP连接处理时，最高的并发数量都要受到系统对用户单一进程同时可打开文件数量的限制(这是因为系统为每个TCP连接都要创建一个socket句柄，每个socket句柄同时也是一个文件句柄)</p>
 </blockquote>
 <h2 id="查看">&gt;查看</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> ~ ulimit -n
-<span style="color:#ae81ff">1024</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> ~ <span style="color:#0086b3">ulimit</span> -n
+<span style="color:#099">1024</span>
 </code></pre></div><p>这表示当前用户的每个进程最多允许同时打开1024个文件，这1024个文件中还得除去每个进程必然打开的标准输入，标准输出，标准错误，服务器监听 socket，进程间通讯的unix域socket等文件，那么剩下的可用于客户端socket连接的文件数就只有大概1024-10=1014个左右。也就是说缺省情况下，基于Linux的通讯程序最多允许同时1014个TCP并发连接。</p>
 <ul>
 <li>对于想支持更高数量的TCP并发连接的通讯处理程序，就必须修改Linux对当前用户的进程同时打开的文件数量的软限制(soft limit)和硬限制(hardlimit)。</li>
@@ -123,29 +130,29 @@
 <li>硬限制则是根据系统硬件资源状况(主要是系统内存)计算出来的系统最多可同时打开的文件数量。通常软限制小于或等于硬限制。</li>
 </ul>
 <h2 id="修改">&gt;修改</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim /etc/security/limits.conf
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim /etc/security/limits.conf
 
 添加如下行:
-   username soft nofile <span style="color:#ae81ff">10240</span>
-   username hard nofile <span style="color:#ae81ff">10240</span>
-如果对所有用户修改则将username改为 <span style="color:#ae81ff">\*</span>
+   username soft nofile <span style="color:#099">10240</span>
+   username hard nofile <span style="color:#099">10240</span>
+如果对所有用户修改则将username改为 <span style="color:#d14">\*</span>
 </code></pre></div><h1 id="修改网络内核对tcp的限制">&gt;修改网络内核对tcp的限制</h1>
 <blockquote>
 <p>当linux下Nginx达到并发数很高，TCP TIME_WAIT套接字数量会很高，这样服务器很容易被拖死。事实上，我们可以简单的通过修改Linux内核参数，可以减少Nginx服务器 的TIME_WAIT套接字数量，进而提高Nginx服务器并发性能。</p>
 </blockquote>
 <h2 id="执行">&gt;执行</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim  /etc/sysctl.conf
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim  /etc/sysctl.conf
 </code></pre></div><h3 id="增加以下几行">&gt;增加以下几行：</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">net.ipv4.tcp_fin_timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
-net.ipv4.tcp_keepalive_time <span style="color:#f92672">=</span> <span style="color:#ae81ff">1200</span>
-net.ipv4.tcp_syncookies <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-net.ipv4.tcp_tw_reuse <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-net.ipv4.tcp_tw_recycle <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-net.ipv4.ip_local_port_range <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span> <span style="color:#ae81ff">65000</span>
-net.ipv4.tcp_max_syn_backlog <span style="color:#f92672">=</span> <span style="color:#ae81ff">8192</span>
-net.ipv4.tcp_max_tw_buckets <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">net.ipv4.tcp_fin_timeout <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">30</span>
+net.ipv4.tcp_keepalive_time <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1200</span>
+net.ipv4.tcp_syncookies <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>
+net.ipv4.tcp_tw_reuse <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>
+net.ipv4.tcp_tw_recycle <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>
+net.ipv4.ip_local_port_range <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1024</span> <span style="color:#099">65000</span>
+net.ipv4.tcp_max_syn_backlog <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8192</span>
+net.ipv4.tcp_max_tw_buckets <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5000</span>
 </code></pre></div><h3 id="执行命令立即生效">&gt;执行命令立即生效</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/sbin/sysctl -p
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/sbin/sysctl -p
 </code></pre></div><h2 id="说明">&gt;说明</h2>
 <ul>
 <li>
@@ -183,35 +190,74 @@ net.ipv4.tcp_max_tw_buckets <span style="color:#f92672">=</span> <span style="co
 </ul>
 <h2 id="转自internet">转自internet</h2>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

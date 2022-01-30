@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>os-unix-hater-handbook</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,110 +24,108 @@
         <title>os-unix-hater-handbook</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>os-unix-hater-handbook</h1>
-    <div class="blog-post-subheader">
-        August 9, 2019
-    </div>
-    <div class="blog-post-content">
-        <h1 id="os-unix-hater-handbook">os-unix-hater-handbook</h1>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>os-unix-hater-handbook</h1>
+			<b><time>2019-08-09</time></b>
+		       
+		           <a href="/tags/os">os</a>
+        	       
+
+			<div>
+				<h1 id="os-unix-hater-handbook">os-unix-hater-handbook</h1>
 <blockquote>
 <p>最近偶尔发现了一本书，叫做unix痛恨者指南。
 用了这么久的unix（linus），似乎所有的程序员都在谈论unix（linux），但是却很少有人对unix提出质疑
 偶尔读读这样的书也挺有意思的，某些点也引发了我对unix（linux）的思考</p>
 </blockquote>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190705162326076_1224001106.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190705162326076_1224001106.png" alt="" />
+</figure>
+
+
+</p>
 <p>UNIX痛恨者手册
 第一章 UNIX——世界上第一个电脑病毒</p>
 <p>“伯克利的两项最著名的产品是UNIX和LSD (一种毒品)，我想这不是巧合”</p>
@@ -614,7 +627,7 @@ cpp* gcrt0.o libssy_s.a
 cpp-precomp* i386/ m68k/
 crt0.o libsys_p.a posixcrt0.o
 next% strings /lib/cpp-precomp | grep /
-/*%s*/
+/<em>%s</em>/
 //%s
 /usr/local/include
 /NextDeveloper/Headers
@@ -658,7 +671,7 @@ No manual entry for cpp-precomp.</p>
 是非法的，但是情有可原：UNIX厂商提供的文档不够用。</p>
 <p>这并不是说源代码中有什么值钱的秘密。所有读过UNIX代码的人都被下面的一行粗暴注
 释惊呆过：</p>
-<p>/* you are not expected to understand this */ （/* 没指望你能明白 */）</p>
+<p>/* you are not expected to understand this <em>/ （/</em> 没指望你能明白 */）</p>
 <p>尽管这行注释最开始出现在UNIX V6内核中，但是几乎所有的原始AT&amp;T代码都差不多，其
 中充满了内联手动优化和怪异的宏。寄存器变量被冠以p, pp和ppp这类的名字。“这个
 函数是递归的”这样的注释似乎表明递归调用是什么难理解的概念。事实上，AT&amp;T在文
@@ -1263,9 +1276,9 @@ Unix。他们异口同声地颂扬管道：“管道能够让你用简单的程�
 科学的基本原则。基本工具越是优秀，用其建立的复杂系统就会更为成功，可维
 护性也越高。管道作为构造工具还是有价值的。</p>
 <p>以下是个管道的例子：</p>
-<p>egrep &lsquo;^To:|^Cc:&rsquo; /var/spool/mail/$USER |<br>
-cut -c5- |<br>
-awk &lsquo;{ for (i = 1; i &lt;= NF; i++) print $i}&rsquo; |<br>
+<p>egrep &lsquo;^To:|^Cc:&rsquo; /var/spool/mail/$USER | <br>
+cut -c5- | <br>
+awk &lsquo;{ for (i = 1; i &lt;= NF; i++) print $i}&rsquo; | <br>
 sed &rsquo;s/,//g' | grep -v $USER | sort | uniq</p>
 <p>看明白了么？这个程序通过读取用户的邮箱，得到用户所在的邮件列表(差不多
 是这个意思)。和你家里的水管一样，这个Unix管道也会在特定情况下神秘地破
@@ -1447,7 +1460,7 @@ test -f {}c
 test -f {}c</p>
 <p>嗯？也许我记错了，{}并不是find使用的那个“替换成这个文件名”的符号。真的么
 ？&hellip;</p>
-<p>% find . -name &lsquo;*.el&rsquo;<br>
+<p>% find . -name &lsquo;*.el&rsquo; <br>
 -exec test -f &lsquo;{}&rsquo; c ;
 test -f ./bytecomp/bytecomp-runtime.el c
 test -f ./bytecomp/disass.el c
@@ -1460,24 +1473,24 @@ test -f ./bytecomp/byte-optimize.el c
 <p>试验了五次，阅读了sed手册两遍，我得到了这个：</p>
 <p>% echo foo.el | sed &rsquo;s/$/c/&rsquo;</p>
 <p>于是：</p>
-<p>% find . -name &lsquo;*.el&rsquo;<br>
+<p>% find . -name &lsquo;*.el&rsquo; <br>
 -exec echo test -f <code>echo '{}' \ | sed 's/$/c'</code> ;
 test -f c
 test -f c
 test -f c
 &hellip;.</p>
 <p>OK, 看来只能去试试所有shell引用的排列组合了，总会有一款和我意吧？</p>
-<p>% find . -name &lsquo;<em>.el&rsquo;<br>
+<p>% find . -name &lsquo;<em>.el&rsquo; <br>
 -exec echo test -f &ldquo;<code>echo '{}' \ | sed 's/$/c'</code>&rdquo; ;
 Variable syntax.
-% find . -name &lsquo;</em>.el&rsquo;<br>
+% find . -name &lsquo;</em>.el&rsquo; <br>
 -exec echo test -f &lsquo;<code>echo &quot;{}&quot; \ | sed &quot;s/$/c&quot;</code>&rsquo; ;
 test -f <code>echo &quot;{}&quot; | sed &quot;s/$/c&quot;</code>
 test -f <code>echo &quot;{}&quot; | sed &quot;s/$/c&quot;</code>
 test -f <code>echo &quot;{}&quot; | sed &quot;s/$/c&quot;</code>
 &hellip;.</p>
 <p>嗨，最后一个似乎有戏。我只需要这么干一下：</p>
-<p>% find . -name &lsquo;*.el&rsquo;<br>
+<p>% find . -name &lsquo;*.el&rsquo; <br>
 -exec echo test -f &lsquo;<code>echo {} \ | sed &quot;s/$/c&quot;</code>&rsquo; ;
 test -f <code>echo {} | sed &quot;s/$/c&quot;</code>
 test -f <code>echo {} | sed &quot;s/$/c&quot;</code>
@@ -1495,9 +1508,9 @@ test -f <code>echo {} | sed &quot;s/$/c&quot;</code>
 深坠入了她的情网，意乱情迷，无法自拔。醉了。只有罕诺塔的Scribe
 实现曾给过我这样的快感。我仅试了12次就找到了解法。对于每个遍历
 到的文件它只产生两个进程。这才是Unix之道！</p>
-<p>% find . -name &lsquo;*.el&rsquo; -print<br>
+<p>% find . -name &lsquo;*.el&rsquo; -print <br>
 | sed &rsquo;s/^/FOO-/'|<br>
-sed &rsquo;s/$/; if [ ! -f ${FOO}c]; then<br>
+sed &rsquo;s/$/; if [ ! -f ${FOO}c]; then <br>
 echo \ $FOO; fi/&rsquo; | sh</p>
 <p>BWAAAAAHH HAAAAHH HAAAAHH HAAAAHH HAAAAHH HAAAAHH HAAAAHH HAAAAHH!!!!</p>
 <p>—Jamie</p>
@@ -1992,11 +2005,11 @@ struct bpt *result;</p>
 <p>result = malloc(sizeof(struct bpt));
 if (result == 0) {
 fprintf(stderr, &ldquo;error: malloc: ???\n&rdquo;);</p>
-<p>/* recover gracefully from the error */
+<p>/* recover gracefully from the error <em>/
 [&hellip;]
 return 0;
 }
-/* Do something interesting */
+/</em> Do something interesting */
 [&hellip;]
 return result;
 }</p>
@@ -2442,35 +2455,74 @@ string.print();
 Zer4tul制作 欢迎分享
 Powered By CNFUG &amp; Linux Focus</p>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

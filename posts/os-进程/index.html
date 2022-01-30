@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>os-进程</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>os-进程</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>os-进程</h1>
-    <div class="blog-post-subheader">
-        August 9, 2019
-    </div>
-    <div class="blog-post-content">
-        <h1 id="os-进程">os-进程</h1>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>os-进程</h1>
+			<b><time>2019-08-09</time></b>
+		       
+		           <a href="/tags/os">os</a>
+        	       
+
+			<div>
+				<h1 id="os-进程">os-进程</h1>
 <h1 id="进程和线程之间的区别">进程和线程之间的区别：</h1>
 <p><a href="http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html">进程之间的关系</a></p>
 <h2 id="进程经典定义">进程经典定义</h2>
@@ -120,7 +127,13 @@
 <li>环境变量</li>
 <li>运行时栈</li>
 <li>通用目的寄存器
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154006060_1623927614.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154006060_1623927614.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 </li>
 </ul>
@@ -130,7 +143,13 @@
 <h2 id="并发流">并发流</h2>
 <p>多任务也叫时间分片。每个进程执行它部分逻辑流的一段时间叫做时间分片</p>
 <h2 id="私有地址空间">私有地址空间</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154031478_981738775.png" alt="一个进程常见的内存情况"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154031478_981738775.png" alt="一个进程常见的内存情况" />
+</figure>
+
+
+</p>
 <h2 id="一个进程的常见内存情况">一个进程的常见内存情况</h2>
 <ul>
 <li>代码段总是从地址0x400000开始的，然后是数据段，然后是堆</li>
@@ -161,7 +180,13 @@
 <li>中断：所有的机器都有产生周期性定时器中断的机制，通常为1毫秒或10毫秒，定时器终端时，内核可以进行进程调度</li>
 </ul>
 <h3 id="一个因为读取磁盘的调度实例">一个因为读取磁盘的调度实例</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154055218_966731524.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154055218_966731524.png" alt="" />
+</figure>
+
+
+</p>
 <ol>
 <li>初始时，进程A运行在用户模式，进程调用read命令时，进程A会从用户态切换到内核态，同时内核会把A的内核态切换到B的内核态进程，然后再运行在B的用户态执行</li>
 <li>同时陷阱处理程序会通过DMA，不经过cpu，直接将数据从磁盘读取到内存中，读取完毕后，磁盘控制器会向cpu发送一个中断信息</li>
@@ -199,7 +224,13 @@
 </ul>
 <ol start="2">
 <li>当目的进程被内核强制对信号的发送做出反应时，同时进程可以忽略这个信号，终止或者执行一个信号处理程序来捕获信号
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154117101_2142934313.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154117101_2142934313.png" alt="" />
+</figure>
+
+
+</li>
 </ol>
 </li>
 </ul>
@@ -220,46 +251,97 @@
 </li>
 </ul>
 <h2 id="信号的收发">信号的收发</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154140699_848754754.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154140699_848754754.png" alt="" />
+</figure>
+
+
+</p>
 <ul>
 <li>进程A发送信号给进程B，信号会被传递给内核，内核会对信号进行权限等处理，内核首先判断进程A是否允许对进程B发送该信号，如果可以的话，内核将对B进程的进程表进行设置，如果该信号已经被设置过之后，且还没有进行响应，则该信号则会被丢弃</li>
 <li>进程B收到信号后，一般不会立即处理，而是会在中断返回之后或者从内核态返回用户态时对信号进行处理</li>
 </ul>
 <h2 id="接收信号">接收信号</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154210200_1434767104.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154210200_1434767104.png" alt="" />
+</figure>
+
+
+</p>
 <ul>
 <li>一个信号处理程序可以被其他信号处理程序中断</li>
 </ul>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

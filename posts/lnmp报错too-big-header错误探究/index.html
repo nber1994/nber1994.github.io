@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>lnmp报错too-big-header错误探究</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,138 +24,130 @@
         <title>lnmp报错too-big-header错误探究</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>lnmp报错too-big-header错误探究</h1>
-    <div class="blog-post-subheader">
-        January 8, 2018
-    </div>
-    <div class="blog-post-content">
-        <blockquote>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>lnmp报错too-big-header错误探究</h1>
+			<b><time>2018-01-08</time></b>
+		       
+		           <a href="/tags/php">php</a>
+        	       
+
+			<div>
+				<blockquote>
 <p>之前遇到的一个偶发的错误，探讨下到底是怎么肥四</p>
 </blockquote>
 <h1 id="1背景">1.背景</h1>
 <p>遇到nginx报出了如下的error，导致服务为502 bad gateway, 而且某些请求稳定复现，但是其他请求缺没有问题，正常返回,正常情况下，php的warning并不会导致流程的中断</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ae81ff">2018</span><span style="color:#f92672">/</span><span style="color:#ae81ff">01</span><span style="color:#f92672">/</span><span style="color:#ae81ff">08</span> <span style="color:#ae81ff">15</span><span style="color:#f92672">:</span><span style="color:#ae81ff">50</span><span style="color:#f92672">:</span><span style="color:#ae81ff">20</span> [<span style="color:#a6e22e">error</span>] <span style="color:#ae81ff">15477</span><span style="color:#75715e">#0: *2941700922 upstream sent too big header while reading response header from upstream, client: xx.xx.xxx, server: test.com, request: &#34;POST /test/test HTTP/1.1&#34;, upstream: &#34;fastcgi://127.0.0.1:xxxx&#34;, host: &#34;xxxxxx&#34;, referrer: &#34;xxxxxx&#34;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#099">2018</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">01</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">08</span> <span style="color:#099">15</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">50</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">20</span> [error] <span style="color:#099">15477</span><span style="color:#998;font-style:italic">#0: *2941700922 upstream sent too big header while reading response header from upstream, client: xx.xx.xxx, server: test.com, request: &#34;POST /test/test HTTP/1.1&#34;, upstream: &#34;fastcgi://127.0.0.1:xxxx&#34;, host: &#34;xxxxxx&#34;, referrer: &#34;xxxxxx&#34;
 </span></code></pre></div><p>一时之间不知道原因，唯一有异常的是warninig日志较多，推测可能是php-fpm会把warning日志加到response header头里,导致头部过大报错</p>
 <p>php代码中存在类似与以下的错误片段：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-    $a <span style="color:#f92672">=</span> [
-        <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;123&#39;</span>,
-        <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;123&#39;</span>,
-        <span style="color:#e6db74">&#39;c&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;123&#39;</span>,
-        <span style="color:#e6db74">&#39;d&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;123&#39;</span>,
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+    <span style="color:#008080">$a</span> <span style="color:#000;font-weight:bold">=</span> [
+        <span style="color:#d14">&#39;a&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;123&#39;</span>,
+        <span style="color:#d14">&#39;b&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;123&#39;</span>,
+        <span style="color:#d14">&#39;c&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;123&#39;</span>,
+        <span style="color:#d14">&#39;d&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;123&#39;</span>,
     ];
 
-    <span style="color:#66d9ef">foreach</span> ($a[<span style="color:#e6db74">&#39;nber1994&#39;</span>] <span style="color:#66d9ef">as</span> $item) {
-        <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">            do something...
-</span><span style="color:#e6db74">        */</span>    
+    <span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#008080">$a</span>[<span style="color:#d14">&#39;nber1994&#39;</span>] <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$item</span>) {
+        <span style="color:#d14">/**
+</span><span style="color:#d14">            do something...
+</span><span style="color:#d14">        */</span>    
     }
 </code></pre></div><p>此时会报warning的错误，类似于</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
-<span style="color:#a6e22e">php</span> <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">php</span> <span style="color:#a6e22e">Warning</span><span style="color:#f92672">:</span>  <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">argument</span> <span style="color:#a6e22e">supplied</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">foreach</span>() <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">XXXXX</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">line</span> <span style="color:#ae81ff">206</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
+php message<span style="color:#000;font-weight:bold">:</span> php Warning<span style="color:#000;font-weight:bold">:</span>  Invalid argument supplied <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">foreach</span>() in XXXXX<span style="color:#000;font-weight:bold">.</span>php on line <span style="color:#099">206</span>
 </code></pre></div><p><strong>大量的warning如果会被加到header头里的话，会触发nginx的相关配置(如果有的话),导致报错,看起来解释的通</strong>
 但是是否真的是因为header头过大导致的呢，探究一下</p>
 <h1 id="2简单的分析一次请求的日志行为">2.简单的分析一次请求的日志行为</h1>
@@ -148,42 +155,60 @@
 <h2 id="21-抓取php-fpm与nginx之间的通信数据">2.1 抓取php-fpm与nginx之间的通信数据</h2>
 <h3 id="211-php监听端口通信方式的监听">2.1.1 php监听端口通信方式的监听</h3>
 <p>速度较unix socket较慢，但是支持跨机器调用，我们可以通过tcpdump进行抓取</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tcpdump -X -i any  port <span style="color:#ae81ff">9999</span> &gt; /tmp/tcpdump.log
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tcpdump -X -i any  port <span style="color:#099">9999</span> &gt; /tmp/tcpdump.log
 </code></pre></div><h4 id="ps开放php端口对外提供fastcgi服务的方法">ps:开放php端口对外提供fastcgi服务的方法</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">1.设置防火墙,开放你的端口
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">1.设置防火墙,开放你的端口
 2.php-fpm配置增加：
-listen <span style="color:#f92672">=</span> 公网IP:9085
-listen.allowed_clients <span style="color:#f92672">=</span> 192.168.10.66 <span style="color:#75715e">#设置允许连接到 FastCGI 的服务器 IPV4 地址。如果允许所有那么把这条注释掉即可</span>
+<span style="color:#008080">listen</span> <span style="color:#000;font-weight:bold">=</span> 公网IP:9085
+listen.allowed_clients <span style="color:#000;font-weight:bold">=</span> 192.168.10.66 <span style="color:#998;font-style:italic">#设置允许连接到 FastCGI 的服务器 IPV4 地址。如果允许所有那么把这条注释掉即可</span>
 </code></pre></div><h3 id="212-以unix-socket方式通信数据的抓取">2.1.2 以unix socket方式通信数据的抓取</h3>
 <p>该方法速度较快，性能高,可以通过监听socket通道得到数据</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /path/to/php.sock
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#0086b3">cd</span> /path/to/php.sock
 mv php.sock php.sock.orig
-socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#f92672">=</span>777,reuseaddr,fork UNIX-CONNECT:php.sock.orig
+socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:bold">=</span>777,reuseaddr,fork UNIX-CONNECT:php.sock.orig
 将socket通道的内容转发一份到另一个socket,进行监听
 </code></pre></div><h3 id="213-抓取到的数据大概的样子">2.1.3 抓取到的数据大概的样子</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/tcpdump.png" alt="抓到的数据"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/tcpdump.png" alt="抓到的数据" />
+</figure>
+
+
+</p>
 <h2 id="22-简单分析">2.2 简单分析</h2>
 <p>让我们观察下日志，
 首先可以看到tcp的建立链接数据，可以顺便直观了解下tcp的三次握手:P</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">12:09:25.581210 IP 127.0.0.1.58984 &gt; 127.0.0.1.9999: Flags <span style="color:#f92672">[</span>S<span style="color:#f92672">]</span>, seq 3550696989, win 65495, options <span style="color:#f92672">[</span>mss 65495,sackOK,TS val <span style="color:#ae81ff">1133088550</span> ecr 0,nop,wscale 7<span style="color:#f92672">]</span>, length <span style="color:#ae81ff">0</span>
-        0x0000:  <span style="color:#ae81ff">4500</span> 003c d93b <span style="color:#ae81ff">4000</span> <span style="color:#ae81ff">4006</span> 637e 7f00 <span style="color:#ae81ff">0001</span>  E..&lt;.;@.@.c~....
-        0x0010:  7f00 <span style="color:#ae81ff">0001</span> e668 270f d3a3 561d <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0000</span>  .....h<span style="color:#e6db74">&#39;...V.....
-</span><span style="color:#e6db74">        0x0020:  a002 ffd7 4619 0000 0204 ffd7 0402 080a  ....F...........
-</span><span style="color:#e6db74">        0x0030:  4389 8f26 0000 0000 0103 0307            C..&amp;........
-</span><span style="color:#e6db74">12:09:25.581249 IP 127.0.0.1.9999 &gt; 127.0.0.1.58984: Flags [S.], seq 457907882, ack 3550696990, win 65483, options [mss 65495,sackOK,TS val 1133088550 ecr 1133088550,nop,wscale 7], length 0
-</span><span style="color:#e6db74">        0x0000:  4500 003c 0000 4000 4006 3cba 7f00 0001  E..&lt;..@.@.&lt;.....
-</span><span style="color:#e6db74">        0x0010:  7f00 0001 270f e668 1b4b 1eaa d3a3 561e  ....&#39;</span>..h.K....V.
-        0x0020:  a012 ffcb 396f <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0204</span> ffd7 <span style="color:#ae81ff">0402</span> 080a  ....9o..........
-        0x0030:  <span style="color:#ae81ff">4389</span> 8f26 <span style="color:#ae81ff">4389</span> 8f26 <span style="color:#ae81ff">0103</span> <span style="color:#ae81ff">0307</span>            C..&amp;C..&amp;....
-12:09:25.581261 IP 127.0.0.1.58984 &gt; 127.0.0.1.9999: Flags <span style="color:#f92672">[</span>.<span style="color:#f92672">]</span>, ack 1, win 512, options <span style="color:#f92672">[</span>nop,nop,TS val <span style="color:#ae81ff">1133088550</span> ecr 1133088550<span style="color:#f92672">]</span>, length <span style="color:#ae81ff">0</span>
-        0x0000:  <span style="color:#ae81ff">4500</span> <span style="color:#ae81ff">0034</span> d93c <span style="color:#ae81ff">4000</span> <span style="color:#ae81ff">4006</span> <span style="color:#ae81ff">6385</span> 7f00 <span style="color:#ae81ff">0001</span>  E..4.&lt;@.@.c.....
-        0x0010:  7f00 <span style="color:#ae81ff">0001</span> e668 270f d3a3 561e 1b4b 1eab  .....h<span style="color:#960050;background-color:#1e0010">&#39;</span>...V..K..
-        0x0020:  <span style="color:#ae81ff">8010</span> <span style="color:#ae81ff">0200</span> 602b <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0101</span> 080a <span style="color:#ae81ff">4389</span> 8f26  ....<span style="color:#e6db74">`</span>+......C..&amp;
-        0x0030:  <span style="color:#ae81ff">4389</span> 8f26                                C..&amp;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">12:09:25.581210 IP 127.0.0.1.58984 &gt; 127.0.0.1.9999: Flags <span style="color:#000;font-weight:bold">[</span>S<span style="color:#000;font-weight:bold">]</span>, seq 3550696989, win 65495, options <span style="color:#000;font-weight:bold">[</span>mss 65495,sackOK,TS val <span style="color:#099">1133088550</span> ecr 0,nop,wscale 7<span style="color:#000;font-weight:bold">]</span>, length <span style="color:#099">0</span>
+        0x0000:  <span style="color:#099">4500</span> 003c d93b <span style="color:#099">4000</span> <span style="color:#099">4006</span> 637e 7f00 <span style="color:#099">0001</span>  E..&lt;.;@.@.c~....
+        0x0010:  7f00 <span style="color:#099">0001</span> e668 270f d3a3 561d <span style="color:#099">0000</span> <span style="color:#099">0000</span>  .....h<span style="color:#d14">&#39;...V.....
+</span><span style="color:#d14">        0x0020:  a002 ffd7 4619 0000 0204 ffd7 0402 080a  ....F...........
+</span><span style="color:#d14">        0x0030:  4389 8f26 0000 0000 0103 0307            C..&amp;........
+</span><span style="color:#d14">12:09:25.581249 IP 127.0.0.1.9999 &gt; 127.0.0.1.58984: Flags [S.], seq 457907882, ack 3550696990, win 65483, options [mss 65495,sackOK,TS val 1133088550 ecr 1133088550,nop,wscale 7], length 0
+</span><span style="color:#d14">        0x0000:  4500 003c 0000 4000 4006 3cba 7f00 0001  E..&lt;..@.@.&lt;.....
+</span><span style="color:#d14">        0x0010:  7f00 0001 270f e668 1b4b 1eaa d3a3 561e  ....&#39;</span>..h.K....V.
+        0x0020:  a012 ffcb 396f <span style="color:#099">0000</span> <span style="color:#099">0204</span> ffd7 <span style="color:#099">0402</span> 080a  ....9o..........
+        0x0030:  <span style="color:#099">4389</span> 8f26 <span style="color:#099">4389</span> 8f26 <span style="color:#099">0103</span> <span style="color:#099">0307</span>            C..&amp;C..&amp;....
+12:09:25.581261 IP 127.0.0.1.58984 &gt; 127.0.0.1.9999: Flags <span style="color:#000;font-weight:bold">[</span>.<span style="color:#000;font-weight:bold">]</span>, ack 1, win 512, options <span style="color:#000;font-weight:bold">[</span>nop,nop,TS val <span style="color:#099">1133088550</span> ecr 1133088550<span style="color:#000;font-weight:bold">]</span>, length <span style="color:#099">0</span>
+        0x0000:  <span style="color:#099">4500</span> <span style="color:#099">0034</span> d93c <span style="color:#099">4000</span> <span style="color:#099">4006</span> <span style="color:#099">6385</span> 7f00 <span style="color:#099">0001</span>  E..4.&lt;@.@.c.....
+        0x0010:  7f00 <span style="color:#099">0001</span> e668 270f d3a3 561e 1b4b 1eab  .....h<span style="color:#a61717;background-color:#e3d2d2">&#39;</span>...V..K..
+        0x0020:  <span style="color:#099">8010</span> <span style="color:#099">0200</span> 602b <span style="color:#099">0000</span> <span style="color:#099">0101</span> 080a <span style="color:#099">4389</span> 8f26  ....<span style="color:#d14">`</span>+......C..&amp;
+        0x0030:  <span style="color:#099">4389</span> 8f26                                C..&amp;
 </code></pre></div><h3 id="221-一次请求的nginx-error日志">2.2.1 一次请求的nginx-error日志</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/one-hit-error-log.png" alt="nginx-error"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/one-hit-error-log.png" alt="nginx-error" />
+</figure>
+
+
+</p>
 <h3 id="222-一次请求的tcpdump的日志">2.2.2 一次请求的tcpdump的日志</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/one-hit-tcpdump-log.png" alt="tcpdump-log"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/one-hit-tcpdump-log.png" alt="tcpdump-log" />
+</figure>
+
+
+</p>
 <h3 id="223-简单结论">2.2.3 简单结论</h3>
 <h4 id="观察到的现象">观察到的现象</h4>
 <ul>
@@ -207,11 +232,23 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#f92672">=</span>7
 <h2 id="31-fastcgi_buffer_size">3.1 fastcgi_buffer_size</h2>
 <p>我们知道，fastcgi_buffer_size与proxy_buffer_size这两个参数会影响到响应头, 其中proxy_buffer_size影响的是nginx作为反向代理时的参数
 对于nginx配置文件中的fastcgi_buffer_size，文档中是这么写的</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/fastcgi_buffer_size.png" alt="文档"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/fastcgi_buffer_size.png" alt="文档" />
+</figure>
+
+
+</p>
 <p>其中 <strong>the first part of the response received from the FastCGI server.</strong>,这个参数指定的是接受到fastcgi-server端的第一部分的响应（一般是response header），在lnmp的场景里，fastcgi-server就是php部分
 其中这个first part的含义是这样子的，由于upstream是一个通用的组件，它不知道后端的协议，而对于http场景来说，由于http是需要header的，而后端的协议不一定有头，此时就需要我们通过解析后端的协议，然后来设置好发送给client的头，最终发送给client，通过上面的观察，我们发现php的错误信息也会包含其中</p>
 <p>以下是所谓的正常情况下的<strong>the first part of the response</strong>的结构</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/fastcgi-header.png" alt="header"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/fastcgi-header.png" alt="header" />
+</figure>
+
+
+</p>
 <ul>
 <li>对于接收到的来自后端服务器的响应头部。以上是一个fastcgi格式的响应报文，需要从fastcgi格式的报文中提取出http响应头部，因此需要经过状态机处理，从而解析出http响应头部。</li>
 <li>nginx接收后端服务的响应也应该是一种fastcgi报文格式。从图中可以看出，每一个http响应包头前面都加上了fastcgi头部，而每一个http响应包头都有可能由多条http响应头部组成。</li>
@@ -219,106 +256,112 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#f92672">=</span>7
 </ul>
 <h2 id="32-nginx代码报错分析">3.2 nginx代码报错分析</h2>
 <p>源码中报错的位置如下</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/code.png" alt="error"></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//nginx接收来自上游服务器的响应头部
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">ngx_http_upstream_process_header</span>(ngx_http_request_t <span style="color:#f92672">*</span>r, ngx_http_upstream_t <span style="color:#f92672">*</span>u)
-{
-    <span style="color:#75715e">//循环接收来自后端服务器的响应头部，并使用状态机解析
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> ( ;; )
-    {
-        n <span style="color:#f92672">=</span> c<span style="color:#f92672">-&gt;</span>recv(c, u<span style="color:#f92672">-&gt;</span>buffer.last, u<span style="color:#f92672">-&gt;</span>buffer.end <span style="color:#f92672">-</span> u<span style="color:#f92672">-&gt;</span>buffer.last);
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/code.png" alt="error" />
+</figure>
 
-        <span style="color:#75715e">//表示还需要再次接收来自上游服务器的响应,重新注册读事件到epoll中
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> NGX_AGAIN)
+
+</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#998;font-style:italic">//nginx接收来自上游服务器的响应头部
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">ngx_http_upstream_process_header</span>(ngx_http_request_t <span style="color:#000;font-weight:bold">*</span>r, ngx_http_upstream_t <span style="color:#000;font-weight:bold">*</span>u)
+{
+    <span style="color:#998;font-style:italic">//循环接收来自后端服务器的响应头部，并使用状态机解析
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">for</span> ( ;; )
+    {
+        n <span style="color:#000;font-weight:bold">=</span> c<span style="color:#000;font-weight:bold">-&gt;</span>recv(c, u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.last, u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.end <span style="color:#000;font-weight:bold">-</span> u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.last);
+
+        <span style="color:#998;font-style:italic">//表示还需要再次接收来自上游服务器的响应,重新注册读事件到epoll中
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span> (n <span style="color:#000;font-weight:bold">==</span> NGX_AGAIN)
         {
-            ngx_handle_read_event(c<span style="color:#f92672">-&gt;</span>read, <span style="color:#ae81ff">0</span>);
-            <span style="color:#66d9ef">return</span>;
+            ngx_handle_read_event(c<span style="color:#000;font-weight:bold">-&gt;</span>read, <span style="color:#099">0</span>);
+            <span style="color:#000;font-weight:bold">return</span>;
         }
 
-        <span style="color:#75715e">//更新接收缓冲区
-</span><span style="color:#75715e"></span>        u<span style="color:#f92672">-&gt;</span>buffer.last <span style="color:#f92672">+=</span> n;
+        <span style="color:#998;font-style:italic">//更新接收缓冲区
+</span><span style="color:#998;font-style:italic"></span>        u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.last <span style="color:#000;font-weight:bold">+=</span> n;
 
-        <span style="color:#75715e">//调用http模块的方法，解析响应头部
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//fastcgi为: ngx_http_fastcgi_process_header
-</span><span style="color:#75715e"></span>        rc <span style="color:#f92672">=</span> u<span style="color:#f92672">-&gt;</span>process_header(r);
+        <span style="color:#998;font-style:italic">//调用http模块的方法，解析响应头部
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#998;font-style:italic">//fastcgi为: ngx_http_fastcgi_process_header
+</span><span style="color:#998;font-style:italic"></span>        rc <span style="color:#000;font-weight:bold">=</span> u<span style="color:#000;font-weight:bold">-&gt;</span>process_header(r);
 
-        <span style="color:#75715e">//表示包头还没有完全接收到
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (rc <span style="color:#f92672">==</span> NGX_AGAIN)
+        <span style="color:#998;font-style:italic">//表示包头还没有完全接收到
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span> (rc <span style="color:#000;font-weight:bold">==</span> NGX_AGAIN)
         {
-            <span style="color:#75715e">//已经读取到末尾
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (u<span style="color:#f92672">-&gt;</span>buffer.last <span style="color:#f92672">==</span> u<span style="color:#f92672">-&gt;</span>buffer.end) {
-                ngx_log_error(NGX_LOG_ERR, c<span style="color:#f92672">-&gt;</span>log, <span style="color:#ae81ff">0</span>,
-                        <span style="color:#e6db74">&#34;upstream sent too big header&#34;</span>);
+            <span style="color:#998;font-style:italic">//已经读取到末尾
+</span><span style="color:#998;font-style:italic"></span>            <span style="color:#000;font-weight:bold">if</span> (u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.last <span style="color:#000;font-weight:bold">==</span> u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.end) {
+                ngx_log_error(NGX_LOG_ERR, c<span style="color:#000;font-weight:bold">-&gt;</span>log, <span style="color:#099">0</span>,
+                        <span style="color:#d14">&#34;upstream sent too big header&#34;</span>);
 
                 ngx_http_upstream_next(r, u,
                         NGX_HTTP_UPSTREAM_FT_INVALID_HEADER);
-                <span style="color:#66d9ef">return</span>;
+                <span style="color:#000;font-weight:bold">return</span>;
             }
-            <span style="color:#66d9ef">continue</span>;
+            <span style="color:#000;font-weight:bold">continue</span>;
         }
     }
 }
 </code></pre></div><p>可以看到，当处理头部的会调函数process_header返回NGX_AGAIN,同时已经读取到了response的末尾，则会报错</p>
 <h3 id="321处理头部的回调函数process_header伪代码">3.2.1处理头部的回调函数process_header伪代码</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//解析来自后端服务器发来的响应头部，从fastcgi格式转为nginx格式。
-</span><span style="color:#75715e">//采用两个状态机，一个解析fastcgi头部，一个解析fastcgi响应包头
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> ngx_int_t <span style="color:#a6e22e">ngx_http_fastcgi_process_header</span>(ngx_http_request_t <span style="color:#f92672">*</span>r)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#998;font-style:italic">//解析来自后端服务器发来的响应头部，从fastcgi格式转为nginx格式。
+</span><span style="color:#998;font-style:italic">//采用两个状态机，一个解析fastcgi头部，一个解析fastcgi响应包头
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">static</span> ngx_int_t <span style="color:#900;font-weight:bold">ngx_http_fastcgi_process_header</span>(ngx_http_request_t <span style="color:#000;font-weight:bold">*</span>r)
 {
-    <span style="color:#75715e">//循环解析每一个组(fastcgi头部 + 多个http响应头部组成的数据)。因为每次从内核接收到的数据有可能包含多个组
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> ( ;; )
+    <span style="color:#998;font-style:italic">//循环解析每一个组(fastcgi头部 + 多个http响应头部组成的数据)。因为每次从内核接收到的数据有可能包含多个组
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">for</span> ( ;; )
     {
-        <span style="color:#75715e">//解析fastcgi的头部
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (f<span style="color:#f92672">-&gt;</span>state <span style="color:#f92672">&lt;</span> ngx_http_fastcgi_st_data)
+        <span style="color:#998;font-style:italic">//解析fastcgi的头部
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span> (f<span style="color:#000;font-weight:bold">-&gt;</span>state <span style="color:#000;font-weight:bold">&lt;</span> ngx_http_fastcgi_st_data)
         {
-            f<span style="color:#f92672">-&gt;</span>pos <span style="color:#f92672">=</span> u<span style="color:#f92672">-&gt;</span>buffer.pos;
-            f<span style="color:#f92672">-&gt;</span>last <span style="color:#f92672">=</span> u<span style="color:#f92672">-&gt;</span>buffer.last;
+            f<span style="color:#000;font-weight:bold">-&gt;</span>pos <span style="color:#000;font-weight:bold">=</span> u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.pos;
+            f<span style="color:#000;font-weight:bold">-&gt;</span>last <span style="color:#000;font-weight:bold">=</span> u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.last;
 
-            <span style="color:#75715e">//使用状态解析fastcgi的头部
-</span><span style="color:#75715e"></span>            rc <span style="color:#f92672">=</span> ngx_http_fastcgi_process_record(r, f);
-            u<span style="color:#f92672">-&gt;</span>buffer.pos <span style="color:#f92672">=</span> f<span style="color:#f92672">-&gt;</span>pos;
-            u<span style="color:#f92672">-&gt;</span>buffer.last <span style="color:#f92672">=</span> f<span style="color:#f92672">-&gt;</span>last;
+            <span style="color:#998;font-style:italic">//使用状态解析fastcgi的头部
+</span><span style="color:#998;font-style:italic"></span>            rc <span style="color:#000;font-weight:bold">=</span> ngx_http_fastcgi_process_record(r, f);
+            u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.pos <span style="color:#000;font-weight:bold">=</span> f<span style="color:#000;font-weight:bold">-&gt;</span>pos;
+            u<span style="color:#000;font-weight:bold">-&gt;</span>buffer.last <span style="color:#000;font-weight:bold">=</span> f<span style="color:#000;font-weight:bold">-&gt;</span>last;
         }
 
-        <span style="color:#75715e">//这个循环用于解析这个组内的每一个http响应头部。因此该组内的http响应包头可能由多个http响应头部组成。
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//而ngx_http_parse_header_line状态机每次只能解析一个http响应头部，因此需要循环解析
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> ( ;; )
+        <span style="color:#998;font-style:italic">//这个循环用于解析这个组内的每一个http响应头部。因此该组内的http响应包头可能由多个http响应头部组成。
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#998;font-style:italic">//而ngx_http_parse_header_line状态机每次只能解析一个http响应头部，因此需要循环解析
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">for</span> ( ;; )
         {
-            <span style="color:#75715e">//使用状态机解析来自后端服务器发来的http响应头部
-</span><span style="color:#75715e"></span>            rc <span style="color:#f92672">=</span> ngx_http_parse_header_line(r, <span style="color:#f92672">&amp;</span>u<span style="color:#f92672">-&gt;</span>buffer, <span style="color:#ae81ff">1</span>);
-            <span style="color:#66d9ef">if</span> (rc <span style="color:#f92672">==</span> NGX_OK)
+            <span style="color:#998;font-style:italic">//使用状态机解析来自后端服务器发来的http响应头部
+</span><span style="color:#998;font-style:italic"></span>            rc <span style="color:#000;font-weight:bold">=</span> ngx_http_parse_header_line(r, <span style="color:#000;font-weight:bold">&amp;</span>u<span style="color:#000;font-weight:bold">-&gt;</span>buffer, <span style="color:#099">1</span>);
+            <span style="color:#000;font-weight:bold">if</span> (rc <span style="color:#000;font-weight:bold">==</span> NGX_OK)
             {
-                <span style="color:#75715e">//解析某个http响应头部成功后，保存到数组链表中
-</span><span style="color:#75715e"></span>                <span style="color:#75715e">/* a header line has been parsed successfully */</span>
-                h <span style="color:#f92672">=</span> ngx_list_push(<span style="color:#f92672">&amp;</span>u<span style="color:#f92672">-&gt;</span>headers_in.headers);
+                <span style="color:#998;font-style:italic">//解析某个http响应头部成功后，保存到数组链表中
+</span><span style="color:#998;font-style:italic"></span>                <span style="color:#998;font-style:italic">/* a header line has been parsed successfully */</span>
+                h <span style="color:#000;font-weight:bold">=</span> ngx_list_push(<span style="color:#000;font-weight:bold">&amp;</span>u<span style="color:#000;font-weight:bold">-&gt;</span>headers_in.headers);
 
-                <span style="color:#75715e">//保存http响应头部
-</span><span style="color:#75715e"></span>                ngx_memcpy(h<span style="color:#f92672">-&gt;</span>key.data, r<span style="color:#f92672">-&gt;</span>header_name_start, h<span style="color:#f92672">-&gt;</span>key.len);
-                <span style="color:#75715e">//保存http响应头部的值
-</span><span style="color:#75715e"></span>                ngx_memcpy(h<span style="color:#f92672">-&gt;</span>value.data, r<span style="color:#f92672">-&gt;</span>header_start, h<span style="color:#f92672">-&gt;</span>value.len);
-                h<span style="color:#f92672">-&gt;</span>hash <span style="color:#f92672">=</span> r<span style="color:#f92672">-&gt;</span>header_hash;
+                <span style="color:#998;font-style:italic">//保存http响应头部
+</span><span style="color:#998;font-style:italic"></span>                ngx_memcpy(h<span style="color:#000;font-weight:bold">-&gt;</span>key.data, r<span style="color:#000;font-weight:bold">-&gt;</span>header_name_start, h<span style="color:#000;font-weight:bold">-&gt;</span>key.len);
+                <span style="color:#998;font-style:italic">//保存http响应头部的值
+</span><span style="color:#998;font-style:italic"></span>                ngx_memcpy(h<span style="color:#000;font-weight:bold">-&gt;</span>value.data, r<span style="color:#000;font-weight:bold">-&gt;</span>header_start, h<span style="color:#000;font-weight:bold">-&gt;</span>value.len);
+                h<span style="color:#000;font-weight:bold">-&gt;</span>hash <span style="color:#000;font-weight:bold">=</span> r<span style="color:#000;font-weight:bold">-&gt;</span>header_hash;
 
-                <span style="color:#75715e">//如果是负责均衡模块支持的头部，则把常用头部的指针指向数组链表中相应位置
-</span><span style="color:#75715e"></span>                hh <span style="color:#f92672">=</span> ngx_hash_find(<span style="color:#f92672">&amp;</span>umcf<span style="color:#f92672">-&gt;</span>headers_in_hash, h<span style="color:#f92672">-&gt;</span>hash,
-                                   h<span style="color:#f92672">-&gt;</span>lowcase_key, h<span style="color:#f92672">-&gt;</span>key.len);
-                hh<span style="color:#f92672">-&gt;</span>handler(r, h, hh<span style="color:#f92672">-&gt;</span>offset);
+                <span style="color:#998;font-style:italic">//如果是负责均衡模块支持的头部，则把常用头部的指针指向数组链表中相应位置
+</span><span style="color:#998;font-style:italic"></span>                hh <span style="color:#000;font-weight:bold">=</span> ngx_hash_find(<span style="color:#000;font-weight:bold">&amp;</span>umcf<span style="color:#000;font-weight:bold">-&gt;</span>headers_in_hash, h<span style="color:#000;font-weight:bold">-&gt;</span>hash,
+                                   h<span style="color:#000;font-weight:bold">-&gt;</span>lowcase_key, h<span style="color:#000;font-weight:bold">-&gt;</span>key.len);
+                hh<span style="color:#000;font-weight:bold">-&gt;</span>handler(r, h, hh<span style="color:#000;font-weight:bold">-&gt;</span>offset);
             }
 
-            <span style="color:#75715e">//解析完成所有的响应头部，则保存响应状态码
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (rc <span style="color:#f92672">==</span> NGX_HTTP_PARSE_HEADER_DONE)
+            <span style="color:#998;font-style:italic">//解析完成所有的响应头部，则保存响应状态码
+</span><span style="color:#998;font-style:italic"></span>            <span style="color:#000;font-weight:bold">if</span> (rc <span style="color:#000;font-weight:bold">==</span> NGX_HTTP_PARSE_HEADER_DONE)
             {
-                <span style="color:#66d9ef">if</span> (u<span style="color:#f92672">-&gt;</span>headers_in.status)
+                <span style="color:#000;font-weight:bold">if</span> (u<span style="color:#000;font-weight:bold">-&gt;</span>headers_in.status)
                 {
-                    <span style="color:#75715e">//后端服务器返回了状态码，则优先使用后端服务的响应状态码
-</span><span style="color:#75715e"></span>                }
-                <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (u<span style="color:#f92672">-&gt;</span>headers_in.location)
+                    <span style="color:#998;font-style:italic">//后端服务器返回了状态码，则优先使用后端服务的响应状态码
+</span><span style="color:#998;font-style:italic"></span>                }
+                <span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (u<span style="color:#000;font-weight:bold">-&gt;</span>headers_in.location)
                 {
-                    <span style="color:#75715e">//后端服务器返回了location,则需要给客户端返回302重定向
-</span><span style="color:#75715e"></span>                }
-                <span style="color:#66d9ef">else</span>
+                    <span style="color:#998;font-style:italic">//后端服务器返回了location,则需要给客户端返回302重定向
+</span><span style="color:#998;font-style:italic"></span>                }
+                <span style="color:#000;font-weight:bold">else</span>
                 {
-                    <span style="color:#75715e">//否则nginx构造200 0k返回给客户端
-</span><span style="color:#75715e"></span>                    u<span style="color:#f92672">-&gt;</span>headers_in.status_n <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>;
-                    ngx_str_set(<span style="color:#f92672">&amp;</span>u<span style="color:#f92672">-&gt;</span>headers_in.status_line, <span style="color:#e6db74">&#34;200 OK&#34;</span>);
+                    <span style="color:#998;font-style:italic">//否则nginx构造200 0k返回给客户端
+</span><span style="color:#998;font-style:italic"></span>                    u<span style="color:#000;font-weight:bold">-&gt;</span>headers_in.status_n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">200</span>;
+                    ngx_str_set(<span style="color:#000;font-weight:bold">&amp;</span>u<span style="color:#000;font-weight:bold">-&gt;</span>headers_in.status_line, <span style="color:#d14">&#34;200 OK&#34;</span>);
                 }
             }
         }
@@ -335,219 +378,297 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#f92672">=</span>7
 <h2 id="41-php脚本">4.1 php脚本</h2>
 <p>我们可以尝试着一步步加大error的size，来观察发送502时的日志情况
 以下是脚本:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">for</span> ($i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; $i<span style="color:#f92672">&lt;</span>$_GET[<span style="color:#e6db74">&#39;iterations&#39;</span>]; $i<span style="color:#f92672">++</span>)
-        <span style="color:#a6e22e">error_log</span>(<span style="color:#a6e22e">str_pad</span>(<span style="color:#e6db74">&#34;a&#34;</span>, $_GET[<span style="color:#e6db74">&#39;size&#39;</span>], <span style="color:#e6db74">&#34;a&#34;</span>));
-<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;got here</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; <span style="color:#008080">$i</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#008080">$_GET</span>[<span style="color:#d14">&#39;iterations&#39;</span>]; <span style="color:#008080">$i</span><span style="color:#000;font-weight:bold">++</span>)
+        error_log(str_pad(<span style="color:#d14">&#34;a&#34;</span>, <span style="color:#008080">$_GET</span>[<span style="color:#d14">&#39;size&#39;</span>], <span style="color:#d14">&#34;a&#34;</span>));
+<span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;got here</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>;
 </code></pre></div><h2 id="42-日志监听">4.2 日志监听</h2>
 <p>同时监听php绑定的端口，得到日志(此时，fastcgi_buffer_size 4K)</p>
 <h2 id="43-压测方法">4.3 压测方法</h2>
 <p>使用循环对脚本进行请求，不断的增加单条日志的size与迭代次数
 ，使其向日志里写入更多的字节，同时过滤返回的502以及报错时的迭代次数与每次日志的大小</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#66d9ef">for</span> it in <span style="color:#f92672">{</span>30..200..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> <span style="color:#66d9ef">for</span> size in <span style="color:#f92672">{</span>100..250..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo <span style="color:#e6db74">&#34;size=</span>$size<span style="color:#e6db74"> iterations=</span>$it<span style="color:#e6db74"> </span><span style="color:#66d9ef">$(</span>curl -sv <span style="color:#e6db74">&#34;http://localhost/debug.php?size=</span>$size<span style="color:#e6db74">&amp;iterations=</span>$it<span style="color:#e6db74">&#34;</span> 2&gt;&amp;<span style="color:#ae81ff">1</span> | egrep <span style="color:#e6db74">&#39;^&lt; HTTP&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">done</span>; <span style="color:#66d9ef">done</span> | grep <span style="color:#ae81ff">502</span> | head
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://localhost/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
 
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">121</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">109</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">241</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">48</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">226</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">51</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">190</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">223</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">69</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">127</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">87</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">199</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">96</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">151</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">99</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">106</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">102</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway 
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">109</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">33</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">241</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">48</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">226</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">51</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">190</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">60</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">223</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">69</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">127</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">87</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">199</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">96</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">151</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">99</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">106</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">102</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway 
 </code></pre></div><p><strong>顺便说下，unix socket方式性能真的很高，这种unix socket通信的情况下，测试语句运行完了也没有报502</strong>
 由上可知，我们复现了502,下面我们对日志进行紧张的分析</p>
 <h2 id="44-结果分析">4.4 结果分析</h2>
 <h3 id="报错的nginx日志">报错的nginx日志</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">2018/01/09 11:39:01 <span style="color:#f92672">[</span>error<span style="color:#f92672">]</span> 4207#0: *2045 FastCGI sent in stderr: <span style="color:#e6db74">&#34;php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">2018/01/09 11:39:01 [error] 4207#0: *2045 upstream sent too big header while reading response header from upstream, client: 10.30.128.251, server: testtest, request: &#34;</span>GET /debug.php?size<span style="color:#f92672">=</span>121&amp;iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> HTTP/1.1<span style="color:#e6db74">&#34;, upstream: &#34;</span>fastcgi://127.0.0.1:9999<span style="color:#e6db74">&#34;, host: &#34;</span>test.com<span style="color:#e6db74">&#34;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">2018/01/09 11:39:01 <span style="color:#000;font-weight:bold">[</span>error<span style="color:#000;font-weight:bold">]</span> 4207#0: *2045 FastCGI sent in stderr: <span style="color:#d14">&#34;php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">2018/01/09 11:39:01 [error] 4207#0: *2045 upstream sent too big header while reading response header from upstream, client: 10.30.128.251, server: testtest, request: &#34;</span>GET /debug.php?size<span style="color:#000;font-weight:bold">=</span>121&amp;<span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> HTTP/1.1<span style="color:#d14">&#34;, upstream: &#34;</span>fastcgi://127.0.0.1:9999<span style="color:#d14">&#34;, host: &#34;</span>test.com<span style="color:#d14">&#34;
 </span></code></pre></div><p>可以看到我们成功复现了too big header报错:P</p>
 <h3 id="正常的nginx-error日志">正常的nginx-error日志</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">2018/01/09 11:39:02 <span style="color:#f92672">[</span>error<span style="color:#f92672">]</span> 4207#0: *2353 FastCGI sent in stderr: <span style="color:#e6db74">&#34;php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</span><span style="color:#e6db74">php message: aaaaaaaaaaaaa
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">2018/01/09 11:39:02 <span style="color:#000;font-weight:bold">[</span>error<span style="color:#000;font-weight:bold">]</span> 4207#0: *2353 FastCGI sent in stderr: <span style="color:#d14">&#34;php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</span><span style="color:#d14">php message: aaaaaaaaaaaaa
 </span></code></pre></div><h3 id="紧张分析">紧张分析</h3>
 <p>上面的日志，一个是39:01，一个是39:02的，按照我们的测试脚本，时间越靠后，传递的日志量会越大(至少是之前的3倍)，但是为什么数据量较小的39:01秒的日志触发了502，而数据量较大的39:02没有报错，而且，日志的量也是相同的，明显有截断，明显超出了4K，这也能验证我们的推测，其实fastcgi_buffer_size并不是一个检查值，超过这个值并不会报错。而更像是一个暂存的空间</p>
 <h3 id="进一步紧张分析">进一步紧张分析</h3>
 <p>我们回去看下之前监控的tcpdump的日志,发现了一些有趣的现象</p>
 <p>一次正常的日志</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">        0x0cf0:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x0d00:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x0d10:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x0d20:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> 610a <span style="color:#ae81ff">5048</span> <span style="color:#ae81ff">5020</span> 6d65 <span style="color:#ae81ff">7373</span> <span style="color:#ae81ff">6167</span>  aaaaa.php.messag
-        0x0d30:  653a <span style="color:#ae81ff">2061</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  e:.aaaaaaaaaaaaa
-        0x0d40:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x0d50:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x0d60:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x0d70:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x0d80:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x0d90:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> 610a <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0106</span> <span style="color:#ae81ff">0001</span>  aaaaaaa.........
-        0x0da0:  <span style="color:#ae81ff">0024</span> <span style="color:#ae81ff">0400</span> 436f 6e74 656e 742d <span style="color:#ae81ff">7479</span> <span style="color:#ae81ff">7065</span>  .$..Content-type
-        0x0db0:  3a20 <span style="color:#ae81ff">7465</span> <span style="color:#ae81ff">7874</span> 2f68 746d 6c0d 0a0d 0a67  :.text/html....g
-        0x0dc0:  6f74 <span style="color:#ae81ff">2068</span> <span style="color:#ae81ff">6572</span> 650a <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0103</span> <span style="color:#ae81ff">0001</span>  ot.here.........
-        0x0dd0:  <span style="color:#ae81ff">0008</span> <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0061</span> <span style="color:#ae81ff">6161</span>            .........aaa
-        12:09:25.585035 IP 127.0.0.1.9999 &gt; 127.0.0.1.58984: Flags <span style="color:#f92672">[</span>F.<span style="color:#f92672">]</span>, seq 3497, ack 721, win 523, options <span style="color:#f92672">[</span>nop,nop,TS val <span style="color:#ae81ff">1133088554</span> ecr 1133088551<span style="color:#f92672">]</span>, length <span style="color:#ae81ff">0</span>
-        0x0000:  <span style="color:#ae81ff">4500</span> <span style="color:#ae81ff">0034</span> 918f <span style="color:#ae81ff">4000</span> <span style="color:#ae81ff">4006</span> ab32 7f00 <span style="color:#ae81ff">0001</span>  E..4..@.@..2....
-        0x0010:  7f00 <span style="color:#ae81ff">0001</span> 270f e668 1b4b 2c53 d3a3 58ee  ....<span style="color:#e6db74">&#39;..h.K,S..X.
-</span><span style="color:#e6db74">        0x0020:  8011 020b 4fa2 0000 0101 080a 4389 8f2a  ....O.......C..*
-</span><span style="color:#e6db74">        0x0030:  4389 8f27                                C..&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">        0x0cf0:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x0d00:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x0d10:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x0d20:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> 610a <span style="color:#099">5048</span> <span style="color:#099">5020</span> 6d65 <span style="color:#099">7373</span> <span style="color:#099">6167</span>  aaaaa.php.messag
+        0x0d30:  653a <span style="color:#099">2061</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  e:.aaaaaaaaaaaaa
+        0x0d40:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x0d50:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x0d60:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x0d70:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x0d80:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x0d90:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> 610a <span style="color:#099">0000</span> <span style="color:#099">0000</span> <span style="color:#099">0106</span> <span style="color:#099">0001</span>  aaaaaaa.........
+        0x0da0:  <span style="color:#099">0024</span> <span style="color:#099">0400</span> 436f 6e74 656e 742d <span style="color:#099">7479</span> <span style="color:#099">7065</span>  .$..Content-type
+        0x0db0:  3a20 <span style="color:#099">7465</span> <span style="color:#099">7874</span> 2f68 746d 6c0d 0a0d 0a67  :.text/html....g
+        0x0dc0:  6f74 <span style="color:#099">2068</span> <span style="color:#099">6572</span> 650a <span style="color:#099">0000</span> <span style="color:#099">0000</span> <span style="color:#099">0103</span> <span style="color:#099">0001</span>  ot.here.........
+        0x0dd0:  <span style="color:#099">0008</span> <span style="color:#099">0000</span> <span style="color:#099">0000</span> <span style="color:#099">0000</span> <span style="color:#099">0061</span> <span style="color:#099">6161</span>            .........aaa
+        12:09:25.585035 IP 127.0.0.1.9999 &gt; 127.0.0.1.58984: Flags <span style="color:#000;font-weight:bold">[</span>F.<span style="color:#000;font-weight:bold">]</span>, seq 3497, ack 721, win 523, options <span style="color:#000;font-weight:bold">[</span>nop,nop,TS val <span style="color:#099">1133088554</span> ecr 1133088551<span style="color:#000;font-weight:bold">]</span>, length <span style="color:#099">0</span>
+        0x0000:  <span style="color:#099">4500</span> <span style="color:#099">0034</span> 918f <span style="color:#099">4000</span> <span style="color:#099">4006</span> ab32 7f00 <span style="color:#099">0001</span>  E..4..@.@..2....
+        0x0010:  7f00 <span style="color:#099">0001</span> 270f e668 1b4b 2c53 d3a3 58ee  ....<span style="color:#d14">&#39;..h.K,S..X.
+</span><span style="color:#d14">        0x0020:  8011 020b 4fa2 0000 0101 080a 4389 8f2a  ....O.......C..*
+</span><span style="color:#d14">        0x0030:  4389 8f27                                C..&#39;</span>
 </code></pre></div><p>一次502的日志</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">        0x1f30:  6d65 <span style="color:#ae81ff">7373</span> <span style="color:#ae81ff">6167</span> 653a <span style="color:#ae81ff">2061</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  message:.aaaaaaa
-        0x1f40:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1f50:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1f60:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1f70:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1f80:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1f90:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1fa0:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1fb0:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1fc0:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1fd0:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1fe0:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x1ff0:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x2000:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x2010:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x2020:  <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span> <span style="color:#ae81ff">6161</span>  aaaaaaaaaaaaaaaa
-        0x2030:  <span style="color:#ae81ff">6161</span> 610a                                aaa.
-12:09:43.315839 IP 127.0.0.1.36564 &gt; 127.0.0.1.9999: Flags <span style="color:#f92672">[</span>.<span style="color:#f92672">]</span>, ack 40961, win 768, options <span style="color:#f92672">[</span>nop,nop,TS val <span style="color:#ae81ff">1133106285</span> ecr 1133106285<span style="color:#f92672">]</span>, length <span style="color:#ae81ff">0</span>
-        0x0000:  <span style="color:#ae81ff">4500</span> <span style="color:#ae81ff">0034</span> c6d5 <span style="color:#ae81ff">4000</span> <span style="color:#ae81ff">4006</span> 75ec 7f00 <span style="color:#ae81ff">0001</span>  E..4..@.@.u.....
-        0x0010:  7f00 <span style="color:#ae81ff">0001</span> 8ed4 270f 363a <span style="color:#ae81ff">1573</span> 0df7 <span style="color:#ae81ff">5365</span>  ......<span style="color:#960050;background-color:#1e0010">&#39;</span>.6:.s..Se
-        0x0020:  <span style="color:#ae81ff">8010</span> <span style="color:#ae81ff">0300</span> e2df <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0101</span> 080a <span style="color:#ae81ff">4389</span> d46d  ............C..m
-        0x0030:  <span style="color:#ae81ff">4389</span> d46d                                C..m
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">        0x1f30:  6d65 <span style="color:#099">7373</span> <span style="color:#099">6167</span> 653a <span style="color:#099">2061</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  message:.aaaaaaa
+        0x1f40:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1f50:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1f60:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1f70:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1f80:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1f90:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1fa0:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1fb0:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1fc0:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1fd0:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1fe0:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x1ff0:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x2000:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x2010:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x2020:  <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span> <span style="color:#099">6161</span>  aaaaaaaaaaaaaaaa
+        0x2030:  <span style="color:#099">6161</span> 610a                                aaa.
+12:09:43.315839 IP 127.0.0.1.36564 &gt; 127.0.0.1.9999: Flags <span style="color:#000;font-weight:bold">[</span>.<span style="color:#000;font-weight:bold">]</span>, ack 40961, win 768, options <span style="color:#000;font-weight:bold">[</span>nop,nop,TS val <span style="color:#099">1133106285</span> ecr 1133106285<span style="color:#000;font-weight:bold">]</span>, length <span style="color:#099">0</span>
+        0x0000:  <span style="color:#099">4500</span> <span style="color:#099">0034</span> c6d5 <span style="color:#099">4000</span> <span style="color:#099">4006</span> 75ec 7f00 <span style="color:#099">0001</span>  E..4..@.@.u.....
+        0x0010:  7f00 <span style="color:#099">0001</span> 8ed4 270f 363a <span style="color:#099">1573</span> 0df7 <span style="color:#099">5365</span>  ......<span style="color:#a61717;background-color:#e3d2d2">&#39;</span>.6:.s..Se
+        0x0020:  <span style="color:#099">8010</span> <span style="color:#099">0300</span> e2df <span style="color:#099">0000</span> <span style="color:#099">0101</span> 080a <span style="color:#099">4389</span> d46d  ............C..m
+        0x0030:  <span style="color:#099">4389</span> d46d                                C..m
 </code></pre></div><p>发现了吗，502报错的情况下，tcpdump抓到的包中，末尾缺少了http的response header,这正验证了我们之前的推测，php-fpm在返回body之前，并没有传递完整的response header给nginx,导致nginx报出来错误</p>
 <h2 id="45-暂时的结论">4.5 暂时的结论</h2>
 <p>观察上面的日志，报错的最后的响应头不完整或者根本就没有,这个正好会进入到nginx中未解析到header头并且已到header尾部的情况，触发报错
 所以，暂时现在可以推断的是，</p>
 <p><strong>php-fpm会在一定的情况下向nginx传送不完整的响应头数据，导致nginx解析fastcgi与http的header出错，导致报出502</strong>
 这看起来不可思议，竟然是下游服务出了差错，而不是因为nginx内的fastcgi_buffer_size太小导致的错误,不过该问题并不是不可能发生：
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/gis.png" alt="哈哈"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/gis.png" alt="哈哈" />
+</figure>
+
+
+</p>
 <h1 id="5-探究下不同fastcgi_buffer_size下的502发生情况">5. 探究下不同fastcgi_buffer_size下的502发生情况</h1>
 <h2 id="51-fastcgi_buffer_size-1k">5.1 fastcgi_buffer_size 1k</h2>
 <h3 id="nginx日志">nginx日志</h3>
 <p>不会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-error-log.png" alt="error-log"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-error-log.png" alt="error-log" />
+</figure>
+
+
+</p>
 <p>会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-502-error-log.png" alt="error-log"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-502-error-log.png" alt="error-log" />
+</figure>
+
+
+</p>
 <h3 id="tcpdump的日志">tcpdump的日志</h3>
 <p>不会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-tcpdump-log.png" alt="tcp-error"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-tcpdump-log.png" alt="tcp-error" />
+</figure>
+
+
+</p>
 <p>会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-tcpdump-502-log.png" alt="tcp-error"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-tcpdump-502-log.png" alt="tcp-error" />
+</figure>
+
+
+</p>
 <h3 id="测试结果">测试结果</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#66d9ef">for</span> it in <span style="color:#f92672">{</span>30..200..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> <span style="color:#66d9ef">for</span> size in <span style="color:#f92672">{</span>100..250..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo <span style="color:#e6db74">&#34;size=</span>$size<span style="color:#e6db74"> iterations=</span>$it<span style="color:#e6db74"> </span><span style="color:#66d9ef">$(</span>curl -sv <span style="color:#e6db74">&#34;http://test/debug.php?size=</span>$size<span style="color:#e6db74">&amp;iterations=</span>$it<span style="color:#e6db74">&#34;</span> 2&gt;&amp;<span style="color:#ae81ff">1</span> | egrep <span style="color:#e6db74">&#39;^&lt; HTTP&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">done</span>; <span style="color:#66d9ef">done</span> | grep <span style="color:#ae81ff">502</span> | head
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">121</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">190</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">109</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">202</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">127</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">36</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">184</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">36</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">241</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">36</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">169</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">39</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">205</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">229</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://test/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">190</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">109</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">33</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">202</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">33</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">127</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">36</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">184</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">36</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">241</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">36</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">169</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">39</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">205</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">42</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">229</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">42</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
 </code></pre></div><h2 id="52-fastcgi_buffer_size-2k">5.2 fastcgi_buffer_size 2k</h2>
 <h3 id="nginx日志-1">nginx日志</h3>
 <p>不会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-error-log.png" alt="error-log"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-error-log.png" alt="error-log" />
+</figure>
+
+
+</p>
 <p>会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-502-error-log.png" alt="error-log"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-502-error-log.png" alt="error-log" />
+</figure>
+
+
+</p>
 <h3 id="tcpdump的日志-1">tcpdump的日志</h3>
 <p>不会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-tcpdump-log.png" alt="tcp-error"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-tcpdump-log.png" alt="tcp-error" />
+</figure>
+
+
+</p>
 <p>会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-tcpdump-error-502-log.png" alt="tcp-error"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-tcpdump-error-502-log.png" alt="tcp-error" />
+</figure>
+
+
+</p>
 <h3 id="测试结果-1">测试结果</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#66d9ef">for</span> it in <span style="color:#f92672">{</span>30..200..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> <span style="color:#66d9ef">for</span> size in <span style="color:#f92672">{</span>100..250..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo <span style="color:#e6db74">&#34;size=</span>$size<span style="color:#e6db74"> iterations=</span>$it<span style="color:#e6db74"> </span><span style="color:#66d9ef">$(</span>curl -sv <span style="color:#e6db74">&#34;http://test/debug.php?size=</span>$size<span style="color:#e6db74">&amp;iterations=</span>$it<span style="color:#e6db74">&#34;</span> 2&gt;&amp;<span style="color:#ae81ff">1</span> | egrep <span style="color:#e6db74">&#39;^&lt; HTTP&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">done</span>; <span style="color:#66d9ef">done</span> | grep <span style="color:#ae81ff">502</span> | head
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">121</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">190</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">109</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">229</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">241</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">48</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">106</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">51</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">226</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">51</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">175</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">54</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">190</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">148</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">63</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://test/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">190</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">109</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">33</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">229</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">42</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">241</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">48</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">106</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">51</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">226</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">51</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">175</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">54</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">190</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">60</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">148</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">63</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
 </code></pre></div><h2 id="53-fastcgi_buffer_size-4k">5.3 fastcgi_buffer_size 4k</h2>
 <h3 id="nginx日志-2">nginx日志</h3>
 <p>不会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-error-log.png" alt="error-log"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-error-log.png" alt="error-log" />
+</figure>
+
+
+</p>
 <p>会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-error-502-log.png" alt="error-log"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-error-502-log.png" alt="error-log" />
+</figure>
+
+
+</p>
 <h3 id="tcpdump的日志-2">tcpdump的日志</h3>
 <p>不会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-tcpdump-error-log.png" alt="tcp-error"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-tcpdump-error-log.png" alt="tcp-error" />
+</figure>
+
+
+</p>
 <p>会报502的错误日志
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-tcpdump-502-error-log.png" alt="tcp-error"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-tcpdump-502-error-log.png" alt="tcp-error" />
+</figure>
+
+
+</p>
 <h3 id="测试结果-2">测试结果</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#66d9ef">for</span> it in <span style="color:#f92672">{</span>30..200..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> <span style="color:#66d9ef">for</span> size in <span style="color:#f92672">{</span>100..250..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo <span style="color:#e6db74">&#34;size=</span>$size<span style="color:#e6db74"> iterations=</span>$it<span style="color:#e6db74"> </span><span style="color:#66d9ef">$(</span>curl -sv <span style="color:#e6db74">&#34;http://test/debug.php?size=</span>$size<span style="color:#e6db74">&amp;iterations=</span>$it<span style="color:#e6db74">&#34;</span> 2&gt;&amp;<span style="color:#ae81ff">1</span> | egrep <span style="color:#e6db74">&#39;^&lt; HTTP&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">done</span>; <span style="color:#66d9ef">done</span> | grep <span style="color:#ae81ff">502</span> | head
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">121</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">109</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">241</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">48</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">226</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">51</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">190</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">223</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">69</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">127</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">87</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">199</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">96</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">151</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">99</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">106</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">102</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://test/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">109</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">33</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">241</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">48</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">226</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">51</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">190</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">60</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">223</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">69</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">127</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">87</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">199</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">96</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">151</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">99</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">106</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">102</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
 </code></pre></div><h2 id="54-观察发现">5.4 观察发现</h2>
 <p>由上1k，2k，4k的比对结果，我们可以得出以下结论</p>
 <p>综合以上502报错时的size与iteration的值的乘积，我们可以发现，不同fastcgi_buffer_size下，其实发生502错误时的php-fpm传给nginx的数据的大小基本是一样的
@@ -569,56 +690,56 @@ size<span style="color:#f92672">=</span><span style="color:#ae81ff">106</span> i
 <p>经过老司机的指点，对以上压测得出的数据进行进一步的分析，
 上面我们探究了在不同fastcgi_buffer_size下的502出错情况</p>
 <p>1K</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#66d9ef">for</span> it in <span style="color:#f92672">{</span>30..200..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> <span style="color:#66d9ef">for</span> size in <span style="color:#f92672">{</span>100..250..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo <span style="color:#e6db74">&#34;size=</span>$size<span style="color:#e6db74"> iterations=</span>$it<span style="color:#e6db74"> </span><span style="color:#66d9ef">$(</span>curl -sv <span style="color:#e6db74">&#34;http://test/debug.php?size=</span>$size<span style="color:#e6db74">&amp;iterations=</span>$it<span style="color:#e6db74">&#34;</span> 2&gt;&amp;<span style="color:#ae81ff">1</span> | egrep <span style="color:#e6db74">&#39;^&lt; HTTP&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">done</span>; <span style="color:#66d9ef">done</span> | grep <span style="color:#ae81ff">502</span> | head
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">121</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">190</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">109</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">202</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">127</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">36</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">184</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">36</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">241</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">36</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">169</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">39</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">205</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">229</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://test/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">190</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">109</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">33</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">202</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">33</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">127</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">36</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">184</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">36</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">241</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">36</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">169</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">39</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">205</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">42</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">229</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">42</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
 </code></pre></div><p>2k</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#66d9ef">for</span> it in <span style="color:#f92672">{</span>30..200..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> <span style="color:#66d9ef">for</span> size in <span style="color:#f92672">{</span>100..250..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo <span style="color:#e6db74">&#34;size=</span>$size<span style="color:#e6db74"> iterations=</span>$it<span style="color:#e6db74"> </span><span style="color:#66d9ef">$(</span>curl -sv <span style="color:#e6db74">&#34;http://test/debug.php?size=</span>$size<span style="color:#e6db74">&amp;iterations=</span>$it<span style="color:#e6db74">&#34;</span> 2&gt;&amp;<span style="color:#ae81ff">1</span> | egrep <span style="color:#e6db74">&#39;^&lt; HTTP&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">done</span>; <span style="color:#66d9ef">done</span> | grep <span style="color:#ae81ff">502</span> | head
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">121</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">190</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">109</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">229</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">241</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">48</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">106</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">51</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">226</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">51</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">175</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">54</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">190</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">148</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">63</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://test/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">190</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">109</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">33</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">229</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">42</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">241</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">48</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">106</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">51</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">226</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">51</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">175</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">54</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">190</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">60</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">148</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">63</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
 </code></pre></div><p>4k</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#66d9ef">for</span> it in <span style="color:#f92672">{</span>30..200..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> <span style="color:#66d9ef">for</span> size in <span style="color:#f92672">{</span>100..250..3<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo <span style="color:#e6db74">&#34;size=</span>$size<span style="color:#e6db74"> iterations=</span>$it<span style="color:#e6db74"> </span><span style="color:#66d9ef">$(</span>curl -sv <span style="color:#e6db74">&#34;http://test/debug.php?size=</span>$size<span style="color:#e6db74">&amp;iterations=</span>$it<span style="color:#e6db74">&#34;</span> 2&gt;&amp;<span style="color:#ae81ff">1</span> | egrep <span style="color:#e6db74">&#39;^&lt; HTTP&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">done</span>; <span style="color:#66d9ef">done</span> | grep <span style="color:#ae81ff">502</span> | head
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">121</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">109</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">241</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">48</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">226</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">51</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">190</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">223</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">69</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">127</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">87</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">199</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">96</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">151</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">99</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
-size<span style="color:#f92672">=</span><span style="color:#ae81ff">106</span> iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">102</span> &lt; HTTP/1.1 <span style="color:#ae81ff">502</span> Bad Gateway
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://test/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">109</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">33</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">241</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">48</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">226</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">51</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">190</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">60</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">223</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">69</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">127</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">87</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">199</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">96</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">151</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">99</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
+<span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">106</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">102</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
 </code></pre></div><h2 id="81-观察">8.1 观察</h2>
 <p>对比上述结果，有没有发现什么诡异？
 为什么三次压测的结果，得到的502次数都是10次
 为什么第一次报错都是在size=121，iteration=30的情况下发生的？</p>
 <h2 id="82-进一步分析结果">8.2 进一步分析结果</h2>
 <p>我们把每一次的size与iteration进行相乘，我们可以得到如下的一些结果：(添加上开头的php message: 这13个字符)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">(</span><span style="color:#ae81ff">121</span> + 13<span style="color:#f92672">)</span> * 30 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4020</span>
-<span style="color:#f92672">(</span><span style="color:#ae81ff">109</span> + 13<span style="color:#f92672">)</span> * 33 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4026</span>
-<span style="color:#f92672">(</span><span style="color:#ae81ff">241</span> + 13<span style="color:#f92672">)</span> * 48 <span style="color:#f92672">=</span> <span style="color:#ae81ff">12192</span>
-<span style="color:#f92672">(</span><span style="color:#ae81ff">226</span> + 13<span style="color:#f92672">)</span> * 51 <span style="color:#f92672">=</span> <span style="color:#ae81ff">12189</span>
-<span style="color:#f92672">(</span><span style="color:#ae81ff">190</span> + 13<span style="color:#f92672">)</span> * 60 <span style="color:#f92672">=</span> <span style="color:#ae81ff">12180</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000;font-weight:bold">(</span><span style="color:#099">121</span> + 13<span style="color:#000;font-weight:bold">)</span> * <span style="color:#008080">30</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4020</span>
+<span style="color:#000;font-weight:bold">(</span><span style="color:#099">109</span> + 13<span style="color:#000;font-weight:bold">)</span> * <span style="color:#008080">33</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4026</span>
+<span style="color:#000;font-weight:bold">(</span><span style="color:#099">241</span> + 13<span style="color:#000;font-weight:bold">)</span> * <span style="color:#008080">48</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">12192</span>
+<span style="color:#000;font-weight:bold">(</span><span style="color:#099">226</span> + 13<span style="color:#000;font-weight:bold">)</span> * <span style="color:#008080">51</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">12189</span>
+<span style="color:#000;font-weight:bold">(</span><span style="color:#099">190</span> + 13<span style="color:#000;font-weight:bold">)</span> * <span style="color:#008080">60</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">12180</span>
 .....
 </code></pre></div><p>我们知道1024是程序员日，那上面的数据有什么敏感的吗?</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ae81ff">1024</span> * 4 <span style="color:#f92672">=</span> 4096,
-<span style="color:#ae81ff">4096</span> * 3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">12288</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#099">1024</span> * <span style="color:#008080">4</span> <span style="color:#000;font-weight:bold">=</span> 4096,
+<span style="color:#099">4096</span> * <span style="color:#008080">3</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">12288</span>
 ....
 </code></pre></div><h1 id="甩锅">甩锅</h1>
 <p>对比上面的数据，似乎是php的日志在某一个nk大小的时候(我的测试机器上很可能是4k), 会稳定复现这个问题呢？
@@ -637,35 +758,74 @@ size<span style="color:#f92672">=</span><span style="color:#ae81ff">106</span> i
 <p>以上探究仅是个人观点，可能存在错误，欢迎交流~           eamil:m18710895391@163.com</p>
 </blockquote>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

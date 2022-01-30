@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>php高级用法</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>php高级用法</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>php高级用法</h1>
-    <div class="blog-post-subheader">
-        October 12, 2017
-    </div>
-    <div class="blog-post-content">
-        <blockquote>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>php高级用法</h1>
+			<b><time>2017-10-12</time></b>
+		       
+		           <a href="/tags/php">php</a>
+        	       
+
+			<div>
+				<blockquote>
 <p>胡乱探讨了包括autoload，异常处理，多进程，反射使用，trait代码复用，生成器等php语言的高级特性</p>
 </blockquote>
 <h1 id="1autoload自动加载">1.autoload自动加载</h1>
@@ -116,27 +123,27 @@
 <li>自动加载不可用于 php 的 CLI 交互模式</li>
 </ul>
 <h2 id="自动加载简单实例">自动加载简单实例</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-    <span style="color:#a6e22e">spl_autoload_register</span>(<span style="color:#66d9ef">function</span> ($class_name) {
-        <span style="color:#66d9ef">require_once</span> $class_name <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;.php&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+    spl_autoload_register(<span style="color:#000;font-weight:bold">function</span> (<span style="color:#008080">$class_name</span>) {
+        <span style="color:#000;font-weight:bold">require_once</span> <span style="color:#008080">$class_name</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;.php&#39;</span>;
     });
     
-    $obj  <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MyClass1</span>();
-    $obj2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MyClass2</span>();
-<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+    <span style="color:#008080">$obj</span>  <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> MyClass1();
+    <span style="color:#008080">$obj2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> MyClass2();
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><h2 id="自动加载抛出异常">自动加载抛出异常</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-    <span style="color:#a6e22e">spl_autoload_register</span>(<span style="color:#66d9ef">function</span> ($name) {
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Want to load </span><span style="color:#e6db74">$name</span><span style="color:#e6db74">.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#34;Unable to load </span><span style="color:#e6db74">$name</span><span style="color:#e6db74">.&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+    spl_autoload_register(<span style="color:#000;font-weight:bold">function</span> (<span style="color:#008080">$name</span>) {
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;Want to load </span><span style="color:#d14">$name</span><span style="color:#d14">.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>;
+        <span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> Exception(<span style="color:#d14">&#34;Unable to load </span><span style="color:#d14">$name</span><span style="color:#d14">.&#34;</span>);
     });
     
-    <span style="color:#66d9ef">try</span> {
-        $obj <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">NonLoadableClass</span>();
-    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">Exception</span> $e) {
-        <span style="color:#66d9ef">echo</span> $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>(), <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    <span style="color:#000;font-weight:bold">try</span> {
+        <span style="color:#008080">$obj</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> NonLoadableClass();
+    } <span style="color:#000;font-weight:bold">catch</span> (Exception <span style="color:#008080">$e</span>) {
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#008080">$e</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getMessage</span>(), <span style="color:#d14">&#34;</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>;
     }
-<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><h2 id="spl_autoload_register">spl_autoload_register</h2>
 <ul>
 <li>
@@ -166,86 +173,86 @@
 1.会引入autoload_real.php文件
 2.会返回一个自动加载器</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">    <span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-        <span style="color:#75715e">// autoload.php @generated by Composer
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">require_once</span> <span style="color:#66d9ef">__DIR__</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;/composer&#39;</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;/autoload_real.php&#39;</span>; <span style="color:#75715e">//会返回一个加载类
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ComposerAutoloaderInite572cdf763ad8e4d6770ce15b9328edb</span><span style="color:#f92672">::</span><span style="color:#a6e22e">getLoader</span>(); 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">    <span style="color:#000;font-weight:bold">&lt;?</span>php
+        <span style="color:#998;font-style:italic">// autoload.php @generated by Composer
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">require_once</span> <span style="color:#008080">__DIR__</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/composer&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/autoload_real.php&#39;</span>; <span style="color:#998;font-style:italic">//会返回一个加载类
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">return</span> ComposerAutoloaderInite572cdf763ad8e4d6770ce15b9328edb<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">getLoader</span>(); 
 </code></pre></div><ul>
 <li>autoload_real.php文件</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
 
-    <span style="color:#75715e">// autoload_real.php @generated by Composer
-</span><span style="color:#75715e"></span>    
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComposerAutoloaderInit85b4dbf6b714d62ec745fcf3dd1a5041</span>
+    <span style="color:#998;font-style:italic">// autoload_real.php @generated by Composer
+</span><span style="color:#998;font-style:italic"></span>    
+    <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ComposerAutoloaderInit85b4dbf6b714d62ec745fcf3dd1a5041</span>
     {
-        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> $loader;
+        <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#008080">$loader</span>;
     
-        <span style="color:#75715e">// 在实例化ClassLoader时调用该函数
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">loadClassLoader</span>($class)
+        <span style="color:#998;font-style:italic">// 在实例化ClassLoader时调用该函数
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">loadClassLoader</span>(<span style="color:#008080">$class</span>)
         {   
-        <span style="color:#75715e">// 该函数在getLoader方法里被注册为__autoload的实现，在实例化类时，如果类不存在，会自动调用该方法
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 如果实例化的函数是Composer\Autoload\ClassLoader 则引入该类
-</span><span style="color:#75715e"></span>    
-            <span style="color:#66d9ef">if</span> (<span style="color:#e6db74">&#39;Composer\Autoload\ClassLoader&#39;</span> <span style="color:#f92672">===</span> $class) {
+        <span style="color:#998;font-style:italic">// 该函数在getLoader方法里被注册为__autoload的实现，在实例化类时，如果类不存在，会自动调用该方法
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#998;font-style:italic">// 如果实例化的函数是Composer\Autoload\ClassLoader 则引入该类
+</span><span style="color:#998;font-style:italic"></span>    
+            <span style="color:#000;font-weight:bold">if</span> (<span style="color:#d14">&#39;Composer\Autoload\ClassLoader&#39;</span> <span style="color:#000;font-weight:bold">===</span> <span style="color:#008080">$class</span>) {
     
-                <span style="color:#66d9ef">require</span> <span style="color:#66d9ef">__DIR__</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;/ClassLoader.php&#39;</span>;
+                <span style="color:#000;font-weight:bold">require</span> <span style="color:#008080">__DIR__</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/ClassLoader.php&#39;</span>;
             }
         }
     
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getLoader</span>()
+        <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">getLoader</span>()
         {
-            <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">null</span> <span style="color:#f92672">!==</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span>$loader) {
-                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span>$loader;
+            <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">null</span> <span style="color:#000;font-weight:bold">!==</span> self<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">$loader</span>) {
+                <span style="color:#000;font-weight:bold">return</span> self<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">$loader</span>;
             }
     
-            <span style="color:#75715e">// 注册 loadClassLoader函数作为 __autoload 的实现   
-</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">spl_autoload_register</span>(<span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#39;ComposerAutoloaderInit85b4dbf6b714d62ec745fcf3dd1a5041&#39;</span>, <span style="color:#e6db74">&#39;loadClassLoader&#39;</span>), <span style="color:#66d9ef">true</span>, <span style="color:#66d9ef">true</span>);
+            <span style="color:#998;font-style:italic">// 注册 loadClassLoader函数作为 __autoload 的实现   
+</span><span style="color:#998;font-style:italic"></span>            spl_autoload_register(<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;ComposerAutoloaderInit85b4dbf6b714d62ec745fcf3dd1a5041&#39;</span>, <span style="color:#d14">&#39;loadClassLoader&#39;</span>), <span style="color:#000;font-weight:bold">true</span>, <span style="color:#000;font-weight:bold">true</span>);
     
-            <span style="color:#75715e">// 实例化该方法时会自动调用上述方法注册的函数，
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// loadClassLoader函数里引入 ClassLoader类
-</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span>$loader <span style="color:#f92672">=</span> $loader <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">\Composer\Autoload\ClassLoader</span>();
+            <span style="color:#998;font-style:italic">// 实例化该方法时会自动调用上述方法注册的函数，
+</span><span style="color:#998;font-style:italic"></span>            <span style="color:#998;font-style:italic">// loadClassLoader函数里引入 ClassLoader类
+</span><span style="color:#998;font-style:italic"></span>            self<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">$loader</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$loader</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> \Composer\Autoload\ClassLoader();
     
-            <span style="color:#a6e22e">spl_autoload_unregister</span>(<span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#39;ComposerAutoloaderInit85b4dbf6b714d62ec745fcf3dd1a5041&#39;</span>, <span style="color:#e6db74">&#39;loadClassLoader&#39;</span>));
+            spl_autoload_unregister(<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;ComposerAutoloaderInit85b4dbf6b714d62ec745fcf3dd1a5041&#39;</span>, <span style="color:#d14">&#39;loadClassLoader&#39;</span>));
     
-            <span style="color:#75715e">// PSR-0 的规则
-</span><span style="color:#75715e"></span>            $map <span style="color:#f92672">=</span> <span style="color:#66d9ef">require</span> <span style="color:#66d9ef">__DIR__</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;/autoload_namespaces.php&#39;</span>;
-            <span style="color:#66d9ef">foreach</span> ($map <span style="color:#66d9ef">as</span> $namespace <span style="color:#f92672">=&gt;</span> $path) {
-                $loader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">set</span>($namespace, $path);
+            <span style="color:#998;font-style:italic">// PSR-0 的规则
+</span><span style="color:#998;font-style:italic"></span>            <span style="color:#008080">$map</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">require</span> <span style="color:#008080">__DIR__</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/autoload_namespaces.php&#39;</span>;
+            <span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#008080">$map</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$namespace</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$path</span>) {
+                <span style="color:#008080">$loader</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">set</span>(<span style="color:#008080">$namespace</span>, <span style="color:#008080">$path</span>);
             }
     
-        <span style="color:#75715e">// PSR-4 的规则
-</span><span style="color:#75715e"></span>            $map <span style="color:#f92672">=</span> <span style="color:#66d9ef">require</span> <span style="color:#66d9ef">__DIR__</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;/autoload_psr4.php&#39;</span>;
-            <span style="color:#66d9ef">foreach</span> ($map <span style="color:#66d9ef">as</span> $namespace <span style="color:#f92672">=&gt;</span> $path) {
-                $loader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">setPsr4</span>($namespace, $path);
+        <span style="color:#998;font-style:italic">// PSR-4 的规则
+</span><span style="color:#998;font-style:italic"></span>            <span style="color:#008080">$map</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">require</span> <span style="color:#008080">__DIR__</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/autoload_psr4.php&#39;</span>;
+            <span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#008080">$map</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$namespace</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$path</span>) {
+                <span style="color:#008080">$loader</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">setPsr4</span>(<span style="color:#008080">$namespace</span>, <span style="color:#008080">$path</span>);
             }
     
-            $classMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">require</span> <span style="color:#66d9ef">__DIR__</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;/autoload_classmap.php&#39;</span>;
-            <span style="color:#66d9ef">if</span> ($classMap) {
-                $loader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">addClassMap</span>($classMap);
+            <span style="color:#008080">$classMap</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">require</span> <span style="color:#008080">__DIR__</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/autoload_classmap.php&#39;</span>;
+            <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$classMap</span>) {
+                <span style="color:#008080">$loader</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">addClassMap</span>(<span style="color:#008080">$classMap</span>);
             }
     
-        <span style="color:#75715e">// 注册给定的函数作为 __autoload 的实现,具体参考下文
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// Class-Map部分
-</span><span style="color:#75715e"></span>            $loader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">register</span>(<span style="color:#66d9ef">true</span>);
+        <span style="color:#998;font-style:italic">// 注册给定的函数作为 __autoload 的实现,具体参考下文
+</span><span style="color:#998;font-style:italic"></span>            <span style="color:#998;font-style:italic">// Class-Map部分
+</span><span style="color:#998;font-style:italic"></span>            <span style="color:#008080">$loader</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">register</span>(<span style="color:#000;font-weight:bold">true</span>);
     
-        <span style="color:#75715e">// Files方式 直接加载需要访问的文件
-</span><span style="color:#75715e"></span>            $includeFiles <span style="color:#f92672">=</span> <span style="color:#66d9ef">require</span> <span style="color:#66d9ef">__DIR__</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;/autoload_files.php&#39;</span>;
-            <span style="color:#66d9ef">foreach</span> ($includeFiles <span style="color:#66d9ef">as</span> $fileIdentifier <span style="color:#f92672">=&gt;</span> $file) {
-                <span style="color:#a6e22e">composerRequire85b4dbf6b714d62ec745fcf3dd1a5041</span>($fileIdentifier, $file);
+        <span style="color:#998;font-style:italic">// Files方式 直接加载需要访问的文件
+</span><span style="color:#998;font-style:italic"></span>            <span style="color:#008080">$includeFiles</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">require</span> <span style="color:#008080">__DIR__</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/autoload_files.php&#39;</span>;
+            <span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#008080">$includeFiles</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$fileIdentifier</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$file</span>) {
+                composerRequire85b4dbf6b714d62ec745fcf3dd1a5041(<span style="color:#008080">$fileIdentifier</span>, <span style="color:#008080">$file</span>);
             }
     
-            <span style="color:#66d9ef">return</span> $loader;
+            <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$loader</span>;
         }
     }
     
-    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">composerRequire85b4dbf6b714d62ec745fcf3dd1a5041</span>($fileIdentifier, $file)
+    <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">composerRequire85b4dbf6b714d62ec745fcf3dd1a5041</span>(<span style="color:#008080">$fileIdentifier</span>, <span style="color:#008080">$file</span>)
     {
-        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">empty</span>($GLOBALS[<span style="color:#e6db74">&#39;__composer_autoload_files&#39;</span>][$fileIdentifier])) {
-            <span style="color:#75715e">// 加载需要调用的文件
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">require</span> $file;
+        <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">empty</span>(<span style="color:#008080">$GLOBALS</span>[<span style="color:#d14">&#39;__composer_autoload_files&#39;</span>][<span style="color:#008080">$fileIdentifier</span>])) {
+            <span style="color:#998;font-style:italic">// 加载需要调用的文件
+</span><span style="color:#998;font-style:italic"></span>            <span style="color:#000;font-weight:bold">require</span> <span style="color:#008080">$file</span>;
     
-            $GLOBALS[<span style="color:#e6db74">&#39;__composer_autoload_files&#39;</span>][$fileIdentifier] <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+            <span style="color:#008080">$GLOBALS</span>[<span style="color:#d14">&#39;__composer_autoload_files&#39;</span>][<span style="color:#008080">$fileIdentifier</span>] <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">true</span>;
         }
     }
 </code></pre></div><ul>
@@ -255,10 +262,10 @@
 <ul>
 <li>抛出异常但是不catch是，会提示</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Fatal error: Uncaught exception <span style="color:#e6db74">&#39;Exception&#39;</span> 
-with message <span style="color:#e6db74">&#39;Value must be 1 or below&#39;</span> in C:<span style="color:#ae81ff">\w</span>ebfolder<span style="color:#ae81ff">\t</span>est.php:6 
-Stack trace: <span style="color:#75715e">#0 C:\webfolder\test.php(12): </span>
-checkNum<span style="color:#f92672">(</span>28<span style="color:#f92672">)</span> <span style="color:#75715e">#1 {main} thrown in C:\webfolder\test.php on line 6</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Fatal error: Uncaught exception <span style="color:#d14">&#39;Exception&#39;</span> 
+with message <span style="color:#d14">&#39;Value must be 1 or below&#39;</span> in C:<span style="color:#d14">\w</span>ebfolder<span style="color:#d14">\t</span>est.php:6 
+Stack trace: <span style="color:#998;font-style:italic">#0 C:\webfolder\test.php(12): </span>
+checkNum<span style="color:#000;font-weight:bold">(</span>28<span style="color:#000;font-weight:bold">)</span> <span style="color:#998;font-style:italic">#1 {main} thrown in C:\webfolder\test.php on line 6</span>
 </code></pre></div><ul>
 <li>catch&quot; 代码块会捕获异常，并创建一个包含异常信息的对象</li>
 <li>设置顶层异常处理器,设置用户自定义的异常处理函数,用于没有用 try/catch 块来捕获的异常
@@ -278,18 +285,18 @@ set_exception_handler($ex)</li>
 <li>子进程中，此函数的返回值会是固定值0，我们也可以通过判断pcntl_fork()的返回值为0来确定子进程</li>
 <li>简单的例子</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-    $ppid <span style="color:#f92672">=</span> <span style="color:#a6e22e">posix_getpid</span>();
-    $pid <span style="color:#f92672">=</span> <span style="color:#a6e22e">pcntl_fork</span>();
-    <span style="color:#66d9ef">if</span> ($pid <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
-        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#39;fork子进程失败!&#39;</span>);
-    } <span style="color:#66d9ef">elseif</span> ($pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-        <span style="color:#a6e22e">cli_set_process_title</span>(<span style="color:#e6db74">&#34;我是父进程,我的进程id是</span><span style="color:#e6db74">{</span>$ppid<span style="color:#e6db74">}</span><span style="color:#e6db74">.&#34;</span>);
-    　　 <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">30</span>); <span style="color:#75715e">// 保持30秒，确保能被ps查到
-</span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">else</span> {
-        $cpid <span style="color:#f92672">=</span> <span style="color:#a6e22e">posix_getpid</span>();
-        <span style="color:#a6e22e">cli_set_process_title</span>(<span style="color:#e6db74">&#34;我是</span><span style="color:#e6db74">{</span>$ppid<span style="color:#e6db74">}</span><span style="color:#e6db74">的子进程,我的进程id是</span><span style="color:#e6db74">{</span>$cpid<span style="color:#e6db74">}</span><span style="color:#e6db74">.&#34;</span>);
-        <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">30</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+    <span style="color:#008080">$ppid</span> <span style="color:#000;font-weight:bold">=</span> posix_getpid();
+    <span style="color:#008080">$pid</span> <span style="color:#000;font-weight:bold">=</span> pcntl_fork();
+    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$pid</span> <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>) {
+        <span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> Exception(<span style="color:#d14">&#39;fork子进程失败!&#39;</span>);
+    } <span style="color:#000;font-weight:bold">elseif</span> (<span style="color:#008080">$pid</span> <span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#099">0</span>) {
+        cli_set_process_title(<span style="color:#d14">&#34;我是父进程,我的进程id是</span><span style="color:#d14">{</span><span style="color:#008080">$ppid</span><span style="color:#d14">}</span><span style="color:#d14">.&#34;</span>);
+    　　 sleep(<span style="color:#099">30</span>); <span style="color:#998;font-style:italic">// 保持30秒，确保能被ps查到
+</span><span style="color:#998;font-style:italic"></span>    } <span style="color:#000;font-weight:bold">else</span> {
+        <span style="color:#008080">$cpid</span> <span style="color:#000;font-weight:bold">=</span> posix_getpid();
+        cli_set_process_title(<span style="color:#d14">&#34;我是</span><span style="color:#d14">{</span><span style="color:#008080">$ppid</span><span style="color:#d14">}</span><span style="color:#d14">的子进程,我的进程id是</span><span style="color:#d14">{</span><span style="color:#008080">$cpid</span><span style="color:#d14">}</span><span style="color:#d14">.&#34;</span>);
+        sleep(<span style="color:#099">30</span>);
     }
 
 </code></pre></div><h2 id="管理子进程">管理子进程</h2>
@@ -299,15 +306,15 @@ set_exception_handler($ex)</li>
 <li>我们通过在父进程接收子进程传来的信号，判断子进程状态，来对子进程进行管理。</li>
 <li>我们需要在父进程里使用pcntl_signal()函数和pcntl_signal_dispatch()函数来给各个子进程安装信号处理器。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-    <span style="color:#a6e22e">pcntl_signal</span> (<span style="color:#a6e22e">int</span> $signo , <span style="color:#a6e22e">callback</span> $handler) <span style="color:#a6e22e">安装一个信号处理器；</span>
-    <span style="color:#75715e">#$signo是待处理的信号常量，callback是其处理函数
-</span><span style="color:#75715e"></span>    
-    <span style="color:#a6e22e">pcntl_signal_dispatch</span> () <span style="color:#a6e22e">调用每个等待信号通过pcntl_signal</span>()<span style="color:#a6e22e">安装的处理器</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+    pcntl_signal (int <span style="color:#008080">$signo</span> , callback <span style="color:#008080">$handler</span>) 安装一个信号处理器；
+    <span style="color:#998;font-style:italic">#$signo是待处理的信号常量，callback是其处理函数
+</span><span style="color:#998;font-style:italic"></span>    
+    pcntl_signal_dispatch () 调用每个等待信号通过pcntl_signal()安装的处理器
 </code></pre></div><ul>
 <li>php内常见的信号常量有：</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">        SIGCHLD     子进程退出成为僵尸进程会向父进程发送此信号
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">        SIGCHLD     子进程退出成为僵尸进程会向父进程发送此信号
         SIGHUP      进程挂起
         SIGTEM      进程终止
         ...         // 其他请在手册中查看
@@ -332,86 +339,86 @@ set_exception_handler($ex)</li>
 <li>反射指在php运行状态中,扩展分析php程序,导出或提取出关于类,方法,属性,参数等详细信息,包括注释.这种动态获取信息以及动态调用对象方法的功能称为反射API</li>
 </ul>
 <h2 id="使用反射">使用反射</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HandsonBoy</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">HandsonBoy</span>
 {
-    <span style="color:#66d9ef">public</span> $name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;chenqionghe&#39;</span>;
-    <span style="color:#66d9ef">public</span> $age <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>;
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __set($name,$value)
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#008080">$name</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;chenqionghe&#39;</span>;
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#008080">$age</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">18</span>;
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> __set(<span style="color:#008080">$name</span>,<span style="color:#008080">$value</span>)
     {
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;您正在设置私有属性&#39;</span><span style="color:#f92672">.</span>$name<span style="color:#f92672">.</span><span style="color:#e6db74">&#39;&lt;br &gt;值为&#39;</span><span style="color:#f92672">.</span>$value<span style="color:#f92672">.</span><span style="color:#e6db74">&#39;&lt;br&gt;&#39;</span>;
-        $this<span style="color:#f92672">-&gt;</span>$name <span style="color:#f92672">=</span> $value;
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;您正在设置私有属性&#39;</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">$name</span><span style="color:#000;font-weight:bold">.</span><span style="color:#d14">&#39;&lt;br &gt;值为&#39;</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">$value</span><span style="color:#000;font-weight:bold">.</span><span style="color:#d14">&#39;&lt;br&gt;&#39;</span>;
+        <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">$name</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$value</span>;
     }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __get($name)
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> __get(<span style="color:#008080">$name</span>)
     {
-        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">isset</span>($this<span style="color:#f92672">-&gt;</span>$name))
+        <span style="color:#000;font-weight:bold">if</span>(<span style="color:#000;font-weight:bold">!</span>isset(<span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">$name</span>))
         {
-            <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;未设置&#39;</span><span style="color:#f92672">.</span>$name;
-            $this<span style="color:#f92672">-&gt;</span>$name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;正在为你设置默认值&#34;</span><span style="color:#f92672">.</span><span style="color:#e6db74">&#39;&lt;br&gt;&#39;</span>;
+            <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;未设置&#39;</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">$name</span>;
+            <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">$name</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;正在为你设置默认值&#34;</span><span style="color:#000;font-weight:bold">.</span><span style="color:#d14">&#39;&lt;br&gt;&#39;</span>;
         }
-        <span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span>$name;
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">$name</span>;
     }
 }
-$boy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">HandsonBoy</span>();
-<span style="color:#66d9ef">echo</span> $boy<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">name</span><span style="color:#f92672">.</span><span style="color:#e6db74">&#39;&lt;br /&gt;&#39;</span>;
-$boy<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">hair</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;short&#39;</span>;
+<span style="color:#008080">$boy</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> HandsonBoy();
+<span style="color:#000;font-weight:bold">echo</span> <span style="color:#008080">$boy</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">name</span><span style="color:#000;font-weight:bold">.</span><span style="color:#d14">&#39;&lt;br /&gt;&#39;</span>;
+<span style="color:#008080">$boy</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">hair</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;short&#39;</span>;
 </code></pre></div><h3 id="获取对象的方法和属性">获取对象的方法和属性</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-$reflect <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ReflectionObject</span>($boy);
-$props <span style="color:#f92672">=</span> $reflect<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getProperties</span>();
-<span style="color:#75715e">//获取属性的名字
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">foreach</span>($props <span style="color:#66d9ef">as</span> $prop)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#008080">$reflect</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> ReflectionObject(<span style="color:#008080">$boy</span>);
+<span style="color:#008080">$props</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$reflect</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getProperties</span>();
+<span style="color:#998;font-style:italic">//获取属性的名字
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$props</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$prop</span>)
 {
-    <span style="color:#66d9ef">print</span> $prop<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getName</span>()<span style="color:#f92672">.</span><span style="color:#a6e22e">php_EOL</span>;
+    <span style="color:#000;font-weight:bold">print</span> <span style="color:#008080">$prop</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getName</span>()<span style="color:#000;font-weight:bold">.</span>php_EOL;
 }
-<span style="color:#75715e">//获取对象方法列表
-</span><span style="color:#75715e"></span>$methos <span style="color:#f92672">=</span> $reflect<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMethods</span>();
-<span style="color:#66d9ef">foreach</span>($methos <span style="color:#66d9ef">as</span> $method)
+<span style="color:#998;font-style:italic">//获取对象方法列表
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$methos</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$reflect</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getMethods</span>();
+<span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$methos</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$method</span>)
 {
-    <span style="color:#66d9ef">print</span> $method<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getName</span>()<span style="color:#f92672">.</span><span style="color:#a6e22e">php_EOL</span>;
+    <span style="color:#000;font-weight:bold">print</span> <span style="color:#008080">$method</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getName</span>()<span style="color:#000;font-weight:bold">.</span>php_EOL;
 }
 </code></pre></div><h3 id="不用反射api使用class函数只针对公开的属性和方法">不用反射API,使用class函数(只针对公开的属性和方法)</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#75715e">//返回对象属性的关联数组
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">var_dump</span>(<span style="color:#a6e22e">get_object_vars</span>($boy));
-<span style="color:#75715e">//类属性
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">var_dump</span>(<span style="color:#a6e22e">get_class_vars</span>(<span style="color:#a6e22e">get_class</span>($boy)));
-<span style="color:#75715e">//返回由类的属性的方法名组成的数组
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">var_dump</span>(<span style="color:#a6e22e">get_class_methods</span>(<span style="color:#a6e22e">get_class</span>($boy)));
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#998;font-style:italic">//返回对象属性的关联数组
+</span><span style="color:#998;font-style:italic"></span>var_dump(get_object_vars(<span style="color:#008080">$boy</span>));
+<span style="color:#998;font-style:italic">//类属性
+</span><span style="color:#998;font-style:italic"></span>var_dump(get_class_vars(get_class(<span style="color:#008080">$boy</span>)));
+<span style="color:#998;font-style:italic">//返回由类的属性的方法名组成的数组
+</span><span style="color:#998;font-style:italic"></span>var_dump(get_class_methods(get_class(<span style="color:#008080">$boy</span>)));
 </code></pre></div><h3 id="打印类的代码的实例">打印类的代码的实例</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#e6db74">/**
-</span><span style="color:#e6db74"> * @param $classObject 对象或者类名
-</span><span style="color:#e6db74"> */</span>
-<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getClass</span>($classObject)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#d14">/**
+</span><span style="color:#d14"> * @param $classObject 对象或者类名
+</span><span style="color:#d14"> */</span>
+<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">getClass</span>(<span style="color:#008080">$classObject</span>)
 {
-    $object <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ReflectionClass</span>($classObject);
-    $className <span style="color:#f92672">=</span> $object<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getName</span>();
-    $Methods <span style="color:#f92672">=</span> $Properties <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>();
-    <span style="color:#66d9ef">foreach</span>($object<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getProperties</span>() <span style="color:#66d9ef">as</span> $v)
+    <span style="color:#008080">$object</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> ReflectionClass(<span style="color:#008080">$classObject</span>);
+    <span style="color:#008080">$className</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$object</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getName</span>();
+    <span style="color:#008080">$Methods</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$Properties</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>();
+    <span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$object</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getProperties</span>() <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$v</span>)
     {
-        $Properties[$v<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getName</span>()] <span style="color:#f92672">=</span> $v;
+        <span style="color:#008080">$Properties</span>[<span style="color:#008080">$v</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getName</span>()] <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$v</span>;
     }
-    <span style="color:#66d9ef">foreach</span>($object<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMethods</span>() <span style="color:#66d9ef">as</span> $v)
+    <span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$object</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getMethods</span>() <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$v</span>)
     {
-        $Methods[$v<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getName</span>()] <span style="color:#f92672">=</span> $v;
+        <span style="color:#008080">$Methods</span>[<span style="color:#008080">$v</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getName</span>()] <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$v</span>;
     }
-    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;class </span><span style="color:#e6db74">{</span>$className<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">{</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-    <span style="color:#a6e22e">is_array</span>($Properties) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ksort</span>($Properties);
-    <span style="color:#66d9ef">foreach</span>($Properties <span style="color:#66d9ef">as</span> $k<span style="color:#f92672">=&gt;</span>$v)
+    <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;class </span><span style="color:#d14">{</span><span style="color:#008080">$className</span><span style="color:#d14">}</span><span style="color:#d14">\n</span><span style="color:#d14">{</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>;
+    is_array(<span style="color:#008080">$Properties</span>) <span style="color:#000;font-weight:bold">&amp;&amp;</span> ksort(<span style="color:#008080">$Properties</span>);
+    <span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$Properties</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$k</span><span style="color:#000;font-weight:bold">=&gt;</span><span style="color:#008080">$v</span>)
     {
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#34;</span>;
-        <span style="color:#66d9ef">echo</span> $v<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">isPublic</span>() <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;public&#39;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>,$v<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">isPrivate</span>() <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;private&#39;</span> <span style="color:#f92672">:</span><span style="color:#e6db74">&#39;&#39;</span>,$v<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">isProtected</span>() <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;protected&#39;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>;
-        $v<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">isStatic</span>() <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;static&#39;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>;
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{</span>$k<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;</span><span style="color:#d14">\t</span><span style="color:#d14">&#34;</span>;
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#008080">$v</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">isPublic</span>() <span style="color:#000;font-weight:bold">?</span> <span style="color:#d14">&#39;public&#39;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#d14">&#39;&#39;</span>,<span style="color:#008080">$v</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">isPrivate</span>() <span style="color:#000;font-weight:bold">?</span> <span style="color:#d14">&#39;private&#39;</span> <span style="color:#000;font-weight:bold">:</span><span style="color:#d14">&#39;&#39;</span>,<span style="color:#008080">$v</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">isProtected</span>() <span style="color:#000;font-weight:bold">?</span> <span style="color:#d14">&#39;protected&#39;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#d14">&#39;&#39;</span>;
+        <span style="color:#008080">$v</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">isStatic</span>() <span style="color:#000;font-weight:bold">?</span> <span style="color:#d14">&#39;static&#39;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#d14">&#39;&#39;</span>;
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;</span><span style="color:#d14">\t</span><span style="color:#d14">{</span><span style="color:#008080">$k</span><span style="color:#d14">}</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>;
     }
-    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">is_array</span>($Methods)) <span style="color:#a6e22e">ksort</span>($Methods);
-    <span style="color:#66d9ef">foreach</span>($Methods <span style="color:#66d9ef">as</span> $k<span style="color:#f92672">=&gt;</span>$v)
+    <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>;
+    <span style="color:#000;font-weight:bold">if</span>(is_array(<span style="color:#008080">$Methods</span>)) ksort(<span style="color:#008080">$Methods</span>);
+    <span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$Methods</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$k</span><span style="color:#000;font-weight:bold">=&gt;</span><span style="color:#008080">$v</span>)
     {
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">function </span><span style="color:#e6db74">{</span>$k<span style="color:#e6db74">}</span><span style="color:#e6db74">()</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;</span><span style="color:#d14">\t</span><span style="color:#d14">function </span><span style="color:#d14">{</span><span style="color:#008080">$k</span><span style="color:#d14">}</span><span style="color:#d14">()</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>;
     }
-    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;}</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>;
 }
 </code></pre></div><h2 id="反射的作用">反射的作用</h2>
 <ul>
@@ -420,42 +427,42 @@ $props <span style="color:#f92672">=</span> $reflect<span style="color:#f92672">
 <li>动态代理
 作为动态代理的例子:</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">
-<span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">mysql</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">
+<span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">mysql</span>
 {
-    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">connect</span>($db)
+    <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">connect</span>(<span style="color:#008080">$db</span>)
     {
-<span style="color:#75715e">#        echo &#34;连接到数据库{$db[0]}&#34; . php_EOL;
-</span><span style="color:#75715e"></span>    }
+<span style="color:#998;font-style:italic">#        echo &#34;连接到数据库{$db[0]}&#34; . php_EOL;
+</span><span style="color:#998;font-style:italic"></span>    }
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">sqlproxy</span>
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">sqlproxy</span>
 {
-    <span style="color:#66d9ef">private</span> $target;
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __construct($tar)
+    <span style="color:#000;font-weight:bold">private</span> <span style="color:#008080">$target</span>;
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> __construct(<span style="color:#008080">$tar</span>)
     {
-        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">target</span>[] <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> $tar;
+        <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">target</span>[] <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#008080">$tar</span>;
     }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __call($name,$args)
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> __call(<span style="color:#008080">$name</span>,<span style="color:#008080">$args</span>)
     {
-        <span style="color:#66d9ef">foreach</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">target</span> <span style="color:#66d9ef">as</span> $obj)
+        <span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">target</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$obj</span>)
         {
-            $r <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ReflectionClass</span>($obj);
-            <span style="color:#66d9ef">if</span>($method <span style="color:#f92672">=</span> $r<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMethod</span>($name))
+            <span style="color:#008080">$r</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> ReflectionClass(<span style="color:#008080">$obj</span>);
+            <span style="color:#000;font-weight:bold">if</span>(<span style="color:#008080">$method</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$r</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getMethod</span>(<span style="color:#008080">$name</span>))
             {
-                <span style="color:#66d9ef">if</span>($method<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">isPublic</span>() <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>$method<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">isAbstract</span>())
+                <span style="color:#000;font-weight:bold">if</span>(<span style="color:#008080">$method</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">isPublic</span>() <span style="color:#000;font-weight:bold">&amp;&amp;</span> <span style="color:#000;font-weight:bold">!</span><span style="color:#008080">$method</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">isAbstract</span>())
                 {
-                    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;方法前拦截记录LOG&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php_EOL</span>;
-                    $method<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">invoke</span>($obj,$args);
-                    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;方法后拦截&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">php_EOL</span>;
+                    <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;方法前拦截记录LOG&#34;</span><span style="color:#000;font-weight:bold">.</span>php_EOL;
+                    <span style="color:#008080">$method</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">invoke</span>(<span style="color:#008080">$obj</span>,<span style="color:#008080">$args</span>);
+                    <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;方法后拦截&#34;</span><span style="color:#000;font-weight:bold">.</span>php_EOL;
                 }
             }
         }
     }
 }
-$obj <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">sqlproxy</span>(<span style="color:#e6db74">&#39;mysql&#39;</span>);
-$obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">connect</span>(<span style="color:#e6db74">&#39;chenqionghe&#39;</span>);
+<span style="color:#008080">$obj</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> sqlproxy(<span style="color:#d14">&#39;mysql&#39;</span>);
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">connect</span>(<span style="color:#d14">&#39;chenqionghe&#39;</span>);
 </code></pre></div><h2 id="弊端">弊端</h2>
 <ul>
 <li>反射也会破坏类的封装性,因为反射可以使本不应该暴露的方法或属性被强制暴露了出来,这既是优点也是缺点.</li>
@@ -468,34 +475,34 @@ $obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">connect<
 </ul>
 <h2 id="用法">用法</h2>
 <h3 id="简单使用">简单使用</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">first_trait</span>{
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">hello</span>(){
-        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;hello&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">trait</span> first_trait{
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">hello</span>(){
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#39;hello&#39;</span>;
     }
 }
 </code></pre></div><ul>
 <li>在Class里使用trait，要使用use关键字，使用多个trait时用英文逗号隔开</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">first_trait</span>{
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">hello</span>(){
-        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;hello&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">trait</span> first_trait{
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">hello</span>(){
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#39;hello&#39;</span>;
     }
 }
 
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">second_trait</span>{
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">world</span>(){
-        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;world&#39;</span>;
+<span style="color:#000;font-weight:bold">trait</span> second_trait{
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">world</span>(){
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#39;world&#39;</span>;
     }
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">first_class</span>{
-    <span style="color:#66d9ef">use</span> <span style="color:#a6e22e">first_trait</span>,<span style="color:#a6e22e">second_trait</span>;
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">first_class</span>{
+    <span style="color:#000;font-weight:bold">use</span> first_trait,second_trait;
 }
-$obj<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> <span style="color:#a6e22e">first_class</span>();
-<span style="color:#66d9ef">echo</span> $obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">hello</span>();
-<span style="color:#66d9ef">echo</span> $obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">world</span>();
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> first_class();
+<span style="color:#000;font-weight:bold">echo</span> <span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">hello</span>();
+<span style="color:#000;font-weight:bold">echo</span> <span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">world</span>();
 </code></pre></div><ul>
 <li>
 <p>优先级
@@ -505,27 +512,27 @@ $obj<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> <
 <p>trait之间的嵌套</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">first_trait</span>{
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">hello</span>(){
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;hello&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">trait</span> first_trait{
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">hello</span>(){
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;hello&#39;</span>;
     }
 }
 
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">second_trait</span>{
-    <span style="color:#75715e">//trait之间的嵌套
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">use</span> <span style="color:#a6e22e">first_trait</span>;
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">world</span>(){
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;world&#39;</span>;
+<span style="color:#000;font-weight:bold">trait</span> second_trait{
+    <span style="color:#998;font-style:italic">//trait之间的嵌套
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">use</span> first_trait;
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">world</span>(){
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;world&#39;</span>;
     }
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">first_class</span>{
-    <span style="color:#66d9ef">use</span> <span style="color:#a6e22e">second_trait</span>;
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">first_class</span>{
+    <span style="color:#000;font-weight:bold">use</span> second_trait;
 }
-$obj<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> <span style="color:#a6e22e">first_class</span>();
-<span style="color:#66d9ef">echo</span> $obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">hello</span>();
-<span style="color:#66d9ef">echo</span> $obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">world</span>();
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> first_class();
+<span style="color:#000;font-weight:bold">echo</span> <span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">hello</span>();
+<span style="color:#000;font-weight:bold">echo</span> <span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">world</span>();
 </code></pre></div><ul>
 <li>可以在trait中声明抽象方法，使用它的Class或trait必须实现抽象方法</li>
 </ul>
@@ -535,63 +542,63 @@ $obj<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> <
 <li>为了解决多个 trait 在同一个类中的命名冲突，需要使用 insteadof 操作符来明确指定使用冲突方法中的哪一个。</li>
 <li>以上方式仅允许排除掉其它方法，as 操作符可以将其中一个冲突的方法以另一个名称来引入，相当于方法的别名。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">A</span> {
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">smallTalk</span>() {
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;a&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">trait</span> A {
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">smallTalk</span>() {
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;a&#39;</span>;
     }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">bigTalk</span>() {
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;A&#39;</span>;
-    }
-}
-
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">B</span> {
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">smallTalk</span>() {
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;b&#39;</span>;
-    }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">bigTalk</span>() {
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;B&#39;</span>;
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">bigTalk</span>() {
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;A&#39;</span>;
     }
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Talker</span> {
-    <span style="color:#66d9ef">use</span> <span style="color:#a6e22e">A</span>, <span style="color:#a6e22e">B</span> {
-        <span style="color:#a6e22e">B</span><span style="color:#f92672">::</span><span style="color:#a6e22e">smallTalk</span> <span style="color:#a6e22e">insteadof</span> <span style="color:#a6e22e">A</span>; <span style="color:#75715e">//trait B 的smallTalk方法会代替 trait A 的smallTalk方法
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">A</span><span style="color:#f92672">::</span><span style="color:#a6e22e">bigTalk</span> <span style="color:#a6e22e">insteadof</span> <span style="color:#a6e22e">B</span>;  <span style="color:#75715e">//trait A 的bigTalk方法会代替 trait B 的bigTalk方法
-</span><span style="color:#75715e"></span>    }
+<span style="color:#000;font-weight:bold">trait</span> B {
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">smallTalk</span>() {
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;b&#39;</span>;
+    }
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">bigTalk</span>() {
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;B&#39;</span>;
+    }
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Aliased_Talker</span> {
-    <span style="color:#66d9ef">use</span> <span style="color:#a6e22e">A</span>, <span style="color:#a6e22e">B</span> {
-        <span style="color:#a6e22e">B</span><span style="color:#f92672">::</span><span style="color:#a6e22e">smallTalk</span> <span style="color:#a6e22e">insteadof</span> <span style="color:#a6e22e">A</span>;<span style="color:#75715e">//trait B 的smallTalk方法会代替 trait A 的smallTalk方法
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">A</span><span style="color:#f92672">::</span><span style="color:#a6e22e">bigTalk</span> <span style="color:#a6e22e">insteadof</span> <span style="color:#a6e22e">B</span>;<span style="color:#75715e">//trait A 的bigTalk方法会代替 trait B 的bigTalk方法
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">B</span><span style="color:#f92672">::</span><span style="color:#a6e22e">bigTalk</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">talk</span>; <span style="color:#75715e">//使用 as 操作符来定义了 talk方法 来作为 B 的 bigTalk方法 的别名
-</span><span style="color:#75715e"></span>    }
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Talker</span> {
+    <span style="color:#000;font-weight:bold">use</span> A, B {
+        B<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">smallTalk</span> insteadof A; <span style="color:#998;font-style:italic">//trait B 的smallTalk方法会代替 trait A 的smallTalk方法
+</span><span style="color:#998;font-style:italic"></span>        A<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">bigTalk</span> insteadof B;  <span style="color:#998;font-style:italic">//trait A 的bigTalk方法会代替 trait B 的bigTalk方法
+</span><span style="color:#998;font-style:italic"></span>    }
 }
 
-$obj<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Talker</span>();
-$obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">smallTalk</span>();
-$obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">bigTalk</span>();
-<span style="color:#75715e">//结果会输出 bA
-</span><span style="color:#75715e"></span>$obj2<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Aliased_Talker</span>();
-$obj2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">talk</span>();<span style="color:#75715e">//会输出B
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Aliased_Talker</span> {
+    <span style="color:#000;font-weight:bold">use</span> A, B {
+        B<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">smallTalk</span> insteadof A;<span style="color:#998;font-style:italic">//trait B 的smallTalk方法会代替 trait A 的smallTalk方法
+</span><span style="color:#998;font-style:italic"></span>        A<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">bigTalk</span> insteadof B;<span style="color:#998;font-style:italic">//trait A 的bigTalk方法会代替 trait B 的bigTalk方法
+</span><span style="color:#998;font-style:italic"></span>        B<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">bigTalk</span> <span style="color:#000;font-weight:bold">as</span> talk; <span style="color:#998;font-style:italic">//使用 as 操作符来定义了 talk方法 来作为 B 的 bigTalk方法 的别名
+</span><span style="color:#998;font-style:italic"></span>    }
+}
+
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> Talker();
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">smallTalk</span>();
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">bigTalk</span>();
+<span style="color:#998;font-style:italic">//结果会输出 bA
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$obj2</span><span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> Aliased_Talker();
+<span style="color:#008080">$obj2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">talk</span>();<span style="color:#998;font-style:italic">//会输出B
 </span></code></pre></div><h3 id="修改访问控制">修改访问控制</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">HelloWorld</span> {
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">sayHello</span>() {
-        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;Hello World!&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">trait</span> HelloWorld {
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">sayHello</span>() {
+        <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;Hello World!&#39;</span>;
     }
 }
 
-<span style="color:#75715e">// 修改 sayHello 的访问控制
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass1</span> {
-    <span style="color:#66d9ef">use</span> <span style="color:#a6e22e">HelloWorld</span> { <span style="color:#a6e22e">sayHello</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">protected</span>; }
+<span style="color:#998;font-style:italic">// 修改 sayHello 的访问控制
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MyClass1</span> {
+    <span style="color:#000;font-weight:bold">use</span> HelloWorld { sayHello <span style="color:#000;font-weight:bold">as</span> <span style="color:#000;font-weight:bold">protected</span>; }
 }
 
-<span style="color:#75715e">// 给方法一个改变了访问控制的别名
-</span><span style="color:#75715e">// 原版 sayHello 的访问控制则没有发生变化
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass2</span> {
-    <span style="color:#66d9ef">use</span> <span style="color:#a6e22e">HelloWorld</span> { <span style="color:#a6e22e">sayHello</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">myPrivateHello</span>; }
+<span style="color:#998;font-style:italic">// 给方法一个改变了访问控制的别名
+</span><span style="color:#998;font-style:italic">// 原版 sayHello 的访问控制则没有发生变化
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MyClass2</span> {
+    <span style="color:#000;font-weight:bold">use</span> HelloWorld { sayHello <span style="color:#000;font-weight:bold">as</span> <span style="color:#000;font-weight:bold">private</span> myPrivateHello; }
 }
 </code></pre></div><h3 id="trait-同样可以定义属性">Trait 同样可以定义属性</h3>
 <ul>
@@ -600,15 +607,15 @@ $obj2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">talk</s
 <h1 id="6php的生成器yield和协程">6.php的生成器、yield和协程</h1>
 <h2 id="迭代生成器">迭代生成器</h2>
 <h3 id="迭代生成器也是一个函数不同的是这个函数的返回值是依次返回而不是只返回一个单独的值或者换句话说生成器使你能更方便的实现了迭代器接口下面通过实现一个xrange函数来简单说明">(迭代)生成器也是一个函数,不同的是这个函数的返回值是依次返回,而不是只返回一个单独的值.或者,换句话说,生成器使你能更方便的实现了迭代器接口.下面通过实现一个xrange函数来简单说明：</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">xrange</span>($start, $end, $step <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) {
-    <span style="color:#66d9ef">for</span> ($i <span style="color:#f92672">=</span> $start; $i <span style="color:#f92672">&lt;=</span> $end; $i <span style="color:#f92672">+=</span> $step) {
-        <span style="color:#66d9ef">yield</span> $i;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">xrange</span>(<span style="color:#008080">$start</span>, <span style="color:#008080">$end</span>, <span style="color:#008080">$step</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) {
+    <span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$start</span>; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">&lt;=</span> <span style="color:#008080">$end</span>; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#008080">$step</span>) {
+        <span style="color:#000;font-weight:bold">yield</span> <span style="color:#008080">$i</span>;
     }
 }
  
-<span style="color:#66d9ef">foreach</span> (<span style="color:#a6e22e">xrange</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1000000</span>) <span style="color:#66d9ef">as</span> $num) {
-    <span style="color:#66d9ef">echo</span> $num, <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+<span style="color:#000;font-weight:bold">foreach</span> (xrange(<span style="color:#099">1</span>, <span style="color:#099">1000000</span>) <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$num</span>) {
+    <span style="color:#000;font-weight:bold">echo</span> <span style="color:#008080">$num</span>, <span style="color:#d14">&#34;</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>;
 }
 </code></pre></div><ul>
 <li>range()函数返回从1到100万0的数组</li>
@@ -632,37 +639,37 @@ $obj2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">talk</s
 <li>协程的支持是在迭代生成器的基础上, 增加了可以回送数据给生成器的功能(调用者发送数据给被调用的生成器函数). 这就把生成器到调用者的单向通信转变为两者之间的双向通信.</li>
 <li>传递数据的功能是通过迭代器的send()方法实现的. 下面的logger()协程是这种通信如何运行的例子：</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">logger</span>($fileName) {
-    $fileHandle <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>($fileName, <span style="color:#e6db74">&#39;a&#39;</span>);
-    <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">true</span>) {
-        <span style="color:#a6e22e">fwrite</span>($fileHandle, <span style="color:#66d9ef">yield</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">logger</span>(<span style="color:#008080">$fileName</span>) {
+    <span style="color:#008080">$fileHandle</span> <span style="color:#000;font-weight:bold">=</span> fopen(<span style="color:#008080">$fileName</span>, <span style="color:#d14">&#39;a&#39;</span>);
+    <span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">true</span>) {
+        fwrite(<span style="color:#008080">$fileHandle</span>, <span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#34;</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
     }
 }
  
-$logger <span style="color:#f92672">=</span> <span style="color:#a6e22e">logger</span>(<span style="color:#66d9ef">__DIR__</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;/log&#39;</span>);
-$logger<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;Foo&#39;</span>);
-$logger<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;Bar&#39;</span>)
-<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+<span style="color:#008080">$logger</span> <span style="color:#000;font-weight:bold">=</span> logger(<span style="color:#008080">__DIR__</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/log&#39;</span>);
+<span style="color:#008080">$logger</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">send</span>(<span style="color:#d14">&#39;Foo&#39;</span>);
+<span style="color:#008080">$logger</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">send</span>(<span style="color:#d14">&#39;Bar&#39;</span>)
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><p>yield没有作为一个语句来使用, 而是用作一个表达式, 即它能被演化成一个值. 这个值就是调用者传递给send()方法的值. 在这个例子里, yield表达式将首先被”Foo”替代写入Log, 然后被”Bar”替代写入Log.</p>
 <ul>
 <li>进行接收和发送的例子</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">gen</span>() {
-    $ret <span style="color:#f92672">=</span> (<span style="color:#66d9ef">yield</span> <span style="color:#e6db74">&#39;yield1&#39;</span>);
-    <span style="color:#a6e22e">var_dump</span>($ret);
-    $ret <span style="color:#f92672">=</span> (<span style="color:#66d9ef">yield</span> <span style="color:#e6db74">&#39;yield2&#39;</span>);
-    <span style="color:#a6e22e">var_dump</span>($ret);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">gen</span>() {
+    <span style="color:#008080">$ret</span> <span style="color:#000;font-weight:bold">=</span> (<span style="color:#000;font-weight:bold">yield</span> <span style="color:#d14">&#39;yield1&#39;</span>);
+    var_dump(<span style="color:#008080">$ret</span>);
+    <span style="color:#008080">$ret</span> <span style="color:#000;font-weight:bold">=</span> (<span style="color:#000;font-weight:bold">yield</span> <span style="color:#d14">&#39;yield2&#39;</span>);
+    var_dump(<span style="color:#008080">$ret</span>);
 }
 
-$gen <span style="color:#f92672">=</span> <span style="color:#a6e22e">gen</span>();
-<span style="color:#a6e22e">var_dump</span>($gen<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">current</span>());    <span style="color:#75715e">// string(6) &#34;yield1&#34;
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">var_dump</span>($gen<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;ret1&#39;</span>)); <span style="color:#75715e">// string(4) &#34;ret1&#34;   (the first var_dump in gen)
-</span><span style="color:#75715e"></span>                              <span style="color:#75715e">// string(6) &#34;yield2&#34; (the var_dump of the -&gt;send() return value)
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">var_dump</span>($gen<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;ret2&#39;</span>)); <span style="color:#75715e">// string(4) &#34;ret2&#34;   (again from within gen)
-</span><span style="color:#75715e"></span>                              <span style="color:#75715e">// NULL               (the return value of -&gt;send())
-</span><span style="color:#75715e"></span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+<span style="color:#008080">$gen</span> <span style="color:#000;font-weight:bold">=</span> gen();
+var_dump(<span style="color:#008080">$gen</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">current</span>());    <span style="color:#998;font-style:italic">// string(6) &#34;yield1&#34;
+</span><span style="color:#998;font-style:italic"></span>var_dump(<span style="color:#008080">$gen</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">send</span>(<span style="color:#d14">&#39;ret1&#39;</span>)); <span style="color:#998;font-style:italic">// string(4) &#34;ret1&#34;   (the first var_dump in gen)
+</span><span style="color:#998;font-style:italic"></span>                              <span style="color:#998;font-style:italic">// string(6) &#34;yield2&#34; (the var_dump of the -&gt;send() return value)
+</span><span style="color:#998;font-style:italic"></span>var_dump(<span style="color:#008080">$gen</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">send</span>(<span style="color:#d14">&#39;ret2&#39;</span>)); <span style="color:#998;font-style:italic">// string(4) &#34;ret2&#34;   (again from within gen)
+</span><span style="color:#998;font-style:italic"></span>                              <span style="color:#998;font-style:italic">// NULL               (the return value of -&gt;send())
+</span><span style="color:#998;font-style:italic"></span><span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><h2 id="多任务协作">多任务协作</h2>
 <ul>
 <li>
@@ -676,35 +683,74 @@ $gen <span style="color:#f92672">=</span> <span style="color:#a6e22e">gen</span>
 </li>
 </ul>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

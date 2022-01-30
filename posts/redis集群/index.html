@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>redis集群</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>redis集群</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>redis集群</h1>
-    <div class="blog-post-subheader">
-        January 8, 2019
-    </div>
-    <div class="blog-post-content">
-        <h1 id="redis集群">redis集群</h1>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>redis集群</h1>
+			<b><time>2019-01-08</time></b>
+		       
+		           <a href="/tags/redis">redis</a>
+        	       
+
+			<div>
+				<h1 id="redis集群">redis集群</h1>
 <ul>
 <li>redis集群通过分片来进行数据共享，并且提供复制和故障转移的功能</li>
 </ul>
@@ -123,44 +130,44 @@
 </li>
 </ul>
 <h2 id="clusternode">clusterNode</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> clusterNode {
-    <span style="color:#75715e">//创建时间
-</span><span style="color:#75715e"></span>    mstimer_t ctime;
-    <span style="color:#75715e">//节点的名字
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> name[REDIS_CLUSTER_NAMELEN];
-    <span style="color:#75715e">//节点标识
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">//主从节点，上线下线
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> flags;
-    <span style="color:#75715e">//当前配置纪元，用于故障转移
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">uint64_t</span> configEpoch;
-    <span style="color:#75715e">//节点IP
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> ip[REDIS_IP_STR_LEN];
-    <span style="color:#75715e">//节点端口
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> port;
-    <span style="color:#75715e">//保存连接节点所需的信息
-</span><span style="color:#75715e"></span>    clusterLink <span style="color:#f92672">*</span>link;
-    <span style="color:#75715e">//保存节点的槽指派信息
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> slots[<span style="color:#ae81ff">16384</span><span style="color:#f92672">/</span><span style="color:#ae81ff">8</span>];
-    <span style="color:#75715e">//槽指派的个数
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> numslots<span style="color:#960050;background-color:#1e0010">；</span>
-    <span style="color:#75715e">//复制的节点
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> clusterNode <span style="color:#f92672">*</span>slaveof;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> clusterNode {
+    <span style="color:#998;font-style:italic">//创建时间
+</span><span style="color:#998;font-style:italic"></span>    mstimer_t ctime;
+    <span style="color:#998;font-style:italic">//节点的名字
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">char</span> name[REDIS_CLUSTER_NAMELEN];
+    <span style="color:#998;font-style:italic">//节点标识
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//主从节点，上线下线
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> flags;
+    <span style="color:#998;font-style:italic">//当前配置纪元，用于故障转移
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">uint64_t</span> configEpoch;
+    <span style="color:#998;font-style:italic">//节点IP
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">char</span> ip[REDIS_IP_STR_LEN];
+    <span style="color:#998;font-style:italic">//节点端口
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> port;
+    <span style="color:#998;font-style:italic">//保存连接节点所需的信息
+</span><span style="color:#998;font-style:italic"></span>    clusterLink <span style="color:#000;font-weight:bold">*</span>link;
+    <span style="color:#998;font-style:italic">//保存节点的槽指派信息
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">char</span> slots[<span style="color:#099">16384</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">8</span>];
+    <span style="color:#998;font-style:italic">//槽指派的个数
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> numslots<span style="color:#a61717;background-color:#e3d2d2">；</span>
+    <span style="color:#998;font-style:italic">//复制的节点
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">struct</span> clusterNode <span style="color:#000;font-weight:bold">*</span>slaveof;
 }
 </code></pre></div><h2 id="clusterlink">clusterLink</h2>
 <ul>
 <li>clusterLink保存了连接节点所需的信息</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> clusterLink {
-    <span style="color:#75715e">//连接创建时间
-</span><span style="color:#75715e"></span>    mstime_t time;
-    <span style="color:#75715e">//TCP套接字描述符
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> fd;
-    <span style="color:#75715e">//输出缓冲区,保存待发给其他节点的消息
-</span><span style="color:#75715e"></span>    sds sndbuf;
-    <span style="color:#75715e">//输入缓冲区，保存着从其他节点接收到的消息
-</span><span style="color:#75715e"></span>    sds revbuf;
-    <span style="color:#75715e">//与这个连接相关联的节点，没有就为null
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> clusterNode <span style="color:#f92672">*</span>node;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> clusterLink {
+    <span style="color:#998;font-style:italic">//连接创建时间
+</span><span style="color:#998;font-style:italic"></span>    mstime_t time;
+    <span style="color:#998;font-style:italic">//TCP套接字描述符
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> fd;
+    <span style="color:#998;font-style:italic">//输出缓冲区,保存待发给其他节点的消息
+</span><span style="color:#998;font-style:italic"></span>    sds sndbuf;
+    <span style="color:#998;font-style:italic">//输入缓冲区，保存着从其他节点接收到的消息
+</span><span style="color:#998;font-style:italic"></span>    sds revbuf;
+    <span style="color:#998;font-style:italic">//与这个连接相关联的节点，没有就为null
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">struct</span> clusterNode <span style="color:#000;font-weight:bold">*</span>node;
 } clusterLink;
 </code></pre></div><ul>
 <li>redisClinet和clusterLink结构很像，但是redsiClient对应的是客户端的链接信息，而clusterLink对应的是和其他节点的连接信息</li>
@@ -169,23 +176,29 @@
 <ul>
 <li>该结构保存了在当前节点的视角下，整个集群的状态</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> clusterState {
-    <span style="color:#75715e">//指向当前节点的指针
-</span><span style="color:#75715e"></span>    clusterNode <span style="color:#f92672">*</span>self;
-    <span style="color:#75715e">//集群当前的配置纪元，用于实现故障转移
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">uint64_t</span> currentEpoch;
-    <span style="color:#75715e">//集群当前状态：上线还是下线
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> state;
-    <span style="color:#75715e">//集群中至少处理一个槽的节点的数量
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> size;
-    <span style="color:#75715e">//集群单节点名单（包括自己）
-</span><span style="color:#75715e"></span>    dict <span style="color:#f92672">*</span>nodes;
-    <span style="color:#75715e">//记录了集群中槽的指派情况
-</span><span style="color:#75715e"></span>    clusterNode <span style="color:#f92672">*</span>slot[<span style="color:#ae81ff">16384</span>];
-    <span style="color:#75715e">//正在导入的槽的节点
-</span><span style="color:#75715e"></span>    clusterNode importing_slots_from[<span style="color:#ae81ff">16384</span>];
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> clusterState {
+    <span style="color:#998;font-style:italic">//指向当前节点的指针
+</span><span style="color:#998;font-style:italic"></span>    clusterNode <span style="color:#000;font-weight:bold">*</span>self;
+    <span style="color:#998;font-style:italic">//集群当前的配置纪元，用于实现故障转移
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">uint64_t</span> currentEpoch;
+    <span style="color:#998;font-style:italic">//集群当前状态：上线还是下线
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> state;
+    <span style="color:#998;font-style:italic">//集群中至少处理一个槽的节点的数量
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> size;
+    <span style="color:#998;font-style:italic">//集群单节点名单（包括自己）
+</span><span style="color:#998;font-style:italic"></span>    dict <span style="color:#000;font-weight:bold">*</span>nodes;
+    <span style="color:#998;font-style:italic">//记录了集群中槽的指派情况
+</span><span style="color:#998;font-style:italic"></span>    clusterNode <span style="color:#000;font-weight:bold">*</span>slot[<span style="color:#099">16384</span>];
+    <span style="color:#998;font-style:italic">//正在导入的槽的节点
+</span><span style="color:#998;font-style:italic"></span>    clusterNode importing_slots_from[<span style="color:#099">16384</span>];
 } clusterState;
-</code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121154717423_1668313282.png" alt=""></p>
+</code></pre></div><p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121154717423_1668313282.png" alt="" />
+</figure>
+
+
+</p>
 <h1 id="集群">集群</h1>
 <h2 id="cluster-meet实现">cluster meet实现</h2>
 <ul>
@@ -208,9 +221,9 @@
 <li>数据库中的16384个槽如果都有节点在处理时，则我们说集群为上线状态，否则集群为下线状态</li>
 </ul>
 <h3 id="节点槽指派信息的记录">节点槽指派信息的记录</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> clusterNode {
-    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> slots[<span style="color:#ae81ff">16384</span><span style="color:#f92672">/</span><span style="color:#ae81ff">8</span>];
-    <span style="color:#66d9ef">int</span> numslots;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> clusterNode {
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">char</span> slots[<span style="color:#099">16384</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">8</span>];
+    <span style="color:#458;font-weight:bold">int</span> numslots;
 }
 </code></pre></div><ul>
 <li>slots是一个二进制位数组，长度为16384/8=2048字节，16384个bit位</li>
@@ -221,13 +234,19 @@
 <li>节点在接收到其他节点的slots信息之后，会找到对应的clusterNode，并对其进行更新</li>
 </ul>
 <h3 id="集群槽指派信息的记录">集群槽指派信息的记录</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> clusterState {
-    clusterNode <span style="color:#f92672">*</span>slots[<span style="color:#ae81ff">16384</span>];
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> clusterState {
+    clusterNode <span style="color:#000;font-weight:bold">*</span>slots[<span style="color:#099">16384</span>];
 } clusterState;
 </code></pre></div><ul>
 <li>如果slots[i]为null表明槽i未指派任何节点</li>
 <li>slots[i]指向一个clusterNode，表明槽i指向该节点
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114139727_2138546451.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114139727_2138546451.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 <h2 id="在集群中执行命令">在集群中执行命令</h2>
 <ul>
@@ -238,14 +257,26 @@
 <ul>
 <li>如果是则查找键值，并返回</li>
 <li>如果不是本节点负责，则返回moved错误，指引客户端转向到新的节点
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114721112_116402118.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114721112_116402118.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 <h3 id="计算键属于哪个槽">计算键属于哪个槽</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114817495_12794809.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114817495_12794809.png" alt="" />
+</figure>
+
+
+</p>
 <h3 id="判断槽是否由当前节点处理">判断槽是否由当前节点处理</h3>
 <ul>
 <li>如果clusterState.slots[i]等于myself的话，则是本节点负责</li>
@@ -261,15 +292,21 @@
 <li>但是节点只使用0号数据库</li>
 <li>节点还会维护一个slots_to_keys跳跃表来保存槽和键之间的关系</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> clusterState {
-    ziplist <span style="color:#f92672">*</span>slot_to_keys;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> clusterState {
+    ziplist <span style="color:#000;font-weight:bold">*</span>slot_to_keys;
 }
 </code></pre></div><pre><code>- slot_to_keys是一个跳跃表，表节点的分值对应一个槽号，而成员变量则指向数据库键
 - 每当新增键时，都会讲这个键和键的槽号关联到slot_to_keys
 - 通过slot_to_keys结构，可以很方便的对某个或者某些槽的所有键进行批量操作
     - 例如cluster getkeyinslot slot count命令，返回最多count个属于slot的键1
 </code></pre>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121120718879_293990163.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121120718879_293990163.png" alt="" />
+</figure>
+
+
+</p>
 <h2 id="重新分片">重新分片</h2>
 <ul>
 <li>集群中可以进行重新分片的操作，可以将任意数量的槽指派到另一个节点，所有关联的键值对会迁移到目标节点</li>
@@ -282,8 +319,8 @@
 <ul>
 <li>该命令会将slusterState中的importing_slots_from数组更新，importing_slots_from[i]的对应一个clusterNode</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> clusterState {
-    clusterNode <span style="color:#f92672">*</span>importing_slots_from[<span style="color:#ae81ff">16384</span>];
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> clusterState {
+    clusterNode <span style="color:#000;font-weight:bold">*</span>importing_slots_from[<span style="color:#099">16384</span>];
 } clusterState;
 </code></pre></div></li>
 <li>redis-trib对源节点发送cluster setslot <slot> migrating &lt;target_id&gt;，让源节点准备好将键值对迁移到目标节点
@@ -292,8 +329,8 @@
 </ul>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">    <span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> clusterState {
-        clusterNode <span style="color:#f92672">*</span>migrating_slots_to[<span style="color:#ae81ff">16384</span>];
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">    <span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> clusterState {
+        clusterNode <span style="color:#000;font-weight:bold">*</span>migrating_slots_to[<span style="color:#099">16384</span>];
     } clusterState;
 </code></pre></div><ul>
 <li>redis-trib向源节点发送cluster getkeysinslot slot count命令，获取最多count个属于slot的键值对的键名</li>
@@ -326,7 +363,13 @@
 <ul>
 <li>存在，则破例执行该命令</li>
 <li>不存在则返回moved
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121143034033_1880281441.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121143034033_1880281441.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 </li>
 </ul>
@@ -357,8 +400,8 @@
 </ul>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> clusterNode {
-    strutc clusterNode <span style="color:#f92672">*</span>slaveof;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> clusterNode {
+    strutc clusterNode <span style="color:#000;font-weight:bold">*</span>slaveof;
 } 
 </code></pre></div><pre><code>- 从节点也会更新clusterState.self.flags属性，变为redis_node_slave
 - 从节点对主节点进行复制操作，该操作和单机复制操作一样
@@ -374,15 +417,15 @@
 </ul>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> clusterNode{
-    <span style="color:#75715e">//一个链表，记录了所有其他节点对该节点的下线报告
-</span><span style="color:#75715e"></span>    list <span style="color:#f92672">*</span>fail_reports;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> clusterNode{
+    <span style="color:#998;font-style:italic">//一个链表，记录了所有其他节点对该节点的下线报告
+</span><span style="color:#998;font-style:italic"></span>    list <span style="color:#000;font-weight:bold">*</span>fail_reports;
 }
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> clusterNodeFailReport {
-    <span style="color:#75715e">//报告目标节点下线的节点
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> clusterNode <span style="color:#f92672">*</span>node;
-    <span style="color:#75715e">//最后一次被报告的时间
-</span><span style="color:#75715e"></span>    mstime_t time;
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> clusterNodeFailReport {
+    <span style="color:#998;font-style:italic">//报告目标节点下线的节点
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">struct</span> clusterNode <span style="color:#000;font-weight:bold">*</span>node;
+    <span style="color:#998;font-style:italic">//最后一次被报告的时间
+</span><span style="color:#998;font-style:italic"></span>    mstime_t time;
 }
 </code></pre></div><ul>
 <li>当半数以上负责槽处理的节点认为某个节点疑似下线了，那么该节点会被标记为已下线(fail)</li>
@@ -474,38 +517,83 @@
 <li>moved表示槽i的负责全转移到了另一个节点，ask只是两个节点在迁移过程中的历史措施</li>
 <li>集群中从节点用于复制，主节点下线时，代替主节点</li>
 <li>集群中的五种消息：meet，ping，pong，fail，publish
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121165539219_1794835342.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121165539219_1794835342.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

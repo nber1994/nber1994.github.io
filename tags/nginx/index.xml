@@ -5,7 +5,7 @@
     <link>http://nber1994.github.io/tags/nginx/</link>
     <description>Recent content in nginx on jingtianyou&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>zh-cn</language>
     <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>nginx-lnmp5xx原因</title>
@@ -26,11 +26,11 @@
  一、背景 在服务器开发过程中，难免需要重启服务加载新的代码或配置，如果能够保证server重启的过程中服务不间断，那重启对于业务的影响可以降为0。最近调研了一下nginx平滑重启，觉得很有意思，记录下来供有兴趣的同学查阅。
 二、重启流程   重启意味着新旧接替，在交接任务的过程中势必会存在新旧server并存的情形，因此，重启的流程大致为：
  启动新的server 新旧server并存，两者共同处理请求，提供服务 旧的server处理完所有的请求之后优雅退出    这里，最主要的问题在于如何保证新旧server可以并存，如果重启前后的server端口一致，如何保证两者可以监听同一端口。
-  三、nginx实现  为了验证nginx平滑重启，笔者首先尝试nginx启动的情形下再次开启一个新的server实例，结果如图：   很明显，重新开启server实例是行不通的，原因在于新旧server使用了同一个端口80，在未开始socket reuseport选项复用端口时，bind系统调用会出错。nginx默认bind重试5次，失败后直接退出。而nginx需要监听IPV4地址0.0.0.0和IPV6地址[::]，故图中打印出10条emerg日志。
+  三、nginx实现  为了验证nginx平滑重启，笔者首先尝试nginx启动的情形下再次开启一个新的server实例，结果如图：     很明显，重新开启server实例是行不通的，原因在于新旧server使用了同一个端口80，在未开始socket reuseport选项复用端口时，bind系统调用会出错。nginx默认bind重试5次，失败后直接退出。而nginx需要监听IPV4地址0.0.0.0和IPV6地址[::]，故图中打印出10条emerg日志。
 接下来就开始尝试平滑重启命令了，一共两条命令：  kill -USR2 `cat /var/run/nginx.pid` kill -QUIT `cat /var/run/nginx.pid.oldbin`  第一条命令是发送信号USR2给旧的master进程，进程的pid存放在/var/run/nginx.pid文件中，其中nginx.pid文件路径由nginx.conf配置。 第二条命令是发送信号QUIT给旧的master进程，进程的pid存放在/var/run/nginx.pid.oldbin文件中，随后旧的master进程退出。  那么问题来了，为什么旧的master进程的pid存在于两个pid文件之中？事实上，在发送信号USR2给旧的master进程之后，旧的master进程将pid重命名，原先的nginx.pid文件rename成nginx.pid.oldbin。这样新的master进行就可以使用nginx.pid这个文件名了。
-先执行第一条命令，结果如图： 不错，新旧master和worker进程并存了。 再来第二条命令，结果如图: 如你所见，旧的master进程8527和其worker进程全部退出，只剩下新的master进程12740。
-不由得产生困惑，为什么手动开启一个新的实例行不通，使用信号重启就可以达到。先看下nginx log文件： 除了之前的错误日志，还多了一条notice，意思就是继承了sockets，fd值为6，7。 随着日志翻看nginx源码，定位到nginx.c/ngx_exec_new_binary函数之中，
-ngx_pid_t ngx_exec_new_binary(ngx_cycle_t *cycle, char *const *argv) { ... ctx.path = argv[0]; ctx.name = &amp;#34;new binary process&amp;#34;; ctx.argv = argv; n = 2; env = ngx_set_environment(cycle, &amp;amp;n); .</description>
+先执行第一条命令，结果如图：   不错，新旧master和worker进程并存了。 再来第二条命令，结果如图:   如你所见，旧的master进程8527和其worker进程全部退出，只剩下新的master进程12740。
+不由得产生困惑，为什么手动开启一个新的实例行不通，使用信号重启就可以达到。先看下nginx log文件：   除了之前的错误日志，还多了一条notice，意思就是继承了sockets，fd值为6，7。 随着日志翻看nginx源码，定位到nginx.c/ngx_exec_new_binary函数之中，
+ngx_pid_t ngx_exec_new_binary(ngx_cycle_t *cycle, char *const *argv) { ... ctx.path = argv[0]; ctx.name = &amp;#34;new binary process&amp;#34;; ctx.</description>
     </item>
     
     <item>

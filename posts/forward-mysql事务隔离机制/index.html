@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>转 Innodb中的事务隔离级别和锁的关系</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>转 Innodb中的事务隔离级别和锁的关系</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>转 Innodb中的事务隔离级别和锁的关系</h1>
-    <div class="blog-post-subheader">
-        August 15, 2018
-    </div>
-    <div class="blog-post-content">
-        <blockquote>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>转 Innodb中的事务隔离级别和锁的关系</h1>
+			<b><time>2018-08-15</time></b>
+		       
+		           <a href="/tags/mysql">mysql</a>
+        	       
+
+			<div>
+				<blockquote>
 <p><a href="https://tech.meituan.com/innodb_lock.html">转自美团技术博客</a></p>
 </blockquote>
 <blockquote>
@@ -204,27 +211,27 @@
 <p>行锁则是锁住数据行，这种加锁方法比较复杂，但是由于只锁住有限的数据，对于其它数据不加限制，所以并发能力强，MySQL一般都是用行锁来处理并发事务。这里主要讨论的也就是行锁。</p>
 <h3 id="read-committed读取提交内容">Read Committed（读取提交内容）</h3>
 <p>在RC级别中，数据的读取都是不加锁的，但是数据的写入、修改和删除是需要加锁的。效果如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MySQL&gt; show create table class_teacher <span style="color:#ae81ff">\G\
-</span><span style="color:#ae81ff"></span>Table: class_teacher
-Create Table: CREATE TABLE <span style="color:#e6db74">`</span>class_teacher<span style="color:#e6db74">`</span> <span style="color:#f92672">(</span>
-  <span style="color:#e6db74">`</span>id<span style="color:#e6db74">`</span> int<span style="color:#f92672">(</span>11<span style="color:#f92672">)</span> NOT NULL AUTO_INCREMENT,
-  <span style="color:#e6db74">`</span>class_name<span style="color:#e6db74">`</span> varchar<span style="color:#f92672">(</span>100<span style="color:#f92672">)</span> COLLATE utf8mb4_unicode_ci NOT NULL,
-  <span style="color:#e6db74">`</span>teacher_id<span style="color:#e6db74">`</span> int<span style="color:#f92672">(</span>11<span style="color:#f92672">)</span> NOT NULL,
-  PRIMARY KEY <span style="color:#f92672">(</span><span style="color:#e6db74">`</span>id<span style="color:#e6db74">`</span><span style="color:#f92672">)</span>,
-  KEY <span style="color:#e6db74">`</span>idx_teacher_id<span style="color:#e6db74">`</span> <span style="color:#f92672">(</span><span style="color:#e6db74">`</span>teacher_id<span style="color:#e6db74">`</span><span style="color:#f92672">)</span>
-<span style="color:#f92672">)</span> ENGINE<span style="color:#f92672">=</span>InnoDB AUTO_INCREMENT<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span> DEFAULT CHARSET<span style="color:#f92672">=</span>utf8mb4 COLLATE<span style="color:#f92672">=</span>utf8mb4_unicode_ci
-<span style="color:#ae81ff">1</span> row in set <span style="color:#f92672">(</span>0.02 sec<span style="color:#f92672">)</span>
-MySQL&gt; <span style="color:#66d9ef">select</span> * from class_teacher;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MySQL&gt; show create table class_teacher <span style="color:#d14">\G\
+</span><span style="color:#d14"></span>Table: class_teacher
+Create Table: CREATE TABLE <span style="color:#d14">`</span>class_teacher<span style="color:#d14">`</span> <span style="color:#000;font-weight:bold">(</span>
+  <span style="color:#d14">`</span>id<span style="color:#d14">`</span> int<span style="color:#000;font-weight:bold">(</span>11<span style="color:#000;font-weight:bold">)</span> NOT NULL AUTO_INCREMENT,
+  <span style="color:#d14">`</span>class_name<span style="color:#d14">`</span> varchar<span style="color:#000;font-weight:bold">(</span>100<span style="color:#000;font-weight:bold">)</span> COLLATE utf8mb4_unicode_ci NOT NULL,
+  <span style="color:#d14">`</span>teacher_id<span style="color:#d14">`</span> int<span style="color:#000;font-weight:bold">(</span>11<span style="color:#000;font-weight:bold">)</span> NOT NULL,
+  PRIMARY KEY <span style="color:#000;font-weight:bold">(</span><span style="color:#d14">`</span>id<span style="color:#d14">`</span><span style="color:#000;font-weight:bold">)</span>,
+  KEY <span style="color:#d14">`</span>idx_teacher_id<span style="color:#d14">`</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#d14">`</span>teacher_id<span style="color:#d14">`</span><span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">)</span> <span style="color:#008080">ENGINE</span><span style="color:#000;font-weight:bold">=</span>InnoDB <span style="color:#008080">AUTO_INCREMENT</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">5</span> DEFAULT <span style="color:#008080">CHARSET</span><span style="color:#000;font-weight:bold">=</span>utf8mb4 <span style="color:#008080">COLLATE</span><span style="color:#000;font-weight:bold">=</span>utf8mb4_unicode_ci
+<span style="color:#099">1</span> row in <span style="color:#0086b3">set</span> <span style="color:#000;font-weight:bold">(</span>0.02 sec<span style="color:#000;font-weight:bold">)</span>
+MySQL&gt; <span style="color:#000;font-weight:bold">select</span> * from class_teacher;
 +----+--------------+------------+
 | id | class_name   | teacher_id |
 +----+--------------+------------+
-|  <span style="color:#ae81ff">1</span> | 初三一班     |          <span style="color:#ae81ff">1</span> |
-|  <span style="color:#ae81ff">3</span> | 初二一班     |          <span style="color:#ae81ff">2</span> |
-|  <span style="color:#ae81ff">4</span> | 初二二班     |          <span style="color:#ae81ff">2</span> |
+|  <span style="color:#099">1</span> | 初三一班     |          <span style="color:#099">1</span> |
+|  <span style="color:#099">3</span> | 初二一班     |          <span style="color:#099">2</span> |
+|  <span style="color:#099">4</span> | 初二二班     |          <span style="color:#099">2</span> |
 +----+--------------+------------+
 </code></pre></div><p>由于MySQL的InnoDB默认是使用的RR级别，所以我们先要将该session开启成RC级别，并且设置binlog的模式</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">SET session transaction isolation level read committed;
-SET SESSION binlog_format <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ROW&#39;</span>;（或者是MIXED）
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">SET session transaction isolation level <span style="color:#0086b3">read</span> committed;
+SET SESSION <span style="color:#008080">binlog_format</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;ROW&#39;</span>;（或者是MIXED）
 </code></pre></div><table>
 <thead>
 <tr>
@@ -261,9 +268,21 @@ SET SESSION binlog_format <span style="color:#f92672">=</span> <span style="colo
 <h4 id="读">读</h4>
 <p>读就是可重读，可重读这个概念是一事务的多个实例在并发读取数据时，会看到同样的数据行，有点抽象，我们来看一下效果。</p>
 <p>RC（不可重读）模式下的展现</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql1.png" alt="1"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql1.png" alt="1" />
+</figure>
+
+
+</p>
 <p>事务B修改id=1的数据提交之后，事务A同样的查询，后一次和前一次的结果不一样，这就是不可重读（重新读取产生的结果不一样）。这就很可能带来一些问题，那么我们来看看在RR级别中MySQL的表现：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql2.png" alt="1"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql2.png" alt="1" />
+</figure>
+
+
+</p>
 <p>我们注意到，当teacher_id=1时，事务A先做了一次读取，事务B中间修改了id=1的数据，并commit之后，事务A第二次读到的数据和第一次完全相同。所以说它是可重读的。那么MySQL是怎么做到的呢？这里姑且卖个关子，我们往下看。</p>
 <h4 id="不可重复读和幻读的区别">不可重复读和幻读的区别</h4>
 <p>很多人容易搞混不可重复读和幻读，确实这两者有些相似。但不可重复读重点在于update和delete，而幻读的重点在于insert。</p>
@@ -293,7 +312,13 @@ SET SESSION binlog_format <span style="color:#f92672">=</span> <span style="colo
 </ul>
 <p>通过MVCC，虽然每行记录都需要额外的存储空间，更多的行检查工作以及一些额外的维护工作，但可以减少锁的使用，大多数读操作都不用加锁，读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行，也只锁住必要行。</p>
 <p>我们不管从数据库方面的教课书中学到，还是从网络上看到，大都是上文中事务的四种隔离级别这一模块列出的意思，RR级别是可重复读的，但无法解决幻读，而只有在Serializable级别才能解决幻读。于是我就加了一个事务C来展示效果。在事务C中添加了一条teacher_id=1的数据commit，RR级别中应该会有幻读现象，事务A在查询teacher_id=1的数据时会读到事务C新加的数据。但是测试后发现，在MySQL中是不存在这种情况的，在事务C提交后，事务A还是不会读到这条数据。可见在MySQL的RR级别中，是解决了幻读的读问题的。参见下图</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql3.png" alt="3"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql3.png" alt="3" />
+</figure>
+
+
+</p>
 <p>读问题解决了，根据MVCC的定义，并发提交数据时会出现冲突，那么冲突时如何解决呢？我们再来看看InnoDB中RR级别对于写数据的处理。</p>
 <h4 id="读与读的区别">“读”与“读”的区别</h4>
 <p>可能有读者会疑惑，事务的隔离级别其实都是对于读数据的定义，但°了这里，就被拆成了读和写两个模块来讲解。这主要是因为MySQL中的读，和事务隔离级别中的读，是不一样的。</p>
@@ -323,14 +348,32 @@ SET SESSION binlog_format <span style="color:#f92672">=</span> <span style="colo
 <p>Next-Key锁是行锁和GAP（间隙锁）的合并，行锁上文已经介绍了，接下来说下GAP间隙锁。</p>
 <p>行锁可以防止不同事务版本的数据修改提交时造成数据冲突的情况。但如何避免别的事务插入数据就成了问题。我们可以看看RR级别和RC级别的对比</p>
 <p>RC级别：
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql4.png" alt="vi"></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql4.png" alt="vi" />
+</figure>
+
+
+</p>
 <p>RR级别：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql5.png" alt="vi"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql5.png" alt="vi" />
+</figure>
+
+
+</p>
 <p>通过对比我们可以发现，在RC级别中，事务A修改了所有teacher_id=30的数据，但是当事务Binsert进新数据后，事务A发现莫名其妙多了一行teacher_id=30的数据，而且没有被之前的update语句所修改，这就是“当前读”的幻读。</p>
 <p>RR级别中，事务A在update后加锁，事务B无法插入新数据，这样事务A在update前后读的数据保持一致，避免了幻读。这个锁，就是Gap锁。</p>
 <p>MySQL是这么实现的：</p>
 <p>在class_teacher这张表中，teacher_id是个索引，那么它就会维护一套B+树的数据关系，为了简化，我们用链表结构来表达（实际上是个树形结构，但原理相同）</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql6.png" alt="vi"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql6.png" alt="vi" />
+</figure>
+
+
+</p>
 <p>如图所示，InnoDB使用的是聚集索引，teacher_id身为二级索引，就要维护一个索引字段和主键id的树状结构（这里用链表形式表现），并保持顺序排列。</p>
 <p>Innodb将这段数据分成几个个区间</p>
 <ul>
@@ -340,7 +383,13 @@ SET SESSION binlog_format <span style="color:#f92672">=</span> <span style="colo
 </ul>
 <p>update class_teacher set class_name=&lsquo;初三四班&rsquo; where teacher_id=30;不仅用行锁，锁住了相应的数据行；同时也在两边的区间，（5,30]和（30，positive infinity），都加入了gap锁。这样事务B就无法在这个两个区间insert进新数据。</p>
 <p>受限于这种实现方式，Innodb很多时候会锁住不需要锁的区间。如下所示：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql7.png" alt="vi"></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/mysql7.png" alt="vi" />
+</figure>
+
+
+</p>
 <p>update的teacher_id=20是在(5，30]区间，即使没有修改任何数据，Innodb也会在这个区间加gap锁，而其它区间不会影响，事务C正常插入。</p>
 <p>如果使用的是没有索引的字段，比如update class_teacher set teacher_id=7 where class_name=&lsquo;初三八班（即使没有匹配到任何数据）',那么会给全表加入gap锁。同时，它不能像上文中行锁一样经过MySQL Server过滤自动解除不满足条件的锁，因为没有索引，则这些字段也就没有排序，也就没有区间。除非该事务提交，否则其它事务无法插入任何数据。</p>
 <p>行锁防止别的事务修改或删除，GAP锁防止别的事务新增，行锁和GAP锁结合形成的的Next-Key锁共同解决了RR级别在写数据时的幻读问题。</p>
@@ -351,35 +400,74 @@ SET SESSION binlog_format <span style="color:#f92672">=</span> <span style="colo
 MySQL参考手册
 《高性能MySQL》第三版</p>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>go-实现一个简单的DSL解释器</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,108 +24,106 @@
         <title>go-实现一个简单的DSL解释器</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>go-实现一个简单的DSL解释器</h1>
-    <div class="blog-post-subheader">
-        July 2, 2020
-    </div>
-    <div class="blog-post-content">
-        <h1 id="go-实现一个简单的dsl">go-实现一个简单的DSL</h1>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>go-实现一个简单的DSL解释器</h1>
+			<b><time>2020-07-02</time></b>
+		       
+		           <a href="/tags/go">go</a>
+        	       
+
+			<div>
+				<h1 id="go-实现一个简单的dsl">go-实现一个简单的DSL</h1>
 <h1 id="什么是dsl">什么是DSL</h1>
 <p>DSL 是 Domain Specific Language 的缩写，中文翻译为领域特定语言（下简称 DSL）；而与 DSL 相对的就是 GPL，这里的 GPL 并不是我们知道的开源许可证，而是 General Purpose Language 的简称，即通用编程语言，也就是我们非常熟悉的 Objective-C、Java、Python 以及 C 语言等等。</p>
 <p>简单说，就是为了解决某一类任务而专门设计的计算机语言。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200702232708668_761509773.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200702232708668_761509773.png" alt="" />
+</figure>
+
+
+</p>
 <ul>
 <li>Regex</li>
 <li>SQL</li>
@@ -153,7 +166,13 @@
 <li>转换 接受解析产生的抽象形式并且操纵这些抽象形式做任何编译器想让它们做的事。</li>
 <li>代码生成 基于转换后的代码表现形式（code representation）生成目标代码。</li>
 </ul>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200702235740827_1839702338.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200702235740827_1839702338.png" alt="" />
+</figure>
+
+
+</p>
 <h2 id="解析">解析</h2>
 <ul>
 <li>词法分析 —— tokenizer     通过一个叫做tokenizer（词素生成器，也叫lexer）的工具将源代码分解成一个个词素。（词素是描述编程语言语法的对象。它可以描述数字，标识符，标点符号，运算符等等。）</li>
@@ -172,7 +191,7 @@
 <h2 id="解析源代码生成ast">解析源代码生成AST</h2>
 <p>那么想要实现一个脚本解释器的话，就需要实现上面的三个步骤，而且我们发现，承上启下的是AST（抽象语法树），它在解释器中十分重要</p>
 <p>好在万能的golang将parse api暴露给用户了，可以让我们省去一大部分工作去做语法解析得到AST，示例代码如下：</p>
-<pre><code>package main
+<pre tabindex="0"><code>package main
 
 import (
 	&quot;fmt&quot;
@@ -193,7 +212,7 @@ func main() {
 	ast.Print(fset, exprAst)
 }
 </code></pre><p>得到的结果：</p>
-<pre><code>     0  *ast.BinaryExpr {
+<pre tabindex="0"><code>     0  *ast.BinaryExpr {
      1  .  X: *ast.BinaryExpr {
      2  .  .  X: *ast.Ident {
      3  .  .  .  NamePos: -
@@ -233,14 +252,20 @@ func main() {
 <h2 id="解析ast">解析AST</h2>
 <h3 id="ast的结构分析">AST的结构分析</h3>
 <p>那么AST是什么结构呢，他大致可以分为如下结构</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200702235816186_407645260.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200702235816186_407645260.png" alt="" />
+</figure>
+
+
+</p>
 <h3 id="1astdecl">1.ast.Decl</h3>
 <p>All declaration nodes implement the Decl interface.</p>
-<pre><code>var a int //GenDecl
+<pre tabindex="0"><code>var a int //GenDecl
 func main()  //FuncDecl
 </code></pre><h3 id="2aststmt">2.ast.Stmt</h3>
 <p>All statement nodes implement the Stmt interface.</p>
-<pre><code>a := 1 //AssignStmt
+<pre tabindex="0"><code>a := 1 //AssignStmt
 b := map[string]string{&quot;name&quot;:&quot;nber1994&quot;, &quot;age&quot;:&quot;eghiteen&quot;}
 
 if a &gt; 2 { //IfStmt
@@ -257,7 +282,7 @@ for k, v := range b { //RangeStmt
 return a //ReturnStmt
 </code></pre><h3 id="3astexpr">3.ast.Expr</h3>
 <p>All expression nodes implement the Expr interface.</p>
-<pre><code>a := 1 //BasicLit
+<pre tabindex="0"><code>a := 1 //BasicLit
 b := &quot;string&quot;
 a = a + 1 //BinaryExpr
 b := map[string]string{} //CompositLitExpr
@@ -266,9 +291,15 @@ d := b[&quot;name&quot;] //IndexExpr
 </code></pre><h2 id="主要思路">主要思路</h2>
 <p>通过分析AST结构我们知道，一个ast.Decl是由多个ast.Stmt，并且一个ast.Stmt是由多个ast.Expr组成的，简单来说就是一个树形结构，那么这么一来就好办了，代码大框架一定是递归。</p>
 <p>我们自底向上，分别实现对各种类型的ast.Expr，ast.Stmt, ast.Decl的解释执行方法，并把解释结果向上传递。然后通过一个根节点切入，递归方式从上向下解释执行即可</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200702235906903_821050890.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200702235906903_821050890.png" alt="" />
+</figure>
+
+
+</p>
 <p>主要代码：</p>
-<pre><code>//编译Expr
+<pre tabindex="0"><code>//编译Expr
 func (this *Expr) CompileExpr(dct *dslCxt.DslCxt, rct *Stmt, r ast.Expr) interface{} {
     var ret interface{}
     if nil == r {
@@ -331,7 +362,7 @@ func (this *Stmt) CompileStmt(cpt *CompileCxt, stmt ast.Stmt) {
 </code></pre><h2 id="实现runtime-context">实现runtime context</h2>
 <p>代码的整体结构有了，那么对于DSL中声明的变量存储，以及局部变量的作用域怎么解决呢</p>
 <p>首先，从虚拟内存的结构我们得到启发，可以使用hash表的结构来模拟最基本的内存空间以及存取操作，得益于golang的interface{}，我们可以把不同数据类型的数据存入一个map[string]interface{}中得到一个范类型的数组，这样我们就构建出了一个简单的runtime memory的雏形。</p>
-<pre><code>type RunCxt struct {
+<pre tabindex="0"><code>type RunCxt struct {
     Vars map[string]interface{}
     Name string
 }
@@ -366,7 +397,7 @@ func (this *RunCxt) ToString() string {
     return string(jsonStu)
 }
 </code></pre><p>那么，如何实现局部变量的作用域呢？</p>
-<pre><code>package main
+<pre tabindex="0"><code>package main
 
 func main() {
     a := 2
@@ -385,9 +416,15 @@ func main() {
 通过这一机制，我们可以得到的效果是：</p>
 <p>同一个BlockStmt下的多个Stmt（IfStmt，ForStmt等）处理节点之间的runtime context是互相隔离的
 每个子节点，都能访问到父节点中定义的变量</p>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200703000004061_50633564.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200703000004061_50633564.png" alt="" />
+</figure>
+
+
+</p>
 <p>代码实现：</p>
-<pre><code>type Stmt struct{
+<pre tabindex="0"><code>type Stmt struct{
     Rct *runCxt.RunCxt //变量作用空间
     Type int
     Father *Stmt //子节点可以访问到父节点的内存空间
@@ -436,7 +473,7 @@ func (this *Stmt) CompileStmt(cpt *CompileCxt, stmt ast.Stmt) {
 }
 </code></pre><h2 id="变量类型与内部变量类型">变量类型与内部变量类型</h2>
 <p>首先，嵌入式的是golang系统，为了和外部系统保持一个很好地数据类型交互以及数据的准确性，DSL最好也是强类型语言。但是为了简单，我们会删减一些数据类型，保留最基本且最稳定的数据类型</p>
-<pre><code>func (this *Expr) CompileBasicLitExpr(cpt *CompileCxt, rct *Stmt, r *ast.BasicLit) interface{} {
+<pre tabindex="0"><code>func (this *Expr) CompileBasicLitExpr(cpt *CompileCxt, rct *Stmt, r *ast.BasicLit) interface{} {
     var ret interface{}
     switch r.Kind {
     case token.INT:
@@ -528,7 +565,7 @@ func (this *Expr) CompileArrayExpr(cpt *CompileCxt, rct *Stmt, r *ast.CompositeL
 <p>通过JsonMap与外部系统进行交互，且提供Get(path) Set(path)方法，去动态的访问与修改Json context中的节点</p>
 <p>但是外部交互Json又是多种结构类型的，借助于nodejson可以解析动态json结构，通过XX.X格式的路径，来动态的访问和修改json中的字段</p>
 <p>解析CallExpr，通过reflect来调用内部函数</p>
-<pre><code>func (this *Expr) CompileCallExpr(dct *dslCxt.DslCxt, rct *Stmt, r *ast.CallExpr) interface{} {
+<pre tabindex="0"><code>func (this *Expr) CompileCallExpr(dct *dslCxt.DslCxt, rct *Stmt, r *ast.CallExpr) interface{} {
     var ret interface{}
     //校验内置函数
     var funcArgs []reflect.Value
@@ -552,35 +589,74 @@ func (this *Expr) CompileArrayExpr(cpt *CompileCxt, rct *Stmt, r *ast.CompositeL
 </code></pre><h1 id="成果">成果</h1>
 <p><a href="https://github.com/nber1994/akiDsl">https://github.com/nber1994/akiDsl</a></p>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

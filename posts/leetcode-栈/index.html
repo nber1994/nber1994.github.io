@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>leetcode-栈</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,587 +24,618 @@
         <title>leetcode-栈</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>leetcode-栈</h1>
-    <div class="blog-post-subheader">
-        August 9, 2019
-    </div>
-    <div class="blog-post-content">
-        <h1 id="leetcode-栈">leetcode-栈</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
 
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-        <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">TreeNode</span>{<span style="color:#ae81ff">7</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>}
-        <span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">TreeNode</span>{<span style="color:#ae81ff">3</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>}
-        <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">TreeNode</span>{<span style="color:#ae81ff">15</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>}
-        <span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">TreeNode</span>{<span style="color:#ae81ff">9</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>}
-        <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">TreeNode</span>{<span style="color:#ae81ff">20</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>}
-        <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">Left</span> = <span style="color:#a6e22e">b</span>
-        <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">Right</span> = <span style="color:#a6e22e">c</span>
-        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Left</span> = <span style="color:#a6e22e">d</span>
-        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Right</span> = <span style="color:#a6e22e">e</span>
-        <span style="color:#a6e22e">obj</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Constructor</span>(<span style="color:#a6e22e">a</span>)
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">HasNext</span>() {
-                <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">Next</span>())
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>leetcode-栈</h1>
+			<b><time>2019-08-09</time></b>
+		       
+		           <a href="/tags/leetcode">leetcode</a>
+        	       
+
+			<div>
+				<h1 id="leetcode-栈">leetcode-栈</h1>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">package</span> main
+
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#d14">&#34;fmt&#34;</span>
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">main</span>() {
+        a <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>TreeNode{<span style="color:#099">7</span>, <span style="color:#000;font-weight:bold">nil</span>, <span style="color:#000;font-weight:bold">nil</span>}
+        b <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>TreeNode{<span style="color:#099">3</span>, <span style="color:#000;font-weight:bold">nil</span>, <span style="color:#000;font-weight:bold">nil</span>}
+        c <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>TreeNode{<span style="color:#099">15</span>, <span style="color:#000;font-weight:bold">nil</span>, <span style="color:#000;font-weight:bold">nil</span>}
+        d <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>TreeNode{<span style="color:#099">9</span>, <span style="color:#000;font-weight:bold">nil</span>, <span style="color:#000;font-weight:bold">nil</span>}
+        e <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>TreeNode{<span style="color:#099">20</span>, <span style="color:#000;font-weight:bold">nil</span>, <span style="color:#000;font-weight:bold">nil</span>}
+        a.Left = b
+        a.Right = c
+        c.Left = d
+        c.Right = e
+        obj <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">Constructor</span>(a)
+        <span style="color:#000;font-weight:bold">for</span> obj.<span style="color:#900;font-weight:bold">HasNext</span>() {
+                fmt.<span style="color:#900;font-weight:bold">Println</span>(obj.<span style="color:#900;font-weight:bold">Next</span>())
         }
 }
 
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">TreeNode</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">Val</span>   <span style="color:#66d9ef">int</span>
-        <span style="color:#a6e22e">Left</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">TreeNode</span>
-        <span style="color:#a6e22e">Right</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TreeNode</span>
+<span style="color:#000;font-weight:bold">type</span> TreeNode <span style="color:#000;font-weight:bold">struct</span> {
+        Val   <span style="color:#458;font-weight:bold">int</span>
+        Left  <span style="color:#000;font-weight:bold">*</span>TreeNode
+        Right <span style="color:#000;font-weight:bold">*</span>TreeNode
 }
 
-<span style="color:#75715e">//实现一个二叉搜索树迭代器。你将使用二叉搜索树的根节点初始化迭代器。
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//调用 next() 将返回二叉搜索树中的下一个最小的数。
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//BSTIterator iterator = new BSTIterator(root);
-</span><span style="color:#75715e">//iterator.next();    // 返回 3
-</span><span style="color:#75715e">//iterator.next();    // 返回 7
-</span><span style="color:#75715e">//iterator.hasNext(); // 返回 true
-</span><span style="color:#75715e">//iterator.next();    // 返回 9
-</span><span style="color:#75715e">//iterator.hasNext(); // 返回 true
-</span><span style="color:#75715e">//iterator.next();    // 返回 15
-</span><span style="color:#75715e">//iterator.hasNext(); // 返回 true
-</span><span style="color:#75715e">//iterator.next();    // 返回 20
-</span><span style="color:#75715e">//iterator.hasNext(); // 返回 false
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//提示：
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//next() 和 hasNext() 操作的时间复杂度是 O(1)，并使用 O(h) 内存，其中 h 是树的高度。
-</span><span style="color:#75715e">//你可以假设 next() 调用总是有效的，也就是说，当调用 next() 时，BST 中至少存在一个下一个最小的数。
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">/**
-</span><span style="color:#75715e"> * Definition for a binary tree node.
-</span><span style="color:#75715e"> * type TreeNode struct {
-</span><span style="color:#75715e"> *     Val int
-</span><span style="color:#75715e"> *     Left *TreeNode
-</span><span style="color:#75715e"> *     Right *TreeNode
-</span><span style="color:#75715e"> * }
-</span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">BSTIterator</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">stack</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">TreeNode</span>
-        <span style="color:#a6e22e">size</span>  <span style="color:#66d9ef">int</span>
+<span style="color:#998;font-style:italic">//实现一个二叉搜索树迭代器。你将使用二叉搜索树的根节点初始化迭代器。
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//调用 next() 将返回二叉搜索树中的下一个最小的数。
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//BSTIterator iterator = new BSTIterator(root);
+</span><span style="color:#998;font-style:italic">//iterator.next();    // 返回 3
+</span><span style="color:#998;font-style:italic">//iterator.next();    // 返回 7
+</span><span style="color:#998;font-style:italic">//iterator.hasNext(); // 返回 true
+</span><span style="color:#998;font-style:italic">//iterator.next();    // 返回 9
+</span><span style="color:#998;font-style:italic">//iterator.hasNext(); // 返回 true
+</span><span style="color:#998;font-style:italic">//iterator.next();    // 返回 15
+</span><span style="color:#998;font-style:italic">//iterator.hasNext(); // 返回 true
+</span><span style="color:#998;font-style:italic">//iterator.next();    // 返回 20
+</span><span style="color:#998;font-style:italic">//iterator.hasNext(); // 返回 false
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//提示：
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//next() 和 hasNext() 操作的时间复杂度是 O(1)，并使用 O(h) 内存，其中 h 是树的高度。
+</span><span style="color:#998;font-style:italic">//你可以假设 next() 调用总是有效的，也就是说，当调用 next() 时，BST 中至少存在一个下一个最小的数。
+</span><span style="color:#998;font-style:italic"></span>
+<span style="color:#998;font-style:italic">/**
+</span><span style="color:#998;font-style:italic"> * Definition for a binary tree node.
+</span><span style="color:#998;font-style:italic"> * type TreeNode struct {
+</span><span style="color:#998;font-style:italic"> *     Val int
+</span><span style="color:#998;font-style:italic"> *     Left *TreeNode
+</span><span style="color:#998;font-style:italic"> *     Right *TreeNode
+</span><span style="color:#998;font-style:italic"> * }
+</span><span style="color:#998;font-style:italic"> */</span>
+<span style="color:#000;font-weight:bold">type</span> BSTIterator <span style="color:#000;font-weight:bold">struct</span> {
+        stack []<span style="color:#000;font-weight:bold">*</span>TreeNode
+        size  <span style="color:#458;font-weight:bold">int</span>
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BSTIterator</span>) <span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">v</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TreeNode</span>) {
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span>, <span style="color:#a6e22e">v</span>)
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">++</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>BSTIterator) <span style="color:#900;font-weight:bold">Push</span>(v <span style="color:#000;font-weight:bold">*</span>TreeNode) {
+        this.stack = <span style="color:#0086b3">append</span>(this.stack, v)
+        this.size<span style="color:#000;font-weight:bold">++</span>
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BSTIterator</span>) <span style="color:#a6e22e">Pop</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">TreeNode</span> {
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
-                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>BSTIterator) <span style="color:#900;font-weight:bold">Pop</span>() <span style="color:#000;font-weight:bold">*</span>TreeNode {
+        <span style="color:#000;font-weight:bold">if</span> this.size <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
+                <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
         }
-        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span>[:<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">--</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+        res <span style="color:#000;font-weight:bold">:=</span> this.stack[this.size<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]
+        this.stack = this.stack[:this.size<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]
+        this.size<span style="color:#000;font-weight:bold">--</span>
+        <span style="color:#000;font-weight:bold">return</span> res
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Constructor</span>(<span style="color:#a6e22e">root</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TreeNode</span>) <span style="color:#a6e22e">BSTIterator</span> {
-        <span style="color:#a6e22e">myBSTIterator</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">BSTIterator</span>)
-        <span style="color:#a6e22e">myBSTIterator</span>.<span style="color:#a6e22e">stack</span> = []<span style="color:#f92672">*</span><span style="color:#a6e22e">TreeNode</span>{}
-        <span style="color:#a6e22e">myBSTIterator</span>.<span style="color:#a6e22e">size</span> = <span style="color:#ae81ff">0</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-                <span style="color:#a6e22e">myBSTIterator</span>.<span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">root</span>)
-                <span style="color:#a6e22e">root</span> = <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">Left</span>
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Constructor</span>(root <span style="color:#000;font-weight:bold">*</span>TreeNode) BSTIterator {
+        myBSTIterator <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">new</span>(BSTIterator)
+        myBSTIterator.stack = []<span style="color:#000;font-weight:bold">*</span>TreeNode{}
+        myBSTIterator.size = <span style="color:#099">0</span>
+        <span style="color:#000;font-weight:bold">for</span> root <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+                myBSTIterator.<span style="color:#900;font-weight:bold">Push</span>(root)
+                root = root.Left
         }
-        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">myBSTIterator</span>
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">*</span>myBSTIterator
 }
 
-<span style="color:#75715e">/** @return the next smallest number */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BSTIterator</span>) <span style="color:#a6e22e">Next</span>() <span style="color:#66d9ef">int</span> {
-        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Pop</span>()
-        <span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">Right</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">item</span>)
-                <span style="color:#a6e22e">item</span> = <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">Left</span>
+<span style="color:#998;font-style:italic">/** @return the next smallest number */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>BSTIterator) <span style="color:#900;font-weight:bold">Next</span>() <span style="color:#458;font-weight:bold">int</span> {
+        res <span style="color:#000;font-weight:bold">:=</span> this.<span style="color:#900;font-weight:bold">Pop</span>()
+        item <span style="color:#000;font-weight:bold">:=</span> res.Right
+        <span style="color:#000;font-weight:bold">for</span> item <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+                this.<span style="color:#900;font-weight:bold">Push</span>(item)
+                item = item.Left
         }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">Val</span>
+        <span style="color:#000;font-weight:bold">return</span> res.Val
 }
 
-<span style="color:#75715e">/** @return whether we have a next smallest number */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BSTIterator</span>) <span style="color:#a6e22e">HasNext</span>() <span style="color:#66d9ef">bool</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> &gt; <span style="color:#ae81ff">0</span>
+<span style="color:#998;font-style:italic">/** @return whether we have a next smallest number */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>BSTIterator) <span style="color:#900;font-weight:bold">HasNext</span>() <span style="color:#458;font-weight:bold">bool</span> {
+        <span style="color:#000;font-weight:bold">return</span> this.size &gt; <span style="color:#099">0</span>
 }
 
-<span style="color:#75715e">/**
-</span><span style="color:#75715e"> * Your BSTIterator object will be instantiated and called as such:
-</span><span style="color:#75715e"> * obj := Constructor(root);
-</span><span style="color:#75715e"> * param_1 := obj.Next();
-</span><span style="color:#75715e"> * param_2 := obj.HasNext();
-</span><span style="color:#75715e"> */</span>
+<span style="color:#998;font-style:italic">/**
+</span><span style="color:#998;font-style:italic"> * Your BSTIterator object will be instantiated and called as such:
+</span><span style="color:#998;font-style:italic"> * obj := Constructor(root);
+</span><span style="color:#998;font-style:italic"> * param_1 := obj.Next();
+</span><span style="color:#998;font-style:italic"> * param_2 := obj.HasNext();
+</span><span style="color:#998;font-style:italic"> */</span>
 
 
-<span style="color:#75715e">//括号的分数
-</span><span style="color:#75715e">//给定一个平衡括号字符串 S，按下述规则计算该字符串的分数：
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//() 得 1 分。
-</span><span style="color:#75715e">//AB 得 A + B 分，其中 A 和 B 是平衡括号字符串。
-</span><span style="color:#75715e">//(A) 得 2 * A 分，其中 A 是平衡括号字符串。
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//示例 1：
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//输入： &#34;()&#34;
-</span><span style="color:#75715e">//输出： 1
-</span><span style="color:#75715e">//示例 2：
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//输入： &#34;(())&#34;
-</span><span style="color:#75715e">//输出： 2
-</span><span style="color:#75715e">//示例 3：
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//输入： &#34;()()&#34;
-</span><span style="color:#75715e">//输出： 2
-</span><span style="color:#75715e">//示例 4：
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//输入： &#34;(()(()))&#34;
-</span><span style="color:#75715e">//输出： 6
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//提示：
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//S 是平衡括号字符串，且只含有 ( 和 ) 。
-</span><span style="color:#75715e">//2 &lt;= S.length &lt;= 50
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Stack</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">stack</span> []<span style="color:#66d9ef">int</span>
-        <span style="color:#a6e22e">size</span>  <span style="color:#66d9ef">int</span>
+<span style="color:#998;font-style:italic">//括号的分数
+</span><span style="color:#998;font-style:italic">//给定一个平衡括号字符串 S，按下述规则计算该字符串的分数：
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//() 得 1 分。
+</span><span style="color:#998;font-style:italic">//AB 得 A + B 分，其中 A 和 B 是平衡括号字符串。
+</span><span style="color:#998;font-style:italic">//(A) 得 2 * A 分，其中 A 是平衡括号字符串。
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//示例 1：
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//输入： &#34;()&#34;
+</span><span style="color:#998;font-style:italic">//输出： 1
+</span><span style="color:#998;font-style:italic">//示例 2：
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//输入： &#34;(())&#34;
+</span><span style="color:#998;font-style:italic">//输出： 2
+</span><span style="color:#998;font-style:italic">//示例 3：
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//输入： &#34;()()&#34;
+</span><span style="color:#998;font-style:italic">//输出： 2
+</span><span style="color:#998;font-style:italic">//示例 4：
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//输入： &#34;(()(()))&#34;
+</span><span style="color:#998;font-style:italic">//输出： 6
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//提示：
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//S 是平衡括号字符串，且只含有 ( 和 ) 。
+</span><span style="color:#998;font-style:italic">//2 &lt;= S.length &lt;= 50
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">type</span> Stack <span style="color:#000;font-weight:bold">struct</span> {
+        stack []<span style="color:#458;font-weight:bold">int</span>
+        size  <span style="color:#458;font-weight:bold">int</span>
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Stack</span>) <span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">v</span> <span style="color:#66d9ef">int</span>) {
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span>, <span style="color:#a6e22e">v</span>)
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">++</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>Stack) <span style="color:#900;font-weight:bold">push</span>(v <span style="color:#458;font-weight:bold">int</span>) {
+        this.stack = <span style="color:#0086b3">append</span>(this.stack, v)
+        this.size<span style="color:#000;font-weight:bold">++</span>
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Stack</span>) <span style="color:#a6e22e">pop</span>() <span style="color:#66d9ef">int</span> {
-        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">stack</span>[:<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">--</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>Stack) <span style="color:#900;font-weight:bold">pop</span>() <span style="color:#458;font-weight:bold">int</span> {
+        res <span style="color:#000;font-weight:bold">:=</span> this.stack[this.size<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]
+        this.stack = this.stack[:this.size<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]
+        this.size<span style="color:#000;font-weight:bold">--</span>
+        <span style="color:#000;font-weight:bold">return</span> res
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">scoreOfParentheses</span>(<span style="color:#a6e22e">S</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#a6e22e">st</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Stack</span>{[]<span style="color:#66d9ef">int</span>{}, <span style="color:#ae81ff">0</span>}
-        <span style="color:#a6e22e">sa</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">S</span>)
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">sa</span> {
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;(&#39;</span> {
-                        <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#39;(&#39;</span> <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>)
-                } <span style="color:#66d9ef">else</span> {
-                        <span style="color:#a6e22e">pre</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">pop</span>()
-                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">pre</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;(&#39;</span><span style="color:#f92672">-</span><span style="color:#e6db74">&#39;0&#39;</span> {
-                                <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">push</span>(<span style="color:#ae81ff">1</span>)
-                        } <span style="color:#66d9ef">else</span> {
-                                <span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}
-                                <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">next</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pre</span>; <span style="color:#a6e22e">next</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;(&#39;</span><span style="color:#f92672">-</span><span style="color:#e6db74">&#39;0&#39;</span>; <span style="color:#a6e22e">next</span> = <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">pop</span>() {
-                                        <span style="color:#a6e22e">tmp</span> = append(<span style="color:#a6e22e">tmp</span>, <span style="color:#a6e22e">next</span>)
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">scoreOfParentheses</span>(S <span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">int</span> {
+        st <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>Stack{[]<span style="color:#458;font-weight:bold">int</span>{}, <span style="color:#099">0</span>}
+        sa <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#0086b3">byte</span>(S)
+        <span style="color:#000;font-weight:bold">for</span> _, v <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> sa {
+                <span style="color:#000;font-weight:bold">if</span> v <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;(&#39;</span> {
+                        st.<span style="color:#900;font-weight:bold">push</span>(<span style="color:#d14">&#39;(&#39;</span> <span style="color:#000;font-weight:bold">-</span> <span style="color:#d14">&#39;0&#39;</span>)
+                } <span style="color:#000;font-weight:bold">else</span> {
+                        pre <span style="color:#000;font-weight:bold">:=</span> st.<span style="color:#900;font-weight:bold">pop</span>()
+                        <span style="color:#000;font-weight:bold">if</span> pre <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;(&#39;</span><span style="color:#000;font-weight:bold">-</span><span style="color:#d14">&#39;0&#39;</span> {
+                                st.<span style="color:#900;font-weight:bold">push</span>(<span style="color:#099">1</span>)
+                        } <span style="color:#000;font-weight:bold">else</span> {
+                                tmp <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#458;font-weight:bold">int</span>{}
+                                <span style="color:#000;font-weight:bold">for</span> next <span style="color:#000;font-weight:bold">:=</span> pre; next <span style="color:#000;font-weight:bold">!=</span> <span style="color:#d14">&#39;(&#39;</span><span style="color:#000;font-weight:bold">-</span><span style="color:#d14">&#39;0&#39;</span>; next = st.<span style="color:#900;font-weight:bold">pop</span>() {
+                                        tmp = <span style="color:#0086b3">append</span>(tmp, next)
                                 }
-                                <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">push</span>(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">arraySum</span>(<span style="color:#a6e22e">tmp</span>))
+                                st.<span style="color:#900;font-weight:bold">push</span>(<span style="color:#099">2</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#900;font-weight:bold">arraySum</span>(tmp))
                         }
                 }
         }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">arraySum</span>(<span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">stack</span>)
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">arraySum</span>(st.stack)
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">arraySum</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">nums</span> {
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> &gt; <span style="color:#ae81ff">0</span> {
-                        <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">v</span>
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">arraySum</span>(nums []<span style="color:#458;font-weight:bold">int</span>) <span style="color:#458;font-weight:bold">int</span> {
+        sum <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>
+        <span style="color:#000;font-weight:bold">for</span> _, v <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> nums {
+                <span style="color:#000;font-weight:bold">if</span> v &gt; <span style="color:#099">0</span> {
+                        sum <span style="color:#000;font-weight:bold">+=</span> v
                 }
         }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sum</span>
+        <span style="color:#000;font-weight:bold">return</span> sum
 }
 
-<span style="color:#75715e">//用队列实现栈
-</span><span style="color:#75715e">//使用队列实现栈的下列操作：
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//push(x) -- 元素 x 入栈
-</span><span style="color:#75715e">//pop() -- 移除栈顶元素
-</span><span style="color:#75715e">//top() -- 获取栈顶元素
-</span><span style="color:#75715e">//empty() -- 返回栈是否为空
-</span><span style="color:#75715e">//注意:
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//你只能使用队列的基本操作-- 也就是 push to back, peek/pop from front, size, 和 is empty 这些操作是合法的。
-</span><span style="color:#75715e">//你所使用的语言也许不支持队列。 你可以使用 list 或者 deque（双端队列）来模拟一个队列 , 只要是标准的队列操作即可。
-</span><span style="color:#75715e">//你可以假设所有操作都是有效的（例如, 对一个空的栈不会调用 pop 或者 top 操作）。
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyStack</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">quene1</span> []<span style="color:#66d9ef">int</span>
-        <span style="color:#a6e22e">quene2</span> []<span style="color:#66d9ef">int</span>
-        <span style="color:#a6e22e">size</span>   <span style="color:#66d9ef">int</span>
+<span style="color:#998;font-style:italic">//用队列实现栈
+</span><span style="color:#998;font-style:italic">//使用队列实现栈的下列操作：
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//push(x) -- 元素 x 入栈
+</span><span style="color:#998;font-style:italic">//pop() -- 移除栈顶元素
+</span><span style="color:#998;font-style:italic">//top() -- 获取栈顶元素
+</span><span style="color:#998;font-style:italic">//empty() -- 返回栈是否为空
+</span><span style="color:#998;font-style:italic">//注意:
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//你只能使用队列的基本操作-- 也就是 push to back, peek/pop from front, size, 和 is empty 这些操作是合法的。
+</span><span style="color:#998;font-style:italic">//你所使用的语言也许不支持队列。 你可以使用 list 或者 deque（双端队列）来模拟一个队列 , 只要是标准的队列操作即可。
+</span><span style="color:#998;font-style:italic">//你可以假设所有操作都是有效的（例如, 对一个空的栈不会调用 pop 或者 top 操作）。
+</span><span style="color:#998;font-style:italic"></span>
+<span style="color:#000;font-weight:bold">type</span> MyStack <span style="color:#000;font-weight:bold">struct</span> {
+        quene1 []<span style="color:#458;font-weight:bold">int</span>
+        quene2 []<span style="color:#458;font-weight:bold">int</span>
+        size   <span style="color:#458;font-weight:bold">int</span>
 }
 
-<span style="color:#75715e">/** Initialize your data structure here. */</span>
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Constructor2</span>() <span style="color:#a6e22e">MyStack</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">MyStack</span>{
-                []<span style="color:#66d9ef">int</span>{},
-                []<span style="color:#66d9ef">int</span>{},
-                <span style="color:#ae81ff">0</span>,
+<span style="color:#998;font-style:italic">/** Initialize your data structure here. */</span>
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Constructor2</span>() MyStack {
+        <span style="color:#000;font-weight:bold">return</span> MyStack{
+                []<span style="color:#458;font-weight:bold">int</span>{},
+                []<span style="color:#458;font-weight:bold">int</span>{},
+                <span style="color:#099">0</span>,
         }
 }
 
-<span style="color:#75715e">/** Push element x onto stack. */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyStack</span>) <span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int</span>) {
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>, <span style="color:#a6e22e">x</span>)
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">++</span>
+<span style="color:#998;font-style:italic">/** Push element x onto stack. */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>MyStack) <span style="color:#900;font-weight:bold">Push</span>(x <span style="color:#458;font-weight:bold">int</span>) {
+        this.quene1 = <span style="color:#0086b3">append</span>(this.quene1, x)
+        this.size<span style="color:#000;font-weight:bold">++</span>
 }
 
-<span style="color:#75715e">/** Removes the element on top of the stack and returns that element. */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyStack</span>) <span style="color:#a6e22e">Pop</span>() <span style="color:#66d9ef">int</span> {
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>, <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">0</span>])
-                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">1</span>:]
+<span style="color:#998;font-style:italic">/** Removes the element on top of the stack and returns that element. */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>MyStack) <span style="color:#900;font-weight:bold">Pop</span>() <span style="color:#458;font-weight:bold">int</span> {
+        <span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>; i &lt; this.size<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>; i<span style="color:#000;font-weight:bold">++</span> {
+                this.quene2 = <span style="color:#0086b3">append</span>(this.quene2, this.quene1[<span style="color:#099">0</span>])
+                this.quene1 = this.quene1[<span style="color:#099">1</span>:]
         }
-        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">0</span>]
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = []<span style="color:#66d9ef">int</span>{}
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">--</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+        res <span style="color:#000;font-weight:bold">:=</span> this.quene1[<span style="color:#099">0</span>]
+        this.quene1 = this.quene2
+        this.quene2 = []<span style="color:#458;font-weight:bold">int</span>{}
+        this.size<span style="color:#000;font-weight:bold">--</span>
+        <span style="color:#000;font-weight:bold">return</span> res
 }
 
-<span style="color:#75715e">/** Get the top element. */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyStack</span>) <span style="color:#a6e22e">Top</span>() <span style="color:#66d9ef">int</span> {
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>, <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">0</span>])
-                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">1</span>:]
+<span style="color:#998;font-style:italic">/** Get the top element. */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>MyStack) <span style="color:#900;font-weight:bold">Top</span>() <span style="color:#458;font-weight:bold">int</span> {
+        <span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>; i &lt; this.size<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>; i<span style="color:#000;font-weight:bold">++</span> {
+                this.quene2 = <span style="color:#0086b3">append</span>(this.quene2, this.quene1[<span style="color:#099">0</span>])
+                this.quene1 = this.quene1[<span style="color:#099">1</span>:]
         }
-        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">0</span>]
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>, <span style="color:#a6e22e">res</span>)
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = []<span style="color:#66d9ef">int</span>{}
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+        res <span style="color:#000;font-weight:bold">:=</span> this.quene1[<span style="color:#099">0</span>]
+        this.quene2 = <span style="color:#0086b3">append</span>(this.quene2, res)
+        this.quene1 = this.quene2
+        this.quene2 = []<span style="color:#458;font-weight:bold">int</span>{}
+        <span style="color:#000;font-weight:bold">return</span> res
 }
 
-<span style="color:#75715e">/** Returns whether the stack is empty. */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyStack</span>) <span style="color:#a6e22e">Empty</span>() <span style="color:#66d9ef">bool</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> &lt; <span style="color:#ae81ff">1</span>
+<span style="color:#998;font-style:italic">/** Returns whether the stack is empty. */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>MyStack) <span style="color:#900;font-weight:bold">Empty</span>() <span style="color:#458;font-weight:bold">bool</span> {
+        <span style="color:#000;font-weight:bold">return</span> this.size &lt; <span style="color:#099">1</span>
 }
 
-<span style="color:#75715e">/**
-</span><span style="color:#75715e"> * Your MyStack object will be instantiated and called as such:
-</span><span style="color:#75715e"> * obj := Constructor();
-</span><span style="color:#75715e"> * obj.Push(x);
-</span><span style="color:#75715e"> * param_2 := obj.Pop();
-</span><span style="color:#75715e"> * param_3 := obj.Top();
-</span><span style="color:#75715e"> * param_4 := obj.Empty();
-</span><span style="color:#75715e"> */</span>
+<span style="color:#998;font-style:italic">/**
+</span><span style="color:#998;font-style:italic"> * Your MyStack object will be instantiated and called as such:
+</span><span style="color:#998;font-style:italic"> * obj := Constructor();
+</span><span style="color:#998;font-style:italic"> * obj.Push(x);
+</span><span style="color:#998;font-style:italic"> * param_2 := obj.Pop();
+</span><span style="color:#998;font-style:italic"> * param_3 := obj.Top();
+</span><span style="color:#998;font-style:italic"> * param_4 := obj.Empty();
+</span><span style="color:#998;font-style:italic"> */</span>
 
-<span style="color:#75715e">//用栈实现队列
-</span><span style="color:#75715e">//使用栈实现队列的下列操作：
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//push(x) -- 将一个元素放入队列的尾部。
-</span><span style="color:#75715e">//pop() -- 从队列首部移除元素。
-</span><span style="color:#75715e">//peek() -- 返回队列首部的元素。
-</span><span style="color:#75715e">//empty() -- 返回队列是否为空。
-</span><span style="color:#75715e">//示例:
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//MyQueue queue = new MyQueue();
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//queue.push(1);
-</span><span style="color:#75715e">//queue.push(2);
-</span><span style="color:#75715e">//queue.peek();  // 返回 1
-</span><span style="color:#75715e">//queue.pop();   // 返回 1
-</span><span style="color:#75715e">//queue.empty(); // 返回 false
-</span><span style="color:#75715e">//说明:
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//你只能使用标准的栈操作 -- 也就是只有 push to top, peek/pop from top, size, 和 is empty 操作是合法的。
-</span><span style="color:#75715e">//你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
-</span><span style="color:#75715e">//假设所有操作都是有效的 （例如，一个空的队列不会调用 pop 或者 peek 操作）。
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyQueue</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">quene1</span> []<span style="color:#66d9ef">int</span>
-        <span style="color:#a6e22e">quene2</span> []<span style="color:#66d9ef">int</span>
-        <span style="color:#a6e22e">size</span>   <span style="color:#66d9ef">int</span>
+<span style="color:#998;font-style:italic">//用栈实现队列
+</span><span style="color:#998;font-style:italic">//使用栈实现队列的下列操作：
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//push(x) -- 将一个元素放入队列的尾部。
+</span><span style="color:#998;font-style:italic">//pop() -- 从队列首部移除元素。
+</span><span style="color:#998;font-style:italic">//peek() -- 返回队列首部的元素。
+</span><span style="color:#998;font-style:italic">//empty() -- 返回队列是否为空。
+</span><span style="color:#998;font-style:italic">//示例:
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//MyQueue queue = new MyQueue();
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//queue.push(1);
+</span><span style="color:#998;font-style:italic">//queue.push(2);
+</span><span style="color:#998;font-style:italic">//queue.peek();  // 返回 1
+</span><span style="color:#998;font-style:italic">//queue.pop();   // 返回 1
+</span><span style="color:#998;font-style:italic">//queue.empty(); // 返回 false
+</span><span style="color:#998;font-style:italic">//说明:
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//你只能使用标准的栈操作 -- 也就是只有 push to top, peek/pop from top, size, 和 is empty 操作是合法的。
+</span><span style="color:#998;font-style:italic">//你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
+</span><span style="color:#998;font-style:italic">//假设所有操作都是有效的 （例如，一个空的队列不会调用 pop 或者 peek 操作）。
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">type</span> MyQueue <span style="color:#000;font-weight:bold">struct</span> {
+        quene1 []<span style="color:#458;font-weight:bold">int</span>
+        quene2 []<span style="color:#458;font-weight:bold">int</span>
+        size   <span style="color:#458;font-weight:bold">int</span>
 }
 
-<span style="color:#75715e">/** Initialize your data structure here. */</span>
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Constructor</span>() <span style="color:#a6e22e">MyQueue</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">MyQueue</span>{
-                []<span style="color:#66d9ef">int</span>{},
-                []<span style="color:#66d9ef">int</span>{},
-                <span style="color:#ae81ff">0</span>,
+<span style="color:#998;font-style:italic">/** Initialize your data structure here. */</span>
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Constructor</span>() MyQueue {
+        <span style="color:#000;font-weight:bold">return</span> MyQueue{
+                []<span style="color:#458;font-weight:bold">int</span>{},
+                []<span style="color:#458;font-weight:bold">int</span>{},
+                <span style="color:#099">0</span>,
         }
 }
 
-<span style="color:#75715e">/** Push element x to the back of queue. */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyQueue</span>) <span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int</span>) {
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = append([]<span style="color:#66d9ef">int</span>{<span style="color:#a6e22e">x</span>}, <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span><span style="color:#f92672">...</span>)
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">++</span>
+<span style="color:#998;font-style:italic">/** Push element x to the back of queue. */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>MyQueue) <span style="color:#900;font-weight:bold">Push</span>(x <span style="color:#458;font-weight:bold">int</span>) {
+        this.quene1 = <span style="color:#0086b3">append</span>([]<span style="color:#458;font-weight:bold">int</span>{x}, this.quene1<span style="color:#000;font-weight:bold">...</span>)
+        this.size<span style="color:#000;font-weight:bold">++</span>
 }
 
-<span style="color:#75715e">/** Removes the element from in front of queue and returns that element. */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyQueue</span>) <span style="color:#a6e22e">Pop</span>() <span style="color:#66d9ef">int</span> {
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-                <span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">0</span>]
-                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>, <span style="color:#a6e22e">item</span>)
-                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">1</span>:]
+<span style="color:#998;font-style:italic">/** Removes the element from in front of queue and returns that element. */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>MyQueue) <span style="color:#900;font-weight:bold">Pop</span>() <span style="color:#458;font-weight:bold">int</span> {
+        <span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>; i &lt; this.size<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>; i<span style="color:#000;font-weight:bold">++</span> {
+                item <span style="color:#000;font-weight:bold">:=</span> this.quene1[<span style="color:#099">0</span>]
+                this.quene2 = <span style="color:#0086b3">append</span>(this.quene2, item)
+                this.quene1 = this.quene1[<span style="color:#099">1</span>:]
         }
-        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">0</span>]
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = []<span style="color:#66d9ef">int</span>{}
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">--</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+        res <span style="color:#000;font-weight:bold">:=</span> this.quene1[<span style="color:#099">0</span>]
+        this.quene1 = this.quene2
+        this.quene2 = []<span style="color:#458;font-weight:bold">int</span>{}
+        this.size<span style="color:#000;font-weight:bold">--</span>
+        <span style="color:#000;font-weight:bold">return</span> res
 }
 
-<span style="color:#75715e">/** Get the front element. */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyQueue</span>) <span style="color:#a6e22e">Peek</span>() <span style="color:#66d9ef">int</span> {
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-                <span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">0</span>]
-                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>, <span style="color:#a6e22e">item</span>)
-                <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">1</span>:]
+<span style="color:#998;font-style:italic">/** Get the front element. */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>MyQueue) <span style="color:#900;font-weight:bold">Peek</span>() <span style="color:#458;font-weight:bold">int</span> {
+        <span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>; i &lt; this.size<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>; i<span style="color:#000;font-weight:bold">++</span> {
+                item <span style="color:#000;font-weight:bold">:=</span> this.quene1[<span style="color:#099">0</span>]
+                this.quene2 = <span style="color:#0086b3">append</span>(this.quene2, item)
+                this.quene1 = this.quene1[<span style="color:#099">1</span>:]
         }
-        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span>[<span style="color:#ae81ff">0</span>]
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = append(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>, <span style="color:#a6e22e">res</span>)
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene1</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span>
-        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">quene2</span> = []<span style="color:#66d9ef">int</span>{}
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+        res <span style="color:#000;font-weight:bold">:=</span> this.quene1[<span style="color:#099">0</span>]
+        this.quene2 = <span style="color:#0086b3">append</span>(this.quene2, res)
+        this.quene1 = this.quene2
+        this.quene2 = []<span style="color:#458;font-weight:bold">int</span>{}
+        <span style="color:#000;font-weight:bold">return</span> res
 }
 
-<span style="color:#75715e">/** Returns whether the queue is empty. */</span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">MyQueue</span>) <span style="color:#a6e22e">Empty</span>() <span style="color:#66d9ef">bool</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">size</span> &lt; <span style="color:#ae81ff">1</span>
+<span style="color:#998;font-style:italic">/** Returns whether the queue is empty. */</span>
+<span style="color:#000;font-weight:bold">func</span> (this <span style="color:#000;font-weight:bold">*</span>MyQueue) <span style="color:#900;font-weight:bold">Empty</span>() <span style="color:#458;font-weight:bold">bool</span> {
+        <span style="color:#000;font-weight:bold">return</span> this.size &lt; <span style="color:#099">1</span>
 }
 
-<span style="color:#75715e">/**
-</span><span style="color:#75715e"> * Your MyQueue object will be instantiated and called as such:
-</span><span style="color:#75715e"> * obj := Constructor();
-</span><span style="color:#75715e"> * obj.Push(x);
-</span><span style="color:#75715e"> * param_2 := obj.Pop();
-</span><span style="color:#75715e"> * param_3 := obj.Peek();
-</span><span style="color:#75715e"> * param_4 := obj.Empty();
-</span><span style="color:#75715e"> */</span>
+<span style="color:#998;font-style:italic">/**
+</span><span style="color:#998;font-style:italic"> * Your MyQueue object will be instantiated and called as such:
+</span><span style="color:#998;font-style:italic"> * obj := Constructor();
+</span><span style="color:#998;font-style:italic"> * obj.Push(x);
+</span><span style="color:#998;font-style:italic"> * param_2 := obj.Pop();
+</span><span style="color:#998;font-style:italic"> * param_3 := obj.Peek();
+</span><span style="color:#998;font-style:italic"> * param_4 := obj.Empty();
+</span><span style="color:#998;font-style:italic"> */</span>
 
-<span style="color:#75715e">//柱状图中最大的柱形
-</span><span style="color:#75715e">//给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//求在该柱状图中，能够勾勒出来的矩形的最大面积。
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//以上是柱状图的示例，其中每个柱子的宽度为 1，给定的高度为 [2,1,5,6,2,3]。
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//图中阴影部分为所能勾勒出的最大矩形面积，其面积为 10 个单位。
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//示例:
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//输入: [2,1,5,6,2,3]
-</span><span style="color:#75715e">//输出: 10
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">largestRectangleArea</span>(<span style="color:#a6e22e">heights</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#75715e">//每次stack中剩余的最后一个元素，可以确定它之前的都比它大,所以下标是-1
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">heights</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">heights</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
-                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+<span style="color:#998;font-style:italic">//柱状图中最大的柱形
+</span><span style="color:#998;font-style:italic">//给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//求在该柱状图中，能够勾勒出来的矩形的最大面积。
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//以上是柱状图的示例，其中每个柱子的宽度为 1，给定的高度为 [2,1,5,6,2,3]。
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//图中阴影部分为所能勾勒出的最大矩形面积，其面积为 10 个单位。
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//示例:
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//输入: [2,1,5,6,2,3]
+</span><span style="color:#998;font-style:italic">//输出: 10
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">largestRectangleArea</span>(heights []<span style="color:#458;font-weight:bold">int</span>) <span style="color:#458;font-weight:bold">int</span> {
+        <span style="color:#998;font-style:italic">//每次stack中剩余的最后一个元素，可以确定它之前的都比它大,所以下标是-1
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(heights) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">||</span> heights <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">nil</span> {
+                <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>
         }
-        <span style="color:#a6e22e">heights</span> = append(<span style="color:#a6e22e">heights</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-        <span style="color:#a6e22e">stack</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}
-        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">heights</span> {
-                <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">stack</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">heights</span>[<span style="color:#a6e22e">stack</span>[len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]] {
-                        <span style="color:#a6e22e">stack</span> = append(<span style="color:#a6e22e">stack</span>, <span style="color:#a6e22e">k</span>)
-                } <span style="color:#66d9ef">else</span> {
-                        <span style="color:#66d9ef">for</span> len(<span style="color:#a6e22e">stack</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">v</span> &lt; <span style="color:#a6e22e">heights</span>[<span style="color:#a6e22e">stack</span>[len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]] {
-                                <span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">heights</span>[<span style="color:#a6e22e">stack</span>[len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]]
-                                <span style="color:#a6e22e">stack</span> = <span style="color:#a6e22e">stack</span>[:len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
-                                <span style="color:#a6e22e">left</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
-                                <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">stack</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
-                                        <span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">stack</span>[len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+        heights = <span style="color:#0086b3">append</span>(heights, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+        stack <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#458;font-weight:bold">int</span>{}
+        res <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>
+        <span style="color:#000;font-weight:bold">for</span> k, v <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> heights {
+                <span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(stack) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">||</span> v <span style="color:#000;font-weight:bold">&gt;=</span> heights[stack[<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]] {
+                        stack = <span style="color:#0086b3">append</span>(stack, k)
+                } <span style="color:#000;font-weight:bold">else</span> {
+                        <span style="color:#000;font-weight:bold">for</span> <span style="color:#0086b3">len</span>(stack) <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> v &lt; heights[stack[<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]] {
+                                h <span style="color:#000;font-weight:bold">:=</span> heights[stack[<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]]
+                                stack = stack[:<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]
+                                left <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>
+                                <span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(stack) <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span> {
+                                        left = stack[<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]
                                 }
-                                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">res</span> &lt; <span style="color:#a6e22e">h</span><span style="color:#f92672">*</span>(<span style="color:#a6e22e">k</span><span style="color:#f92672">-</span><span style="color:#a6e22e">left</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
-                                        <span style="color:#a6e22e">res</span> = <span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span> (<span style="color:#a6e22e">k</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+                                <span style="color:#000;font-weight:bold">if</span> res &lt; h<span style="color:#000;font-weight:bold">*</span>(k<span style="color:#000;font-weight:bold">-</span>left<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>) {
+                                        res = h <span style="color:#000;font-weight:bold">*</span> (k <span style="color:#000;font-weight:bold">-</span> left <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>)
                                 }
                         }
-                        <span style="color:#a6e22e">stack</span> = append(<span style="color:#a6e22e">stack</span>, <span style="color:#a6e22e">k</span>)
+                        stack = <span style="color:#0086b3">append</span>(stack, k)
                 }
         }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+        <span style="color:#000;font-weight:bold">return</span> res
 }
 
-<span style="color:#75715e">//最大矩形
-</span><span style="color:#75715e">//给定一个仅包含 0 和 1 的二维二进制矩阵，找出只包含 1 的最大矩形，并返回其面积。
-</span><span style="color:#75715e">//示例:
-</span><span style="color:#75715e">//输入:
-</span><span style="color:#75715e">//[
-</span><span style="color:#75715e">//  [&#34;1&#34;,&#34;0&#34;,&#34;1&#34;,&#34;0&#34;,&#34;0&#34;],
-</span><span style="color:#75715e">//  [&#34;1&#34;,&#34;0&#34;,&#34;1&#34;,&#34;1&#34;,&#34;1&#34;],
-</span><span style="color:#75715e">//  [&#34;1&#34;,&#34;1&#34;,&#34;1&#34;,&#34;1&#34;,&#34;1&#34;],
-</span><span style="color:#75715e">//  [&#34;1&#34;,&#34;0&#34;,&#34;0&#34;,&#34;1&#34;,&#34;0&#34;]
-</span><span style="color:#75715e">//]
-</span><span style="color:#75715e">//输出: 6
-</span><span style="color:#75715e">//题目难度：困难
-</span><span style="color:#75715e">//通过次数：3.1K
-</span><span style="color:#75715e">//提交次数：7.5K
-</span><span style="color:#75715e">//贡献者：LeetCode
-</span><span style="color:#75715e">//相关话题
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">//相似题目
-</span><span style="color:#75715e">//柱状图中最大的矩形最大正方形
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">maximalRectangle</span>(<span style="color:#a6e22e">matrix1</span> [][]<span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">matrix1</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> len(<span style="color:#a6e22e">matrix1</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> len(<span style="color:#a6e22e">matrix1</span>[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
-                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+<span style="color:#998;font-style:italic">//最大矩形
+</span><span style="color:#998;font-style:italic">//给定一个仅包含 0 和 1 的二维二进制矩阵，找出只包含 1 的最大矩形，并返回其面积。
+</span><span style="color:#998;font-style:italic">//示例:
+</span><span style="color:#998;font-style:italic">//输入:
+</span><span style="color:#998;font-style:italic">//[
+</span><span style="color:#998;font-style:italic">//  [&#34;1&#34;,&#34;0&#34;,&#34;1&#34;,&#34;0&#34;,&#34;0&#34;],
+</span><span style="color:#998;font-style:italic">//  [&#34;1&#34;,&#34;0&#34;,&#34;1&#34;,&#34;1&#34;,&#34;1&#34;],
+</span><span style="color:#998;font-style:italic">//  [&#34;1&#34;,&#34;1&#34;,&#34;1&#34;,&#34;1&#34;,&#34;1&#34;],
+</span><span style="color:#998;font-style:italic">//  [&#34;1&#34;,&#34;0&#34;,&#34;0&#34;,&#34;1&#34;,&#34;0&#34;]
+</span><span style="color:#998;font-style:italic">//]
+</span><span style="color:#998;font-style:italic">//输出: 6
+</span><span style="color:#998;font-style:italic">//题目难度：困难
+</span><span style="color:#998;font-style:italic">//通过次数：3.1K
+</span><span style="color:#998;font-style:italic">//提交次数：7.5K
+</span><span style="color:#998;font-style:italic">//贡献者：LeetCode
+</span><span style="color:#998;font-style:italic">//相关话题
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//相似题目
+</span><span style="color:#998;font-style:italic">//柱状图中最大的矩形最大正方形
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">maximalRectangle</span>(matrix1 [][]<span style="color:#458;font-weight:bold">byte</span>) <span style="color:#458;font-weight:bold">int</span> {
+        <span style="color:#000;font-weight:bold">if</span> matrix1 <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">nil</span> <span style="color:#000;font-weight:bold">||</span> <span style="color:#0086b3">len</span>(matrix1) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">||</span> <span style="color:#0086b3">len</span>(matrix1[<span style="color:#099">0</span>]) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
+                <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>
         }
-        <span style="color:#a6e22e">matrix</span> <span style="color:#f92672">:=</span> [][]<span style="color:#66d9ef">int</span>{}
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">matrix1</span> {
-                <span style="color:#a6e22e">item</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}
-                <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">v</span> {
-                        <span style="color:#a6e22e">item</span> = append(<span style="color:#a6e22e">item</span>, int(<span style="color:#a6e22e">val</span><span style="color:#f92672">-</span><span style="color:#e6db74">&#39;0&#39;</span>))
-                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">k</span> &lt; <span style="color:#ae81ff">1</span> {
-                                <span style="color:#66d9ef">continue</span>
+        matrix <span style="color:#000;font-weight:bold">:=</span> [][]<span style="color:#458;font-weight:bold">int</span>{}
+        <span style="color:#000;font-weight:bold">for</span> k, v <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> matrix1 {
+                item <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#458;font-weight:bold">int</span>{}
+                <span style="color:#000;font-weight:bold">for</span> key, val <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> v {
+                        item = <span style="color:#0086b3">append</span>(item, <span style="color:#0086b3">int</span>(val<span style="color:#000;font-weight:bold">-</span><span style="color:#d14">&#39;0&#39;</span>))
+                        <span style="color:#000;font-weight:bold">if</span> k &lt; <span style="color:#099">1</span> {
+                                <span style="color:#000;font-weight:bold">continue</span>
                         }
-                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">val</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;1&#39;</span> {
-                                <span style="color:#a6e22e">item</span>[<span style="color:#a6e22e">key</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">matrix</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#a6e22e">key</span>]
+                        <span style="color:#000;font-weight:bold">if</span> val <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;1&#39;</span> {
+                                item[key] <span style="color:#000;font-weight:bold">+=</span> matrix[k<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>][key]
                         }
                 }
-                <span style="color:#a6e22e">matrix</span> = append(<span style="color:#a6e22e">matrix</span>, <span style="color:#a6e22e">item</span>)
+                matrix = <span style="color:#0086b3">append</span>(matrix, item)
         }
-        <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">matrix</span> {
-                <span style="color:#a6e22e">stack</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}
-                <span style="color:#a6e22e">v</span> = append(<span style="color:#a6e22e">v</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-                <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">v</span> {
-                        <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">stack</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">val</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">v</span>[<span style="color:#a6e22e">stack</span>[len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]] {
-                                <span style="color:#a6e22e">stack</span> = append(<span style="color:#a6e22e">stack</span>, <span style="color:#a6e22e">key</span>)
-                        } <span style="color:#66d9ef">else</span> {
-                                <span style="color:#66d9ef">for</span> len(<span style="color:#a6e22e">stack</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">val</span> &lt; <span style="color:#a6e22e">v</span>[<span style="color:#a6e22e">stack</span>[len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]] {
-                                        <span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">v</span>[<span style="color:#a6e22e">stack</span>[len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]]
-                                        <span style="color:#a6e22e">stack</span> = <span style="color:#a6e22e">stack</span>[:len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
-                                        <span style="color:#a6e22e">left</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
-                                        <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">stack</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
-                                                <span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">stack</span>[len(<span style="color:#a6e22e">stack</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+        res <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>
+        <span style="color:#000;font-weight:bold">for</span> _, v <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> matrix {
+                stack <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#458;font-weight:bold">int</span>{}
+                v = <span style="color:#0086b3">append</span>(v, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+                <span style="color:#000;font-weight:bold">for</span> key, val <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> v {
+                        <span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(stack) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">||</span> val <span style="color:#000;font-weight:bold">&gt;=</span> v[stack[<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]] {
+                                stack = <span style="color:#0086b3">append</span>(stack, key)
+                        } <span style="color:#000;font-weight:bold">else</span> {
+                                <span style="color:#000;font-weight:bold">for</span> <span style="color:#0086b3">len</span>(stack) <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> val &lt; v[stack[<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]] {
+                                        h <span style="color:#000;font-weight:bold">:=</span> v[stack[<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]]
+                                        stack = stack[:<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]
+                                        left <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>
+                                        <span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(stack) <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span> {
+                                                left = stack[<span style="color:#0086b3">len</span>(stack)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]
                                         }
-                                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">res</span> &lt; <span style="color:#a6e22e">h</span><span style="color:#f92672">*</span>(<span style="color:#a6e22e">key</span><span style="color:#f92672">-</span><span style="color:#a6e22e">left</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
-                                                <span style="color:#a6e22e">res</span> = <span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span> (<span style="color:#a6e22e">key</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+                                        <span style="color:#000;font-weight:bold">if</span> res &lt; h<span style="color:#000;font-weight:bold">*</span>(key<span style="color:#000;font-weight:bold">-</span>left<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>) {
+                                                res = h <span style="color:#000;font-weight:bold">*</span> (key <span style="color:#000;font-weight:bold">-</span> left <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>)
                                         }
                                 }
-                                <span style="color:#a6e22e">stack</span> = append(<span style="color:#a6e22e">stack</span>, <span style="color:#a6e22e">key</span>)
+                                stack = <span style="color:#0086b3">append</span>(stack, key)
                         }
                 }
         }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+        <span style="color:#000;font-weight:bold">return</span> res
 }
  
 
 </code></pre></div>
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

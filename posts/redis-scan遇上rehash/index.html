@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>redis-scan遇上rehash</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>redis-scan遇上rehash</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>redis-scan遇上rehash</h1>
-    <div class="blog-post-subheader">
-        March 27, 2020
-    </div>
-    <div class="blog-post-content">
-        <h1 id="scan遇上rehash">scan遇上rehash</h1>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>redis-scan遇上rehash</h1>
+			<b><time>2020-03-27</time></b>
+		       
+		           <a href="/tags/redis">redis</a>
+        	       
+
+			<div>
+				<h1 id="scan遇上rehash">scan遇上rehash</h1>
 <h2 id="缘起">缘起</h2>
 <p>面试时被问到，redis如果你想要找到所有test_开头的键值时，一般使用什么命令
 我当时想也不想，keys命令啊
@@ -116,12 +123,12 @@
 不过面试后，我隐隐好奇，这两者到底有什么区别，为什么都推荐用scan这个命令？</p>
 <h2 id="背景">背景</h2>
 <h3 id="keys和scan的区别">keys和scan的区别</h3>
-<pre><code>KEYS parttern：查找所有符合给定模式pattern的key。
+<pre tabindex="0"><code>KEYS parttern：查找所有符合给定模式pattern的key。
 </code></pre><ol>
 <li>KEYS指令一次性返回所有匹配的key。</li>
 <li>key的数量过大会使服务卡顿。</li>
 </ol>
-<pre><code>SCAN cursor [MATCH pattern] [COUNT count]：查找给定数量内个数的符合给定模式pattern的key。
+<pre tabindex="0"><code>SCAN cursor [MATCH pattern] [COUNT count]：查找给定数量内个数的符合给定模式pattern的key。
 </code></pre><ol>
 <li>基于游标的迭代器，需要基于上一次的游标延续之前的迭代过程。</li>
 <li>以0作为游标开始一次新的迭代，直到命令返回游标0完成一次遍历。</li>
@@ -133,7 +140,13 @@
 <p>首先我们看下redis的网络模型IO多路复用</p>
 <h4 id="io多路复用">IO多路复用</h4>
 <p>简单来说，IO多路复用是一场一对多的群架，相较于多进程与多线程网络模型，io多路复用使用一个进程（一个线程）遍历处理多个socket的请求，准确来说，是交由操作系统来进行socket的遍历操作
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200401224925413_878421241.png" alt="20190528115137282_1712659801">
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20200401224925413_878421241.png" alt="20190528115137282_1712659801" />
+</figure>
+
+
+
 总的来说分为三步：</p>
 <ol>
 <li>fd拷贝（用户空间 -&gt; 系统空间）</li>
@@ -152,49 +165,67 @@
 <h3 id="为什么实现不了limit-时间复杂度">为什么实现不了limit （时间复杂度）</h3>
 <p>那么我就会问，为什么不能支持limit操作呢，这样即使我的操作是O(N)的，我可以通过把limit设置的比较小，循环多次取，这样可以减少对服务的影响。但是为什么实现不了呢，这与redis的底层结构有关，我们知道redis的键值对底层是以dict这一内部数据结构组织的，那我们就看看dict这一结构为什么不好实现这一功能</p>
 <h4 id="dict结构">dict结构</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115173716041_1984082947.png" alt=""></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">dict结构
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> dict {
-    <span style="color:#75715e">//类型特定函数
-</span><span style="color:#75715e"></span>    dictType <span style="color:#f92672">*</span>type;
-    <span style="color:#75715e">//私有数据
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>privData;
-    <span style="color:#75715e">//哈希表
-</span><span style="color:#75715e"></span>    dictht ht[<span style="color:#ae81ff">2</span>];
-    <span style="color:#75715e">//rehash索引
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">//当rehash不进行时，值为-1
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> trehashidx;
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115173716041_1984082947.png" alt="" />
+</figure>
+
+
+</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">dict结构
+<span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> dict {
+    <span style="color:#998;font-style:italic">//类型特定函数
+</span><span style="color:#998;font-style:italic"></span>    dictType <span style="color:#000;font-weight:bold">*</span>type;
+    <span style="color:#998;font-style:italic">//私有数据
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>privData;
+    <span style="color:#998;font-style:italic">//哈希表
+</span><span style="color:#998;font-style:italic"></span>    dictht ht[<span style="color:#099">2</span>];
+    <span style="color:#998;font-style:italic">//rehash索引
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//当rehash不进行时，值为-1
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> trehashidx;
 }
 </code></pre></div><blockquote>
 <p>可以看到，一个dict存在两个hash表结构（本质是数组）</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#960050;background-color:#1e0010">哈希表结构</span>
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> dictht {
-    <span style="color:#75715e">//哈希表数组
-</span><span style="color:#75715e"></span>    dictEntry <span style="color:#f92672">**</span>table;
-    <span style="color:#75715e">//哈希表大小
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> size<span style="color:#960050;background-color:#1e0010">；</span>
-    <span style="color:#75715e">//哈希表大小掩码，用于计算索引值，总之等于size-1
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> sizemask;
-    <span style="color:#75715e">//该哈希表已有节点的数量
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> used;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#a61717;background-color:#e3d2d2">哈希表结构</span>
+<span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> dictht {
+    <span style="color:#998;font-style:italic">//哈希表数组
+</span><span style="color:#998;font-style:italic"></span>    dictEntry <span style="color:#000;font-weight:bold">**</span>table;
+    <span style="color:#998;font-style:italic">//哈希表大小
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> size<span style="color:#a61717;background-color:#e3d2d2">；</span>
+    <span style="color:#998;font-style:italic">//哈希表大小掩码，用于计算索引值，总之等于size-1
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> sizemask;
+    <span style="color:#998;font-style:italic">//该哈希表已有节点的数量
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> used;
 }
 </code></pre></div><p>table是一个数组，数组中的每个元素都是指向dictEntry结构的指针，每个dictEntry保存这一个键值对
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115172104868_1544804852.png" alt=""></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">hash节点结构
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> dictEntry {
-        <span style="color:#75715e">//键
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>key;
-        <span style="color:#75715e">//值
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">union</span> {
-            <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>val;
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115172104868_1544804852.png" alt="" />
+</figure>
+
+
+</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">hash节点结构
+<span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> dictEntry {
+        <span style="color:#998;font-style:italic">//键
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>key;
+        <span style="color:#998;font-style:italic">//值
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">union</span> {
+            <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>val;
             uint64_tu64;
             int64_ts64;
         }v;
-        <span style="color:#75715e">//指向下一个hash节点，形成链表
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">struct</span> dictEntry <span style="color:#f92672">*</span>next;
+        <span style="color:#998;font-style:italic">//指向下一个hash节点，形成链表
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">struct</span> dictEntry <span style="color:#000;font-weight:bold">*</span>next;
 } dictEntry;
-</code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115172834333_457855334.png" alt=""></p>
+</code></pre></div><p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115172834333_457855334.png" alt="" />
+</figure>
+
+
+</p>
 <blockquote>
 <p>这里可以看到，redis使用了拉链法来处理hash冲突</p>
 </blockquote>
@@ -205,19 +236,19 @@
 <p>如果我们的keys同学支持了limit，上一次游标如果是100.下次从100开始继续获取时，在这个间隔中dict可能正在进行rehash操作，101对应的键值对可能已经迁移到了另一张hash表中，如果仍然按照现有的游标来进行便利，会发生什么呢
 接下来我们就来复现一下这个问题：
 首先我们知道，一般的hash表实现方式，</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//键值
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">string</span> <span style="color:#a6e22e">key</span> = <span style="color:#e6db74">&#34;USER_PHONE_123&#34;</span>;
-<span style="color:#75715e">//根据键值计算hash值
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">hash_id</span> = <span style="color:#a6e22e">hashFunc</span>(<span style="color:#a6e22e">key</span>);
-<span style="color:#75715e">//计算hash表掩码
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">mask</span> = <span style="color:#a6e22e">size</span>(<span style="color:#a6e22e">hash_table</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
-<span style="color:#75715e">//获取hash值对应的索引值
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">idx</span> = <span style="color:#a6e22e">hash_id</span> <span style="color:#f92672">%</span> <span style="color:#a6e22e">mask</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#998;font-style:italic">//键值
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">string</span> key = <span style="color:#d14">&#34;USER_PHONE_123&#34;</span>;
+<span style="color:#998;font-style:italic">//根据键值计算hash值
+</span><span style="color:#998;font-style:italic"></span>hash_id = <span style="color:#900;font-weight:bold">hashFunc</span>(key);
+<span style="color:#998;font-style:italic">//计算hash表掩码
+</span><span style="color:#998;font-style:italic"></span>mask = <span style="color:#900;font-weight:bold">size</span>(hash_table) <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>;
+<span style="color:#998;font-style:italic">//获取hash值对应的索引值
+</span><span style="color:#998;font-style:italic"></span>idx = hash_id <span style="color:#000;font-weight:bold">%</span> mask;
 </code></pre></div><p>可以看到，基本操作是hash值与掩码值取模，换算为二进制，即时hash_id |= ~mask
 举个例子，如果table_size为8时，则所有的hash_id二进制形式的后三位则为其索引值。
 如果按照正常的顺序进行迭代，哈希表容量分别为8和16时，idx的迭代过程如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">000</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">001</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">010</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">011</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">101</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">110</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">111</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">000</span>
-<span style="color:#ae81ff">0000</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0001</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0010</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0011</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0100</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0101</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0110</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0111</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1001</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1010</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1011</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1100</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1101</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1110</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1111</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0000</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#099">000</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">001</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">010</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">011</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">100</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">101</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">110</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">111</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">000</span>
+<span style="color:#099">0000</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0001</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0010</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0011</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0100</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0101</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0110</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0111</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1000</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1001</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1010</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1011</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1100</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1101</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1110</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1111</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0000</span>
 
 </code></pre></div><h5 id="哈希表的扩展">哈希表的扩展</h5>
 <p>字典扩展情况下，当前字典哈希表的容量为8，假设在迭代完索引010的bucket之后，按理说下一个应该迭代011，
@@ -255,125 +286,125 @@ pietern： Although I don&rsquo;t have a formal proof for these guarantees, I&rs
 这一长篇的讨论，详细阐述了这个反转二进制迭代的算法：</p>
 <h3 id="反转二进制算法">反转二进制算法</h3>
 <p>首先可以看下scan命令的主要源码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">dictScan</span>(dict <span style="color:#f92672">*</span>d,
-                       <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> v,
-                       dictScanFunction <span style="color:#f92672">*</span>fn,
-                       <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>privdata)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> <span style="color:#900;font-weight:bold">dictScan</span>(dict <span style="color:#000;font-weight:bold">*</span>d,
+                       <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> v,
+                       dictScanFunction <span style="color:#000;font-weight:bold">*</span>fn,
+                       <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>privdata)
 {
-    dictht <span style="color:#f92672">*</span>t0, <span style="color:#f92672">*</span>t1;
-    <span style="color:#66d9ef">const</span> dictEntry <span style="color:#f92672">*</span>de;
-    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> m0, m1;
+    dictht <span style="color:#000;font-weight:bold">*</span>t0, <span style="color:#000;font-weight:bold">*</span>t1;
+    <span style="color:#000;font-weight:bold">const</span> dictEntry <span style="color:#000;font-weight:bold">*</span>de;
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> m0, m1;
 
-    <span style="color:#66d9ef">if</span> (dictSize(d) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#000;font-weight:bold">if</span> (dictSize(d) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 
-    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dictIsRehashing(d)) {
-        t0 <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>(d<span style="color:#f92672">-&gt;</span>ht[<span style="color:#ae81ff">0</span>]);
-        m0 <span style="color:#f92672">=</span> t0<span style="color:#f92672">-&gt;</span>sizemask;
+    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>dictIsRehashing(d)) {
+        t0 <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">&amp;</span>(d<span style="color:#000;font-weight:bold">-&gt;</span>ht[<span style="color:#099">0</span>]);
+        m0 <span style="color:#000;font-weight:bold">=</span> t0<span style="color:#000;font-weight:bold">-&gt;</span>sizemask;
 
-        de <span style="color:#f92672">=</span> t0<span style="color:#f92672">-&gt;</span>table[v <span style="color:#f92672">&amp;</span> m0];
-        <span style="color:#66d9ef">while</span> (de) {
+        de <span style="color:#000;font-weight:bold">=</span> t0<span style="color:#000;font-weight:bold">-&gt;</span>table[v <span style="color:#000;font-weight:bold">&amp;</span> m0];
+        <span style="color:#000;font-weight:bold">while</span> (de) {
             fn(privdata, de);
-            de <span style="color:#f92672">=</span> de<span style="color:#f92672">-&gt;</span>next;
+            de <span style="color:#000;font-weight:bold">=</span> de<span style="color:#000;font-weight:bold">-&gt;</span>next;
         }
 
-    } <span style="color:#66d9ef">else</span> {
-        t0 <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>d<span style="color:#f92672">-&gt;</span>ht[<span style="color:#ae81ff">0</span>];
-        t1 <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>d<span style="color:#f92672">-&gt;</span>ht[<span style="color:#ae81ff">1</span>];
+    } <span style="color:#000;font-weight:bold">else</span> {
+        t0 <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">&amp;</span>d<span style="color:#000;font-weight:bold">-&gt;</span>ht[<span style="color:#099">0</span>];
+        t1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">&amp;</span>d<span style="color:#000;font-weight:bold">-&gt;</span>ht[<span style="color:#099">1</span>];
 
-        <span style="color:#66d9ef">if</span> (t0<span style="color:#f92672">-&gt;</span>size <span style="color:#f92672">&gt;</span> t1<span style="color:#f92672">-&gt;</span>size) {
-            t0 <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>d<span style="color:#f92672">-&gt;</span>ht[<span style="color:#ae81ff">1</span>];
-            t1 <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>d<span style="color:#f92672">-&gt;</span>ht[<span style="color:#ae81ff">0</span>];
+        <span style="color:#000;font-weight:bold">if</span> (t0<span style="color:#000;font-weight:bold">-&gt;</span>size <span style="color:#000;font-weight:bold">&gt;</span> t1<span style="color:#000;font-weight:bold">-&gt;</span>size) {
+            t0 <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">&amp;</span>d<span style="color:#000;font-weight:bold">-&gt;</span>ht[<span style="color:#099">1</span>];
+            t1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">&amp;</span>d<span style="color:#000;font-weight:bold">-&gt;</span>ht[<span style="color:#099">0</span>];
         }
 
-        m0 <span style="color:#f92672">=</span> t0<span style="color:#f92672">-&gt;</span>sizemask;
-        m1 <span style="color:#f92672">=</span> t1<span style="color:#f92672">-&gt;</span>sizemask;
+        m0 <span style="color:#000;font-weight:bold">=</span> t0<span style="color:#000;font-weight:bold">-&gt;</span>sizemask;
+        m1 <span style="color:#000;font-weight:bold">=</span> t1<span style="color:#000;font-weight:bold">-&gt;</span>sizemask;
 
-        de <span style="color:#f92672">=</span> t0<span style="color:#f92672">-&gt;</span>table[v <span style="color:#f92672">&amp;</span> m0];
-        <span style="color:#66d9ef">while</span> (de) {
+        de <span style="color:#000;font-weight:bold">=</span> t0<span style="color:#000;font-weight:bold">-&gt;</span>table[v <span style="color:#000;font-weight:bold">&amp;</span> m0];
+        <span style="color:#000;font-weight:bold">while</span> (de) {
             fn(privdata, de);
-            de <span style="color:#f92672">=</span> de<span style="color:#f92672">-&gt;</span>next;
+            de <span style="color:#000;font-weight:bold">=</span> de<span style="color:#000;font-weight:bold">-&gt;</span>next;
         }
 
-        <span style="color:#66d9ef">do</span> {
-            de <span style="color:#f92672">=</span> t1<span style="color:#f92672">-&gt;</span>table[v <span style="color:#f92672">&amp;</span> m1];
-            <span style="color:#66d9ef">while</span> (de) {
+        <span style="color:#000;font-weight:bold">do</span> {
+            de <span style="color:#000;font-weight:bold">=</span> t1<span style="color:#000;font-weight:bold">-&gt;</span>table[v <span style="color:#000;font-weight:bold">&amp;</span> m1];
+            <span style="color:#000;font-weight:bold">while</span> (de) {
                 fn(privdata, de);
-                de <span style="color:#f92672">=</span> de<span style="color:#f92672">-&gt;</span>next;
+                de <span style="color:#000;font-weight:bold">=</span> de<span style="color:#000;font-weight:bold">-&gt;</span>next;
             }
 
-            v <span style="color:#f92672">=</span> (((v <span style="color:#f92672">|</span> m0) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span>m0) <span style="color:#f92672">|</span> (v <span style="color:#f92672">&amp;</span> m0);  <span style="color:#75715e">// 就是对 v 的低 m1-m0 位加 1，并保留 v 的低 m0 位
-</span><span style="color:#75715e"></span>
-        } <span style="color:#66d9ef">while</span> (v <span style="color:#f92672">&amp;</span> (m0 <span style="color:#f92672">^</span> m1));  <span style="color:#75715e">// 循环条件 v &amp;(m0 ^ m1)，表示直到 v 的低 m1-m0 位到低 m1 位之间全部为 0 为止。
-</span><span style="color:#75715e"></span>    }
+            v <span style="color:#000;font-weight:bold">=</span> (((v <span style="color:#000;font-weight:bold">|</span> m0) <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">&amp;</span> <span style="color:#000;font-weight:bold">~</span>m0) <span style="color:#000;font-weight:bold">|</span> (v <span style="color:#000;font-weight:bold">&amp;</span> m0);  <span style="color:#998;font-style:italic">// 就是对 v 的低 m1-m0 位加 1，并保留 v 的低 m0 位
+</span><span style="color:#998;font-style:italic"></span>
+        } <span style="color:#000;font-weight:bold">while</span> (v <span style="color:#000;font-weight:bold">&amp;</span> (m0 <span style="color:#000;font-weight:bold">^</span> m1));  <span style="color:#998;font-style:italic">// 循环条件 v &amp;(m0 ^ m1)，表示直到 v 的低 m1-m0 位到低 m1 位之间全部为 0 为止。
+</span><span style="color:#998;font-style:italic"></span>    }
 
-    v <span style="color:#f92672">|=</span> <span style="color:#f92672">~</span>m0;
+    v <span style="color:#000;font-weight:bold">|=</span> <span style="color:#000;font-weight:bold">~</span>m0;
 
-    v <span style="color:#f92672">=</span> rev(v);
-    v<span style="color:#f92672">++</span>;
-    v <span style="color:#f92672">=</span> rev(v);
+    v <span style="color:#000;font-weight:bold">=</span> rev(v);
+    v<span style="color:#000;font-weight:bold">++</span>;
+    v <span style="color:#000;font-weight:bold">=</span> rev(v);
 
-    <span style="color:#66d9ef">return</span> v;
+    <span style="color:#000;font-weight:bold">return</span> v;
 }
 </code></pre></div><p>可以把源码中的主要逻辑拆出来，进行一个简单的测试，先观察下其主要行为</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">// 对 v 进行二进制逆序操作
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">rev</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> v) {
-    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> s <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(v);
-    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> mask <span style="color:#f92672">=</span> <span style="color:#f92672">~</span><span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">while</span> ((s <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-        mask <span style="color:#f92672">^=</span> (mask <span style="color:#f92672">&lt;&lt;</span> s);
-        v <span style="color:#f92672">=</span> ((v <span style="color:#f92672">&gt;&gt;</span> s) <span style="color:#f92672">&amp;</span> mask) <span style="color:#f92672">|</span> ((v <span style="color:#f92672">&lt;&lt;</span> s) <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span>mask);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#998;font-style:italic">// 对 v 进行二进制逆序操作
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> v) {
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> s <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">sizeof</span>(v);
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> mask <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span><span style="color:#099">0</span>;
+    <span style="color:#000;font-weight:bold">while</span> ((s <span style="color:#000;font-weight:bold">&gt;&gt;=</span> <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#099">0</span>) {
+        mask <span style="color:#000;font-weight:bold">^=</span> (mask <span style="color:#000;font-weight:bold">&lt;&lt;</span> s);
+        v <span style="color:#000;font-weight:bold">=</span> ((v <span style="color:#000;font-weight:bold">&gt;&gt;</span> s) <span style="color:#000;font-weight:bold">&amp;</span> mask) <span style="color:#000;font-weight:bold">|</span> ((v <span style="color:#000;font-weight:bold">&lt;&lt;</span> s) <span style="color:#000;font-weight:bold">&amp;</span> <span style="color:#000;font-weight:bold">~</span>mask);
     }
-    <span style="color:#66d9ef">return</span> v;
+    <span style="color:#000;font-weight:bold">return</span> v;
 }
 
-<span style="color:#75715e">//打印二进制
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printBits</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> v, <span style="color:#66d9ef">int</span> tablesize)
+<span style="color:#998;font-style:italic">//打印二进制
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">printBits</span>(<span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> v, <span style="color:#458;font-weight:bold">int</span> tablesize)
 {
-    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">while</span>(tablesize <span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">++</span>cnt);
-    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> cnt<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>i)
-        printf(<span style="color:#e6db74">&#34;%lu&#34;</span>, (v <span style="color:#f92672">&gt;&gt;</span> i) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>);
+    <span style="color:#458;font-weight:bold">int</span> cnt <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
+    <span style="color:#000;font-weight:bold">while</span>(tablesize <span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#000;font-weight:bold">++</span>cnt);
+    <span style="color:#000;font-weight:bold">for</span>(<span style="color:#458;font-weight:bold">int</span> i <span style="color:#000;font-weight:bold">=</span> cnt<span style="color:#000;font-weight:bold">-</span><span style="color:#099">2</span>; i <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">0</span>; <span style="color:#000;font-weight:bold">--</span>i)
+        printf(<span style="color:#d14">&#34;%lu&#34;</span>, (v <span style="color:#000;font-weight:bold">&gt;&gt;</span> i) <span style="color:#000;font-weight:bold">&amp;</span> <span style="color:#099">1</span>);
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test_dictScan_cursor</span>(<span style="color:#66d9ef">int</span> tablesize)
+<span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">test_dictScan_cursor</span>(<span style="color:#458;font-weight:bold">int</span> tablesize)
 {
-    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> v;
-    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> m0;
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> v;
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> m0;
 
-    v <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    m0 <span style="color:#f92672">=</span> tablesize<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    v <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
+    m0 <span style="color:#000;font-weight:bold">=</span> tablesize<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
     printBits(v, tablesize);
 
-    <span style="color:#66d9ef">do</span>
+    <span style="color:#000;font-weight:bold">do</span>
     {
-        printf(<span style="color:#e6db74">&#34; -&gt; &#34;</span>);
-        <span style="color:#75715e">//保留游标v的低m0位，其余位全为1
-</span><span style="color:#75715e"></span>        v <span style="color:#f92672">|=</span> <span style="color:#f92672">~</span>m0;
-        <span style="color:#75715e">//二进制进行翻转
-</span><span style="color:#75715e"></span>        v <span style="color:#f92672">=</span> rev(v);
-        <span style="color:#75715e">//对二进制进行加1操作
-</span><span style="color:#75715e"></span>        v<span style="color:#f92672">++</span>;
-        <span style="color:#75715e">//再次翻转
-</span><span style="color:#75715e"></span>        v <span style="color:#f92672">=</span> rev(v);
+        printf(<span style="color:#d14">&#34; -&gt; &#34;</span>);
+        <span style="color:#998;font-style:italic">//保留游标v的低m0位，其余位全为1
+</span><span style="color:#998;font-style:italic"></span>        v <span style="color:#000;font-weight:bold">|=</span> <span style="color:#000;font-weight:bold">~</span>m0;
+        <span style="color:#998;font-style:italic">//二进制进行翻转
+</span><span style="color:#998;font-style:italic"></span>        v <span style="color:#000;font-weight:bold">=</span> rev(v);
+        <span style="color:#998;font-style:italic">//对二进制进行加1操作
+</span><span style="color:#998;font-style:italic"></span>        v<span style="color:#000;font-weight:bold">++</span>;
+        <span style="color:#998;font-style:italic">//再次翻转
+</span><span style="color:#998;font-style:italic"></span>        v <span style="color:#000;font-weight:bold">=</span> rev(v);
         printBits(v, tablesize);
-    }<span style="color:#66d9ef">while</span> (v <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>);
-    printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    }<span style="color:#000;font-weight:bold">while</span> (v <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span>);
+    printf(<span style="color:#d14">&#34;</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
 }
 
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>()
 {
-    test_dictScan_cursor(<span style="color:#ae81ff">8</span>);
-    test_dictScan_cursor(<span style="color:#ae81ff">16</span>);
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    test_dictScan_cursor(<span style="color:#099">8</span>);
+    test_dictScan_cursor(<span style="color:#099">16</span>);
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 }
 </code></pre></div><p>打印出迭代过程为：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#960050;background-color:#1e0010">$</span> gcc main.c <span style="color:#f92672">-</span>o main
-<span style="color:#960050;background-color:#1e0010">$</span> .<span style="color:#f92672">/</span>main
-<span style="color:#ae81ff">000</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">010</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">110</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">001</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">101</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">011</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">111</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">000</span>
-<span style="color:#ae81ff">0000</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0100</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1100</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0010</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1010</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0110</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1110</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0001</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1001</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0101</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1101</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0011</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1011</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0111</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1111</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">0000</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#a61717;background-color:#e3d2d2">$</span> gcc main.c <span style="color:#000;font-weight:bold">-</span>o main
+<span style="color:#a61717;background-color:#e3d2d2">$</span> .<span style="color:#000;font-weight:bold">/</span>main
+<span style="color:#099">000</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">100</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">010</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">110</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">001</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">101</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">011</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">111</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">000</span>
+<span style="color:#099">0000</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1000</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0100</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1100</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0010</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1010</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0110</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1110</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0001</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1001</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0101</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1101</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0011</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1011</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0111</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">1111</span> <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#099">0000</span>
 </code></pre></div><p>可以看到，reverse binary iteration算法的主要思想是，每次想游标的最高位加1，并向地位方向进位。
 比如0010的下一个数是1001，1101的下一位是0011。
 为什么要采用这种操作呢？我们还是看下采用这种迭代方法过程中，dict进行rehash的情况</p>
@@ -400,35 +431,74 @@ pietern： Although I don&rsquo;t have a formal proof for these guarantees, I&rs
 <p>两者区别
 rehash时机和频率 惰性rehash</p>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

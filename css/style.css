@@ -1,0 +1,100 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+    color: black;
+    margin: auto;
+    max-width: 50em;
+}
+
+#page-title {
+    text-align: center;
+}
+
+#page-title h1 a, .post a {
+    color: black;
+}
+
+a {
+    text-decoration: none;
+}
+
+#page-title a:hover, .post a:hover {
+    text-decoration: underline;
+}
+
+.date-time-title {
+    display: inline-block;
+}
+
+#posts {
+    padding-left: 2em;
+}
+
+#icon {
+    padding-left: 0em;
+    text-align: left;
+    width:auto;
+    height:auto;
+    max-width: 50em;
+}
+
+#icon img {
+    height: auto;
+    vertical-align: middle;
+    width: auto;
+    max-width: 10%;
+}
+
+#icon span {
+    display: inline-block;
+    vertical-align: middle;
+    word-break:break-word;
+    width: auto;
+    height: auto;
+    max-width: 40em;
+}
+
+
+#lists {
+    padding-left: 0em;
+}
+
+#page-no a {
+    color: black;
+}
+
+#page-no a:hover {
+    text-decoration: underline;
+}
+
+#footer a {
+    color: black;
+}
+
+#footer a:hover {
+    text-decoration: underline;
+}
+
+#common-a a {
+    color: black;
+}
+
+#common-a a:hover {
+    text-decoration: underline;
+}
+
+.post {
+    padding-left: 1em;
+}
+
+.blog-post {
+    padding-left: 1em;
+}
+
+table,table tr th, table tr td { 
+    border:1px solid #B3B6B7; 
+}
+table { 
+    width: 50em; 
+    text-align: left;
+    border-collapse: collapse;
+}

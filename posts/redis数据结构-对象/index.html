@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>redis数据结构-对象</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,104 +24,96 @@
         <title>redis数据结构-对象</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>redis数据结构-对象</h1>
-    <div class="blog-post-subheader">
-        August 9, 2019
-    </div>
-    <div class="blog-post-content">
-        <h1 id="redis数据结构-对象">redis数据结构-对象</h1>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>redis数据结构-对象</h1>
+			<b><time>2019-08-09</time></b>
+		       
+		           <a href="/tags/redis">redis</a>
+        	       
+
+			<div>
+				<h1 id="redis数据结构-对象">redis数据结构-对象</h1>
 <ul>
 <li>redis并没有直接使用底层的数据结构，而是基于这些数据结构创建了一个对象系统</li>
 <li>该系统包含了字符串对象，列表，hash表，集合，有序集合五种数据对象</li>
@@ -121,22 +128,40 @@
 </ul>
 <h2 id="对象的类型与编码">对象的类型与编码</h2>
 <p>当创建一个键值对时，至少会创建两个对象，一个是键的字符串对象，另一个是值的对象</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> redisObject {
-    <span style="color:#75715e">//类型
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> type:<span style="color:#ae81ff">4</span>;
-    <span style="color:#75715e">//编码
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">unsigned</span> encoding:<span style="color:#ae81ff">4</span>;
-    <span style="color:#75715e">//指向底层实现数据结构的指针
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>ptr;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> redisObject {
+    <span style="color:#998;font-style:italic">//类型
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#900;font-weight:bold">type</span>:<span style="color:#099">4</span>;
+    <span style="color:#998;font-style:italic">//编码
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#900;font-weight:bold">encoding</span>:<span style="color:#099">4</span>;
+    <span style="color:#998;font-style:italic">//指向底层实现数据结构的指针
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>ptr;
 } robj;
 </code></pre></div><h3 id="类型">类型</h3>
 <p>对象的type的值：
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117184139552_1620012426.png" alt=""></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117184139552_1620012426.png" alt="" />
+</figure>
+
+
+</p>
 <h3 id="编码和底层实现">编码和底层实现</h3>
 <p>encoding来决定ptr指向哪种底层数据结构 <br>
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117184350906_1751167116.png" alt=""></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117184350906_1751167116.png" alt="" />
+</figure>
+
+
+</p>
 <p>不同的type对应的encoding <br>
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117184549158_602336477.png" alt=""></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117184549158_602336477.png" alt="" />
+</figure>
+
+
+</p>
 <ul>
 <li>对于字符串对象，底层可以有三种实现方式，int，emstr和raw</li>
 <li>对于列表对象，底层可以有链表，压缩表实现</li>
@@ -155,7 +180,13 @@
 <li>当字符串长度小于39字节时，采用embstr的方式来实现</li>
 <li>当字符串长度大于39字节时，采用raw的方式来实现</li>
 <li>为什么是39呢，因为redis采用的是jemalloc进行动态内存的申请，会申请8，16，32，64字节的内存，但是sds大小为33，而且redisObject为16字节，所以64-16-4-4-1 = 39
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117221056567_1885714289.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117221056567_1885714289.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 <h3 id="采用embstr的优势">采用embstr的优势</h3>
 <ul>
@@ -175,35 +206,95 @@
 <ul>
 <li>列表对象底层实现是有ziplist和linkedlist</li>
 <li>压缩表实现时，表中的每一个节点时列表的一项
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117233931320_636392797.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117233931320_636392797.png" alt="" />
+</figure>
+
+
+</li>
 <li>linkedlist实现时，每个节点包含一个字符串对象
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117233951025_1385177119.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117233951025_1385177119.png" alt="" />
+</figure>
+
+
+</li>
 <li>字符串对象是唯一一个可以嵌套在其他对象之中的</li>
 <li>当满足一定条件时，ziplist会转化为linkedlist
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117234251486_1949105553.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117234251486_1949105553.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 <h2 id="哈希对象">哈希对象</h2>
 <ul>
 <li>哈希对象是使用ziplist和hashtable实现的</li>
 <li>当使用压缩表实现时，会先将键值对的键压入压缩表的表尾部，然后将值压入表尾部
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118000138349_901477933.png" alt="">
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118000153568_642490346.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118000138349_901477933.png" alt="" />
+</figure>
+
+
+
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118000153568_642490346.png" alt="" />
+</figure>
+
+
+</li>
 <li>当使用hashtable实现时，字典的每个键都是一个字符串对象，字典的每个值也是一个字符串对象
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118125331822_34741081.png" alt="hash对象的dict实现，真实结构比这个复杂"></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118125331822_34741081.png" alt="hash对象的dict实现，真实结构比这个复杂" />
+</figure>
+
+
+</li>
 </ul>
 <h3 id="编码转化">编码转化</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118125519764_1925280030.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118125519764_1925280030.png" alt="" />
+</figure>
+
+
+</p>
 <h2 id="集合对象">集合对象</h2>
 <ul>
 <li>集合对象底层可以由hashtable和intset实现</li>
 <li>当集合对象由intset实现时，集合的所有元素都保存在intset中
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118125936896_2045354861.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118125936896_2045354861.png" alt="" />
+</figure>
+
+
+</li>
 <li>当集合由hashtable实现时，hashtable的键保存了集合对象的每个元素，对应的值为null
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118130126707_1508411298.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118130126707_1508411298.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 <h3 id="编码转换">编码转换</h3>
 <p>intset只能保存一定数量的整数元素 <br>
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118130159940_824232651.png" alt=""></p>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118130159940_824232651.png" alt="" />
+</figure>
+
+
+</p>
 <h3 id="集合的交集并集差集操作">集合的交集，并集，差集操作</h3>
 <ul>
 <li>交集
@@ -234,17 +325,29 @@
 <p>使用ziplist实现</p>
 <ul>
 <li>当使用ziplist实现时，使用两个紧挨的压缩表节点来标识有序集合的一个元素，有序集合的元素值在第一个，分值在第二个
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118141740596_1608642207.png" alt="">
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118141759082_1777940966.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118141740596_1608642207.png" alt="" />
+</figure>
+
+
+
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118141759082_1777940966.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 </li>
 <li>
 <p>使用zskiplist实现时</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> zset {
-    zskiplist <span style="color:#f92672">*</span>zsl;
-    dict <span style="color:#f92672">*</span>dict;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> zset {
+    zskiplist <span style="color:#000;font-weight:bold">*</span>zsl;
+    dict <span style="color:#000;font-weight:bold">*</span>dict;
 } zset;
 </code></pre></div><pre><code>- 当使用zskiplist实现时，跳跃表的每个节点对应一个有序集合的元素，节点的值存储有序集合的分值，节点的成员对象存储有序集合元素的值的字符串对象
 - 根据跳跃表可以实现有序集合的范围查找
@@ -252,9 +355,21 @@
 - 有序集合的每个元素对应一个字符串对象，而每个分值对应一个double类型的浮点数
 - zskiplist和dict通过指针来共享集合元素的成员和分值
 </code></pre>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118142603900_1766351204.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118142603900_1766351204.png" alt="" />
+</figure>
+
+
+</p>
 <h3 id="编码的转换">编码的转换</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118142700281_250749500.png" alt=""></p>
+<p>
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118142700281_250749500.png" alt="" />
+</figure>
+
+
+</p>
 <h2 id="类型检查和命令多态">类型检查和命令多态</h2>
 <h3 id="类型检查">类型检查</h3>
 <ul>
@@ -262,7 +377,13 @@
 <ul>
 <li>一类是通用的命令，例如del，expire，type等命令</li>
 <li>二类是只有特定类型才能执行的命令
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118143034423_983931086.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118143034423_983931086.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 </li>
 <li>redis在执行命令之前会根据数据类型判断是否可以执行该命令</li>
@@ -292,7 +413,13 @@
 <ul>
 <li>将键B的值的指针指向键A的100对象</li>
 <li>将100对象的引用计数加一
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118144649442_1305680502.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118144649442_1305680502.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 </li>
 <li>redis在初始化时，会首先创建很多的字符串对象，其中包含了0到9999的整数值</li>
@@ -304,12 +431,12 @@
 <li>当使用object idletime命令计算时，会以当前时间减去lru的值</li>
 </ul>
 <h2 id="redisobject">redisObject</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> redisObject {
-    <span style="color:#66d9ef">unsigned</span> type:<span style="color:#ae81ff">4</span>;
-    <span style="color:#66d9ef">unsigned</span> encoding:<span style="color:#ae81ff">4</span>;
-    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>ptr;
-    <span style="color:#66d9ef">int</span> refcount;
-    <span style="color:#66d9ef">unsigned</span> lru:<span style="color:#ae81ff">22</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> redisObject {
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#900;font-weight:bold">type</span>:<span style="color:#099">4</span>;
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#900;font-weight:bold">encoding</span>:<span style="color:#099">4</span>;
+    <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>ptr;
+    <span style="color:#458;font-weight:bold">int</span> refcount;
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#900;font-weight:bold">lru</span>:<span style="color:#099">22</span>;
 } redisObject;
 </code></pre></div><h2 id="重点回顾">重点回顾</h2>
 <ul>
@@ -343,40 +470,85 @@
 <ul>
 <li>skiplist</li>
 <li>ziplist
-<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118145543259_1584292068.png" alt=""></li>
+
+<figure>
+  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118145543259_1584292068.png" alt="" />
+</figure>
+
+
+</li>
 </ul>
 </li>
 </ul>
 
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>

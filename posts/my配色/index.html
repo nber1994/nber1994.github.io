@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>my配色</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,242 +24,273 @@
         <title>my配色</title>
 
         <link rel="stylesheet" href="/css/stylesheet.css">
-
-
-        <style type="text/css">
-*{margin: 0; padding: 0;}
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-      .wrap {
-           
-          text-align: left;
-      }
-      .wrap span{
-          display: inline-block;
-          vertical-align: middle;
-          word-break:break-word; 
-          width: 50em;
-      }
-      .wrap img{
-          width: 4.5em;
-          height: auto;
-          vertical-align: middle;
-      }
-
-      .wrap p{
-          font-style:italic;
-          font-size:12px;
-      }
-
-        </style>
-
     </head>
-    <body>
+
+<header>
         <section id="page-title">
-            <h1>
-                <a href="/">nber1994</a> </h1>
-            <br>
-            <div class="wrap">
-                <script type="text/javascript">
-                    
+            <h1><a href="/">nber1994</a></h1>
 
-                    function chunkSubstr(str, size) {
-                                            const numChunks = Math.ceil(str.length / size)
-                                            const chunks = new Array(numChunks)
-
-                                            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-                                                                    chunks[i] = str.substr(o, size)
-                                                                }
-
-                                            return chunks
-                                        }
-                    var pic = [];
-                    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
-                    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
-                    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
-                    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
-                    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
-                    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
-                    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
-                    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
-                    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
-
-                    var talk = [];
-                    talk[0] = "Help poor children in Uganda!";
-                    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
-                    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
-                    talk[3] = "Don't tune for speed until you've measured.";
-                    talk[4] = "C is quirky, flawed, and an enormous success.";
-                    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
-                    talk[6] = "Java is C++ without the guns, clubs and knives.";
-                    talk[7] = "Life is short, you need Python!";
-                    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
-
-                    var randomBgIndex = Math.floor( Math.random() * 8 );
-
-                    
-                    document.write("<img src=" + pic[randomBgIndex] + ">")
-                    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
-                    
-                </script>
-            </div>
-
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
 
         </section>
-        <br>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
 
 
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
 
-<section class="blog-post">
-    <h1>my配色</h1>
-    <div class="blog-post-subheader">
-        November 23, 2020
-    </div>
-    <div class="blog-post-content">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#e6db74">&#34; Vim color file
-</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">Maintainer</span>:   <span style="color:#a6e22e">Hans</span> <span style="color:#a6e22e">Fugal</span> &lt;<span style="color:#a6e22e">hans</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">fugal</span>.<span style="color:#a6e22e">net</span>&gt;
-<span style="color:#e6db74">&#34; Last Change:  $Date: 2004/06/13 19:30:30 $
-</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">Last</span> <span style="color:#a6e22e">Change</span>:  <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#a6e22e">Date</span>: <span style="color:#ae81ff">2004</span><span style="color:#f92672">/</span><span style="color:#ae81ff">06</span><span style="color:#f92672">/</span><span style="color:#ae81ff">13</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">30</span>:<span style="color:#ae81ff">30</span> <span style="color:#960050;background-color:#1e0010">$</span>
-<span style="color:#e6db74">&#34; URL:          http://hans.fugal.net/vim/colors/desert.vim
-</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">Version</span>:      <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#a6e22e">Id</span>: <span style="color:#a6e22e">desert</span>.<span style="color:#a6e22e">vim</span>,<span style="color:#a6e22e">v</span> <span style="color:#ae81ff">1.1</span> <span style="color:#ae81ff">2004</span><span style="color:#f92672">/</span><span style="color:#ae81ff">06</span><span style="color:#f92672">/</span><span style="color:#ae81ff">13</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">30</span>:<span style="color:#ae81ff">30</span> <span style="color:#a6e22e">vimboss</span> <span style="color:#a6e22e">Exp</span> <span style="color:#960050;background-color:#1e0010">$</span>
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
 
-<span style="color:#e6db74">&#34; cool help screens
-</span><span style="color:#e6db74">&#34;</span> :<span style="color:#a6e22e">he</span> <span style="color:#a6e22e">group</span><span style="color:#f92672">-</span><span style="color:#a6e22e">name</span>
-<span style="color:#e6db74">&#34; :he highlight-groups
-</span><span style="color:#e6db74">&#34;</span> :<span style="color:#a6e22e">he</span> <span style="color:#a6e22e">cterm</span><span style="color:#f92672">-</span><span style="color:#a6e22e">colors</span>
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
 
-<span style="color:#a6e22e">set</span> <span style="color:#a6e22e">background</span>=<span style="color:#a6e22e">dark</span>
-<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">version</span> &gt; <span style="color:#ae81ff">580</span>
-    <span style="color:#e6db74">&#34; no guarantees for version 5.8 and below, but this makes it stop
-</span><span style="color:#e6db74">    &#34;</span> <span style="color:#a6e22e">complaining</span>
-    <span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">clear</span>
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">exists</span>(<span style="color:#e6db74">&#34;syntax_on&#34;</span>)
-        <span style="color:#a6e22e">syntax</span> <span style="color:#a6e22e">reset</span>
-    <span style="color:#a6e22e">endif</span>
-<span style="color:#a6e22e">endif</span>
-<span style="color:#a6e22e">let</span> <span style="color:#a6e22e">g</span>:<span style="color:#a6e22e">colors_name</span>=<span style="color:#e6db74">&#34;my&#34;</span>
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
 
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Normal</span>       <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">White</span> <span style="color:#a6e22e">guibg</span>=<span style="color:#a6e22e">grey20</span>
-
-<span style="color:#e6db74">&#34; highlight groups
-</span><span style="color:#e6db74">hi Cursor       guibg=khaki guifg=slategrey
-</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">CursorIM</span>
-<span style="color:#e6db74">&#34;hi Directory
-</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffAdd</span>
-<span style="color:#e6db74">&#34;hi DiffChange
-</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffDelete</span>
-<span style="color:#e6db74">&#34;hi DiffText
-</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">ErrorMsg</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">VertSplit</span>    <span style="color:#a6e22e">guibg</span>=<span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">c2bfa5</span> <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">grey50</span> <span style="color:#a6e22e">gui</span>=<span style="color:#a6e22e">none</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Folded</span>       <span style="color:#a6e22e">guibg</span>=<span style="color:#a6e22e">grey30</span> <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">gold</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">FoldColumn</span>   <span style="color:#a6e22e">guibg</span>=<span style="color:#a6e22e">grey30</span> <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">tan</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">IncSearch</span>    <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">slategrey</span> <span style="color:#a6e22e">guibg</span>=<span style="color:#a6e22e">khaki</span>
-<span style="color:#e6db74">&#34;hi LineNr
-</span><span style="color:#e6db74">hi ModeMsg      guifg=goldenrod
-</span><span style="color:#e6db74">hi MoreMsg      guifg=SeaGreen
-</span><span style="color:#e6db74">hi NonText      guifg=LightBlue guibg=grey30
-</span><span style="color:#e6db74">hi Question     guifg=springgreen
-</span><span style="color:#e6db74">hi Search       guibg=peru guifg=wheat
-</span><span style="color:#e6db74">hi SpecialKey   guifg=yellowgreen
-</span><span style="color:#e6db74">hi StatusLine   guibg=#c2bfa5 guifg=black gui=none
-</span><span style="color:#e6db74">hi StatusLineNC guibg=#c2bfa5 guifg=grey50 gui=none
-</span><span style="color:#e6db74">hi Title        guifg=indianred
-</span><span style="color:#e6db74">hi Visual       gui=none guifg=khaki guibg=olivedrab
-</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">VisualNOS</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">WarningMsg</span>   <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">salmon</span>
-<span style="color:#e6db74">&#34;hi WildMenu
-</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Menu</span>
-<span style="color:#e6db74">&#34;hi Scrollbar
-</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Tooltip</span>
-
-<span style="color:#e6db74">&#34; syntax highlighting groups
-</span><span style="color:#e6db74">hi Comment      guifg=SkyBlue
-</span><span style="color:#e6db74">hi Constant     guifg=#ffa0a0
-</span><span style="color:#e6db74">hi Identifier   guifg=palegreen
-</span><span style="color:#e6db74">hi Statement    guifg=khaki
-</span><span style="color:#e6db74">hi PreProc      guifg=indianred
-</span><span style="color:#e6db74">hi Type         guifg=darkkhaki
-</span><span style="color:#e6db74">hi Special      guifg=navajowhite
-</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Underlined</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Ignore</span>       <span style="color:#a6e22e">guifg</span>=<span style="color:#a6e22e">grey40</span>
-<span style="color:#e6db74">&#34;hi Error
-</span><span style="color:#e6db74">hi Todo         guifg=orangered guibg=yellow2
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">color</span> <span style="color:#a6e22e">terminal</span> <span style="color:#a6e22e">definitions</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">SpecialKey</span>   <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">cyan</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">NonText</span>      <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkblue</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Directory</span>    <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkcyan</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">ErrorMsg</span>     <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">7</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">1</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">IncSearch</span>    <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">NONE</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">yellow</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#a6e22e">green</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Search</span>       <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">NONE</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">grey</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#a6e22e">yellow</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">MoreMsg</span>      <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkgreen</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">ModeMsg</span>      <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">NONE</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">brown</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">LineNr</span>       <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">3</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Question</span>     <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">green</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">StatusLine</span>   <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span>,<span style="color:#a6e22e">reverse</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">StatusLineNC</span> <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">reverse</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">VertSplit</span>    <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">reverse</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Title</span>        <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">5</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Visual</span>       <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">reverse</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">VisualNOS</span>    <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span>,<span style="color:#a6e22e">underline</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">WarningMsg</span>   <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">1</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">WildMenu</span>     <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">0</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">3</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Folded</span>       <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkgrey</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#a6e22e">NONE</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">FoldColumn</span>   <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkgrey</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#a6e22e">NONE</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffAdd</span>      <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">4</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffChange</span>   <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">5</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffDelete</span>   <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">4</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">6</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">DiffText</span>     <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">1</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Comment</span>      <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">brown</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Constant</span>     <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkcyan</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Special</span>      <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">5</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Identifier</span>   <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">1</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Statement</span>    <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">3</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">PreProc</span>      <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">5</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Type</span>         <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">2</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Underlined</span>   <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">underline</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">5</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Ignore</span>       <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">7</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Ignore</span>       <span style="color:#a6e22e">ctermfg</span>=<span style="color:#a6e22e">darkgrey</span>
-<span style="color:#a6e22e">hi</span> <span style="color:#a6e22e">Error</span>        <span style="color:#a6e22e">cterm</span>=<span style="color:#a6e22e">bold</span> <span style="color:#a6e22e">ctermfg</span>=<span style="color:#ae81ff">7</span> <span style="color:#a6e22e">ctermbg</span>=<span style="color:#ae81ff">1</span>
+    var randomBgIndex = Math.floor( Math.random() * 8 );
 
 
-<span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#a6e22e">vim</span>: <span style="color:#a6e22e">sw</span>=<span style="color:#ae81ff">4</span>
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>my配色</h1>
+			<b><time>2020-11-23</time></b>
+		       
+		           <a href="/tags/vim">vim</a>
+        	       
+
+			<div>
+				<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#d14">&#34; Vim color file
+</span><span style="color:#d14">&#34;</span> Maintainer:   Hans Fugal &lt;hans<span style="color:#a61717;background-color:#e3d2d2">@</span>fugal.net&gt;
+<span style="color:#d14">&#34; Last Change:  $Date: 2004/06/13 19:30:30 $
+</span><span style="color:#d14">&#34;</span> Last Change:  <span style="color:#a61717;background-color:#e3d2d2">$</span>Date: <span style="color:#099">2004</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">06</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">13</span> <span style="color:#099">19</span>:<span style="color:#099">30</span>:<span style="color:#099">30</span> <span style="color:#a61717;background-color:#e3d2d2">$</span>
+<span style="color:#d14">&#34; URL:          http://hans.fugal.net/vim/colors/desert.vim
+</span><span style="color:#d14">&#34;</span> Version:      <span style="color:#a61717;background-color:#e3d2d2">$</span>Id: desert.vim,v <span style="color:#099">1.1</span> <span style="color:#099">2004</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">06</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">13</span> <span style="color:#099">19</span>:<span style="color:#099">30</span>:<span style="color:#099">30</span> vimboss Exp <span style="color:#a61717;background-color:#e3d2d2">$</span>
+
+<span style="color:#d14">&#34; cool help screens
+</span><span style="color:#d14">&#34;</span> :he group<span style="color:#000;font-weight:bold">-</span>name
+<span style="color:#d14">&#34; :he highlight-groups
+</span><span style="color:#d14">&#34;</span> :he cterm<span style="color:#000;font-weight:bold">-</span>colors
+
+set background=dark
+<span style="color:#000;font-weight:bold">if</span> version &gt; <span style="color:#099">580</span>
+    <span style="color:#d14">&#34; no guarantees for version 5.8 and below, but this makes it stop
+</span><span style="color:#d14">    &#34;</span> complaining
+    hi clear
+    <span style="color:#000;font-weight:bold">if</span> <span style="color:#900;font-weight:bold">exists</span>(<span style="color:#d14">&#34;syntax_on&#34;</span>)
+        syntax reset
+    endif
+endif
+let g:colors_name=<span style="color:#d14">&#34;my&#34;</span>
+
+hi Normal       guifg=White guibg=grey20
+
+<span style="color:#d14">&#34; highlight groups
+</span><span style="color:#d14">hi Cursor       guibg=khaki guifg=slategrey
+</span><span style="color:#d14">&#34;</span>hi CursorIM
+<span style="color:#d14">&#34;hi Directory
+</span><span style="color:#d14">&#34;</span>hi DiffAdd
+<span style="color:#d14">&#34;hi DiffChange
+</span><span style="color:#d14">&#34;</span>hi DiffDelete
+<span style="color:#d14">&#34;hi DiffText
+</span><span style="color:#d14">&#34;</span>hi ErrorMsg
+hi VertSplit    guibg=<span style="color:#a61717;background-color:#e3d2d2">#</span>c2bfa5 guifg=grey50 gui=none
+hi Folded       guibg=grey30 guifg=gold
+hi FoldColumn   guibg=grey30 guifg=tan
+hi IncSearch    guifg=slategrey guibg=khaki
+<span style="color:#d14">&#34;hi LineNr
+</span><span style="color:#d14">hi ModeMsg      guifg=goldenrod
+</span><span style="color:#d14">hi MoreMsg      guifg=SeaGreen
+</span><span style="color:#d14">hi NonText      guifg=LightBlue guibg=grey30
+</span><span style="color:#d14">hi Question     guifg=springgreen
+</span><span style="color:#d14">hi Search       guibg=peru guifg=wheat
+</span><span style="color:#d14">hi SpecialKey   guifg=yellowgreen
+</span><span style="color:#d14">hi StatusLine   guibg=#c2bfa5 guifg=black gui=none
+</span><span style="color:#d14">hi StatusLineNC guibg=#c2bfa5 guifg=grey50 gui=none
+</span><span style="color:#d14">hi Title        guifg=indianred
+</span><span style="color:#d14">hi Visual       gui=none guifg=khaki guibg=olivedrab
+</span><span style="color:#d14">&#34;</span>hi VisualNOS
+hi WarningMsg   guifg=salmon
+<span style="color:#d14">&#34;hi WildMenu
+</span><span style="color:#d14">&#34;</span>hi Menu
+<span style="color:#d14">&#34;hi Scrollbar
+</span><span style="color:#d14">&#34;</span>hi Tooltip
+
+<span style="color:#d14">&#34; syntax highlighting groups
+</span><span style="color:#d14">hi Comment      guifg=SkyBlue
+</span><span style="color:#d14">hi Constant     guifg=#ffa0a0
+</span><span style="color:#d14">hi Identifier   guifg=palegreen
+</span><span style="color:#d14">hi Statement    guifg=khaki
+</span><span style="color:#d14">hi PreProc      guifg=indianred
+</span><span style="color:#d14">hi Type         guifg=darkkhaki
+</span><span style="color:#d14">hi Special      guifg=navajowhite
+</span><span style="color:#d14">&#34;</span>hi Underlined
+hi Ignore       guifg=grey40
+<span style="color:#d14">&#34;hi Error
+</span><span style="color:#d14">hi Todo         guifg=orangered guibg=yellow2
+</span><span style="color:#d14">
+</span><span style="color:#d14">&#34;</span> color terminal definitions
+hi SpecialKey   ctermfg=cyan
+hi NonText      cterm=bold ctermfg=darkblue
+hi Directory    ctermfg=darkcyan
+hi ErrorMsg     cterm=bold ctermfg=<span style="color:#099">7</span> ctermbg=<span style="color:#099">1</span>
+hi IncSearch    cterm=NONE ctermfg=yellow ctermbg=green
+hi Search       cterm=NONE ctermfg=grey ctermbg=yellow
+hi MoreMsg      ctermfg=darkgreen
+hi ModeMsg      cterm=NONE ctermfg=brown
+hi LineNr       ctermfg=<span style="color:#099">3</span>
+hi Question     ctermfg=green
+hi StatusLine   cterm=bold,reverse
+hi StatusLineNC cterm=reverse
+hi VertSplit    cterm=reverse
+hi Title        ctermfg=<span style="color:#099">5</span>
+hi Visual       cterm=reverse
+hi VisualNOS    cterm=bold,underline
+hi WarningMsg   ctermfg=<span style="color:#099">1</span>
+hi WildMenu     ctermfg=<span style="color:#099">0</span> ctermbg=<span style="color:#099">3</span>
+hi Folded       ctermfg=darkgrey ctermbg=NONE
+hi FoldColumn   ctermfg=darkgrey ctermbg=NONE
+hi DiffAdd      ctermbg=<span style="color:#099">4</span>
+hi DiffChange   ctermbg=<span style="color:#099">5</span>
+hi DiffDelete   cterm=bold ctermfg=<span style="color:#099">4</span> ctermbg=<span style="color:#099">6</span>
+hi DiffText     cterm=bold ctermbg=<span style="color:#099">1</span>
+hi Comment      ctermfg=brown
+hi Constant     ctermfg=darkcyan
+hi Special      ctermfg=<span style="color:#099">5</span>
+hi Identifier   ctermfg=<span style="color:#099">1</span>
+hi Statement    ctermfg=<span style="color:#099">3</span>
+hi PreProc      ctermfg=<span style="color:#099">5</span>
+hi Type         ctermfg=<span style="color:#099">2</span>
+hi Underlined   cterm=underline ctermfg=<span style="color:#099">5</span>
+hi Ignore       cterm=bold ctermfg=<span style="color:#099">7</span>
+hi Ignore       ctermfg=darkgrey
+hi Error        cterm=bold ctermfg=<span style="color:#099">7</span> ctermbg=<span style="color:#099">1</span>
+
+
+<span style="color:#a61717;background-color:#e3d2d2">&#34;</span>vim: sw=<span style="color:#099">4</span>
 
 </code></pre></div>
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
     </div>
-</section>
+</footer>
 
 </body>
-<br>
-    <div class="wrap">
-        <script type="text/javascript">
-            
-            var pic = [];
-            pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-            pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/m731jF20220117115554.png";
-
-            var talk = [];
-            talk[0] = "mail : jingherego@gmail.com";
-            talk[1] = "github : github.com/nber1994";
-            talk[2] = "本站内容部分来源于网络，可转载.";
-            talk[3] = "如有错误，请联系我";
-
-            var randomBgIndex = Math.floor( Math.random() * 4 );
-
-            
-            
-            document.write("<a href='https://github.com/nber1994'><img src=" + pic[randomBgIndex] + " width='400'></a>")
-            document.write("<span style='font-size:12px;'><p>" + talk[randomBgIndex] + " </p></span>")
-            
-        </script>
-    </div>
-
-
 </html>
