@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>nginx平滑重启</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>nginx平滑重启</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>nginx平滑重启</h1>
+			<b><time>2019-08-09</time></b>
+		       
+
+			<div>
+				<h1 id="nginx-平滑重启">nginx-平滑重启</h1>
+<blockquote>
+<p>本文转载自软件编程之路公众号文章：<a href="https://mp.weixin.qq.com/s?__biz=MzIxNzg5ODE0OA==&amp;mid=2247483660&amp;idx=1&amp;sn=b78b07de401eb7c08b6b7ba70c68cf00&amp;chksm=97f38cc7a08405d18ecca5cf9af523b1d2f3294a603a08d810664aa4986b481eda82eee78626&amp;utm_medium=hao.caibaojian.com">深入剖析nginx平滑重启</a></p>
+</blockquote>
+<h1 id="一背景">一、背景</h1>
+<p>在服务器开发过程中，难免需要重启服务加载新的代码或配置，如果能够保证server重启的过程中服务不间断，那重启对于业务的影响可以降为0。最近调研了一下nginx平滑重启，觉得很有意思，记录下来供有兴趣的同学查阅。</p>
+<h1 id="二重启流程">二、重启流程</h1>
+<ul>
+<li>
+<p>重启意味着新旧接替，在交接任务的过程中势必会存在新旧server并存的情形，因此，重启的流程大致为：</p>
+<ol>
+<li>启动新的server</li>
+<li>新旧server并存，两者共同处理请求，提供服务</li>
+<li>旧的server处理完所有的请求之后优雅退出</li>
+</ol>
+</li>
+<li>
+<p>这里，最主要的问题在于如何保证新旧server可以并存，如果重启前后的server端口一致，如何保证两者可以监听同一端口。</p>
+</li>
+</ul>
+<h1 id="三nginx实现">三、nginx实现</h1>
+<ol>
+<li>为了验证nginx平滑重启，笔者首先尝试nginx启动的情形下再次开启一个新的server实例，结果如图：
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190524111302828_2075783423.png" alt=""></li>
+</ol>
+<p>很明显，重新开启server实例是行不通的，原因在于新旧server使用了同一个端口80，在未开始socket reuseport选项复用端口时，bind系统调用会出错。nginx默认bind重试5次，失败后直接退出。而nginx需要监听IPV4地址0.0.0.0和IPV6地址[::]，故图中打印出10条emerg日志。</p>
+<ol start="2">
+<li>接下来就开始尝试平滑重启命令了，一共两条命令：</li>
+</ol>
+<pre tabindex="0"><code>kill -USR2 `cat /var/run/nginx.pid`
+kill -QUIT `cat /var/run/nginx.pid.oldbin`
+</code></pre><ul>
+<li>第一条命令是发送信号USR2给旧的master进程，进程的pid存放在/var/run/nginx.pid文件中，其中nginx.pid文件路径由nginx.conf配置。</li>
+<li>第二条命令是发送信号QUIT给旧的master进程，进程的pid存放在/var/run/nginx.pid.oldbin文件中，随后旧的master进程退出。</li>
+</ul>
+<p>那么问题来了，为什么旧的master进程的pid存在于两个pid文件之中？事实上，在发送信号USR2给旧的master进程之后，旧的master进程将pid重命名，原先的nginx.pid文件rename成nginx.pid.oldbin。这样新的master进行就可以使用nginx.pid这个文件名了。</p>
+<p>先执行第一条命令，结果如图：  <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190524111338510_269875207.png" alt=""></p>
+<p>不错，新旧master和worker进程并存了。 再来第二条命令，结果如图:  <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190524111356626_307141585.png" alt=""></p>
+<p>如你所见，旧的master进程8527和其worker进程全部退出，只剩下新的master进程12740。</p>
+<p>不由得产生困惑，为什么手动开启一个新的实例行不通，使用信号重启就可以达到。先看下nginx log文件：  <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190524111415412_1725415354.png" alt=""></p>
+<p>除了之前的错误日志，还多了一条notice，意思就是继承了sockets，fd值为6，7。 随着日志翻看nginx源码，定位到nginx.c/ngx_exec_new_binary函数之中，</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">ngx_pid_t
+<span style="color:#900;font-weight:bold">ngx_exec_new_binary</span>(ngx_cycle_t <span style="color:#000;font-weight:bold">*</span>cycle, <span style="color:#458;font-weight:bold">char</span> <span style="color:#000;font-weight:bold">*</span><span style="color:#000;font-weight:bold">const</span> <span style="color:#000;font-weight:bold">*</span>argv)
+{
+    ...
+    ctx.path <span style="color:#000;font-weight:bold">=</span> argv[<span style="color:#099">0</span>];
+    ctx.name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;new binary process&#34;</span>;
+    ctx.argv <span style="color:#000;font-weight:bold">=</span> argv;
+    n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>;
+    env <span style="color:#000;font-weight:bold">=</span> ngx_set_environment(cycle, <span style="color:#000;font-weight:bold">&amp;</span>n);
+...
+    var <span style="color:#000;font-weight:bold">=</span> ngx_alloc(<span style="color:#000;font-weight:bold">sizeof</span>(NGINX_VAR)
+                    <span style="color:#000;font-weight:bold">+</span> cycle<span style="color:#000;font-weight:bold">-&gt;</span>listening.nelts <span style="color:#000;font-weight:bold">*</span> (NGX_INT32_LEN <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">2</span>,
+                    cycle<span style="color:#000;font-weight:bold">-&gt;</span>log);
+...
+    p <span style="color:#000;font-weight:bold">=</span> ngx_cpymem(var, NGINX_VAR <span style="color:#d14">&#34;=&#34;</span>, <span style="color:#000;font-weight:bold">sizeof</span>(NGINX_VAR));
+    ls <span style="color:#000;font-weight:bold">=</span> cycle<span style="color:#000;font-weight:bold">-&gt;</span>listening.elts;
+    <span style="color:#000;font-weight:bold">for</span> (i <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="color:#000;font-weight:bold">&lt;</span> cycle<span style="color:#000;font-weight:bold">-&gt;</span>listening.nelts; i<span style="color:#000;font-weight:bold">++</span>) {
+        p <span style="color:#000;font-weight:bold">=</span> ngx_sprintf(p, <span style="color:#d14">&#34;%ud;&#34;</span>, ls[i].fd);
+    }
+    <span style="color:#000;font-weight:bold">*</span>p <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;\0&#39;</span>;
+    env[n<span style="color:#000;font-weight:bold">++</span>] <span style="color:#000;font-weight:bold">=</span> var;
+...
+    env[n] <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">NULL</span>;
+...
+    ctx.envp <span style="color:#000;font-weight:bold">=</span> (<span style="color:#458;font-weight:bold">char</span> <span style="color:#000;font-weight:bold">*</span><span style="color:#000;font-weight:bold">const</span> <span style="color:#000;font-weight:bold">*</span>) env;
+    ccf <span style="color:#000;font-weight:bold">=</span> (ngx_core_conf_t <span style="color:#000;font-weight:bold">*</span>) ngx_get_conf(cycle<span style="color:#000;font-weight:bold">-&gt;</span>conf_ctx, ngx_core_module);
+    <span style="color:#000;font-weight:bold">if</span> (ngx_rename_file(ccf<span style="color:#000;font-weight:bold">-&gt;</span>pid.data, ccf<span style="color:#000;font-weight:bold">-&gt;</span>oldpid.data) <span style="color:#000;font-weight:bold">==</span> NGX_FILE_ERROR) {
+       ...
+        <span style="color:#000;font-weight:bold">return</span> NGX_INVALID_PID;
+    }
+    pid <span style="color:#000;font-weight:bold">=</span> ngx_execute(cycle, <span style="color:#000;font-weight:bold">&amp;</span>ctx);
+    <span style="color:#000;font-weight:bold">if</span> (pid <span style="color:#000;font-weight:bold">==</span> NGX_INVALID_PID) {
+        <span style="color:#000;font-weight:bold">if</span> (ngx_rename_file(ccf<span style="color:#000;font-weight:bold">-&gt;</span>oldpid.data, ccf<span style="color:#000;font-weight:bold">-&gt;</span>pid.data)
+            <span style="color:#000;font-weight:bold">==</span> NGX_FILE_ERROR)
+        {
+            ...
+        }
+    }
+...
+    <span style="color:#000;font-weight:bold">return</span> pid;
+}
+</code></pre></div><ul>
+<li>函数的流程为</li>
+</ul>
+<ol>
+<li>将旧的master进程监听的所有fd，拷贝至新master进程的env环境变量NGINX_VAR。</li>
+<li>rename重命名pid文件</li>
+<li>ngx_execute函数fork子进程，execve执行命令行启动新的server。</li>
+<li>在server启动流程之中，涉及到环境变量NGINX_VAR的解析，ngx_connection.c/ngx_add_inherited_sockets具体代码为:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">static</span> ngx_int_t
+<span style="color:#900;font-weight:bold">ngx_add_inherited_sockets</span>(ngx_cycle_t <span style="color:#000;font-weight:bold">*</span>cycle)
+{
+...
+    inherited <span style="color:#000;font-weight:bold">=</span> (u_char <span style="color:#000;font-weight:bold">*</span>) getenv(NGINX_VAR);
+    <span style="color:#000;font-weight:bold">if</span> (inherited <span style="color:#000;font-weight:bold">==</span> <span style="color:#0086b3">NULL</span>) {
+        <span style="color:#000;font-weight:bold">return</span> NGX_OK;
+    }
+    <span style="color:#000;font-weight:bold">if</span> (ngx_array_init(<span style="color:#000;font-weight:bold">&amp;</span>cycle<span style="color:#000;font-weight:bold">-&gt;</span>listening, cycle<span style="color:#000;font-weight:bold">-&gt;</span>pool, <span style="color:#099">10</span>,
+                       <span style="color:#000;font-weight:bold">sizeof</span>(ngx_listening_t))
+        <span style="color:#000;font-weight:bold">!=</span> NGX_OK)
+    {
+        <span style="color:#000;font-weight:bold">return</span> NGX_ERROR;
+    }
+    <span style="color:#000;font-weight:bold">for</span> (p <span style="color:#000;font-weight:bold">=</span> inherited, v <span style="color:#000;font-weight:bold">=</span> p; <span style="color:#000;font-weight:bold">*</span>p; p<span style="color:#000;font-weight:bold">++</span>) {
+        <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">*</span>p <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;:&#39;</span> <span style="color:#000;font-weight:bold">||</span> <span style="color:#000;font-weight:bold">*</span>p <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;;&#39;</span>) {
+            s <span style="color:#000;font-weight:bold">=</span> ngx_atoi(v, p <span style="color:#000;font-weight:bold">-</span> v);
+            ...
+            v <span style="color:#000;font-weight:bold">=</span> p <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>;
+            ls <span style="color:#000;font-weight:bold">=</span> ngx_array_push(<span style="color:#000;font-weight:bold">&amp;</span>cycle<span style="color:#000;font-weight:bold">-&gt;</span>listening);
+            <span style="color:#000;font-weight:bold">if</span> (ls <span style="color:#000;font-weight:bold">==</span> <span style="color:#0086b3">NULL</span>) {
+                <span style="color:#000;font-weight:bold">return</span> NGX_ERROR;
+            }
+            ngx_memzero(ls, <span style="color:#000;font-weight:bold">sizeof</span>(ngx_listening_t));
+            ls<span style="color:#000;font-weight:bold">-&gt;</span>fd <span style="color:#000;font-weight:bold">=</span> (ngx_socket_t) s;
+        }
+    }
+    ...
+    ngx_inherited <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>;
+    <span style="color:#000;font-weight:bold">return</span> ngx_set_inherited_sockets(cycle);
+}
+</code></pre></div><ul>
+<li>函数流程为：</li>
+</ul>
+<ol>
+<li>解析环境变量NGINX_VAR的值，获取fd存入数组</li>
+<li>fd对应的socket设为ngx_inherited，保存这些socket的信息。</li>
+</ol>
+<p><strong>也就是说，新的server压根就没重新bind端口listen，这些fd状态和值都是新的master进程fork时带过来的,新的master进程监听处理继承来的文件描述符即可，这里比较关键的一点在于listen socket文件描述符通过ENV传递。</strong></p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

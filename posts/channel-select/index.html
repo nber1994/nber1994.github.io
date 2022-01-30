@@ -109,18 +109,10 @@
 			<h1>channel &amp; selelct</h1>
 			<b><time>2020-11-23</time></b>
 		       
-		           <a href="/tags/pic">pic</a>
-        	       
 
 			<div>
 				<h1 id="并发编程模型">并发编程模型</h1>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/cf91b4c995dd4ee2bbcf8662dd7d3e9120211227192856.jpeg" alt="img" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/cf91b4c995dd4ee2bbcf8662dd7d3e9120211227192856.jpeg" alt="img"></p>
 <p>并发编程的意义，这个不需要多说了，大流量，高并发全靠它，性能上来了，稳定性也就不言而喻了</p>
 <p>并发的两个基础部分：</p>
 <ol>
@@ -160,13 +152,7 @@
 <p>但是，进程间切换仍需要进入内核进行，仍然存在大量的并发切换消耗</p>
 <h3 id="协程作为unit">协程作为Unit</h3>
 <p>协程，也叫做<strong>用户态线程</strong>，它规避了最后一个问题，切换消耗过大的问题，无需通过系统调用进入内核进行切换，协程所有的生命周期均发生在用户态。</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/bVcTwI820211227195035.png" alt="img" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/bVcTwI820211227195035.png" alt="img"></p>
 <p>因为协程的优点，协程类编程也开始越来越火了。比较有代表性的有Go的goroutine、Erlang的Erlang进程、Scala的actor、windows下的fibre（纤程）等，一些动态语言像Python、Ruby、Lua也慢慢支持协程。</p>
 <p><strong>但是</strong> 语言引入协程作为并发调度单位，需要实现自己的协程调度器、并提供协程间通信的方式等一系列支持模块，相较于传统的基于进程线程的并发方式，需要实现很多额外的功能组件。<strong>实现较复杂。</strong></p>
 <h2 id="concurrency-model">Concurrency model</h2>
@@ -193,13 +179,7 @@
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Action</span>(ctx context.Context, db <span style="color:#000;font-weight:bold">*</span>Databus) (<span style="color:#000;font-weight:bold">*</span>Databus, <span style="color:#458;font-weight:bold">error</span>)
 </code></pre></div><p>每个函数都会对Databus做一些自己的修改，这个修改是全局Action可见的（因为Databus传的是指针类型），因此如果存在并发的节点，会存在对全局变量的锁竞争。</p>
 <p>但是在接入业务需求时，这套设计还好，不会产生太大的问题，但是在接入拦截系统时，由于拦截系统的比较大的诉求是希望引入并发带来对耗时的优化，如果仍然采用这种粗粒度锁的方式，竞争会比较大，可预见的性能优化不会太明显，如图</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122818275940220211228182800.png" alt="image-20211228182759402" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122818275940220211228182800.png" alt="image-20211228182759402"></p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">type</span> Data <span style="color:#000;font-weight:bold">struct</span> {
 	input 		<span style="color:#000;font-weight:bold">*</span>Input
   collector <span style="color:#000;font-weight:bold">*</span>ChekerCollector
@@ -216,44 +196,20 @@
   cc.lock.<span style="color:#900;font-weight:bold">Unlock</span>()
 }
 </code></pre></div><p>那么，采用函数式编程的思路，我们把databus尽量减少写操作，将需要写的字段分配到每个并发节点的运行时局部变量中，然后再对每个并发节点的结果做统一的收集，可以很好的减少并发竞争</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122818272690920211228182727.png" alt="image-20211228182726909" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122818272690920211228182727.png" alt="image-20211228182726909"></p>
 <h3 id="actor">Actor</h3>
 <p>那么，我们回归到通信本身，有没有更好的通信方式呢？</p>
 <p>Actor的主要思路是，每个并发单元抽象为actor，每个actor都拥有一个邮箱**，所有actor间的通信都会异步的发送到对方的邮箱中**，这样<strong>解耦了actor</strong>之间的关系，各个actor都能按照自己的步调进行执行，但是他们会按照邮箱中消息的发送顺序来依次处理消息，当且仅当前一个消息处理完成后，才会开始下一个消息处理，即<strong>保障了消息的时序性</strong>。</p>
 <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122819182969720211228191830.png" alt="image-20211228191829697" style="zoom:67%;" />
 <p>这样的话，在并发单元执行过程中，也不会存在锁资源的竞争，但是由于发送过程是异步的，即只将消息放入目标actor的邮箱中即完成了发送操作，但是消息什么时候会被目标actor处理，则是不可预测的。</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122820544288320211228205443.png" alt="image-20211228205442883" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122820544288320211228205443.png" alt="image-20211228205442883"></p>
 <p><strong>代表语言：erlang，scala的akka库</strong></p>
 <h3 id="csp">CSP</h3>
 <p>csp的降低竞争的思想大体和actor保持一致，但是在消息发送上则采用了同步的方式，且与actor不同的是，csp关注的不是发送接受者，而是发送的媒介。</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122820550199820211228205502.png" alt="image-20211228205501998" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122820550199820211228205502.png" alt="image-20211228205501998"></p>
 <p>并发单元间通过一个FIFO队列（channel）来进行通信，而不是直接和目标单元进行通信。</p>
 <h4 id="actor和csp的区别">actor和csp的区别</h4>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122820562839520211228205629.png" alt="image-20211228205628395" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122820562839520211228205629.png" alt="image-20211228205628395"></p>
 <ol>
 <li>actor的并发单元之间直接通信，csp则通过channel通信，后者显然耦合更松散</li>
 <li>csp的消息交换是同步的，actor则是完全异步，可以在任意时间点发送消息到任何并发单元（甚至不存在的），并且actor可以自由选择处理哪些消息</li>
@@ -373,13 +329,7 @@ exit status 2
 </code></pre></div><p>只要缓冲区未满，则发送者发送消息不回阻塞，直到缓冲区满了之后，发送者发送消息才会阻塞，反之，缓冲区不空，接收者接收消息不阻塞，缓冲区空，接收者接收消息阻塞。</p>
 <h2 id="源码总览">源码总览</h2>
 <h3 id="主结构">主结构</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122911302169020211229113022.png" alt="image-20211229113021690" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021122911302169020211229113022.png" alt="image-20211229113021690"></p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">type</span> hchan <span style="color:#000;font-weight:bold">struct</span> {
 	qcount   <span style="color:#458;font-weight:bold">uint</span>           <span style="color:#998;font-style:italic">// 队列中的所有元素个数
 </span><span style="color:#998;font-style:italic"></span>	dataqsiz <span style="color:#458;font-weight:bold">uint</span>           <span style="color:#998;font-style:italic">// ring buffer的大小
@@ -459,7 +409,7 @@ exit status 2
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -468,7 +418,7 @@ exit status 2
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -477,7 +427,7 @@ exit status 2
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

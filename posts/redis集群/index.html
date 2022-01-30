@@ -109,12 +109,9 @@
 			<h1>redis集群</h1>
 			<b><time>2019-01-08</time></b>
 		       
-		           <a href="/tags/redis">redis</a>
-        	       
 
 			<div>
-				<h1 id="redis集群">redis集群</h1>
-<ul>
+				<ul>
 <li>redis集群通过分片来进行数据共享，并且提供复制和故障转移的功能</li>
 </ul>
 <h1 id="节点">节点</h1>
@@ -192,13 +189,7 @@
     <span style="color:#998;font-style:italic">//正在导入的槽的节点
 </span><span style="color:#998;font-style:italic"></span>    clusterNode importing_slots_from[<span style="color:#099">16384</span>];
 } clusterState;
-</code></pre></div><p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121154717423_1668313282.png" alt="" />
-</figure>
-
-
-</p>
+</code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121154717423_1668313282.png" alt=""></p>
 <h1 id="集群">集群</h1>
 <h2 id="cluster-meet实现">cluster meet实现</h2>
 <ul>
@@ -240,13 +231,7 @@
 </code></pre></div><ul>
 <li>如果slots[i]为null表明槽i未指派任何节点</li>
 <li>slots[i]指向一个clusterNode，表明槽i指向该节点
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114139727_2138546451.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114139727_2138546451.png" alt=""></li>
 </ul>
 <h2 id="在集群中执行命令">在集群中执行命令</h2>
 <ul>
@@ -257,26 +242,14 @@
 <ul>
 <li>如果是则查找键值，并返回</li>
 <li>如果不是本节点负责，则返回moved错误，指引客户端转向到新的节点
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114721112_116402118.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114721112_116402118.png" alt=""></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 <h3 id="计算键属于哪个槽">计算键属于哪个槽</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114817495_12794809.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121114817495_12794809.png" alt=""></p>
 <h3 id="判断槽是否由当前节点处理">判断槽是否由当前节点处理</h3>
 <ul>
 <li>如果clusterState.slots[i]等于myself的话，则是本节点负责</li>
@@ -300,13 +273,7 @@
 - 通过slot_to_keys结构，可以很方便的对某个或者某些槽的所有键进行批量操作
     - 例如cluster getkeyinslot slot count命令，返回最多count个属于slot的键1
 </code></pre>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121120718879_293990163.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121120718879_293990163.png" alt=""></p>
 <h2 id="重新分片">重新分片</h2>
 <ul>
 <li>集群中可以进行重新分片的操作，可以将任意数量的槽指派到另一个节点，所有关联的键值对会迁移到目标节点</li>
@@ -363,13 +330,7 @@
 <ul>
 <li>存在，则破例执行该命令</li>
 <li>不存在则返回moved
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121143034033_1880281441.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121143034033_1880281441.png" alt=""></li>
 </ul>
 </li>
 </ul>
@@ -517,13 +478,7 @@
 <li>moved表示槽i的负责全转移到了另一个节点，ask只是两个节点在迁移过程中的历史措施</li>
 <li>集群中从节点用于复制，主节点下线时，代替主节点</li>
 <li>集群中的五种消息：meet，ping，pong，fail，publish
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121165539219_1794835342.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121165539219_1794835342.png" alt=""></li>
 </ul>
 
 			</div>
@@ -542,7 +497,7 @@
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -551,7 +506,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -560,7 +515,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

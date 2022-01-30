@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/categories/linux/</link>
+    <description>Recent content in linux on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 21 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何查看剩余内存</title>
+      <link>http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E5%89%A9%E4%BD%99%E5%86%85%E5%AD%98/</link>
+      <pubDate>Wed, 21 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E5%89%A9%E4%BD%99%E5%86%85%E5%AD%98/</guid>
+      <description>如何查看剩余内存</description>
+    </item>
+    
+    <item>
+      <title>top命令</title>
+      <link>http://nber1994.github.io/posts/top%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/top%E5%91%BD%E4%BB%A4/</guid>
+      <description>任务队列信息 当前系统时间 系统累计运行时间 当前登录用户 活跃进程数1，5，15分钟 top - 11:47:19 up 298 days, 19:59, 1 user, load average: 0.99, 1.01, 1.03 进程信息 总共进程数 正在运行 休眠进程 停止进程 僵尸进程 Tasks: 175 total, 4 running, 170 sleeping, 1 stopped, 0 zombie CPU信息 用户态占用CPU百分比 内核态占用CPU百分比 改变过优先级的进程百分比 空闲百分比 IO等待百分比 硬中断 软中断 %Cpu(s): 15.9 us, 35.1 sy, 0.0 ni, 49.1 id, 0.0 wa, 0.0 hi, 0.0 si, 0.0 st 内存状态 物理内存总量 空闲内存总量 使用内存总量 缓存的内存量 KiB Mem : 8009832 total, 225372 free, 662292 used, 7122168 buff/cache swap分区信息 交换区总量 空闲 使用 KiB Swap: 0 total, 0 free, 0 used.</description>
+    </item>
+    
+    <item>
+      <title>unix-hater-handbook</title>
+      <link>http://nber1994.github.io/posts/unix-hater-handbook/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/unix-hater-handbook/</guid>
+      <description>最近偶尔发现了一本书，叫做unix痛恨者指南。 用了这么久的unix（linus），似乎所有的程序员都在谈论unix（linux），但是却很少有人对unix提出质疑 偶尔读读这样的书也挺有意思的，某些点也引发了我对unix（linux）的思考
+ UNIX痛恨者手册 第一章 UNIX——世界上第一个电脑病毒
+“伯克利的两项最著名的产品是UNIX和LSD (一种毒品)，我想这不是巧合”
+病毒依赖于微小的个体和强大的适应性得以生存。它们并不复杂：它们没有为呼吸，新 陈代谢，肌体活动等功能提供什么，只有足够的DNA或RNA以供繁衍。比如，肺炎病毒比 起它们入侵的细胞要小得多，但它们在每个肺炎流行季节都能够产生新的变种，造成无 数人死亡。
+一个好病毒的特点是：
+  个头小 病毒做的事情不多，所以不需要很大。有人认为病毒不是生物，只是一些有破坏性的酸 和蛋白质。
+  可移植性 病毒经常变异，以便以不同的方式攻击不同的细胞。据说AIDS就是由猴子身上的病毒变 异而成的。
+  耗尽寄主的资源
+  快速变异
+  UNIX具有以上所有优点。在它刚诞生时，很小，功能不多，缺乏真正操作系统所需要的 功能（如文件映射，告诉IO，健壮的文件系统，设备锁，合理的进程间通讯），它的移 植性很好。UNIX耗尽主机的资源，没有系统管理员的时时呵护，UNIX会不断恐慌，core dump，挂起。UNIX不断变异：同一个补丁在一个版本上工作，在另一个版本上就不行。
+UNIX是有用户界面的计算机病毒。
+标准化那些不一致的 “标准的伟大之处在于它可以有很多” &amp;mdash; Grace Murray Hopper
+自从UNIX 80年代开始流行以来，UNIX厂商一直在努力进行UNIX标准化工作。SUN, IBM， HP和DEC在这个他们自己制造的难题上倾注了数百万美元。
+为什么UNIX厂商不喜欢UNIX标准化?
+许多用户受够了复杂繁多的UNIX，最终只好使用Windows，因为他们的这个UNIX无法支持 那个UNIX上的应用程序。
+如果UNIX标准化了，谁还会买SUN的机器呢 第二章 欢迎新用户
+欢迎新用户如同用一把上了六颗子弹的左轮枪玩俄罗斯轮盘赌
+Ken Thompson 自己设计过一辆汽车。和其他车不同，它没有速度计、汽油计，也没有那 些愚蠢的指示灯讨司机的厌。如果司机犯了什么错误，仪表盘上就会出现一个大大的“ ？”。“有经验的司机，”Thompson说，“应该知道哪儿搞错了。”
+计算机系统的新手需要一个友好的系统。至少，一个得体的系统会这样招待自己的客人 ：
+与功能有逻辑关系的命令名 对危险命令的小心处理 一致的命令行为和命令行参数解析 易得和易读的在线文档 当命令失败时，给出可理解和有用的错误反馈
+在建造UNIX的过程中，从没邀请过住户。来访的都是些戴着安全帽的建筑工人，被安插 在这个破木板房子的各个角落。不幸的是，不仅没有人性因素（human factors）工程师 的参与，而且住户的需要就从来没有被考虑过。所以抽水马桶、中央供暖、窗户等这些 方便设施在后期就很难再添加了。但是建筑师们仍然为UNIX的设计而骄傲，似乎他们并 不介意在一个没有烟火探测器的屋子里睡觉。</description>
+    </item>
+    
+    <item>
+      <title>文本处理命令</title>
+      <link>http://nber1994.github.io/posts/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/</guid>
+      <description>统计日志中出现最多的IP grep -i -o -E &amp;#39;([0-9]{1,3}\.){3}[0-9]{1,3}&amp;#39; log.log | sort -n | uniq -c | sort -n -r | head -10   grep
+ -i 忽略大小写 -o 输出匹配部分 -E 正则表达式    sort
+ -n 数值排序 -r 倒叙排序    uniq
+ -c 显示重复次数    head
+ -n 显示前n行    awk命令 log内容
+root:x:0:0:root:/root:/usr/bin/zsh daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin bin:x:2:2:bin:/bin:/usr/sbin/nologin sys:x:3:3:sys:/dev:/usr/sbin/nologin sync:x:4:65534:sync:/bin:/bin/sync # awk命令结构 awk 选项 &amp;#39;条件 动作&amp;#39; 文件 # 例如 awk &amp;#39;{print $0}&amp;#39; log  $0 表示当前行 $n 表示按照分隔符切割后的第几个（默认是空格，制表符） NF 分割了多少个字段 $(NF-n)倒数第几个 -F 设置分隔符  awk -F &amp;#39;:&amp;#39; &amp;#39;{print $0}&amp;#39; log  NR 当前行  awk &amp;#39;{print NR &amp;#34;)&amp;#34; $1}&amp;#39; log 1) root 2) daemon 3) bin 4) sys 5) sync  函数  tolower()：字符转为小写。 length()：返回字符串长度。 substr()：返回子字符串。 rand()：随机数。   条件  $ awk -F &amp;#39;:&amp;#39; &amp;#39;/usr/ {print $1}&amp;#39; demo.</description>
+    </item>
+    
+    <item>
+      <title>strace命令</title>
+      <link>http://nber1994.github.io/posts/strace%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Tue, 18 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/strace%E5%91%BD%E4%BB%A4/</guid>
+      <description>进程对用户来说就是一个黑盒，strace就是打开这个黑盒子的工具，可以解析出我们需要的调用
+ 使用实例 strace -tt -T -v -f -e trace=file -o /data/log/strace.log -s 1024 -p 23489  -tt 在每行输出的前面，显示毫秒级别的时间 -T 显示每次系统调用所花费的时间 -v 对于某些相关调用，把完整的环境变量，文件stat结构等打出来。 -f 跟踪目标进程，以及目标进程创建的所有子进程 -e 控制要跟踪的事件和跟踪行为,比如指定要跟踪的系统调用名称 -o 把strace的输出单独写到指定的文件 -s 当系统调用的某个参数是字符串时，最多输出指定长度的内容，默认是32个字节 -p 指定要跟踪的进程pid, 要同时跟踪多个pid, 重复多次-p选项即可。
+ #跟踪nginx strace -tt -T -f -e trace=file -o /data/log/strace.log -s 1024 ./nginx # -e trace=file 显示和文件访问相关的调用 -e的拓展 要跟踪某个具体的系统调用，-e trace=xxx即可。但有时候我们要跟踪一类系统调用，比如所有和文件名有关的调用、所有和内存分配有关的调用。
+如果人工输入每一个具体的系统调用名称，可能容易遗漏。于是strace提供了几类常用的系统调用组合名字。
+ -e trace=file 跟踪和文件访问相关的调用(参数中有文件名) -e trace=process 和进程管理相关的调用，比如fork/exec/exit_group -e trace=network 和网络通信相关的调用，比如socket/sendto/connect -e trace=signal 信号发送和处理相关，比如kill/sigaction -e trace=desc 和文件描述符相关，比如write/read/select/epoll等 -e trace=ipc 进程见同学相关，比如shmget等</description>
+    </item>
+    
+    <item>
+      <title>linux常用命令</title>
+      <link>http://nber1994.github.io/posts/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Mon, 03 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+      <description>top 任务队列信息 当前系统时间 系统累计运行时间 当前登录用户 活跃进程数1，5，15分钟 top - 11:47:19 up 298 days, 19:59, 1 user, load average: 0.99, 1.01, 1.03 进程信息 总共进程数 正在运行 休眠进程 停止进程 僵尸进程 Tasks: 175 total, 4 running, 170 sleeping, 1 stopped, 0 zombie CPU信息 用户态占用CPU百分比 内核态占用CPU百分比 改变过优先级的进程百分比 空闲百分比 IO等待百分比 硬中断 软中断 %Cpu(s): 15.9 us, 35.1 sy, 0.0 ni, 49.1 id, 0.0 wa, 0.0 hi, 0.0 si, 0.0 st 内存状态 物理内存总量 空闲内存总量 使用内存总量 缓存的内存量 KiB Mem : 8009832 total, 225372 free, 662292 used, 7122168 buff/cache swap分区信息 交换区总量 空闲 使用 KiB Swap: 0 total, 0 free, 0 used.</description>
+    </item>
+    
+    <item>
+      <title>修改内核参数提高并发性能</title>
+      <link>http://nber1994.github.io/posts/%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0%E6%8F%90%E9%AB%98%E5%B9%B6%E5%8F%91%E6%80%A7%E8%83%BD/</link>
+      <pubDate>Mon, 11 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0%E6%8F%90%E9%AB%98%E5%B9%B6%E5%8F%91%E6%80%A7%E8%83%BD/</guid>
+      <description>如何修改linux内核参数提高并发数
+ &amp;gt;修改用户进程可打开文件数限制  在Linux平台上，无论编写客户端程序还是服务端程序，在进行高并发TCP连接处理时，最高的并发数量都要受到系统对用户单一进程同时可打开文件数量的限制(这是因为系统为每个TCP连接都要创建一个socket句柄，每个socket句柄同时也是一个文件句柄)
+ &amp;gt;查看 ~ ulimit -n 1024 这表示当前用户的每个进程最多允许同时打开1024个文件，这1024个文件中还得除去每个进程必然打开的标准输入，标准输出，标准错误，服务器监听 socket，进程间通讯的unix域socket等文件，那么剩下的可用于客户端socket连接的文件数就只有大概1024-10=1014个左右。也就是说缺省情况下，基于Linux的通讯程序最多允许同时1014个TCP并发连接。
+ 对于想支持更高数量的TCP并发连接的通讯处理程序，就必须修改Linux对当前用户的进程同时打开的文件数量的软限制(soft limit)和硬限制(hardlimit)。 其中软限制是指Linux在当前系统能够承受的范围内进一步限制用户同时打开的文件数； 硬限制则是根据系统硬件资源状况(主要是系统内存)计算出来的系统最多可同时打开的文件数量。通常软限制小于或等于硬限制。  &amp;gt;修改 vim /etc/security/limits.conf 添加如下行: username soft nofile 10240 username hard nofile 10240 如果对所有用户修改则将username改为 \* &amp;gt;修改网络内核对tcp的限制  当linux下Nginx达到并发数很高，TCP TIME_WAIT套接字数量会很高，这样服务器很容易被拖死。事实上，我们可以简单的通过修改Linux内核参数，可以减少Nginx服务器 的TIME_WAIT套接字数量，进而提高Nginx服务器并发性能。
+ &amp;gt;执行 vim /etc/sysctl.conf &amp;gt;增加以下几行： net.ipv4.tcp_fin_timeout = 30 net.ipv4.tcp_keepalive_time = 1200 net.ipv4.tcp_syncookies = 1 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_tw_recycle = 1 net.ipv4.ip_local_port_range = 1024 65000 net.ipv4.tcp_max_syn_backlog = 8192 net.ipv4.tcp_max_tw_buckets = 5000 &amp;gt;执行命令立即生效 /sbin/sysctl -p &amp;gt;说明   net.</description>
+    </item>
+    
+    <item>
+      <title>shell常用的文本处理命令</title>
+      <link>http://nber1994.github.io/posts/shell%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/shell%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/</guid>
+      <description>先挖个坑,还未完成
+ sed 命令  SED的英文全称是 Stream EDitor，它是一个简单而强大的文本解析转换工具，在1973-1974年期间由贝尔实验室的Lee E. McMahon开发，今天，它已经运行在所有的主流操作系统上了。 McMahon创建了一个通用的行编辑器，最终变成为了SED。SED的很多语法和特性都借鉴了ed编辑器。设计之初，它就已经支持正则表达式，SED可以从文件中接受类似于管道的输入，也可以接受来自标准输入流的输入。  用途  文本替换 选择性的输出文本文件 从文本文件的某处开始编辑 无交互式的对文本文件进行编辑等  工作流  读取： SED从输入流（文件，管道或者标准输入）中读取一行并且存储到它叫做 模式空间（pattern buffer） 的内部缓冲区 执行： 默认情况下，所有的SED命令都在模式空间中顺序的执行，除非指定了行的地址，否则SED命令将会在所有的行上依次执行 显示： 发送修改后的内容到输出流。在发送数据之后，模式空间将会被清空。 在文件所有的内容都被处理完成之前，上述过程将会重复执行  需要注意的地点  模式空间 （pattern buffer） 是一块活跃的缓冲区，在sed编辑器执行命令时它会保存待检查的文本 默认情况下，所有的SED命令都是在模式空间中执行，因此输入文件并不会发生改变 还有另外一个缓冲区叫做 保持空间 （hold buffer），在处理模式空间中的某些行时，可以用保持空间来临时保存一些行。在每一个循环结束的时候，SED将会移除模式空间中的内容，但是该缓冲区中的内容在所有的循环过程中是持久存储的。SED命令无法直接在该缓冲区中执行，因此SED允许数据在 保持空间 和 模式空间之间切换 初始情况下，保持空间 和 模式空间 这两个缓冲区都是空的 如果没有提供输入文件的话，SED将会从标准输入接收请求 如果没有提供地址范围的话，默认情况下SED将会对所有的行进行操作  例子 写入文本
+$ vi quote.txt 少一些以功利为目的的追求，对一些不为什么的坚持 --nber1994 $ sed &amp;#39;&amp;#39; quote.txt 少一些以功利为目的的追求，对一些不为什么的坚持 --nber1994  quote.txt是输入的文件名称，两个单引号是要执行的SED命令 首先，SED将会读取quote.txt文件中的一行内容存储到它的模式空间中，然后会在该缓冲区中执行SED命令。在这里，没有提供SED命令，因此对该缓冲区没有要执行的操作，最后它会删除模式空间中的内容并且打印该内容到标准输出，很简单的过程  基础语法 SED可以用下列两种方式调用： sed [-n] [-e] &amp;#39;command(s)&amp;#39; files sed [-n] -f scriptfile files 第一种方式在命令行中使用单引号指定要执行的命令，第二种方式则指定了包含SED命令的脚本文件。当然，这两种方法也可以同时使用，SED提供了很多参数用于控制这种行为。</description>
+    </item>
+    
+  </channel>
+</rss>

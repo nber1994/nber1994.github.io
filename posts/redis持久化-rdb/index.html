@@ -109,8 +109,6 @@
 			<h1>redis持久化-RDB</h1>
 			<b><time>2019-01-08</time></b>
 		       
-		           <a href="/tags/redis">redis</a>
-        	       
 
 			<div>
 				<blockquote>
@@ -159,13 +157,7 @@
 <li>serverCron会定期的检查是否满足save的条件，从而进行保存</li>
 </ul>
 <h2 id="rdb文件的结构">RDB文件的结构</h2>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118184724932_1056938818.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118184724932_1056938818.png" alt=""></p>
 <ul>
 <li>REDIS是最开头的部分，保存着REDIS来标识是否是RDB文件</li>
 <li>db_version标识RDB版本</li>
@@ -174,20 +166,8 @@
 <li>check_sum是根据其他部分计算出来的，用来校验RDB文件是否有损坏</li>
 </ul>
 <h3 id="database部分">database部分</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118185640663_2133469789.png" alt="" />
-</figure>
-
-
-</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118185656485_692289764.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118185640663_2133469789.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118185656485_692289764.png" alt=""></p>
 <ul>
 <li>每个databases包含着三个部分
 <ul>
@@ -198,33 +178,15 @@
 </li>
 </ul>
 <h4 id="key_value_pairs部分">key_value_pairs部分</h4>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118185945179_247664102.png" alt="" />
-</figure>
-
-
-
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118190104694_667254428.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118185945179_247664102.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118190104694_667254428.png" alt=""></p>
 <ul>
 <li>type标识是哪种对象和实现方式</li>
 <li>EXPIRETIME 标志位，标识接下来读入的是一个到期时间</li>
 <li>ms 到期的时间戳</li>
 </ul>
 <h2 id="重点回顾">重点回顾</h2>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118190312976_385566762.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118190312976_385566762.png" alt=""></p>
 
 			</div>
 		</article>
@@ -242,7 +204,7 @@
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -251,7 +213,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -260,7 +222,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

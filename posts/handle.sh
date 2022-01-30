@@ -11,6 +11,6 @@ do
 
 	date=${filename:3:10}
 	gsed -i "/^title/a\date: ${date}" $filename
-	gsed -i 's/tags: /tags: \n- /' $filename
+	gsed -i 's/categories: /tags: \n- /' $filename
 	mv $filename ${filename:14}
 done

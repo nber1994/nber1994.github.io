@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>mysql资源汇总</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql资源汇总</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>mysql资源汇总</h1>
+			<b><time>2019-01-08</time></b>
+		       
+
+			<div>
+				<blockquote>
+<p>MySQL也有了几年了，说不出来个所以然，认知比较肤浅。所以需要加深学习呀，这里是学习过程中收集的一些好的资源，希望大家共同进步了。不是很系统的整理，看到了就记录了下来。</p>
+</blockquote>
+<p>官方文档必须要优先看滴呀！<a href="https://github.com/orangle/study-resources">本文Github地址</a></p>
+<h1 id="博客">博客</h1>
+<p>前辈们的博客就是他们成长的足迹。</p>
+<ul>
+<li>
+<p><a href="http://dimitrik.free.fr/blog/archives/cat_mysql.html">DimitriK&rsquo;s (dim)</a></p>
+</li>
+<li>
+<p><a href="http://yoshinorimatsunobu.blogspot.ca/">MATSUNOBU Yoshinori</a> MHA作者</p>
+</li>
+<li>
+<p><a href="http://hidba.org/">玄惭</a> 阿里</p>
+</li>
+<li>
+<p><a href="http://hedengcheng.com/">何登成</a> 阿里</p>
+</li>
+<li>
+<p><a href="http://imysql.com/">叶金荣</a> 知数堂</p>
+</li>
+<li>
+<p><a href="http://www.innomysql.com/">姜成尧</a> 网易</p>
+</li>
+<li>
+<p><a href="http://blog.itpub.net/22664653/">杨奇龙</a> 支付宝</p>
+</li>
+<li>
+<p><a href="http://www.penglixun.com/">penglixun</a> 阿里</p>
+</li>
+<li>
+<p><a href="http://www.royalwzy.com/">王朝阳</a></p>
+</li>
+<li>
+<p><a href="http://www.cnblogs.com/gomysql">大师兄</a></p>
+</li>
+<li>
+<p><a href="http://wubx.net">吴老师</a>  知数堂</p>
+</li>
+<li>
+<p><a href="http://blog.csdn.net/mchdba">黄杉</a></p>
+</li>
+<li>
+<p><a href="http://www.orczhou.com">周振兴</a>  一个故事@MySQL DBA</p>
+</li>
+<li>
+<p><a href="http://fordba.com/category/mysql">for dba</a></p>
+</li>
+<li>
+<p><a href="http://blog.163.com/li_hx/">那海蓝蓝的博客</a>  Oracle 对mysql，pg都比较多</p>
+</li>
+<li>
+<p><a href="http://blog.csdn.net/yueliangdao0608">四爷</a> msyql，pg很多对比</p>
+</li>
+<li>
+<p><a href="http://smalldatum.blogspot.com">smalldatum</a> facebook， 很多myrocks文章</p>
+</li>
+<li>
+<p><a href="http://mp.weixin.qq.com/profile?src=3&amp;timestamp=1485068751&amp;ver=1&amp;signature=97zp7qqm-wQSzWOAuHTac-wiNLUHTJMLOPyDgtnGluclBugccyOmXRDaBn2vTZ1pit9I9gfD5*T*dmzlHojIKw==">宋利兵老师公众号</a> 宋利兵老师公众号 Oracle， innodb原理分析</p>
+</li>
+<li>
+<p><a href="http://jfg-mysql.blogspot.ca/">Jean-François Gagné</a> Booking.com 的数据库工程师</p>
+</li>
+<li>
+<p><a href="http://mysql.taobao.org/monthly/">淘宝数据库内核月报</a></p>
+</li>
+<li>
+<p><a href="https://planet.mysql.com/zh/">planet mysql 中文</a></p>
+</li>
+<li>
+<p><a href="https://github.com/shlomi-noach/awesome-mysql/blob/gh-pages/index.md">awesome-mysql</a></p>
+</li>
+<li>
+<p><a href="http://db-engines.com/en/ranking">db ranking</a> 数据库排名</p>
+</li>
+<li>
+<p><a href="https://mariadb.com/kb/en/mariadb/optimization-and-tuning/">mariadb 官方整理的MySQL知识库</a></p>
+</li>
+<li>
+<p><a href="https://www.percona.com/blog/">Percona Database Performance Blog</a> 貌似每个dba对这个博客都特熟悉，没事多看看</p>
+</li>
+</ul>
+<h1 id="文章">文章</h1>
+<p>经验分享，或者是针对一些问题的分析，解答</p>
+<ul>
+<li><a href="http://tech.meituan.com/dianping_order_db_sharding.html">大众点评订单分库分表</a> 200g订单表开始做水平拆分的一些记录</li>
+<li><a href="https://mp.weixin.qq.com/s/oVl0Ih86CWT77npdS5cF1g">MySQL 排序内部原理</a></li>
+<li><a href="https://mp.weixin.qq.com/s/TxveGZK9o2QBEJbx1Vd9MA">MySQL备份经验</a> 线上紧急备份等的操作</li>
+<li><a href="http://blog.itpub.net/29320885/viewspace-1716164/">Mysql操作规范</a></li>
+<li><a href="https://bbs.aliyun.com/read/189202.html">阿里云DBA专家门诊</a>  问题比较基础，特意提了下不要使用外键的事（当然也是看场景)</li>
+<li><a href="https://bbs.aliyun.com/read/241176.html">阿里云DBA专家门诊</a> 主要集中在覆盖索引</li>
+<li><a href="http://blog.itpub.net/22664653/viewspace-1673682/">MySQL5.6新特性之Muti-Range Read</a> 当看到执行计划中有 mrr的时候就是它了</li>
+<li><a href="http://xiaorui.cc/2016/12/08/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%BB%BA%E8%AE%AEinnodb%E4%BD%BF%E7%94%A8%E4%BA%BF%E7%BA%A7%E5%A4%A7%E8%A1%A8/">为什么不建议innodb使用亿级大表</a> innodb的存储方式和索引方式</li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzAwMDU1MTE1OQ==&amp;mid=209403337&amp;idx=1&amp;sn=f99429e24e8c591111a355e072f93e05">MySQL大数据场景的优化和运维-美团DBA</a> 非常多的可以参考和操作的内容，可以作为手册使用， 建议多看几遍</li>
+<li><a href="http://www.cnblogs.com/zhengyun_ustc/p/slowquery1.html">联合查询中的驱动表问题</a>  不同的写法可能造成查询优化器无法选择正确的驱动表，从而整个查询的扫描范围增加，最后的目的就是用 <code>小结果集驱动大结果集</code></li>
+<li><a href="http://hedengcheng.com/?p=771">MySQL 加锁处理分析</a>  完美的串联了mvcc 锁机制 隔离级别的知识</li>
+<li><a href="http://www.cnblogs.com/zhoujinyi/p/3435982.html">innodb锁机制 Next-Key Lock 浅谈</a> 从小案例的角度来说明 Next-Key Lock算法在RR隔离级别下解决幻读问题的原理</li>
+<li><a href="http://mysql.taobao.org/monthly/2015/11/07/">MySQL · 答疑解惑 · MySQL 优化器 range 的代价计算</a> 使用 optimizer trace 来分析一个代价计算的案例</li>
+<li><a href="https://mp.weixin.qq.com/s/pmycCxLM_9vzrMsX4eDFFQ">MySQL 5.7的新增功能白皮书（中文版）</a> MySQL5.7 版本特性全面的介绍，如果还没有正式使用5.7版本，请仔细阅读阅读。</li>
+<li><a href="https://mp.weixin.qq.com/s/vt7YjxaikJh14pnY2FAWvg">MySQL Join算法与调优白皮书（四）</a> 姜老师的系列文章，深入浅出的讲解了 MySQL join算法的原理和使用中需要注意的细节</li>
+<li><a href="http://www.jianshu.com/p/cc6746ac4fc2">MySQL高可用浅析</a> 唐刘老师的对mysql复制部分的总结</li>
+<li><a href="https://mp.weixin.qq.com/s/3DeXEd2ZjjutxRyo_3coaQ">MySQL半同步复制的数据一致性探讨</a></li>
+</ul>
+<h2 id="案例分析">案例分析</h2>
+<p><a href="https://www.percona.com/blog/2014/10/28/how-to-deal-with-mysql-deadlocks/">How to deal with MySQL deadlocks</a> 遇到mysql死锁问题时候怎么查询，还有避免死锁的几种思路。第一个通过 <code> SHOW ENGINE INNODB STATUS</code> 查找死锁信息，第二个回忆GAP锁知识</p>
+<h1 id="slides">slides</h1>
+<ul>
+<li><a href="http://hotpu-meeting.b0.upaiyun.com/2014dtcc/post_pdf/hedengcheng.pdf">一步步深入MySQL源码</a> 何登成，怎么深入的学习Mysql的一些经验和建议</li>
+<li><a href="https://bbs.aliyun.com/read/168647.html">RDS最佳实践</a> 玄惭， 问题查询和数据库设计方面的建议</li>
+<li><a href="https://bbs.aliyun.com/read/189202.html?displayMode=1&amp;page=3#601628">MySQL索引和SQL调优</a>   玄惭，innodb索引的原理以及案例分析</li>
+<li><a href="http://wenku.baidu.com/view/3e294a52f01dc281e53af0f1.html">MySQL数据库开发的三十六条军规-石展</a> 数据库开发中的一些经验规则总结，非常有参考性</li>
+<li><a href="http://www.slideshare.net/plinux/mysql1-5066095">MySQL基础技能与原理&ndash;基础技能</a>  彭立勋老师, 一个系列 MySQL，Oracle都有涉及 （基于5.1版本）</li>
+<li><a href="http://www.slideshare.net/plinux/mysql2-5066096">MySQL基础技能与原理&ndash;高级应用</a></li>
+<li><a href="http://www.slideshare.net/plinux/mysql3">MySQL基础技能与原理&ndash;基本原理</a></li>
+<li><a href="http://www.slideshare.net/sunmonth/mysql-24283118">MySQL培训优化篇</a>  东西比较多，几乎所有方面</li>
+<li><a href="http://www.slideshare.net/sky000/mysql-explain">MySQL Explain 解读</a> 简朝阳大师， 结合例子说明的非常详细了</li>
+<li><a href="http://hedengcheng.com/?p=372">MySQL查询优化浅析</a> 代价模型，了解mysql索引选择原理</li>
+<li><a href="https://www.slideshare.net/jynus/query-optimization56">Query Optimization with MySQL 5.6: Old and New Tricks</a></li>
+<li><a href="https://www.slideshare.net/AlexanderRubin1/meetup-tour-queryoptimizationnew">Advanced MySQL Query Tuning</a></li>
+<li><a href="https://www.slideshare.net/caibaohua/mysql-query-optimization-4719028">Mysql query optimization</a></li>
+<li><a href="https://github.com/ThinkDevelopers/PHPConChina/blob/master/PHPCON2017/MySQL%E7%A7%92%E6%9D%80%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96--%E6%9D%A8%E5%BE%B7%E5%8D%8E%40PHPCON2017.pdf">MySQL秒杀场景优化&ndash;杨德华</a> phpconchina2017的一个演讲，视频地址是<a href="http://www.itdks.com/dakalive/detail/2291">这里</a>, 通过秒杀场景中的库存问题来说明线程池和死锁问题的知识</li>
+</ul>
+<h1 id="videos">videos</h1>
+<ul>
+<li><a href="http://www.itdks.com/dakashuo/index">IT大咖说</a> 里面有一些mysql的分享，不过需要自己找下了。（还需要注册）</li>
+</ul>
+<h1 id="在线学习">在线学习</h1>
+<ul>
+<li><a href="https://sqlzoo.net/">sqlzoo</a> 在线的sql练习，比较适合入门</li>
+<li><a href="https://livesql.oracle.com/apex/livesql/file/toc.html#A7">oracle live sql</a> oracle 官方的sql案例，都是oracle的案例，不过也可以参考下。。</li>
+</ul>
+<h1 id="工具">工具</h1>
+<ul>
+<li><a href="https://github.com/danfengcao/binlog2sql">binlog2sql</a> 大众点评，闪回和binlog解析sql,  还不错哦</li>
+<li><a href="https://github.com/noplay/python-mysql-replication">python-mysql-replication</a> Mysql复制工具库，可以基于它开发很多东西了</li>
+<li><a href="https://github.com/innotop/innotop">innotop</a> innodb引擎监控工具，perl语言的一个脚本</li>
+<li><a href="https://github.com/github/orchestrator">orchestrator</a></li>
+</ul>
+<h1 id="项目">项目</h1>
+<ul>
+<li><a href="https://github.com/Tencent/phxsql/wiki">phxsql</a> 微信开源的集群方案</li>
+<li><a href="https://github.com/facebook/mysql-5.6/wiki">MyRocks</a> 使用rocksdb做为底层存储，上层实现sql引擎，思路很棒</li>
+<li><a href="https://github.com/alibaba/AliSQL/wiki">AliSQL</a> 阿里开源，对mysql官方版本的增强版本</li>
+</ul>
+<h1 id="书籍-or-doc">书籍 or doc</h1>
+<ul>
+<li>《高性能MySQL》  必读，多读几遍</li>
+<li>《MySQL技术内幕:InnoDB存储引擎》 姜老师的书，多读几遍</li>
+<li><a href="https://dev.mysql.com/doc/internals/en/">MySQL Internals Manual</a> MySQL 内幕，官方开发团队维护，了解mysql内部机制的有效资料</li>
+</ul>
+<h1 id="经典文献">经典文献</h1>
+<ul>
+<li>
+<p><a href="http://dblab.xmu.edu.cn/post/architecture-of-a-database-system/">Architecture of a Database System 中英文版</a> 中文版由厦门大学数据库实验室翻译</p>
+</li>
+<li>
+<p><a href="https://people.eecs.berkeley.edu/~brewer/cs262/Aries.pdf">ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking and Partial Rollbacks Using Write-Ahead Logging</a> 很多年前（1992）IBM关于 wal log的论文，现代数据库事务恢复机制很多基于此。再来几个相关的slides <a href="http://codex.cs.yale.edu/avi/db-book/db4/slide-dir/Aries.pdf">ARIES Recovery Algorithm</a> , <a href="http://odin.cse.buffalo.edu/teaching/cse-462/slides/18-Logging.pdf">ARIES (&amp; Logging)</a> , <a href="https://blog.acolyer.org/2016/01/03/database-techiques-everyone-should-know/">(Database) Techiques Everyone Should Know</a></p>
+</li>
+</ul>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

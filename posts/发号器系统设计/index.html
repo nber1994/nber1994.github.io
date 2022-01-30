@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>发号器系统设计</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>发号器系统设计</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>发号器系统设计</h1>
+			<b><time>2019-01-09</time></b>
+		       
+
+			<div>
+				<h1 id="id生成器">ID生成器</h1>
+<h2 id="要求">要求</h2>
+<p>ID一定要是全局有序的，再者因为有诸如按照时间排序的场景，所以要求按照时间有序。同时要求尽可能的短</p>
+<ul>
+<li>按照时间粗略有序</li>
+<li>尽可能短</li>
+</ul>
+<h2 id="方案">方案</h2>
+<h3 id="1使用数据库的auto_increment生成全局递增id">1.使用数据库的auto_increment生成全局递增ID</h3>
+<p>优点：</p>
+<ul>
+<li>简单</li>
+<li>能够全局唯一</li>
+<li>时间严格递增
+缺点：</li>
+<li>可用性难以保持，主库挂了就挂了</li>
+<li>扩展性差，主库写性能为上限，难以扩展</li>
+</ul>
+<h3 id="2数据库集群">2.数据库集群</h3>
+<p>一共有n个节点，每个节点设置不同的auto_increment初始值，已经相同的增长步长</p>
+<ul>
+<li>优点：
+<ul>
+<li>具有较高的可用性和扩展性</li>
+</ul>
+</li>
+<li>缺点：
+<ul>
+<li>并不是根据时间严格递增</li>
+</ul>
+</li>
+</ul>
+<h3 id="3uuid">3.uuid</h3>
+<p>数据库生成ID方法，都需要有远程调用。uuid的方法是在本地生成唯一ID</p>
+<ul>
+<li>4个字节标识unix timestamp</li>
+<li>3个字节标识机器ID</li>
+<li>2个字节标识进程ID</li>
+<li>3个字节标识计数器</li>
+<li>优点：
+<ul>
+<li>高性能，生成很快，不会重复</li>
+</ul>
+</li>
+<li>缺点：
+<ul>
+<li>较长，查询效率较低</li>
+<li>同时不失严格的按照时间有序</li>
+</ul>
+</li>
+</ul>
+<h3 id="4snowflake">4.snowflake</h3>
+<p>核心思想：一个long的ID，41bit作为毫秒数，10bit作为机器编号，12bit作为毫秒内序列号
+理论上每秒能生成：1000*2^12个大约400w的ID</p>
+<ul>
+<li>实现自己的分布式算法
+<ul>
+<li>单机并发量</li>
+<li>多少个机房</li>
+<li>每个机房机器数量</li>
+<li>几个业务线</li>
+<li>需要几年</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>假设一个64bit的int值，如果系统预计运行10年，至少需要10<em>365</em>24<em>60</em>60*1000来算出大致需要多少位</li>
+<li>单机的峰值10w，也就是每毫秒大概是100，则需要预留7bit给毫秒内序列号</li>
+<li>机房和机器数也按照该规则</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190109123139527_1792787220.png" alt=""></p>
+<ul>
+<li>优点：
+<ul>
+<li>ID唯一</li>
+<li>毫秒在高位，时间递增</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://chuansongme.com/n/2459549">沈剑-发号器</a></li>
+</ul>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

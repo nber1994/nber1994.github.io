@@ -5,6 +5,151 @@
     <link>http://nber1994.github.io/categories/</link>
     <description>Recent content in Categories on jingtianyou&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language><atom:link href="http://nber1994.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 15 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go</title>
+      <link>http://nber1994.github.io/categories/go/</link>
+      <pubDate>Sat, 15 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>php</title>
+      <link>http://nber1994.github.io/categories/php/</link>
+      <pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/php/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pic</title>
+      <link>http://nber1994.github.io/categories/pic/</link>
+      <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/pic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vim</title>
+      <link>http://nber1994.github.io/categories/vim/</link>
+      <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/vim/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>else</title>
+      <link>http://nber1994.github.io/categories/else/</link>
+      <pubDate>Thu, 09 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/else/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>redis</title>
+      <link>http://nber1994.github.io/categories/redis/</link>
+      <pubDate>Fri, 27 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/redis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>http://nber1994.github.io/categories/linux/</link>
+      <pubDate>Wed, 21 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>http</title>
+      <link>http://nber1994.github.io/categories/http/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>leetcode</title>
+      <link>http://nber1994.github.io/categories/leetcode/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/leetcode/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql</title>
+      <link>http://nber1994.github.io/categories/mysql/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>http://nber1994.github.io/categories/network/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nginx</title>
+      <link>http://nber1994.github.io/categories/nginx/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/nginx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>os</title>
+      <link>http://nber1994.github.io/categories/os/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/os/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sysDesign</title>
+      <link>http://nber1994.github.io/categories/sysdesign/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/sysdesign/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tools</title>
+      <link>http://nber1994.github.io/categories/tools/</link>
+      <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/tools/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tcp/ip</title>
+      <link>http://nber1994.github.io/categories/tcp/ip/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/categories/tcp/ip/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

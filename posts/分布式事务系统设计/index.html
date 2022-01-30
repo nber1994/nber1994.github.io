@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>分布式事务系统设计</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>分布式事务系统设计</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>分布式事务系统设计</h1>
+			<b><time>2019-08-09</time></b>
+		       
+
+			<div>
+				<p><a href="https://juejin.im/post/5b5a0bf9f265da0f6523913b">分布式事务-掘金</a>
+分布式事务的解决方案有很多种，
+一致性从强到弱，性能开销从从多到少：三阶段，二阶段，TCC，saga
+一致性保障的基本思路，协调者掌握多个子流程的执行过程信息，协调者负责根据子流程执行信息作出决策</p>
+<h1 id="分布式事务产生的原因">分布式事务产生的原因</h1>
+<ul>
+<li>不同的service节点
+<ul>
+<li>一个事务流程需要调用不同的服务执行不同的子任务</li>
+</ul>
+</li>
+<li>不同的resource节点
+<ul>
+<li>一个事务会调用不同的数据来源，例如mysql的分库操作</li>
+</ul>
+</li>
+</ul>
+<h1 id="分布式事务的原则">分布式事务的原则</h1>
+<h2 id="cap原则">CAP原则</h2>
+<ul>
+<li>CAP的解释
+<ul>
+<li>C 一致性原则，此处值得是读取到的数据都是事务完成之后和事务完成之前的数据，对于数据事务的中间状态时不可见的</li>
+<li>A 可用性，非故障节点在合理的合理的时间内返回合理的响应</li>
+<li>P 分区容错性，当出现网络分区后，仍能继续工作。例如某个节点故障了之后，集群仍能继续工作</li>
+</ul>
+</li>
+<li><strong>对于CAP原则，P是大前提，因此CAP解释成，当P发生时，A和C只能选一个</strong>，假设节点1和节点2正好处于网络分区的两侧，例如节点1网络正常，而节点2网络故障。这时，一个事务请求到达集群，节点2一定是不能正常处理的，节点1对于该事务请求
+<ul>
+<li>如果节点1也对该事务不执行，这保证了C，但是违背了A</li>
+<li>如果节点1对该事务执行，这保证了A，但是违背了C</li>
+</ul>
+</li>
+</ul>
+<h2 id="base原则">BASE原则</h2>
+<ul>
+<li>BASE指的是，基本可用，软状态和最终一致性，是对AP的一种扩展</li>
+<li>BASE允许存在中间状态，牺牲了一致性而保证了可用性，但是必须是强一致的状态</li>
+</ul>
+<h2 id="解决方案">解决方案</h2>
+<h3 id="2pc-两阶段提交协议">2PC 两阶段提交协议</h3>
+<ul>
+<li>存在一个协调者，多个参与者</li>
+<li>步骤：
+<ul>
+<li>第一阶段：
+<ul>
+<li>协调者想参与者发出投票，等待各个参与者的响应</li>
+<li>各个参与者执行事务，并写入redo log和undo log（此时资源还未释放）</li>
+<li>参与者响应协调者发起的投票，若事务执行成功，则响应同意，若执行失败，则响应终止</li>
+</ul>
+</li>
+<li>第二阶段
+<ul>
+<li>当所有的参与者都同意时，
+<ul>
+<li>协调者向参与者发送正式提交的请求</li>
+<li>参与者收到后，完成事务的提交，并释放占用的资源</li>
+<li>向协调者发送完成响应</li>
+<li>协调者收到所有完成响应后，完成事务</li>
+</ul>
+</li>
+<li>当存在终止响应时，
+<ul>
+<li>协调者向参与者发出回滚请求</li>
+<li>参与者利用undo log将事务回滚，并释放资源</li>
+<li>参与者向协调者发送回滚完成</li>
+<li>协调者等待所有的回滚完成后，结束事务</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>会存在很多的问题
+<ul>
+<li>所有参与者对资源的占用都是阻塞的</li>
+<li>协调者要对参与者设定超时机制</li>
+<li>太依赖协调者，一旦宕机，会导致整个事务阻塞</li>
+</ul>
+</li>
+</ul>
+<h3 id="3pc-三阶段提交协议">3PC 三阶段提交协议</h3>
+<ul>
+<li>引入超时机制，同时将准备阶段一分为二</li>
+<li>步骤
+<ul>
+<li>canCommit
+<ul>
+<li>协调者向参与者发送canCommit请求，并等待响应</li>
+<li>参与者接收到请求后，如果认为自己可以执行，则返回YES，否则NO</li>
+</ul>
+</li>
+<li>preCommit
+<ul>
+<li>如果参与者响应都是YES
+<ul>
+<li>向参与者发送preCommit请求</li>
+<li>参与者进行事务的执行，并进行redo log，undo log的落地</li>
+<li>如果成功执行了指令，则返回ack响应，同时开始等待最终指令</li>
+</ul>
+</li>
+<li>如果存在一个NO，或者存在超时
+<ul>
+<li>向参与者发送中断请求</li>
+<li>参与者接收到了abort请求之后，或则超时未收到协调者的请求，会将事务中断</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>doCommit
+<ul>
+<li>若接收到了所有参与者的ack之后，
+<ul>
+<li>向所有的参与者发送doCommit请求</li>
+<li>参与者接收到了请求后，执行事务并释放资源，发送ack给协调者</li>
+<li>协调者接收到所有的ack之后，完成事务</li>
+</ul>
+</li>
+<li>若未收到所有的ack或者存在超时响应
+<ul>
+<li>向所有的参与者发送abort请求</li>
+<li>参与者收到后根据之前的undo log进行回滚操作，并释放所有资源</li>
+<li>想协调者发送ack响应</li>
+<li>协调者收到ack后，终止事务</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="tcc模型-两阶段型补偿型">TCC模型 （两阶段型，补偿型）</h3>
+<ul>
+<li>TCC为Try Confirm Cancel
+<ul>
+<li>Try尝试待执行的业务
+<ul>
+<li>并未执行业务，只进行一致性检查，但是预留资源</li>
+</ul>
+</li>
+<li>Confirm执行业务
+<ul>
+<li>直接执行，使用第一步预留的资源</li>
+</ul>
+</li>
+<li>Cancel取消执行的业务
+<ul>
+<li>如果业务失败，则进行资源的回滚，释放占用资源</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>TCC必须基于本地事务</li>
+<li>必须提供幂等性保障
+<ul>
+<li>会存在一些超时重试补偿机制</li>
+</ul>
+</li>
+</ul>
+<h3 id="saga模型">saga模型</h3>
+<ul>
+<li>每个Saga由一系列sub-transaction Ti 组成</li>
+<li>每个Ti 都有对应的补偿动作Ci，补偿动作用于撤销Ti造成的结果,这里的每个T，都是一个本地事务。</li>
+<li>可以看到，和TCC相比，Saga没有“预留 try”动作，它的Ti就是直接提交到库。</li>
+<li>Saga的执行顺序有两种：
+<ul>
+<li>T1, T2, T3, &hellip;, Tn</li>
+<li>T1, T2, &hellip;, Tj, Cj,&hellip;, C2, C1，其中0 &lt; j &lt; n</li>
+</ul>
+</li>
+<li>Saga定义了两种恢复策略：
+<ul>
+<li>向后恢复，即上面提到的第二种执行顺序，其中j是发生错误的sub-transaction，这种做法的效果是撤销掉之前所有成功的sub-transation，使得整个Saga的执行结果撤销。</li>
+<li>向前恢复，适用于必须要成功的场景，执行顺序是类似于这样的：T1, T2, &hellip;, Tj(失败), Tj(重试),&hellip;, Tn，其中j是发生错误的sub-transaction。该情况下不需要Ci。</li>
+</ul>
+</li>
+<li>这里要注意的是，在saga模式中不能保证隔离性，因为没有锁住资源，其他事务依然可以覆盖或者影响当前事务。</li>
+</ul>
+<blockquote>
+<p>还是拿100元买一瓶水的例子来说，这里定义
+T1=扣100元 T2=给用户加一瓶水 T3=减库存一瓶水
+C1=加100元 C2=给用户减一瓶水 C3=给库存加一瓶水
+我们一次进行T1,T2，T3如果发生问题，就执行发生问题的C操作的反向。
+上面说到的隔离性的问题会出现在，如果执行到T3这个时候需要执行回滚，但是这个用户已经把水喝了(另外一个事务)，回滚的时候就会发现，无法给用户减一瓶水了。这就是事务之间没有隔离性的问题</p>
+</blockquote>
+<ul>
+<li>可以看见saga模式没有隔离性的影响还是较大，可以参照华为的解决方案:从业务层面入手加入一 Session 以及锁的机制来保证能够串行化操作资源。也可以在业务层面通过预先冻结资金的方式隔离这部分资源， 最后在业务操作的过程中可以通过及时读取当前状态的方式获取到最新的更新。</li>
+</ul>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

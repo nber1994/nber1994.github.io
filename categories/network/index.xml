@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>network on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/categories/network/</link>
+    <description>Recent content in network on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/categories/network/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ip基础知识</title>
+      <link>http://nber1994.github.io/posts/ip%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/ip%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+      <description>ip基础知识 网络层和数据链路层的区别  数据链路层负责在直连的网络的传输 而网络层负责在没有直连的网络之间传输  ip地址属于网络层地址
+ ip用于识别地址 ip路由也叫做多跳路由，他的寻址方式  将数据报送到下一跳地址，然后在看吓一跳应该去哪里 数据包以一种十分偶然的方式进行传出    ip属于面向无连接  原因  较为简单  不需要繁琐的建立连接到步骤   为了提速  发送之前不需要家里接连，直接发送      ip定义  ip是以32位二进制表示 每8位由.隔开 大概可以容纳43亿的地址  但是一个网卡可以由多个ip 一个电脑有多个网卡    ip组成  因为ip具有寻址的功能，所以ip地址会分为  网络标识 主机标识    ip地址的分类  A类地址  1-8位网络标识 首位必须为0 0.0.0.0 - 127.0.0.0   B类地址  1-16位网络标识 首位为10 128.0.0.1 - 191.</description>
+    </item>
+    
+    <item>
+      <title>ping命令</title>
+      <link>http://nber1994.github.io/posts/ping%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/ping%E5%91%BD%E4%BB%A4/</guid>
+      <description> ping A
+  基于ICMP，网络层，速度快 拼接IP包，加入A为目的地址，以及ICMP报文组成IP包发送至网络中寻址 到达目的IP机器子网后，会根据ARP协议，发送到目的IP机器，目的IP机器收到包后解析，然后封装响应包  </description>
+    </item>
+    
+    <item>
+      <title>网络分层</title>
+      <link>http://nber1994.github.io/posts/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/</guid>
+      <description>分层以及对应关系  应用层  应用层 表示层 会话层   传输层  传输层   网络层  网络层   物理层  数据链路层 物理层     tcp包的结构  每一层都会在首部添加本层的数据结构  以太网首部  mac地址   ip首部  IP地址   tcp首部  端口号       </description>
+    </item>
+    
+    <item>
+      <title>网络基础知识</title>
+      <link>http://nber1994.github.io/posts/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+      <description> 协议的分层  osi分层  应用层  实现针对特定应用的协议   表示层  特定数据格式和网络通用格式的转换   会话层  通信管理，负责建立和断开通信连接   传输层  管理两个节点之间的数据传输，负责可靠传输   网络层  负责目标寻址和路由   数据链路层  互联设备之间的数据传输   物理层  负责0，1和电压高低之间的转换        osi中的每一层，都附上本层的首部，同时接收方读取本层的首部  网络层中传输方式-面向有连接和面向无连接  面向有链接，则会在通信之前首先建立一条通信连接  电路交换与分组交换  电路交换会在两个互相通信的节点之间独占一条电路，其他电路只有等到该节点之间通信完成后再进行通信 分组交换就是让所有计算机上的数据分为包，按照顺序发送，这样所有计算机都可以同时发送数据包  按照目标端数量分类  单播  一对一   广播  发送到所有与之相连的主机   多播  发送到多个满足一定条件的主机   任播  从满足条件的主机中任意选出一个    </description>
+    </item>
+    
+  </channel>
+</rss>

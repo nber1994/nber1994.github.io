@@ -109,12 +109,9 @@
 			<h1>redis订阅</h1>
 			<b><time>2019-08-09</time></b>
 		       
-		           <a href="/tags/redis">redis</a>
-        	       
 
 			<div>
-				<h1 id="redis订阅">redis订阅</h1>
-<ul>
+				<ul>
 <li>redis发布订阅相关的命令
 <ul>
 <li>publish，发布</li>
@@ -123,7 +120,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="频道订阅和退订">频道订阅和退订</h2>
+<h1 id="频道订阅和退订">频道订阅和退订</h1>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> redisServer {
     <span style="color:#998;font-style:italic">//保存所有频道的订阅关系
 </span><span style="color:#998;font-style:italic"></span>    dict <span style="color:#000;font-weight:bold">*</span>publish_channels;
@@ -133,33 +130,15 @@
 <ul>
 <li>字典的键为频道名</li>
 <li>字典的值为一个客户端的指针的链表
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121172343737_94803585.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121172343737_94803585.png" alt=""></li>
 </ul>
 </li>
 </ul>
-<h3 id="订阅频道">订阅频道</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121172510005_2078470668.png" alt="" />
-</figure>
-
-
-</p>
-<h3 id="退订频道">退订频道</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121172552580_1887514974.png" alt="" />
-</figure>
-
-
-</p>
-<h2 id="模式的订阅和退订">模式的订阅和退订</h2>
+<h2 id="订阅频道">订阅频道</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121172510005_2078470668.png" alt=""></p>
+<h2 id="退订频道">退订频道</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121172552580_1887514974.png" alt=""></p>
+<h1 id="模式的订阅和退订">模式的订阅和退订</h1>
 <ul>
 <li>所有模式订阅信息都保存在redsiServer中的pubsub_patterns属性里</li>
 </ul>
@@ -176,14 +155,8 @@
     <span style="color:#998;font-style:italic">//被订阅的模式
 </span><span style="color:#998;font-style:italic"></span>    robj <span style="color:#000;font-weight:bold">*</span>patterns;
 }
-</code></pre></div><p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121173009519_835734534.png" alt="" />
-</figure>
-
-
-</p>
-<h2 id="发送消息">发送消息</h2>
+</code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121173009519_835734534.png" alt=""></p>
+<h1 id="发送消息">发送消息</h1>
 <ul>
 <li>publish channel message
 <ul>
@@ -192,14 +165,8 @@
 </ul>
 </li>
 </ul>
-<h2 id="重点回顾">重点回顾</h2>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121173832939_1647261558.png" alt="" />
-</figure>
-
-
-</p>
+<h1 id="重点回顾">重点回顾</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121173832939_1647261558.png" alt=""></p>
 
 			</div>
 		</article>
@@ -217,7 +184,7 @@
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -226,7 +193,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -235,7 +202,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

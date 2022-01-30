@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>top命令</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>top命令</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>top命令</h1>
+			<b><time>2019-08-09</time></b>
+		       
+
+			<div>
+				<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#a61717;background-color:#e3d2d2">任务队列信息</span>
+<span style="color:#a61717;background-color:#e3d2d2">当前系统时间</span> <span style="color:#a61717;background-color:#e3d2d2">系统累计运行时间</span> <span style="color:#a61717;background-color:#e3d2d2">当前登录用户</span> <span style="color:#a61717;background-color:#e3d2d2">活跃进程数</span><span style="color:#099">1</span><span style="color:#a61717;background-color:#e3d2d2">，</span><span style="color:#099">5</span><span style="color:#a61717;background-color:#e3d2d2">，</span><span style="color:#099">15</span><span style="color:#a61717;background-color:#e3d2d2">分钟</span>
+top <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">11</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">47</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">19</span> up <span style="color:#099">298</span> days, <span style="color:#099">19</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">59</span>,  <span style="color:#099">1</span> user,  load <span style="color:#900;font-weight:bold">average</span>: <span style="color:#099">0.99</span>, <span style="color:#099">1.01</span>, <span style="color:#099">1.03</span>
+<span style="color:#a61717;background-color:#e3d2d2">进程信息</span>
+<span style="color:#a61717;background-color:#e3d2d2">总共进程数</span> <span style="color:#a61717;background-color:#e3d2d2">正在运行</span> <span style="color:#a61717;background-color:#e3d2d2">休眠进程</span> <span style="color:#a61717;background-color:#e3d2d2">停止进程</span> <span style="color:#a61717;background-color:#e3d2d2">僵尸进程</span>
+<span style="color:#900;font-weight:bold">Tasks</span>: <span style="color:#099">175</span> total,   <span style="color:#099">4</span> running, <span style="color:#099">170</span> sleeping,   <span style="color:#099">1</span> stopped,   <span style="color:#099">0</span> zombie
+CPU信息
+<span style="color:#a61717;background-color:#e3d2d2">用户态占用</span>CPU百分比 <span style="color:#a61717;background-color:#e3d2d2">内核态占用</span>CPU百分比 <span style="color:#a61717;background-color:#e3d2d2">改变过优先级的进程百分比</span> <span style="color:#a61717;background-color:#e3d2d2">空闲百分比</span> IO等待百分比 <span style="color:#a61717;background-color:#e3d2d2">硬中断</span> <span style="color:#a61717;background-color:#e3d2d2">软中断</span>
+<span style="color:#000;font-weight:bold">%</span>Cpu(s)<span style="color:#000;font-weight:bold">:</span> <span style="color:#099">15.9</span> us, <span style="color:#099">35.1</span> sy,  <span style="color:#099">0.0</span> ni, <span style="color:#099">49.1</span> id,  <span style="color:#099">0.0</span> wa,  <span style="color:#099">0.0</span> hi,  <span style="color:#099">0.0</span> si,  <span style="color:#099">0.0</span> st
+<span style="color:#a61717;background-color:#e3d2d2">内存状态</span>
+<span style="color:#a61717;background-color:#e3d2d2">物理内存总量</span> <span style="color:#a61717;background-color:#e3d2d2">空闲内存总量</span> <span style="color:#a61717;background-color:#e3d2d2">使用内存总量</span> <span style="color:#a61717;background-color:#e3d2d2">缓存的内存量</span>
+KiB <span style="color:#900;font-weight:bold">Mem</span> :  <span style="color:#099">8009832</span> total,   <span style="color:#099">225372</span> free,   <span style="color:#099">662292</span> used,  <span style="color:#099">7122168</span> buff<span style="color:#000;font-weight:bold">/</span>cache
+swap分区信息
+<span style="color:#a61717;background-color:#e3d2d2">交换区总量</span> <span style="color:#a61717;background-color:#e3d2d2">空闲</span> <span style="color:#a61717;background-color:#e3d2d2">使用</span>
+KiB <span style="color:#900;font-weight:bold">Swap</span>:        <span style="color:#099">0</span> total,        <span style="color:#099">0</span> free,        <span style="color:#099">0</span> used.  <span style="color:#099">6916720</span> avail Mem
+
+<span style="color:#a61717;background-color:#e3d2d2">进程</span>ID
+      <span style="color:#a61717;background-color:#e3d2d2">用户</span>
+                <span style="color:#a61717;background-color:#e3d2d2">优先级</span>
+                    nice值 <span style="color:#a61717;background-color:#e3d2d2">负数表示高优先级</span> <span style="color:#a61717;background-color:#e3d2d2">整数表示低优先级</span>
+                          <span style="color:#a61717;background-color:#e3d2d2">进程使用的虚拟内存总量</span>
+                                  <span style="color:#a61717;background-color:#e3d2d2">进程使用的，未被换出的物理内存大小</span>
+                                         <span style="color:#a61717;background-color:#e3d2d2">共享内存大小</span>
+                                             <span style="color:#a61717;background-color:#e3d2d2">进程状态</span> D<span style="color:#000;font-weight:bold">=</span><span style="color:#a61717;background-color:#e3d2d2">不可中断的睡眠状态</span> R<span style="color:#000;font-weight:bold">=</span><span style="color:#a61717;background-color:#e3d2d2">运行</span> S<span style="color:#000;font-weight:bold">=</span><span style="color:#a61717;background-color:#e3d2d2">睡眠</span> T<span style="color:#000;font-weight:bold">=</span><span style="color:#a61717;background-color:#e3d2d2">跟踪</span><span style="color:#000;font-weight:bold">/</span><span style="color:#a61717;background-color:#e3d2d2">停止</span> Z<span style="color:#000;font-weight:bold">=</span><span style="color:#a61717;background-color:#e3d2d2">僵尸进程</span>
+                                                <span style="color:#a61717;background-color:#e3d2d2">上次更新到现在</span>CPU占用比
+                                                     <span style="color:#a61717;background-color:#e3d2d2">进程使用的物理内存百分比</span>
+                                                              <span style="color:#a61717;background-color:#e3d2d2">进程使用的</span>CPU时间总计<span style="color:#a61717;background-color:#e3d2d2">，单位</span><span style="color:#099">1</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">100</span><span style="color:#a61717;background-color:#e3d2d2">秒</span>
+                                                                    <span style="color:#a61717;background-color:#e3d2d2">命令</span>
+  PID USER      PR  NI    VIRT    RES    SHR S  <span style="color:#000;font-weight:bold">%</span>CPU <span style="color:#000;font-weight:bold">%</span>MEM     TIME<span style="color:#000;font-weight:bold">+</span> COMMAND
+ <span style="color:#099">1047</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>  <span style="color:#099">110088</span>    <span style="color:#099">620</span>    <span style="color:#099">488</span> R <span style="color:#099">100.0</span>  <span style="color:#099">0.0</span> <span style="color:#099">126488</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">57</span> agetty
+ <span style="color:#099">8556</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>  <span style="color:#099">572548</span>  <span style="color:#099">22072</span>   <span style="color:#099">2776</span> S   <span style="color:#099">0.3</span>  <span style="color:#099">0.3</span> <span style="color:#099">348</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">57.12</span> YDService
+<span style="color:#099">17633</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>  <span style="color:#099">611276</span>  <span style="color:#099">13908</span>   <span style="color:#099">2368</span> S   <span style="color:#099">0.3</span>  <span style="color:#099">0.2</span>  <span style="color:#099">16</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">25.61</span> barad_agent
+<span style="color:#099">29331</span> nber1994  <span style="color:#099">20</span>   <span style="color:#099">0</span>  <span style="color:#099">162020</span>   <span style="color:#099">2344</span>   <span style="color:#099">1604</span> R   <span style="color:#099">0.3</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.01</span> top
+    <span style="color:#099">1</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>  <span style="color:#099">191088</span>   <span style="color:#099">3492</span>   <span style="color:#099">2020</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>  <span style="color:#099">28</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">13.70</span> systemd
+    <span style="color:#099">2</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">03.02</span> kthreadd
+    <span style="color:#099">3</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">33.11</span> ksoftirqd<span style="color:#000;font-weight:bold">/</span><span style="color:#099">0</span>
+    <span style="color:#099">5</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> kworker<span style="color:#000;font-weight:bold">/</span><span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">0</span>H
+    <span style="color:#099">7</span> root      rt   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">17.95</span> migration<span style="color:#000;font-weight:bold">/</span><span style="color:#099">0</span>
+    <span style="color:#099">8</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> rcu_bh
+    <span style="color:#099">9</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> R   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span> <span style="color:#099">116</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">01.36</span> rcu_sched
+   <span style="color:#099">10</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> lru<span style="color:#000;font-weight:bold">-</span>add<span style="color:#000;font-weight:bold">-</span>drain
+   <span style="color:#099">11</span> root      rt   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">56.85</span> watchdog<span style="color:#000;font-weight:bold">/</span><span style="color:#099">0</span>
+   <span style="color:#099">12</span> root      rt   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">30.75</span> watchdog<span style="color:#000;font-weight:bold">/</span><span style="color:#099">1</span>
+   <span style="color:#099">13</span> root      rt   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">23.45</span> migration<span style="color:#000;font-weight:bold">/</span><span style="color:#099">1</span>
+   <span style="color:#099">14</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">52.02</span> ksoftirqd<span style="color:#000;font-weight:bold">/</span><span style="color:#099">1</span>
+   <span style="color:#099">16</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> kworker<span style="color:#000;font-weight:bold">/</span><span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">0</span>H
+   <span style="color:#099">18</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> kdevtmpfs
+   <span style="color:#099">19</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> netns
+   <span style="color:#099">20</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">08.81</span> khungtaskd
+   <span style="color:#099">21</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> writeback
+   <span style="color:#099">22</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> kintegrityd
+   <span style="color:#099">23</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> bioset
+   <span style="color:#099">24</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> kblockd
+   <span style="color:#099">25</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> md
+   <span style="color:#099">26</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> edac<span style="color:#000;font-weight:bold">-</span>poller
+   <span style="color:#099">32</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15.16</span> kswapd0
+   <span style="color:#099">33</span> root      <span style="color:#099">25</span>   <span style="color:#099">5</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> ksmd
+   <span style="color:#099">35</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> crypto
+   <span style="color:#099">43</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> kthrotld
+   <span style="color:#099">45</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> kmpath_rdacd
+   <span style="color:#099">46</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> kaluad
+   <span style="color:#099">47</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> kpsmoused
+   <span style="color:#099">48</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> ipv6_addrconf
+   <span style="color:#099">62</span> root       <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">20</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">00.00</span> deferwq
+   <span style="color:#099">98</span> root      <span style="color:#099">20</span>   <span style="color:#099">0</span>       <span style="color:#099">0</span>      <span style="color:#099">0</span>      <span style="color:#099">0</span> S   <span style="color:#099">0.0</span>  <span style="color:#099">0.0</span>   <span style="color:#099">0</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">09.52</span> kauditd
+</code></pre></div><ul>
+<li>
+<p>第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心。</p>
+</li>
+<li>
+<p>如果出于习惯去计算可用内存数，这里有个近似的计算公式：第四行的free + 第四行的buffers + 第五行的cached，按这个公式此台服务器的可用内存：18537836k +169884k +3612636k = 22GB左右。</p>
+</li>
+<li>
+<p>对于内存监控，在top里我们要时刻监控第五行swap交换分区的used，如果这个数值在不断的变化，说明内核在不断进行内存和swap的数据交换，这是真正的内存不够用了。</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190602121147976_262344756.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190602121309965_444386801.png" alt=""></p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

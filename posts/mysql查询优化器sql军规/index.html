@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>mysql-查询优化器&amp;sql军规</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql-查询优化器&amp;sql军规</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>mysql-查询优化器&amp;sql军规</h1>
+			<b><time>2019-08-09</time></b>
+		       
+
+			<div>
+				<h1 id="查询优化器">查询优化器</h1>
+<ol>
+<li>使用具体的字段名来取代*,因为会将*转化为表的所有字段</li>
+<li>使用具体的表的字段名取代字段名。table.field取代field，因为在查询中，特别是多表联合查询时，如果不指定表名，则会查询所有表的字段</li>
+<li>使用group条件替代distinct条件，查询优化器会将distinct条件转化为group条件</li>
+<li>使用limit条件会增加查询时间</li>
+<li>，join inner join cross join在mysql中是等价的，都会转化为多表的联合查询，对于内连接查询来看，on和where是等价的</li>
+<li>left join会将左边的表进行全表扫描，右边的表没有匹配的话会有null代替。当
+数据表不能为NULL时，则左边不会列出所有的记录，并将外链接转化为多表联合查询</li>
+<li>outer join的where和on条件有一些区别，on是在生产查询结果之前，进行过滤。where是在查询结果输出过程中的过滤，因此过滤条件写在where中，left不会显示所有的记录</li>
+<li>转化子查询为多表联合查询。子查询会创建临时表，并且临时表没有任何索引导致性能过低。多表联合查询不会建立临时表，并且可以有效地利用查询索引</li>
+</ol>
+<h1 id="sql军规">sql军规</h1>
+<h2 id="基础规范">基础规范</h2>
+<blockquote>
+<ol>
+<li>必须使用innoDB</li>
+</ol>
+</blockquote>
+<p>支持事务，行级锁，并发性能更好，cpu以及内存资源利用率高<br>
+?? innoDB和MyIsAm引擎的区别</p>
+<blockquote>
+<ol start="2">
+<li>必须使用utf8mb4字符集</li>
+</ol>
+</blockquote>
+<p>万国码，无需转码，无乱码风险，节省空间</p>
+<blockquote>
+<ol start="3">
+<li>数据表，字段必须加入中文注释</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="4">
+<li>禁止使用存储过程，视图，触发器，event</li>
+</ol>
+</blockquote>
+<p>?? 什么是存储过程，视图，触发器和事件<br>
+存储过程不适合快速迭代，修改表结构之后可能无法使用<br>
+同时存过有很多逻辑判断，应该讲逻辑上移到应用程序<br>
+视图也是一样
+高并发的网络架构思路是 解放数据库CPU，将计算转移到服务层</p>
+<p>对于触发器来说，十分耗费资源，例如一个insert语句，每次都会触发触发器
+因为在并发量大的情况下，这些功能可能会把数据库拖慢，而把这些逻辑放在应用层，可以轻易实现加机器就能加性能</p>
+<blockquote>
+<ol start="5">
+<li>禁止存储大文件或大照片</li>
+</ol>
+</blockquote>
+<p>数据库并不适合存储大文件和大图片，何不存入uri</p>
+<h2 id="命名规范">命名规范</h2>
+<blockquote>
+<ol start="6">
+<li>只允许使用内网域名，而非IP连接</li>
+<li>线上，测试，开发环境数据库命名规范
+业务名 xxx<br>
+线上环境 dj.xxx.db<br>
+测试环境 dj.xxx.tdb<br>
+开发环境 dj.xxx.rdb<br>
+从库-s标识 备库-ss</li>
+<li>库名，表名，字段名:小写，下划线</li>
+<li>表名t_xxx,索引名idx_xxx,唯一索引uniq_xxx</li>
+</ol>
+</blockquote>
+<h2 id="表设计规范">表设计规范</h2>
+<blockquote>
+<ol start="10">
+<li>单实例表数目必须小于500</li>
+<li>单表列数目必须小于30</li>
+<li>表必须有主键
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101182153997_132603249.png" alt=""></li>
+</ol>
+</blockquote>
+<ul>
+<li>？？ 主键的作用， 索引，内存管理 *</li>
+</ul>
+<blockquote>
+<ol start="13">
+<li>禁止使用外键，若有外键完整性约束，需要应用程序控制</li>
+</ol>
+</blockquote>
+<p>外键会造成表之间的耦合，update和delete操作会涉及相关联的表</p>
+<p>？？外键完整性约束</p>
+<h2 id="字段设计规范">字段设计规范</h2>
+<blockquote>
+<ol start="14">
+<li>必须把字段定义为not null并提供默认值</li>
+</ol>
+</blockquote>
+<ol>
+<li>null列会使索引/索引统计/值比较变得更加复杂</li>
+<li>null类型数据库会单独处理，会拖慢数据库的处理性能</li>
+<li>null值需要更多地存储空间，无论是表还是索引都需要在每行中null的列增加标识</li>
+<li>null处理只能采用is null或is not null，对于=，in，&lt;等操作都不会涉及null</li>
+</ol>
+<blockquote>
+<ol start="15">
+<li>禁止使用text，blob类型</li>
+</ol>
+</blockquote>
+<p>浪费更多的磁盘和内存空间，非必要的打字单查询会淘汰掉热数据，导致内存名字下降，影响性能</p>
+<blockquote>
+<ol start="16">
+<li>禁止使用小数存储货币</li>
+</ol>
+</blockquote>
+<p>小数精度问题</p>
+<blockquote>
+<ol start="17">
+<li>必须使用varchar(20)存储手机号</li>
+</ol>
+</blockquote>
+<ol>
+<li>会有+-（）</li>
+<li>手机号不会做数学运算</li>
+<li>可以做模糊匹配</li>
+</ol>
+<blockquote>
+<ol start="18">
+<li>禁止使用enum，可使用tinyint替代</li>
+</ol>
+</blockquote>
+<ol>
+<li>新增enum值要做DDL操作</li>
+<li>enum的内部实际存储得是整数</li>
+</ol>
+<h2 id="索引设计规范">索引设计规范</h2>
+<blockquote>
+<ol start="19">
+<li>单表索引建议控制在5个以内</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="20">
+<li>单索引字段数不超过5个</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="21">
+<li>禁止在更新十分频繁，区分度不高的属性上简历索引</li>
+</ol>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101183919445_1722264004.png" alt=""></p>
+<blockquote>
+<ol start="22">
+<li>建立组合索引，必须把区分度高的字段放在前面</li>
+</ol>
+</blockquote>
+<h2 id="sql使用">sql使用</h2>
+<blockquote>
+<ol start="23">
+<li>禁止使用select * 是获取需要的字段，显示说名列属性</li>
+</ol>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101184222798_159037315.png" alt=""></p>
+<blockquote>
+<ol start="24">
+<li>禁止使用insert into t_xxx values(),必须显示指定插入的列属性</li>
+</ol>
+</blockquote>
+<p>容易在增加或者删除字段后出现bug</p>
+<blockquote>
+<ol start="25">
+<li>禁止使用属性的隐式转换</li>
+</ol>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101184521376_1470496337.png" alt=""></p>
+<blockquote>
+<ol start="26">
+<li>禁止在where条件上使用函数或者表达式</li>
+</ol>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101195745557_1390126283.png" alt=""></p>
+<blockquote>
+<ol start="27">
+<li>禁止负向查询，以及%开头的模糊查询</li>
+</ol>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101200325362_1377842668.png" alt=""></p>
+<blockquote>
+<ol start="28">
+<li>禁止大表join查询，禁止大表使用子查询</li>
+</ol>
+</blockquote>
+<p>子查询会产生临时表，消耗较多的CPU，极大影响性能</p>
+<blockquote>
+<ol start="29">
+<li>禁止使用OR条件，必须改为in查询</li>
+</ol>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101200532222_1085555475.png" alt=""></p>
+<blockquote>
+<ol start="30">
+<li>应用程序必须捕捉sql异常并做相应处理</li>
+</ol>
+</blockquote>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

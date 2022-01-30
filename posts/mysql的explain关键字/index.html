@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>mysql的explain关键字</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql的explain关键字</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>mysql的explain关键字</h1>
+			<b><time>2017-10-27</time></b>
+		       
+
+			<div>
+				<blockquote>
+<p>胡乱的记录了一些explain关键字的一些用法,以及相关的评判参数</p>
+</blockquote>
+<h1 id="explain概述">explain概述</h1>
+<p>EXPLAIN关键字一般放在SELECT查询语句的前面，用于描述MySQL如何执行查询操作、以及MySQL成功返回结果集需要执行的行数。explain 可以帮助我们分析 select 语句,让我们知道查询效率低下的原因,从而改进我们查询,让查询优化器能够更好的工作。</p>
+<h1 id="how-to-work">how to work</h1>
+<p>MySQL 查询优化器有几个目标,但是其中最主要的目标是尽可能地使用索引,并且使用最严格的索引来消除尽可能多的数据行。最终目标是提交 SELECT 语句查找数据行,而不是排除数据行。优化器试图排除数据行的原因在于它排除数据行的速度越快,那么找到与条件匹配的数据行也就越快。如果能够首先进行最严格的测试,查询就可以执行地更快。</p>
+<h1 id="explain的各个参数的详解">explain的各个参数的详解</h1>
+<h2 id="id">id</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>MySQL Query Optimizer 选定的执行计划中查询的序列号。表示查询中执行 select 子句或操作表的顺序,id 值越大优先级越高,越先被执行。id 相同,执行顺序由上至下</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">**</span>id<span style="color:#000;font-weight:bold">**</span>SQL执行的顺利的标识,SQL从大到小的执行.<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">例如</span>:<span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span>)<span style="color:#bbb"> </span>a)<span style="color:#bbb"> </span>b;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span>derived2<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">system</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DERIVED<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span>derived3<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">system</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">3</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DERIVED<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">很显然这条</span>SQL是从里向外的执行,<span style="color:#a61717;background-color:#e3d2d2">就是从</span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3</span><span style="color:#bbb"> </span><span style="color:#a61717;background-color:#e3d2d2">向上执行</span>.<span style="color:#bbb">
+</span></code></pre></div><h2 id="select_type">select_type</h2>
+<h3 id="select_type-simple">select_type-SIMPLE</h3>
+<p><strong>首先是select__type:将select查询分为简单(simple)和复杂两种类型复杂类型又分为子查询(subquery)和from列表中包含子查询(drived)</strong></p>
+<table>
+<thead>
+<tr>
+<th>select_type 查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SIMPLE</td>
+<td>简单的 select 查询,不使用 union 及子查询</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">简单</span><span style="color:#000;font-weight:bold">SELECT</span>(<span style="color:#a61717;background-color:#e3d2d2">不使用</span>UNION或子查询等)<span style="color:#bbb"> </span><span style="color:#a61717;background-color:#e3d2d2">例如</span>:<span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------+
+</span></code></pre></div><h3 id="select_type-peimary">select_type-PEIMARY</h3>
+<table>
+<thead>
+<tr>
+<th>select_type 查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PRIMARY</td>
+<td>最外层的 select 查询</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span>)<span style="color:#bbb"> </span>a<span style="color:#bbb"> </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span>derived2<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">system</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DERIVED<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span></code></pre></div><h3 id="select_type-union">select_type-UNION</h3>
+<table>
+<thead>
+<tr>
+<th>select_type 查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNION</td>
+<td>UNION 中的第二个或随后的 select 查询,不依赖于外部查询的结果集</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">UNION中的第二个或后面的SELECT语句.<span style="color:#a61717;background-color:#e3d2d2">例如</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">union</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">all</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+--------------+------------+-------+-------------------+---------+---------+-------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+--------------+------------+-------+-------------------+---------+---------+-------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">RESULT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span>union1,<span style="color:#099">2</span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+--------------+------------+-------+-------------------+---------+---------+-------+------+-------+
+</span></code></pre></div><h3 id="select_type-dependent-union">select_type-DEPENDENT UNION</h3>
+<table>
+<thead>
+<tr>
+<th>select_type 查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEPENDENT UNION</td>
+<td>UNION 中的第二个或随后的 select 查询,依 赖于外部查询的结果集</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">UNION中的第二个或后面的SELECT语句<span style="color:#a61717;background-color:#e3d2d2">，取决于外面的查询</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">union</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">all</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3)<span style="color:#bbb">  </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+--------------------+------------+--------+-------------------+---------+---------+-------+------+--------------------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">                    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+--------------------+------------+--------+-------------------+---------+---------+-------+------+--------------------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">            </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DEPENDENT<span style="color:#bbb"> </span>SUBQUERY<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">3</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DEPENDENT<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>eq_ref<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>func<span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span>;<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">RESULT</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span>union2,<span style="color:#099">3</span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">                          </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+--------------------+------------+--------+-------------------+---------+---------+-------+------+--------------------------+
+</span></code></pre></div><h3 id="select_type-subquery">select_type-SUBQUERY</h3>
+<table>
+<thead>
+<tr>
+<th>select_type 查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SUBQUERY</td>
+<td>子查询中的第一个 select 查询,不依赖于外 部查询的结果集</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">子查询中的第一个</span><span style="color:#000;font-weight:bold">SELECT</span>.<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span><span style="color:#bbb"> </span>)<span style="color:#bbb">  </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">             </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>SUBQUERY<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------------+
+</span></code></pre></div><h3 id="select_type-dependent-subquery">select_type-DEPENDENT SUBQUERY</h3>
+<table>
+<thead>
+<tr>
+<th>select_type 查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEPENDENT SUBQUERY</td>
+<td>子查询中的第一个 select 查询,依赖于外部 查询的结果集</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">子查询中的第一个</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#a61717;background-color:#e3d2d2">，取决于外面的查询</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span><span style="color:#bbb"> </span>)<span style="color:#bbb">  </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+--------------------+-------+-------+-------------------+---------+---------+-------+------+--------------------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">                    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+--------------------+-------+-------+-------------------+---------+---------+-------+------+--------------------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">            </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span>;<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DEPENDENT<span style="color:#bbb"> </span>SUBQUERY<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+--------------------+-------+-------+-------------------+---------+---------+-------+------+--------------------------+
+</span></code></pre></div><h3 id="select_type-derived">select_type-DERIVED</h3>
+<table>
+<thead>
+<tr>
+<th>select_type 查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DERIVED</td>
+<td>用于 from 子句里有子查询的情况,MySQL会递归执行这些子查询, 把结果放在临时表里</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">派生表的</span><span style="color:#000;font-weight:bold">SELECT</span>(FROM子句的子查询)<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span>)<span style="color:#bbb"> </span>a<span style="color:#bbb"> </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span>derived2<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">system</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DERIVED<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span></code></pre></div><h3 id="select_type-uncacheable-subquery">select_type-UNCACHEABLE SUBQUERY</h3>
+<table>
+<thead>
+<tr>
+<th>select_type 查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNCACHEABLE SUBQUERY</td>
+<td>结果集不能被缓存的子查询,必须重新为外 层查询的每一行进行评估</td>
+</tr>
+</tbody>
+</table>
+<h3 id="select_type-uncacheable-union">select_type-UNCACHEABLE UNION</h3>
+<table>
+<thead>
+<tr>
+<th>select_type 查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNCACHEABLE UNION</td>
+<td>UNION 中的第二个或随后的 select 查询,属 于不可缓存的子查询</td>
+</tr>
+</tbody>
+</table>
+<h2 id="table">table</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>table</td>
+<td>输出引用到的表</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">显示这一行的数据是关于哪张表的</span>.<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">有时不是真实的表名字</span>,<span style="color:#a61717;background-color:#e3d2d2">看到的是</span>derivedx(x是个数字,<span style="color:#a61717;background-color:#e3d2d2">可以理解为是第几步执行的结果</span>)<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span>)<span style="color:#bbb"> </span>a)<span style="color:#bbb"> </span>b;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span>derived2<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">system</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DERIVED<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span>derived3<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">system</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">3</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DERIVED<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span></code></pre></div><h2 id="type">type</h2>
+<p><strong>这列很重要,显示了连接使用了哪种类别,有无使用索引</strong>
+<strong>从最好到最差的连接类型为const、eq__reg、ref、range、indexhe和ALL</strong></p>
+<h3 id="type-system">type-system</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>system</td>
+<td>表仅有一行(=系统表)。这是 const 连接类型的一个特例</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">这是</span>const联接类型的一个特例<span style="color:#a61717;background-color:#e3d2d2">。表仅有一行满足条件</span>.<span style="color:#a61717;background-color:#e3d2d2">如下</span>(t3表上的id是<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">primary</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span>)<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span>)<span style="color:#bbb"> </span>a<span style="color:#bbb"> </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span>derived2<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">system</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>DERIVED<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+------------+--------+-------------------+---------+---------+------+------+-------+
+</span></code></pre></div><h3 id="type-const">type-const</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td>const 用于用常数值比较 PRIMARY KEY 时。当查询的表仅有一行时,使用 System, <strong>说明索引一次就找到了,最多只会有一条匹配的行</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">表最多有一个匹配行，它将在查询开始时被读取。因为仅有一行，在这行的列值可被优化器剩余部分认为是常数。</span>const表很快<span style="color:#a61717;background-color:#e3d2d2">，因为它们只读取一次！</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>const用于用常数值比较PRIMARY<span style="color:#bbb"> </span>KEY或UNIQUE索引的所有部分时<span style="color:#a61717;background-color:#e3d2d2">。在下面的查询中，</span>tbl_name可以用于const表<span style="color:#a61717;background-color:#e3d2d2">：</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>tbl_name<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>primary_key<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span><span style="color:#a61717;background-color:#e3d2d2">；</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>tbl_name<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>primary_key_part1<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span><span style="color:#a61717;background-color:#e3d2d2">和</span><span style="color:#bbb"> </span>primary_key_part2<span style="color:#000;font-weight:bold">=</span><span style="color:#099">2</span><span style="color:#a61717;background-color:#e3d2d2">；</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">例如</span>:<span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+---------+---------+-------+------+-------+
+</span></code></pre></div><h3 id="type-eq_ref">type-eq_ref</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eq_ref</td>
+<td>const 用于用常数值比较 PRIMARY KEY 时。当查询的表仅有一行时,使用 System,<strong>使用唯一索引查找(主键或唯一索引)</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">对于每个来自于前面的表的行组合，从该表中读取一行。这可能是最好的联接类型，除了</span>const类型<span style="color:#a61717;background-color:#e3d2d2">。它用在一个索引的所有部分被联接使用并且索引是</span>UNIQUE或PRIMARY<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">KEY</span><span style="color:#a61717;background-color:#e3d2d2">。</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>eq_ref可以用于使用<span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#a61717;background-color:#e3d2d2">操作符比较的带索引的列。比较值可以为常量或一个使用在该表前面所读取的表的列的表达式。</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">在下面的例子中，</span>MySQL可以使用eq_ref联接来处理ref_tables<span style="color:#a61717;background-color:#e3d2d2">：</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>ref_table,other_table<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>ref_table.key_column<span style="color:#000;font-weight:bold">=</span>other_table.<span style="color:#000;font-weight:bold">column</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>ref_table,other_table<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>ref_table.key_column_part1<span style="color:#000;font-weight:bold">=</span>other_table.<span style="color:#000;font-weight:bold">column</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">AND</span><span style="color:#bbb"> </span>ref_table.key_column_part2<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">例如</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">create</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">unique</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb">  </span>idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">on</span><span style="color:#bbb"> </span>t3(id)<span style="color:#bbb"> </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span>Query<span style="color:#bbb"> </span>OK,<span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span>affected<span style="color:#bbb"> </span>(<span style="color:#099">0</span>.<span style="color:#099">03</span><span style="color:#bbb"> </span>sec)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>Records:<span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb">  </span>Duplicates:<span style="color:#bbb"> </span><span style="color:#099">0</span><span style="color:#bbb">  </span>Warnings:<span style="color:#bbb"> </span><span style="color:#099">0</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3,t4<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>t3.id<span style="color:#000;font-weight:bold">=</span>t4.accountid;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+--------+-------------------+-----------+---------+----------------------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">                  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+--------+-------------------+-----------+---------+----------------------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t4<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">                 </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>eq_ref<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>dbatest.t4.accountid<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+--------+-------------------+-----------+---------+----------------------+------+-------+
+</span></code></pre></div><h3 id="type-ref">type-ref</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ref</td>
+<td>连接不能基于关键字选择单个行,可能查找 到多个符合条件的行。 叫做 ref 是因为索引要 跟某个参考值相比较。这个参考值或者是一 个常数,或者是来自一个表里的多表查询的 结果值,<strong>多个匹配,非唯一索引访问(只有普通索引)</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">对于每个来自于前面的表的行组合，所有有匹配索引值的行将从这张表中读取。如果联接只使用键的最左边的前缀，或如果键不是</span>UNIQUE或PRIMARY<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">KEY</span><span style="color:#a61717;background-color:#e3d2d2">（换句话说，如果联接不能基于关键字选择单个行的话），则使用</span><span style="color:#000;font-weight:bold">ref</span><span style="color:#a61717;background-color:#e3d2d2">。如果使用的键仅仅匹配少量行，该联接类型是不错的。</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>ref可以用于使用<span style="color:#000;font-weight:bold">=</span><span style="color:#a61717;background-color:#e3d2d2">或</span><span style="color:#000;font-weight:bold">&lt;=&gt;</span><span style="color:#a61717;background-color:#e3d2d2">操作符的带索引的列。</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">在下面的例子中，</span>MySQL可以使用ref联接来处理ref_tables<span style="color:#a61717;background-color:#e3d2d2">：</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>ref_table<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>key_column<span style="color:#000;font-weight:bold">=</span>expr;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>ref_table,other_table<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>ref_table.key_column<span style="color:#000;font-weight:bold">=</span>other_table.<span style="color:#000;font-weight:bold">column</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>ref_table,other_table<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>ref_table.key_column_part1<span style="color:#000;font-weight:bold">=</span>other_table.<span style="color:#000;font-weight:bold">column</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">AND</span><span style="color:#bbb"> </span>ref_table.key_column_part2<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">例如</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">drop</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb"> </span>idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">on</span><span style="color:#bbb"> </span>t3;<span style="color:#bbb">
+</span><span style="color:#bbb"></span>Query<span style="color:#bbb"> </span>OK,<span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span>affected<span style="color:#bbb"> </span>(<span style="color:#099">0</span>.<span style="color:#099">03</span><span style="color:#bbb"> </span>sec)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>Records:<span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb">  </span>Duplicates:<span style="color:#bbb"> </span><span style="color:#099">0</span><span style="color:#bbb">  </span>Warnings:<span style="color:#bbb"> </span><span style="color:#099">0</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">create</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb"> </span>idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">on</span><span style="color:#bbb"> </span>t3(id)<span style="color:#bbb"> </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span>Query<span style="color:#bbb"> </span>OK,<span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span>affected<span style="color:#bbb"> </span>(<span style="color:#099">0</span>.<span style="color:#099">04</span><span style="color:#bbb"> </span>sec)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>Records:<span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb">  </span>Duplicates:<span style="color:#bbb"> </span><span style="color:#099">0</span><span style="color:#bbb">  </span>Warnings:<span style="color:#bbb"> </span><span style="color:#099">0</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3,t4<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>t3.id<span style="color:#000;font-weight:bold">=</span>t4.accountid;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+------+-------------------+-----------+---------+----------------------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">                  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+------+-------------------+-----------+---------+----------------------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t4<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">                 </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">1000</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>dbatest.t4.accountid<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+------+-------------------+-----------+---------+----------------------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">set</span><span style="color:#bbb"> </span>(<span style="color:#099">0</span>.<span style="color:#099">00</span><span style="color:#bbb"> </span>sec)<span style="color:#bbb">
+</span></code></pre></div><h3 id="type-ref_or_null">type-ref_or_null</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ref_or_null</td>
+<td>如同 ref, 但是 MySQL 必须在初次查找的结果 里找出 null 条目,然后进行二次查找</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">该联接类型如同</span><span style="color:#000;font-weight:bold">ref</span><span style="color:#a61717;background-color:#e3d2d2">，但是添加了</span>MySQL可以专门搜索包含NULL值的行<span style="color:#a61717;background-color:#e3d2d2">。在解决子查询中经常使用该联接类型的优化。</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">在下面的例子中，</span>MySQL可以使用ref_or_null联接来处理ref_tables<span style="color:#a61717;background-color:#e3d2d2">：</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>ref_table<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>key_column<span style="color:#000;font-weight:bold">=</span>expr<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OR</span><span style="color:#bbb"> </span>key_column<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">
+</span></code></pre></div><table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>index_merge</td>
+<td>说明索引合并优化被使用了</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">该联接类型表示使用了索引合并优化方法。在这种情况下，</span>key列包含了使用的索引的清单<span style="color:#a61717;background-color:#e3d2d2">，</span>key_len包含了使用的索引的最长的关键元素<span style="color:#a61717;background-color:#e3d2d2">。</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">例如</span>:<span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t4<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">or</span><span style="color:#bbb"> </span>accountid<span style="color:#000;font-weight:bold">=</span><span style="color:#099">31754306</span><span style="color:#bbb"> </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------------+----------------------------+----------------------------+---------+------+------+------------------------------------------------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">              </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">                        </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">                                                </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------------+----------------------------+----------------------------+---------+------+------+------------------------------------------------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t4<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>index_merge<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>idx_t4_id,idx_t4_accountid<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>idx_t4_id,idx_t4_accountid<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span>,<span style="color:#099">4</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">union</span>(idx_t4_id,idx_t4_accountid);<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------------+----------------------------+----------------------------+---------+------+------+------------------------------------------------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">row</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">set</span><span style="color:#bbb"> </span>(<span style="color:#099">0</span>.<span style="color:#099">00</span><span style="color:#bbb"> </span>sec)<span style="color:#bbb">
+</span></code></pre></div><h3 id="type-unique_subquery">type-unique_subquery</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>unique_subquery</td>
+<td>在某些 IN 查询中使用此种类型,而不是常规的 ref:value IN (SELECT primary_key FROM single_table WHERE some_expr)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">该类型替换了下面形式的</span>IN子查询的ref<span style="color:#a61717;background-color:#e3d2d2">：</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>value<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>primary_key<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>single_table<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>some_expr)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>unique_subquery是一个索引查找函数<span style="color:#a61717;background-color:#e3d2d2">，可以完全替换子查询，效率更高</span><span style="color:#bbb">
+</span></code></pre></div><h3 id="type-index_subquery">type-index_subquery</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>index_subquery</td>
+<td>在某些IN查询中使用此种类型,与unique_subquery类似,但是查询的是非唯一性索引: value IN (SELECT key_column FROM single_table WHERE some_expr)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">该联接类型类似于</span>unique_subquery<span style="color:#a61717;background-color:#e3d2d2">。可以替换</span>IN子查询<span style="color:#a61717;background-color:#e3d2d2">，但只适合下列形式的子查询中的非唯一索引：</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>value<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>key_column<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>single_table<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>some_expr)<span style="color:#bbb">
+</span></code></pre></div><h3 id="type-range">type-range</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>range</td>
+<td>只检索给定范围的行,使用一个索引来选择 行。key 列显示使用了哪个索引。当使用=、 &lt;&gt;、&gt;、&gt;=、&lt;、&lt;=、IS NULL、&lt;=&gt;、BETWEEN 或者 IN 操作符,用常量比较关键字列时,可 以使用 range</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">只检索给定范围的行，使用一个索引来选择行。</span>key列显示使用了哪个索引<span style="color:#a61717;background-color:#e3d2d2">。</span>key_len包含所使用索引的最长关键元素<span style="color:#a61717;background-color:#e3d2d2">。在该类型中</span>ref列为NULL<span style="color:#a61717;background-color:#e3d2d2">。</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">当使用</span><span style="color:#000;font-weight:bold">=</span><span style="color:#a61717;background-color:#e3d2d2">、</span><span style="color:#000;font-weight:bold">&lt;&gt;</span><span style="color:#a61717;background-color:#e3d2d2">、</span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#a61717;background-color:#e3d2d2">、</span><span style="color:#000;font-weight:bold">&gt;=</span><span style="color:#a61717;background-color:#e3d2d2">、</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#a61717;background-color:#e3d2d2">、</span><span style="color:#000;font-weight:bold">&lt;=</span><span style="color:#a61717;background-color:#e3d2d2">、</span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#a61717;background-color:#e3d2d2">、</span><span style="color:#000;font-weight:bold">&lt;=&gt;</span><span style="color:#a61717;background-color:#e3d2d2">、</span>BETWEEN或者IN操作符<span style="color:#a61717;background-color:#e3d2d2">，用常量比较关键字列时，可以使用</span>range<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t3<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952602</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">or</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3952603</span><span style="color:#bbb"> </span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+-----------+---------+------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+-----------+---------+------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>t3<span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>range<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span>,idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>idx_t3_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+-------+-------+-------------------+-----------+---------+------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">row</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">set</span><span style="color:#bbb"> </span>(<span style="color:#099">0</span>.<span style="color:#099">02</span><span style="color:#bbb"> </span>sec)<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span></code></pre></div><h3 id="type-index">type-index</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>index</td>
+<td>全表扫描,只是扫描表的时候按照索引次序 进行而不是行。主要优点就是避免了排序, 但是开销仍然非常大按索引次序扫描，先读索引，再读实际的行，结果还是全表扫描，主要优点是避免了排序。因为索引是排好的</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#a61717;background-color:#e3d2d2">该联接类型与</span>ALL相同<span style="color:#a61717;background-color:#e3d2d2">，除了只有索引树被扫描。这通常比</span>ALL快<span style="color:#a61717;background-color:#e3d2d2">，因为索引文件通常比数据文件小。</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">当查询只使用作为单索引一部分的列时，</span>MySQL可以使用该联接类型<span style="color:#bbb">
+</span></code></pre></div><h3 id="type-all">type-all</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>all</td>
+<td>最坏的情况,从头到尾全表扫描</td>
+</tr>
+</tbody>
+</table>
+<h3 id="type-null">type-null</h3>
+<table>
+<thead>
+<tr>
+<th>type 重要的项,显示连接使用的类型,按最 优到最差的类型排序</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>null</td>
+<td>优化过程中就已经得到结果，不在访问表或索引</td>
+</tr>
+</tbody>
+</table>
+<h2 id="possible_keys">possible_keys</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>possible_keys</td>
+<td>指出 MySQL 能在该表中使用哪些索引有助于 查询。如果为空,说明没有可用的索引</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">possible_keys列指出MySQL能使用哪个索引在该表中找到行<span style="color:#a61717;background-color:#e3d2d2">。注意，该列完全独立于</span>EXPLAIN输出所示的表的次序<span style="color:#a61717;background-color:#e3d2d2">。这意味着在</span>possible_keys中的某些键实际上不能按生成的表次序使用<span style="color:#a61717;background-color:#e3d2d2">。</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">如果该列是</span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#a61717;background-color:#e3d2d2">，则没有相关的索引。在这种情况下，可以通过检查</span>WHERE子句看是否它引用某些列或适合索引的列来提高你的查询性能<span style="color:#a61717;background-color:#e3d2d2">。如果是这样，创造一个适当的索引并且再次用</span>EXPLAIN检查查询<span style="color:#bbb">
+</span></code></pre></div><h2 id="key">key</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>key</td>
+<td>MySQL 实际从 possible_key 选择使用的索引。 如果为 NULL,则没有使用索引。很少的情况 下,mysql 会选择优化不足的索引。这种情 况下,可以在 SELECT 语句中使用 USE INDEX (indexname)来强制使用一个索引或者用 IGNORE INDEX(indexname)来强制 mysql 忽略索引</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key_len">key_len</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>key_len</td>
+<td>使用的索引的长度。在不损失精确性的情况 下,长度越短越好</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ref">ref</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ref</td>
+<td>显示索引的哪一列被使用了</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rows">rows</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rows</td>
+<td>mysql 认为必须检查的用来返回请求数据的行数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="extra">Extra</h2>
+<ul>
+<li>该列包含MySQL解决查询的详细信息
+<strong>extra 中出现以下 2 项意味着 mysql 根本不能使用索引,效率会受到重大影响。应尽可能对此进行优化</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Using filesort</td>
+<td>表示 MySQL 会对结果使用一个外部索引排序,而不是从表里按索引次序读到相关内容。可能在内存或者磁盘上进行排序。MySQL 中无法利用索引完成的排序操作称为“文件排序”, <strong>对于没有索引的列进行order by 就会出现filesort</strong></td>
+</tr>
+<tr>
+<td>Using temporary</td>
+<td>表示 MySQL 在对查询结果排序时使用临时表。常见于排序 order by 和分组查询 group by, <strong>MySQL 使用临时表来实现 distinct 操作</strong></td>
+</tr>
+<tr>
+<td>Using index</td>
+<td>此查询使用了覆盖索引(Covering Index)，即通过索引就能返回结果，无需访问表。若没显示&quot;Using index&quot;表示读取了表数据。</td>
+</tr>
+<tr>
+<td>Using where</td>
+<td>表示 MySQL 服务器从存储引擎收到行后再进行“后过滤”（Post-filter）。所谓“后过滤”，就是先读取整行数据，再检查此行是否符合 where 句的条件，符合就留下，不符合便丢弃。因为检查是在读取行后才进行的，所以称为“后过滤”</td>
+</tr>
+<tr>
+<td>Distinct</td>
+<td>一旦mysql找到了与行相联合匹配的行，就不再搜索了</td>
+</tr>
+<tr>
+<td>Not exists</td>
+<td>mysql优化了LEFT JOIN，一旦它找到了匹配LEFT JOIN标准的行，就不再搜索</td>
+</tr>
+<tr>
+<td>Range checked for each</td>
+<td>没有找到理想的索引，因此对于从前面表中来的每一个行组合，mysql检查使用哪个索引，并用它来从表中返回行。这是使用索引的最慢的连接之一</td>
+</tr>
+</tbody>
+</table>
+<h1 id="联合查询的优化">联合查询的优化</h1>
+<ul>
+<li>简单举例子，LEFT JOIN 条件用于确定如何从右表搜索行,左边一定都有,所以右边是我们的关键点,一定需要建立索引</li>
+<li>inner join 和 left join 差不多,都需要优化右表。而 right join 需要优化左表</li>
+</ul>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

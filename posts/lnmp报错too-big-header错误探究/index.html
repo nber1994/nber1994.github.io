@@ -109,8 +109,6 @@
 			<h1>lnmp报错too-big-header错误探究</h1>
 			<b><time>2018-01-08</time></b>
 		       
-		           <a href="/tags/php">php</a>
-        	       
 
 			<div>
 				<blockquote>
@@ -168,13 +166,7 @@ mv php.sock php.sock.orig
 socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:bold">=</span>777,reuseaddr,fork UNIX-CONNECT:php.sock.orig
 将socket通道的内容转发一份到另一个socket,进行监听
 </code></pre></div><h3 id="213-抓取到的数据大概的样子">2.1.3 抓取到的数据大概的样子</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/tcpdump.png" alt="抓到的数据" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/tcpdump.png" alt="抓到的数据"></p>
 <h2 id="22-简单分析">2.2 简单分析</h2>
 <p>让我们观察下日志，
 首先可以看到tcp的建立链接数据，可以顺便直观了解下tcp的三次握手:P</p>
@@ -194,21 +186,9 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:b
         0x0020:  <span style="color:#099">8010</span> <span style="color:#099">0200</span> 602b <span style="color:#099">0000</span> <span style="color:#099">0101</span> 080a <span style="color:#099">4389</span> 8f26  ....<span style="color:#d14">`</span>+......C..&amp;
         0x0030:  <span style="color:#099">4389</span> 8f26                                C..&amp;
 </code></pre></div><h3 id="221-一次请求的nginx-error日志">2.2.1 一次请求的nginx-error日志</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/one-hit-error-log.png" alt="nginx-error" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/one-hit-error-log.png" alt="nginx-error"></p>
 <h3 id="222-一次请求的tcpdump的日志">2.2.2 一次请求的tcpdump的日志</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/one-hit-tcpdump-log.png" alt="tcpdump-log" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/one-hit-tcpdump-log.png" alt="tcpdump-log"></p>
 <h3 id="223-简单结论">2.2.3 简单结论</h3>
 <h4 id="观察到的现象">观察到的现象</h4>
 <ul>
@@ -232,23 +212,11 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:b
 <h2 id="31-fastcgi_buffer_size">3.1 fastcgi_buffer_size</h2>
 <p>我们知道，fastcgi_buffer_size与proxy_buffer_size这两个参数会影响到响应头, 其中proxy_buffer_size影响的是nginx作为反向代理时的参数
 对于nginx配置文件中的fastcgi_buffer_size，文档中是这么写的</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/fastcgi_buffer_size.png" alt="文档" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/fastcgi_buffer_size.png" alt="文档"></p>
 <p>其中 <strong>the first part of the response received from the FastCGI server.</strong>,这个参数指定的是接受到fastcgi-server端的第一部分的响应（一般是response header），在lnmp的场景里，fastcgi-server就是php部分
 其中这个first part的含义是这样子的，由于upstream是一个通用的组件，它不知道后端的协议，而对于http场景来说，由于http是需要header的，而后端的协议不一定有头，此时就需要我们通过解析后端的协议，然后来设置好发送给client的头，最终发送给client，通过上面的观察，我们发现php的错误信息也会包含其中</p>
 <p>以下是所谓的正常情况下的<strong>the first part of the response</strong>的结构</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/fastcgi-header.png" alt="header" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/fastcgi-header.png" alt="header"></p>
 <ul>
 <li>对于接收到的来自后端服务器的响应头部。以上是一个fastcgi格式的响应报文，需要从fastcgi格式的报文中提取出http响应头部，因此需要经过状态机处理，从而解析出http响应头部。</li>
 <li>nginx接收后端服务的响应也应该是一种fastcgi报文格式。从图中可以看出，每一个http响应包头前面都加上了fastcgi头部，而每一个http响应包头都有可能由多条http响应头部组成。</li>
@@ -256,13 +224,7 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:b
 </ul>
 <h2 id="32-nginx代码报错分析">3.2 nginx代码报错分析</h2>
 <p>源码中报错的位置如下</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/code.png" alt="error" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/code.png" alt="error"></p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#998;font-style:italic">//nginx接收来自上游服务器的响应头部
 </span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">ngx_http_upstream_process_header</span>(ngx_http_request_t <span style="color:#000;font-weight:bold">*</span>r, ngx_http_upstream_t <span style="color:#000;font-weight:bold">*</span>u)
 {
@@ -520,49 +482,19 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:b
 所以，暂时现在可以推断的是，</p>
 <p><strong>php-fpm会在一定的情况下向nginx传送不完整的响应头数据，导致nginx解析fastcgi与http的header出错，导致报出502</strong>
 这看起来不可思议，竟然是下游服务出了差错，而不是因为nginx内的fastcgi_buffer_size太小导致的错误,不过该问题并不是不可能发生：
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/gis.png" alt="哈哈" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/gis.png" alt="哈哈"></p>
 <h1 id="5-探究下不同fastcgi_buffer_size下的502发生情况">5. 探究下不同fastcgi_buffer_size下的502发生情况</h1>
 <h2 id="51-fastcgi_buffer_size-1k">5.1 fastcgi_buffer_size 1k</h2>
 <h3 id="nginx日志">nginx日志</h3>
 <p>不会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-error-log.png" alt="error-log" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-error-log.png" alt="error-log"></p>
 <p>会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-502-error-log.png" alt="error-log" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-502-error-log.png" alt="error-log"></p>
 <h3 id="tcpdump的日志">tcpdump的日志</h3>
 <p>不会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-tcpdump-log.png" alt="tcp-error" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-tcpdump-log.png" alt="tcp-error"></p>
 <p>会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-tcpdump-502-log.png" alt="tcp-error" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/1k-tcpdump-502-log.png" alt="tcp-error"></p>
 <h3 id="测试结果">测试结果</h3>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://test/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
 <span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
@@ -578,38 +510,14 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:b
 </code></pre></div><h2 id="52-fastcgi_buffer_size-2k">5.2 fastcgi_buffer_size 2k</h2>
 <h3 id="nginx日志-1">nginx日志</h3>
 <p>不会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-error-log.png" alt="error-log" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-error-log.png" alt="error-log"></p>
 <p>会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-502-error-log.png" alt="error-log" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-502-error-log.png" alt="error-log"></p>
 <h3 id="tcpdump的日志-1">tcpdump的日志</h3>
 <p>不会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-tcpdump-log.png" alt="tcp-error" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-tcpdump-log.png" alt="tcp-error"></p>
 <p>会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-tcpdump-error-502-log.png" alt="tcp-error" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2k-tcpdump-error-502-log.png" alt="tcp-error"></p>
 <h3 id="测试结果-1">测试结果</h3>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://test/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
 <span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
@@ -625,38 +533,14 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:b
 </code></pre></div><h2 id="53-fastcgi_buffer_size-4k">5.3 fastcgi_buffer_size 4k</h2>
 <h3 id="nginx日志-2">nginx日志</h3>
 <p>不会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-error-log.png" alt="error-log" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-error-log.png" alt="error-log"></p>
 <p>会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-error-502-log.png" alt="error-log" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-error-502-log.png" alt="error-log"></p>
 <h3 id="tcpdump的日志-2">tcpdump的日志</h3>
 <p>不会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-tcpdump-error-log.png" alt="tcp-error" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-tcpdump-error-log.png" alt="tcp-error"></p>
 <p>会报502的错误日志
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-tcpdump-502-error-log.png" alt="tcp-error" />
-</figure>
-
-
-</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/4k-tcpdump-502-error-log.png" alt="tcp-error"></p>
 <h3 id="测试结果-2">测试结果</h3>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">bash~ <span style="color:#000;font-weight:bold">for</span> it in <span style="color:#000;font-weight:bold">{</span>30..200..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">for</span> size in <span style="color:#000;font-weight:bold">{</span>100..250..3<span style="color:#000;font-weight:bold">}</span>; <span style="color:#000;font-weight:bold">do</span> <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;size=</span><span style="color:#008080">$size</span><span style="color:#d14"> iterations=</span><span style="color:#008080">$it</span><span style="color:#d14"> </span><span style="color:#000;font-weight:bold">$(</span>curl -sv <span style="color:#d14">&#34;http://test/debug.php?size=</span><span style="color:#008080">$size</span><span style="color:#d14">&amp;iterations=</span><span style="color:#008080">$it</span><span style="color:#d14">&#34;</span> 2&gt;&amp;<span style="color:#099">1</span> | egrep <span style="color:#d14">&#39;^&lt; HTTP&#39;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>; <span style="color:#000;font-weight:bold">done</span>; <span style="color:#000;font-weight:bold">done</span> | grep <span style="color:#099">502</span> | head
 <span style="color:#008080">size</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">121</span> <span style="color:#008080">iterations</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span> &lt; HTTP/1.1 <span style="color:#099">502</span> Bad Gateway
@@ -774,7 +658,7 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:b
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -783,7 +667,7 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:b
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -792,7 +676,7 @@ socat -t100 -x -v UNIX-LISTEN:php.sock,mode<span style="color:#000;font-weight:b
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

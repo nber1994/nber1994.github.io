@@ -109,26 +109,17 @@
 			<h1>redis数据结构-跳跃表</h1>
 			<b><time>2019-01-08</time></b>
 		       
-		           <a href="/tags/redis">redis</a>
-        	       
 
 			<div>
-				<h1 id="redis数据结构-跳跃表">redis数据结构-跳跃表</h1>
-<ul>
+				<ul>
 <li>跳跃表通过每个节点位置多个指向其他节点的指针来实现快速访问</li>
 <li>跳跃表可以实现最好O(logN)，最坏O(N)的节点查找，同时可以顺序操作批量处理</li>
 <li>redis的应用，一个是在有序集合中使用了跳跃表，同时在集群节点中作为内部数据结构使用</li>
 </ul>
-<h2 id="结构">结构</h2>
+<h1 id="结构">结构</h1>
 <p>跳跃表由zskiplistNode和zskiplist结构组成
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181116215118081_834546591.png" alt="" />
-</figure>
-
-
-</p>
-<h3 id="对于跳跃表结构">对于跳跃表结构:</h3>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181116215118081_834546591.png" alt=""></p>
+<h2 id="对于跳跃表结构">对于跳跃表结构:</h2>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> strut zskiplist {
     <span style="color:#998;font-style:italic">//表头节点和表尾节点
 </span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">struct</span> zskiplistNode <span style="color:#000;font-weight:bold">*</span>header, <span style="color:#000;font-weight:bold">*</span>tail;;
@@ -142,7 +133,7 @@
 <li>level：跳跃表中level最大的level值，不包括表头结点</li>
 <li>length：跳跃表中包含节点的个数，不包含表头</li>
 </ul>
-<h3 id="对于跳跃表节点结构">对于跳跃表节点结构：</h3>
+<h2 id="对于跳跃表节点结构">对于跳跃表节点结构：</h2>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> zskiplistNode {
     <span style="color:#998;font-style:italic">//层
 </span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">struct</span> zskiplistLevel {
@@ -170,14 +161,8 @@
 <li>注意：头节点同样存在后退指针，分值和成员对象，但是一般不使用</li>
 <li>注意：当节点的score值相同时，但是成员变量不能重复，会按照成员对象在字典中的大小进行排序</li>
 </ul>
-<h2 id="重点回顾">重点回顾</h2>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117154357647_1008856380.png" alt="" />
-</figure>
-
-
-</p>
+<h1 id="重点回顾">重点回顾</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117154357647_1008856380.png" alt=""></p>
 
 			</div>
 		</article>
@@ -195,7 +180,7 @@
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -204,7 +189,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -213,7 +198,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

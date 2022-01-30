@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>mysql-5.7连接池</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql-5.7连接池</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>mysql-5.7连接池</h1>
+			<b><time>2019-01-08</time></b>
+		       
+
+			<div>
+				<blockquote>
+<p>mysql5.7之后，引进了线程池的概念</p>
+</blockquote>
+<h1 id="为什么要是有线程池">为什么要是有线程池</h1>
+<h2 id="没有线程池的现象">没有线程池的现象</h2>
+<ul>
+<li>随着DB访问的增大，DB的响应时间也会随之增大
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101110752375_1220949134.png" alt=""></li>
+<li>而当DB访问达到一定程度的时候，DB吞吐量也会出现下降，并且会越来越差
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101110859422_1674643821.png" alt=""></li>
+</ul>
+<h2 id="原因">原因</h2>
+<h2 id="减少线程重复创建与销毁的开销提高性能">减少线程重复创建与销毁的开销，提高性能</h2>
+<p>线程池采用预线程技术，在监听到新的请求到来时，会从线程池中分配一个线程来处理，<br>
+处理后该线程不会销毁而是去处理其他请求
+这样避免了频繁的线程的创建和销毁，减少了上线文切换</p>
+<h2 id="对系统起到保护作用">对系统起到保护作用</h2>
+<p>线程池限制了并发线程数，相当于限制了runing的线程数。<br>
+不论出现多大的请求，超过最大线程都需要排队，所以讲系统保持在高性能的状态， 防止DB雪崩现象</p>
+<h2 id="线程池和连接池的区别">线程池和连接池的区别</h2>
+<p>连接池一般是在客户端设置的，避免连接的频繁销毁和创建，但是并不能起到对DB的保护作用
+所以一般线程池和连接池一起使用</p>
+<h1 id="mysql线程池介绍">Mysql线程池介绍</h1>
+<h2 id="简介">简介</h2>
+<p>为了应付频繁创建销毁线程的开销以及高并发导致的雪崩问题
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101111906731_304857661.png" alt=""></p>
+<h2 id="架构">架构</h2>
+<p>线程池被划分为多个组group，每个组下面有对应的工作线程</p>
+<h2 id="架构图">架构图</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101112056619_915771195.png" alt=""></p>
+<h2 id="thread-pool-组成">thread pool 组成</h2>
+<p>线程池由一个timer thread线程和多个线程组组成，而每个线程组又是由两个队列，已和listener线程和多个worker线程组成</p>
+<h3 id="队列高优先级队列和低优先级队列">队列(高优先级队列和低优先级队列)</h3>
+<p>高优先级队列会优先存放事务中的语句,同时如果一个任务存在于低优先级太长时间也会到高优先级里。如果是非事务队列，<br>
+或者是autocommit的事务，都会直接放在低优先级队列</p>
+<h3 id="listener线程">listener线程</h3>
+<p>listener线程监听该group的语句，当队列中存在待处理的任务，说明这时有worker在工作，那么直接把任务放入队列中。<br>
+如果任务队列为空，则将自己转变为worker进程，进行处理。这么做主要是为了减少创建线程的开销</p>
+<h3 id="worker线程">worker线程</h3>
+<p>真正干活的线程</p>
+<h3 id="timer线程">timer线程</h3>
+<h3 id="检查阻塞">检查阻塞</h3>
+<ul>
+<li>timer线程周期性的检查group是否处理阻塞状态,当出现阻塞，会唤醒线程或者新建线程来解决</li>
+</ul>
+<blockquote>
+<p>检查方法：worker线程去检查队列时，会将queue_event_count+1，而timer线程检查完是否阻塞后会将其置为0<br>
+如果此时,queue_event_count=0并且队列不为空，则说明所有的worker都在工作，group阻塞</p>
+</blockquote>
+<h2 id="怎么工作">怎么工作</h2>
+<ul>
+<li>请求连接到mysql， threadid%thread_pool_size确定落在那个group</li>
+<li>group接收到请求后，检查队列是否为空，如果为空，则自己作为worker处理请求，否则将任务放入队列中</li>
+<li>worker检查队列请求，如果有请求的话，首先检查运行的线程数是否超过thread_pool_oversubscribe+1, 如果没有则执行，没有拿到任务的线程会在thread_pool_idle_timeout之后被回收</li>
+<li>timer线程会检查各个group是否存在阻塞出现，一旦出现阻塞，则会创建新的线程去处理请求</li>
+</ul>
+<h2 id="更多细节">更多细节</h2>
+<ul>
+<li>一个连接可以被一个group中的一个或多个worker线程处理的</li>
+<li>listener线程不是固定的</li>
+<li>listener线程是通过epoll的方式来监听group中的连接事件的。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101115827163_935281056.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181101115848289_1835895799.png" alt=""></p>
+<h1 id="连接推荐">连接推荐</h1>
+<p>MYSQL线程池总结 <a href="https://www.cnblogs.com/cchust/p/4510039.html">https://www.cnblogs.com/cchust/p/4510039.html</a><br>
+MySQL线程池问题个人整理 <a href="https://cloud.tencent.com/developer/article/1068832">https://cloud.tencent.com/developer/article/1068832</a><br>
+Mysql线程池 淘宝月报 <a href="http://mysql.taobao.org/monthly/2016/02/09/">http://mysql.taobao.org/monthly/2016/02/09/</a></p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>机器内存储类型</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>机器内存储类型</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>机器内存储类型</h1>
+			<b><time>2019-05-18</time></b>
+		       
+
+			<div>
+				<h1 id="存储">存储</h1>
+<h2 id="存储在不同的存储器的速度">存储在不同的存储器的速度</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181128203450495_60884375.png" alt=""></p>
+<h2 id="随机访问存储器">随机访问存储器</h2>
+<ul>
+<li>静态RAM和动态RAM</li>
+<li>SRAM既可以在芯片上，也可以在芯片下</li>
+</ul>
+<h2 id="访问主存">访问主存</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181128203655318_1343952728.png" alt=""></p>
+<h2 id="总线事务">总线事务</h2>
+<ul>
+<li>读事务是从主存传输数据到cpu</li>
+<li>写事务是从cpu传输数据到主存
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154854475_1780130651.png" alt=""></li>
+</ul>
+<p>Cpu通过系统总线链接I/O桥，主存通过内存总线链接I/O桥</p>
+<h3 id="读事务">读事务：</h3>
+<p>1.cpu将地址放在系统总线中，通过I/O桥传给内存总线传递给内存
+2.内存感知到内存总线传递来地址，读出地址数据，并传递到内存总线上
+3.cpu感受到系统总线传递的数据，并将其复制到寄存器中</p>
+<h3 id="写事务">写事务：</h3>
+<p>1.cpu将需要写数据的地址传递给内存，内存读出地址等待数据
+2.cpu将数据写入系统总线
+3.内存从内存总线拿到数据，写入DRAM中</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517154944779_2061165000.png" alt=""></p>
+<ul>
+<li>DRAM速度比磁盘快10万倍，SRAM比磁盘快100万倍</li>
+</ul>
+<h1 id="磁盘">磁盘</h1>
+<ul>
+<li>盘面：磁盘是由一些盘面组成的，每个盘面上下都可以使用</li>
+<li>磁道：磁道是一组同心圆</li>
+<li>扇区：一个磁道分为一组扇区，扇区之前尤一些间隙隔开</li>
+<li>柱面：是所有盘面表面到主轴中心距离相等的磁道的集合
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517155007701_941445243.png" alt=""></li>
+</ul>
+<h2 id="磁盘读写">磁盘读写</h2>
+<p>磁盘通过读写头对磁盘进行读写，读写头位于机械臂头部，通过前后摆动进行寻道操作，同一个时刻上，读写头都位于一个柱面</p>
+<h3 id="磁盘读写速度">磁盘读写速度</h3>
+<ul>
+<li>磁盘的读写速度受三个时间影响：
+<ul>
+<li>寻道时间+旋转时间+传送时间
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517155034990_356474447.png" alt=""></li>
+</ul>
+</li>
+</ul>
+<h3 id="访问磁盘">访问磁盘</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517155103305_1934139246.png" alt=""></p>
+<ul>
+<li>Cpu当前的进程访问磁盘时，会将命令，逻辑块号和内存地址写入到磁盘控制器</li>
+<li>磁盘控制器读出数据，直接存入内存相关地址（DMA）</li>
+<li>磁盘控制器发出一个中断给cpu</li>
+</ul>
+<h3 id="设备可以直接执行写或者读总线事务而不经过cpu成为直接内存访问dma">设备可以直接执行写或者读总线事务，而不经过cpu，成为直接内存访问DMA</h3>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

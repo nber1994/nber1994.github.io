@@ -109,12 +109,9 @@
 			<h1>redis数据结构--简单动态字符串</h1>
 			<b><time>2019-08-09</time></b>
 		       
-		           <a href="/tags/redis">redis</a>
-        	       
 
 			<div>
-				<h1 id="redis数据结构--简单动态字符串sds">redis数据结构&ndash;简单动态字符串（SDS）</h1>
-<p>redis自己构建了简单的字符串结构，c语言的字符串类型只用于一些字面量展示 <br>
+				<p>redis自己构建了简单的字符串结构，c语言的字符串类型只用于一些字面量展示 <br>
 SDS还被用于缓冲区，AOF模块的缓冲区就是SDS实现的</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> sdshdr {
     <span style="color:#998;font-style:italic">//记录buf已经使用的长度
@@ -124,46 +121,28 @@ SDS还被用于缓冲区，AOF模块的缓冲区就是SDS实现的</p>
     <span style="color:#998;font-style:italic">//字节数组，用于保存字符串
 </span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">char</span> buf[];
 }
-</code></pre></div><p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115155008537_833883931.png" alt="" />
-</figure>
-
-
-</p>
+</code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115155008537_833883931.png" alt=""></p>
 <p>SDS通用遵循着\0结尾的方式，但是不会计入len，这样做的好处是可以使用部分C语言字符串函数</p>
-<h2 id="与c字符串的区别">与c字符串的区别</h2>
-<h3 id="常数复杂度的获取字符串长度">常数复杂度的获取字符串长度</h3>
+<h1 id="与c字符串的区别">与c字符串的区别</h1>
+<h2 id="常数复杂度的获取字符串长度">常数复杂度的获取字符串长度</h2>
 <ul>
 <li>SDS获取字符串长度的时间复杂度是o(1)</li>
 <li>c字符串需要遍历所有的字符串O(n)</li>
 </ul>
-<h3 id="杜绝缓冲区溢出">杜绝缓冲区溢出</h3>
+<h2 id="杜绝缓冲区溢出">杜绝缓冲区溢出</h2>
 <ul>
 <li>c字符串由于不知道自己的长度，所以无法校验自身的长度，造成缓冲区溢出
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115160028745_608947995.png" alt="" />
-</figure>
-
-
-
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115160043863_1829374010.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115160028745_608947995.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115160043863_1829374010.png" alt=""></li>
 <li>对于SDS来说，每次append操作时，都会检查是否存在足够的空间，如果空间不够的话，则会提前分配空间</li>
 </ul>
-<h3 id="减少修改字符串带来的内存重新分配次数">减少修改字符串带来的内存重新分配次数</h3>
-<h4 id="c字符串存在的缺点">c字符串存在的缺点：</h4>
+<h2 id="减少修改字符串带来的内存重新分配次数">减少修改字符串带来的内存重新分配次数</h2>
+<h2 id="c字符串存在的缺点">c字符串存在的缺点：</h2>
 <pre><code>- 字符串拼接，如果不通过内存重分配扩展足够的空间，则会产生缓冲区溢出
 - 字符串截断，如果不使用内存重新分配来释放字符串不用的空间的话，则会造成内存泄漏
 </code></pre>
 <p>对于c语言来说，偶尔的进行内存重新分配，其实是可以接受的，但是对于redis这种需要频繁修改的场景来说，内存重分配会占用一大部分时间，造成性能的降低</p>
-<h4 id="sds的解决方案">SDS的解决方案：</h4>
+<h2 id="sds的解决方案">SDS的解决方案：</h2>
 <ul>
 <li>空间预分配</li>
 <li>当需要对sds进行修改，并且需要对sds进行空间扩展时，
@@ -180,30 +159,18 @@ SDS还被用于缓冲区，AOF模块的缓冲区就是SDS实现的</p>
 </ul>
 </li>
 </ul>
-<h3 id="二级制安全">二级制安全</h3>
+<h2 id="二级制安全">二级制安全</h2>
 <ul>
 <li>c字符串使用\0表示字符串的结尾，这使得c字符串不能存储图像，音频视频等文件</li>
 <li>而对于SDS来说，并不会对\0进行过滤截断等操作，所有的api都是用二进制的方法处理buf中的数据</li>
 <li>即存入时是什么样，读取时就是什么样</li>
 </ul>
-<h3 id="兼容部分c字符串函数">兼容部分C字符串函数</h3>
+<h2 id="兼容部分c字符串函数">兼容部分C字符串函数</h2>
 <ul>
 <li>由于SDS采用c语言的\0结尾的惯例，所以它可以使用一部分c语言字符串的处理函数</li>
 </ul>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115163544261_765611971.png" alt="" />
-</figure>
-
-
-</p>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115163615120_2065867420.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115163544261_765611971.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115163615120_2065867420.png" alt=""></p>
 
 			</div>
 		</article>
@@ -221,7 +188,7 @@ SDS还被用于缓冲区，AOF模块的缓冲区就是SDS实现的</p>
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -230,7 +197,7 @@ SDS还被用于缓冲区，AOF模块的缓冲区就是SDS实现的</p>
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -239,7 +206,7 @@ SDS还被用于缓冲区，AOF模块的缓冲区就是SDS实现的</p>
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

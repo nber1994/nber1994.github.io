@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>代码链接</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>代码链接</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>代码链接</h1>
+			<b><time>2019-05-18</time></b>
+		       
+
+			<div>
+				<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517152529386_1090812524.png" alt=""></p>
+<ul>
+<li>编译程序往往需要编译器驱动程序，常用的如GCC，它将调用程序预处理器，编译器，汇编器和链接器
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517152740565_218196429.png" alt=""></li>
+</ul>
+<h1 id="编译过程">编译过程</h1>
+<ol>
+<li>程序预处理器将代码文件处理为ascii码的文件main.i</li>
+<li>编译器将main.i文件翻译为汇编文件main.s</li>
+<li>汇编器将main.s翻译为一个可重定位目标文件 main.o</li>
+<li>链接器将main.o和sum.o组合起来，创建一个可执行目标文件</li>
+<li>shell调用加载器，加载可执行目标文件，将代码和数据加载到内存中执行</li>
+</ol>
+<h1 id="链接器的工作">链接器的工作</h1>
+<ul>
+<li>符号解析
+每个符号对应于一个函数，变量等 符号解析做的就是将每个符号引用和符号定义关联起来</li>
+<li>重定位
+编译器和汇编器生成的是地址从0开始的代码和数据节。链接器通过把每个符号定义和一个内存位置关联起来（会合并不同可重定位目标文件的.data节），然后更新所有这个符号的引用，使其指向这个引用位置
+由于ELF加载的方式已经定了，各个节的大小也已经定了，所以链接之后，所有的符号的位置已经定了（虚拟内存地址）</li>
+</ul>
+<h1 id="目标文件">目标文件</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517152807697_1472796774.png" alt=""></p>
+<h1 id="linux中目标文件的格式elf文件">Linux中目标文件的格式ELF文件</h1>
+<ul>
+<li>ELF文件的格式
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517152824102_1398865296.png" alt=""></li>
+</ul>
+<blockquote>
+<p>ELF的头是一个16字节的固定序列，包含一些基本信息，包括目标文件的类型，机器类型，节头部表偏移量<br>
+在ELF头和节头部表之间的一些节 <br>
+.text 已经编译程序的机器代码 <br>
+.rodata 只读数据 类似于代码中的硬编码 sprintf(‘%s’) <br>
+.data 已初始化的全局&amp;静态变量 (局部变量在运行时保存在栈中) <br>
+.bss 未初始化的全局变量&amp;静态变量，以及被声明为0的全局&amp;静态变量</p>
+</blockquote>
+<h1 id="静态链接库">静态链接库</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517153310801_1836563784.png" alt=""></p>
+<blockquote>
+<p>可执行目标文件
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517153340571_1345059357.png" alt="">
+可执行文件包含只读内存段（代码段）和读写内存段（数据段） <br>
+ELF头中还包含程序的入口点，即第一条指令的地址</p>
+</blockquote>
+<h2 id="加载可执行目标文件">加载可执行目标文件</h2>
+<ul>
+<li>Shell指令加载ELF文件到内存中，1.将代码段和数据段加载到内存中，并跳转到程序入口点</li>
+</ul>
+<blockquote>
+<p>运行时的内存映像
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517153400274_1999744777.png" alt="">
+代码段总是从0x400000地址开始的，之后是数据段 <br>
+数据段之后是堆，堆后面的内存是为共享模块保留的 <br>
+用户栈总是从最大的合法地址开始向下延伸，之后的是内核内存</p>
+</blockquote>
+<h1 id="动态链接共享库">动态链接共享库</h1>
+<ul>
+<li>动态链接库在链接器阶段，会引入来更新重定位和符号表信息</li>
+<li>在加载器之后，会调用动态链接库来引入代码和数据</li>
+</ul>
+<p>￼
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517153419409_1591391489.png" alt=""></p>
+<ul>
+<li>动态链接库是在调用动态库代码时，程序被载入时才计算代码的逻辑地址</li>
+<li>这就要求动态库代码是由位置无关代码构成</li>
+</ul>
+<h1 id="位置无关代码">位置无关代码</h1>
+<ul>
+<li>链接一个函数时，多个进程都引用同一个函数，每个进程都占用内存，如果可以引用共享内存中的库代码是极好的
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517153506679_1755415885.png" alt=""></li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517153529330_1144436709.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517153544637_1684225631.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517153603489_798229110.png" alt=""></p>
+<h1 id="动静态链接共享库区别">动静态链接共享库区别</h1>
+<ul>
+<li>动态链接库占用空间比静态小，但是会影响程序性能</li>
+<li>动态库并不是和可执行文件一起存储在磁盘上，共享代码端一次性加载到共享段中，供所有的进程使用</li>
+<li>静态库在链接阶段已经确定了内存位置，动态是在程序加载时才会计算出代码地址</li>
+<li>静态库一旦有修改，所有使用的可执行文件都需要重新编译，动态链接则不用</li>
+</ul>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

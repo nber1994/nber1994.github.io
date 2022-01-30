@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>golang同步机制的实现</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>golang同步机制的实现</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>golang同步机制的实现</h1>
+			<b><time>2022-01-15</time></b>
+		       
+
+			<div>
+				<blockquote>
+<p>原文转载至：https://ga0.github.io/golang/2015/10/11/golang-sync.html</p>
+</blockquote>
+<p>Golang的提供的同步机制有sync模块下的Mutex、WaitGroup以及语言自身提供的chan等。 这些同步的方法都是以runtime中实现的底层同步机制（cas、atomic、spinlock、sem）为基础的， 本文主要探讨Golang底层的同步机制如何实现。</p>
+<h1 id="1-casatomic">1 cas、atomic</h1>
+<p>cas(Compare And Swap)和原子运算是其他同步机制的基础， 在runtime/asm_xxx.s(xxx代表系统架构，比如amd64)中实现。amd64架构的系统中， 主要通过两条汇编语句来实现，一个是<strong>LOCK</strong>、一个是<strong>CMPXCHG</strong>。</p>
+<p><strong>LOCK</strong>是一个指令前缀，其后必须跟一条“读-改-写”的指令，比如INC、XCHG、CMPXCHG等。 这条指令对CPU缓存的访问将是排他的。</p>
+<p><strong>CMPXCHG</strong>是完成CAS动作的指令。 把LOCK和CMPXCHG一起使用，就达到了原子CAS的功能。</p>
+<p>atomic操作也是通过<strong>LOCK</strong>和其他算术操作（<strong>XADD</strong>、<strong>ORB</strong>等）组合来实现。</p>
+<h1 id="2-自旋锁">2 自旋锁</h1>
+<p>Golang中的自旋锁用来实现其他类型的锁，自旋锁的作用和互斥量类似，不同点在于， 它不是通过休眠来使进程阻塞，而是在获得锁之前一直处于忙等状态（自旋），从而避免了进程（或者</p>
+<p>和自旋锁相关的函数有sync_runtime_canSpin和sync_runtime_doSpin， 前者用来判断当前是否可以进行自旋，后者执行自旋操作。二者通常一起使用。</p>
+<p>sync_runtime_canSpin函数中在以下四种情况返回false</p>
+<ol>
+<li>已经执行了很多次</li>
+<li>是单核CPU</li>
+<li>没有其他正在运行的P</li>
+<li>当前<strong>P</strong>的<strong>G</strong>队列不为空</li>
+</ol>
+<p>条件1避免长时间自旋浪费CPU的情况。</p>
+<p>条件2、3用来保证除了当前在运行的Goroutine之外，还有其他Goroutine在运行。</p>
+<p>条件4是避免自旋锁等待的条件是由当前<strong>P</strong>的其他<strong>G</strong>来触发，这样会导致 在自旋变得没有意义，因为条件永远无法触发。</p>
+<p>sync_runtime_doSpin会调用procyield函数，该函数也是汇编语言实现。 函数内部循环调用<strong>PAUSE</strong>指令。<strong>PAUSE</strong>指令什么都不做，但是会消耗CPU时间，在执行<strong>PAUSE</strong>指令时， CPU不会对他做不必要的优化。</p>
+<h1 id="3-信号量">3 信号量</h1>
+<p>按照runtime/sema.go中的注释：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Think of them as a way to implement sleep and wakeup
+</code></pre></div><p>Golang中的sema，提供了休眠和唤醒Goroutine的功能。</p>
+<p>semacquire函数首先检查信号量是否为0：如果大于0，让信号量减一，返回； 如果等于0，就调用goparkunlock函数，把当前Goroutine放入该sema的等待队列，并把他设为等待状态。</p>
+<p>semrelease函数首先让信号量加一，然后检查是否有正在等待的Goroutine： 如果没有，直接返回；如果有，调用goready函数唤醒一个Goroutine。</p>
+<h1 id="4-syncmutex">4 sync/Mutex</h1>
+<p>Mutex拥有<strong>Lock</strong>、<strong>Unlock</strong>两个方法，主要的实现思想都体现在<strong>Lock</strong>函数中。</p>
+<p><strong>Lock</strong>执行时，分三种情况：</p>
+<ol>
+<li><strong>无冲突</strong> 通过CAS操作把当前状态设置为加锁状态；</li>
+<li><strong>有冲突</strong> 开始自旋，并等待锁释放，如果其他Goroutine在这段时间内释放了该锁， 直接获得该锁；如果没有释放，进入3；</li>
+<li><strong>有冲突，且已经过了自旋阶段</strong> 通过调用semacquire函数来让当前Goroutine进入等待状态。</li>
+</ol>
+<p>无冲突时是最简单的情况；有冲突时，首先进行自旋，是从效率方面考虑的， 因为大多数的Mutex保护的代码段都很短，经过短暂的自旋就可以获得；如果自旋等待无果，就只好通过信号量来让当前 Goroutine进入等待了。</p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

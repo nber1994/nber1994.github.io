@@ -109,18 +109,15 @@
 			<h1>redis数据结构-字典</h1>
 			<b><time>2019-01-08</time></b>
 		       
-		           <a href="/tags/redis">redis</a>
-        	       
 
 			<div>
-				<h1 id="redis数据结构-字典dict">redis数据结构-字典(dict)</h1>
-<ul>
+				<ul>
 <li>字典是一个用于保存键值对的数据结构</li>
 <li>字典的键为独一无二的</li>
 <li>redis的数据库就是使用字典实现的</li>
 <li>hash键的底层实现</li>
 </ul>
-<h2 id="hash表结构">hash表结构</h2>
+<h1 id="hash表结构">hash表结构</h1>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#a61717;background-color:#e3d2d2">哈希表结构</span>
 <span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> dictht {
     <span style="color:#998;font-style:italic">//哈希表数组
@@ -133,14 +130,8 @@
 </span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">long</span> used;
 }
 </code></pre></div><p>table是一个数组，数组中的每个元素都是指向dictEntry结构的指针，每个dictEntry保存这一个键值对 <br>
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115172104868_1544804852.png" alt="" />
-</figure>
-
-
-</p>
-<h2 id="hash节点">hash节点</h2>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115172104868_1544804852.png" alt=""></p>
+<h1 id="hash节点">hash节点</h1>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> dictEntry {
         <span style="color:#998;font-style:italic">//键
 </span><span style="color:#998;font-style:italic"></span>        <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>key;
@@ -154,14 +145,8 @@
 </span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">struct</span> dictEntry <span style="color:#000;font-weight:bold">*</span>next;
 } dictEntry;
 </code></pre></div><p><strong>其中next可以连接相同的节点，可以通过这个指针将相同哈希值的多个键值对节点连接起来，来解决哈希冲突的问题</strong> <br>
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115172834333_457855334.png" alt="" />
-</figure>
-
-
-</p>
-<h2 id="字典结构">字典结构</h2>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115172834333_457855334.png" alt=""></p>
+<h1 id="字典结构">字典结构</h1>
 <p>字典由如下结构表示：</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> dict {
     <span style="color:#998;font-style:italic">//类型特定函数
@@ -174,57 +159,33 @@
 </span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//当rehash不进行时，值为-1
 </span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> trehashidx;
 }
-</code></pre></div><p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115173314833_740691337.png" alt="" />
-</figure>
-
-
-</p>
+</code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115173314833_740691337.png" alt=""></p>
 <ul>
 <li>ht属性是一个包含两个项的数组，一般情况下，使用ht[0],ht[1]只用来进行rehash操作</li>
 <li>trehashidx记录了rehash的进度
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115173716041_1984082947.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115173716041_1984082947.png" alt=""></li>
 </ul>
-<h2 id="hash算法">hash算法</h2>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181116211409933_732195149.png" alt="" />
-</figure>
-
-
-
+<h1 id="hash算法">hash算法</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181116211409933_732195149.png" alt="">
 hash算法根据<strong>键值</strong>，计算出哈希值，在结合sizemask的值，计算出索引值 <br>
 向hash表添加一个键值对时，先根据hash算法计算出键值对的哈希值和索引值 <br>
 再根据索引值确定新的哈希表节点放到指定索引上</p>
-<h2 id="解决键冲突">解决键冲突</h2>
+<h1 id="解决键冲突">解决键冲突</h1>
 <ul>
 <li>当两个以上的键被分配了相同的索引值，即为哈希碰撞</li>
 <li>redis使用链地址法来处理hash冲突，每个hash表项都有一个next指针，相同的索引值的会组成一个单项链表</li>
 <li>为了提高速率，每次发生hash冲突时，会将新的节点放在单向链表的表头 <br>
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181116211119221_356019613.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181116211119221_356019613.png" alt=""></li>
 </ul>
-<h2 id="rehash">rehash</h2>
+<h1 id="rehash">rehash</h1>
 <p>当hash表的装载因子大于1时，redis会将hash表进行rehash操作</p>
-<h3 id="步骤">步骤：</h3>
+<h2 id="步骤">步骤：</h2>
 <ul>
 <li>首先会初始化ht[1]，表的大小由现有键值对的大小等因素决定</li>
 <li>将ht0表中的所有的键值对重新计算hash值和索引值，写入ht1</li>
 <li>当完成后，将释放ht0，将ht1作为ht0，并初始化一个空表尾ht1</li>
 </ul>
-<h3 id="rehash的条件">rehash的条件</h3>
+<h2 id="rehash的条件">rehash的条件</h2>
 <ul>
 <li>不存在bgsave或者bgrewriteaof任务时，当装载因子大于1时</li>
 <li>存在bgsave和bgrewriteaof任务时，当装载因子大于5时
@@ -234,21 +195,15 @@ hash算法根据<strong>键值</strong>，计算出哈希值，在结合sizemask
 </ul>
 </li>
 </ul>
-<h3 id="渐进式的rehash">渐进式的rehash</h3>
+<h2 id="渐进式的rehash">渐进式的rehash</h2>
 <p>当存在大量的键值对时，rehash会带来大量的运算，并且在此期间不能响应请求，所以采用渐进式的rehash方法</p>
 <ul>
 <li>当redis对键值进行增，删改查时，redis除了执行制定操作时，还会将对应的hashindex上的键值对全部rehash到ht1上</li>
 <li>对rehash的值会反映在rehashidx上，当该值为-1时，表示已经完成rehash</li>
 <li>在此期间，对于创建键值操作，会直接在ht1表上创建；查找时，ht0中不存在时，会再查找ht1中</li>
 </ul>
-<h2 id="重点回顾">重点回顾</h2>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181116214218903_922571933.png" alt="" />
-</figure>
-
-
-</p>
+<h1 id="重点回顾">重点回顾</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181116214218903_922571933.png" alt=""></p>
 
 			</div>
 		</article>
@@ -266,7 +221,7 @@ hash算法根据<strong>键值</strong>，计算出哈希值，在结合sizemask
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -275,7 +230,7 @@ hash算法根据<strong>键值</strong>，计算出哈希值，在结合sizemask
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -284,7 +239,7 @@ hash算法根据<strong>键值</strong>，计算出哈希值，在结合sizemask
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>leetcode on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/categories/leetcode/</link>
+    <description>Recent content in leetcode on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/categories/leetcode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>二叉树</title>
+      <link>http://nber1994.github.io/posts/%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+      <description>package main import ( &amp;#34;fmt&amp;#34; ) type TreeNode struct { Val int Left *TreeNode Right *TreeNode } type stack struct { BinTree []*TreeNode Top int } func (nodeStack *stack) push(node *TreeNode) { nodeStack.BinTree = append(nodeStack.BinTree, node) nodeStack.Top++ } func (nodeStack *stack) pop() *TreeNode { var res *TreeNode nodeStack.Top-- if nodeStack.Top &amp;lt; 0 { res = nil } else { res = nodeStack.BinTree[nodeStack.Top] } nodeStack.BinTree = nodeStack.BinTree[:nodeStack.Top] return res } func inorderTraversal1(root *TreeNode) []int { res := []int{} myStack := &amp;amp;stack{[]*TreeNode{}, 0} for nil !</description>
+    </item>
+    
+    <item>
+      <title>剑指offer</title>
+      <link>http://nber1994.github.io/posts/%E5%89%91%E6%8C%87offer/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E5%89%91%E6%8C%87offer/</guid>
+      <description>题目列表，当做一个速查列表好了，具体代码就不放了:P
+ 链表-8道： 剑指Offer（三）：从尾到头打印链表 剑指Offer（十四）：链表中倒数第k个结点 剑指Offer（十五）：反转链表 剑指Offer（十六）：合并两个排序的链表 剑指Offer（二十五）：复杂链表的复制  第一步：复制复杂指针的label和next。但是这次我们把复制的结点跟在元结点后面，而不是直接创建新的链表； 第二步：设置复制出来的结点的random。因为新旧结点是前后对应关系，所以也是一步就能找到random； 第三步：拆分链表。奇数是原链表，偶数是复制的链表。   剑指Offer（三十六）：两个链表的第一个公共结点  方法一：  我们可以把两个链表拼接起来，一个pHead1在前pHead2在后，一个pHead2在前pHead1在后。这样，生成了两个相同长度的链表，那么我们只要同时遍历这两个表，就一定能找到公共结点。时间复杂度O(m+n)，空间复杂度O(m+n)。    方法二：  我们也可以先让把长的链表的头砍掉，让两个链表长度相同，这样，同时遍历也能找到公共结点。此时，时间复杂度O(m+n)，空间复杂度为O(MAX(m,n))。    剑指Offer（五十五）：链表中环的入口结点 剑指Offer（五十六）：删除链表中重复的结点 二叉树(12道)： 剑指Offer（四）：重建二叉树 剑指Offer（十七）：树的子结构 剑指Offer（十八）：二叉树的镜像 剑指Offer（二十二）：从上往下打印二叉树 剑指Offer（二十四）：二叉树中和为某一值的路径 剑指Offer（三十八）：二叉树的深度 剑指Offer（三十九）：平衡二叉树 剑指Offer（五十七）：二叉树的下一个结点 剑指Offer（五十八）：对称的二叉树 剑指Offer（五十九）：按之字顺序打印二叉树 剑指Offer（六十）：把二叉树打印成多行 剑指Offer（六十一）：序列化二叉树 二叉搜索树(3道)： 剑指Offer（二十三）：二叉搜索树的后序遍历序列 剑指Offer（二十六）：二叉搜索树与双向链表 剑指Offer（六十二）：二叉搜索树的第k个结点 数组(11道)： 剑指Offer（一）：二维数组中的查找 剑指Offer（六）：旋转数组的最小数字 剑指Offer（十三）：调整数组顺序使奇数位于偶数前面 剑指Offer（二十八）：数组中出现次数超过一半的数字 剑指Offer（三十）：连续子数组的最大和 剑指Offer（三十二）：把数组排成最小的数 剑指Offer（三十五）：数组中的逆序对 剑指Offer（三十七）：数字在排序数组中出现的次数 剑指Offer（四十）：数组中只出现一次的数字 剑指Offer（五十）：数组中重复的数字 剑指Offer（五十一）：构建乘积数组 字符串(8道)： 剑指Offer(二)：替换空格 剑指Offer（二十七）：字符串的排列 剑指Offer（三十四）：第一个只出现一次的字符 剑指Offer（四十三）：左旋转字符串 剑指Offer（四十四）：翻转单词顺序序列 剑指Offer（四十九）：把字符串转换成整数 剑指Offer（五十二）：正则表达式匹配 剑指Offer（五十三）：表示数值的字符串 栈(3道)： 剑指Offer（五）：用两个栈实现队列 剑指Offer（二十）：包含min函数的栈 剑指Offer（二十一）：栈的压入、弹出序列 递归(4道)： 剑指Offer（七）：裴波那契数列 剑指Offer（八）：跳台阶 剑指Offer（九）：变态跳台阶 剑指Offer（十）：矩形覆盖 回溯法(2道)： 剑指Offer（六十五）：矩阵中的路径 剑指Offer（六十六）：机器人的运动范围 其他(15道)： 剑指Offer（十一）：二进制中1的个数 剑指Offer（十二）：数值的整数次方 剑指Offer（十九）：顺时针打印矩阵 剑指Offer（二十九）：最小的K个数 剑指Offer（三十一）：整数中1出现的次数（从1到n整数中1出现的次数） 剑指Offer（三十三）：丑数 剑指Offer（四十一）：和为S的连续正数序列 剑指Offer（四十二）：和为S的两个数字 剑指Offer（四十五）：扑克牌顺子 剑指Offer（四十六）：孩子们的游戏（圆圈中最后剩下的数） 剑指Offer（四十七）：求1+2+3+…+n 剑指Offer（四十八）：不用加减乘除的加法 剑指Offer（五十四）：字符流中第一个不重复的字符 剑指Offer（六十三）：数据流中的中位数 剑指Offer（六十四）：滑动窗口的最大值</description>
+    </item>
+    
+    <item>
+      <title>排序</title>
+      <link>http://nber1994.github.io/posts/%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E6%8E%92%E5%BA%8F/</guid>
+      <description>各个算法的比较 归并排序  将数组打散为两两一组，两两一组进行排序，然后将各个组进行合并    把 n 个记录看成 n 个长度为1的有序子表； 进行两两归并使记录关键字有序，得到 n/2 个长度为 2 的有序子表； 重复第2步直到所有记录归并成一个长度为 n 的有序表为止。  归并排序非递归思路 按照先分组再合并的思路，我们设置一个逐渐变大的间隔，然后按照间隔来讲数据进行分组，并进行归并  我们可以先将一个无序数组A，按照2位单位，分成诸多长度为2的子数组：
+如下：
+假如有数组A：[2 ,1 ,5 ,9 ,0 ,6 ,8 ,7 ,3]
+可以分成以下长度为1的子数组：
+{2}、{1}、{5}、{9}、{0}、{6}、{8}、{7}、{3}
+那么对这9个子数组进行归并排序，也即使用上面提到的代码进行排序，那么就可以得到 {1,2}、{5,9}、{0,6}、{7,8}、{3} 这样我们就有5个有序的子数组了，再讲这五个子数组两两归并，即得到： {1,2,5,9}、{0,6,7,8}、{3} 就这样依次归并下去，即得到一个有序的数组B {0 ,1 ,2 ,3 ,5 ,6 ,7 ,8 ,9}
+ package main import &amp;#34;fmt&amp;#34; func main() { test_arr := []int{1, 7, 6, 1, 1, 2, 9, 5, 9, 1, 9} fmt.</description>
+    </item>
+    
+    <item>
+      <title>数组</title>
+      <link>http://nber1994.github.io/posts/%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E6%95%B0%E7%BB%84/</guid>
+      <description>package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sort&amp;#34; ) func main() { fmt.Println(twoSum1([]int{2, 11, 7, 15}, 9)) fmt.Println(twoSum2([]int{2, 11, 7, 15}, 9)) } //两数之和 //给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。 // //你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。 // //示例: // //给定 nums = [2, 7, 11, 15], target = 9 // //因为 nums[0] + nums[1] = 2 + 7 = 9 //所以返回 [0, 1] //两个指针向中间逼近 func twoSum1(nums []int, target int) []int { lens := len(nums) oldNums := make([]int, lens) copy(oldNums[:], nums) left := 0 right := lens - 1 sortedNums := sort.</description>
+    </item>
+    
+    <item>
+      <title>栈</title>
+      <link>http://nber1994.github.io/posts/%E6%A0%88/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E6%A0%88/</guid>
+      <description>package main import &amp;#34;fmt&amp;#34; func main() { a := &amp;amp;TreeNode{7, nil, nil} b := &amp;amp;TreeNode{3, nil, nil} c := &amp;amp;TreeNode{15, nil, nil} d := &amp;amp;TreeNode{9, nil, nil} e := &amp;amp;TreeNode{20, nil, nil} a.Left = b a.Right = c c.Left = d c.Right = e obj := Constructor(a) for obj.HasNext() { fmt.Println(obj.Next()) } } type TreeNode struct { Val int Left *TreeNode Right *TreeNode } //实现一个二叉搜索树迭代器。你将使用二叉搜索树的根节点初始化迭代器。 // //调用 next() 将返回二叉搜索树中的下一个最小的数。 // //BSTIterator iterator = new BSTIterator(root); //iterator.</description>
+    </item>
+    
+    <item>
+      <title>链表</title>
+      <link>http://nber1994.github.io/posts/%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E9%93%BE%E8%A1%A8/</guid>
+      <description>package main import &amp;#34;fmt&amp;#34; func main() { a := &amp;amp;ListNode{1, nil} b := &amp;amp;ListNode{4, nil} c := &amp;amp;ListNode{5, nil} d := &amp;amp;ListNode{1, nil} e := &amp;amp;ListNode{3, nil} f := &amp;amp;ListNode{4, nil} g := &amp;amp;ListNode{2, nil} h := &amp;amp;ListNode{6, nil} a.Next = b b.Next = c d.Next = e e.Next = f g.Next = h lists := []*ListNode{a, d, g} res := mergeKLists(lists) for res != nil { fmt.Println(res.Val) res = res.</description>
+    </item>
+    
+    <item>
+      <title>leetcode-图</title>
+      <link>http://nber1994.github.io/posts/%E5%9B%BE/</link>
+      <pubDate>Tue, 18 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E5%9B%BE/</guid>
+      <description>表示方式 package main import ( &amp;#34;fmt&amp;#34; ) func main() { g := graph{} n1, n2, n3, n4, n5 := node{1}, node{2}, node{3}, node{4}, node{5} g.addNode(&amp;amp;n1) g.addNode(&amp;amp;n2) g.addNode(&amp;amp;n3) g.addNode(&amp;amp;n4) g.addNode(&amp;amp;n5) g.addEdge(&amp;amp;n1, &amp;amp;n2) g.addEdge(&amp;amp;n1, &amp;amp;n5) g.addEdge(&amp;amp;n2, &amp;amp;n3) g.addEdge(&amp;amp;n2, &amp;amp;n4) g.addEdge(&amp;amp;n2, &amp;amp;n5) g.addEdge(&amp;amp;n3, &amp;amp;n4) g.addEdge(&amp;amp;n4, &amp;amp;n5) g.string() g.BFS() g.DFS() } type node struct { val int } type graph struct { nodes []*node //使用邻接表来存储关系 	edges map[node][]*node } func (g *graph) addNode(n *node) { g.</description>
+    </item>
+    
+    <item>
+      <title>leetcode-杂题</title>
+      <link>http://nber1994.github.io/posts/%E6%9D%82%E9%A2%98/</link>
+      <pubDate>Tue, 09 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E6%9D%82%E9%A2%98/</guid>
+      <description>环形链表II 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。 说明：不允许修改给定的链表。 进阶： 你是否可以不用额外空间解决此题？ 思路： 如下图所示：  初始化slow指针指向head节点，fast指向head-&amp;gt;next节点，假设slow与fast在c点相遇。由于slow走过的路程为x+y，fast走过的路程为x+y+z+y，且fast走过的距离是slow的两倍，所以：   2(x+y)=x+y+z+y
+  化简得：x=z，此时把slow指针放到c处，fast指针放到a处，俩指针以相同速度向前走，则相遇节点为b，且b为相遇节点。  //两数之和 //借助一个hash表来进行数据的存储 //O(N) func twoSum(nums []int, target int) []int { hashMap := make(map[int]int, len(nums)) for k, v := range nums { if index, exist := hashMap[target-v]; exist { return []int{k, index} } else { hashMap[v] = k } } return nil } //先将数组排序，然后两个指针分别寻找 //O(logN) func twoSum1(nums []int, target int) []int { lens := len(nums) oldNums := make([]int, lens) copy(oldNums[:], nums) sortedNums := sort.</description>
+    </item>
+    
+  </channel>
+</rss>

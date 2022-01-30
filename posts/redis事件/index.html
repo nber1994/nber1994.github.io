@@ -109,12 +109,9 @@
 			<h1>redis事件</h1>
 			<b><time>2019-01-08</time></b>
 		       
-		           <a href="/tags/redis">redis</a>
-        	       
 
 			<div>
-				<h1 id="redis事件">redis事件</h1>
-<blockquote>
+				<blockquote>
 <p>redis是一个事件驱动程序</p>
 </blockquote>
 <ul>
@@ -144,13 +141,7 @@
 <li>使用IO多路复用模型，可以在实现高性能的网络响应模型的同时，保持了系统的简单性</li>
 </ul>
 <h2 id="文件事件处理器的构成">文件事件处理器的构成</h2>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118222228409_1225431651.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118222228409_1225431651.png" alt=""></p>
 <ul>
 <li>文件事件处理器包括套接字，IO多路复用处理程序，文件事件分派器，事件处理程序</li>
 <li>文件事件其实是对套接字操作的抽象</li>
@@ -189,13 +180,7 @@
 <li>之后，会接触命令回复处理器和AE_WRITEABLE事件的绑定</li>
 </ul>
 <h3 id="一次完整的客户端和服务器链接过程">一次完整的客户端和服务器链接过程</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118232748468_1461583627.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118232748468_1461583627.png" alt=""></p>
 <h1 id="时间事件">时间事件</h1>
 <ul>
 <li>定时时间和周期型事件</li>
@@ -210,13 +195,7 @@
 <h2 id="时间事件的实现">时间事件的实现</h2>
 <ul>
 <li>服务器将所有的时间事件都放在一个无需链表里，每当时间事件执行器运行时，就会便利这个链表
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181119120319275_2055226855.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181119120319275_2055226855.png" alt=""></li>
 </ul>
 <h3 id="事件事件应用实例servercron函数">事件事件应用实例：serverCron函数</h3>
 <ul>
@@ -232,20 +211,8 @@
 </li>
 </ul>
 <h3 id="主循环处理文件事件和时间事件的伪代码">主循环处理文件事件和时间事件的伪代码</h3>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181119222754573_532442591.png" alt="" />
-</figure>
-
-
-
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181119222816587_198269888.png" alt="" />
-</figure>
-
-
-</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181119222754573_532442591.png" alt="">
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181119222816587_198269888.png" alt=""></p>
 <ul>
 <li>获取最接近的时间事件的还有多久到达</li>
 <li>将该秒数传入IO监听函数，两个条件满足一个会向下执行
@@ -270,13 +237,7 @@
 <li>redis一般情况下只执行serverCron一个时间事件，并且是周期性的</li>
 <li>文件事件和时间事件是相互合作的关系，服务器会轮流处理这两类事件，相互不会枪战</li>
 <li>事件事件一般会比设定的时间晚一点
-
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181119223619038_1574871119.png" alt="" />
-</figure>
-
-
-</li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181119223619038_1574871119.png" alt=""></li>
 </ul>
 
 			</div>
@@ -295,7 +256,7 @@
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -304,7 +265,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -313,7 +274,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

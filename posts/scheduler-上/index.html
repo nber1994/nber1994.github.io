@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>go-scheduler 上</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>go-scheduler 上</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>go-scheduler 上</h1>
+			<b><time>2021-11-25</time></b>
+		       
+
+			<div>
+				<blockquote>
+<p>写在开头：</p>
+<p>本文仅科普性质分享，旨在为大家构建一个go scheduler发展大纲性的印象，会丢失很多代码以及设计细节，对于这方面的内容还需要读者自己去深挖代码补充完整:P</p>
+</blockquote>
+<h1 id="一计算机发展简史">一、计算机发展简史</h1>
+<h2 id="1-远古时代">1. 远古时代</h2>
+<blockquote>
+<p>一切要从1946年说起，当世界第一台计算机问世时，世界拥有了第一台计算机。（废话文学）</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211106180745370.png" alt="埃尼阿克(eniac)"></p>
+<p>当时的埃尼阿克(eniac)是为了计算炮弹轨迹而发明的，将你要计算的程序打到纸带上，接通电源，等待执行结果。期间不能暂停，也不能做其他任何事情。它上面没有操作系统，更别提进程、线程和协程了。</p>
+<h2 id="2-单进程时代">2. 单进程时代</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/2019-03-apple-II.jpeg" alt="img"></p>
+<p>后来，现代化的计算机有了操作系统，操作系统上可以安装多个应用，每个应用程序都包装为一个进程。它主要包括两部分：</p>
+<ol>
+<li>私有数据</li>
+<li>指令流</li>
+</ol>
+<p>但是，当时的操作系统在一段时间只能运行一个进程，直到这个进程运行完，才能运行下一个进程，这个时期可以称为<strong>单进程时代——串行时代</strong>。</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211117161413897.png" alt="image-20211117161413897" style="zoom: 33%;" />
+<p>和ENIAC相比，单进程时代运行速度已有了几万倍的提度，但依然是太慢了，比如进程要读数据阻塞了，CPU就在那里浪费着，程序员们就想了，不能浪费啊，<strong>怎么才能充分的利用CPU呢？</strong> 如果在cpu等待时，切换到另外的进程进行执行，CPU的效率就提高上来了。</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/913365-20160915163500758-1708346238-20211117164032323.png" alt="进程切换" style="zoom:50%;" />
+<h2 id="3-多进程时代">3. 多进程时代</h2>
+<blockquote>
+<p>从这个节点开始，人类在追求高并发的道路上一去不复返了</p>
+</blockquote>
+<p>后来操作系统就具有了<strong>最早的并发能力：多进程并发</strong>，当一个进程阻塞的时候，切换到另外等待执行的进程，这样就能尽量把CPU利用起来，CPU就不浪费了。</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/K9K9Yq.png" alt="image-20211117164228096" style="zoom: 33%;" /> 
+<p>给用户造成的假象就是，A B C三个进程同时在运行着。然而，为了实现这个目标，操作系统变得格外的复杂。</p>
+<p>实现多进程并发首先我们需要保障的有两点：</p>
+<ol>
+<li>实现进程间数据<strong>完全隔离</strong></li>
+<li>实现进程间指令流的<strong>安全切换</strong></li>
+</ol>
+<p>具体如何实现的呢：</p>
+<h3 id="31-虚拟内存">3.1 虚拟内存</h3>
+<p>操作系统引入了虚拟内存，来做到进程间数据的隔离。</p>
+<p>进程启动时，操作系统会为进程分配一块虚拟内存空间，每个进程拿到的 <strong>虚拟内存空间布局是相同的</strong>，<strong>且大小等于机器实际物理内存大小</strong>，但是实际上这块连续的内存空间对应机器内存中是一块块的内存碎片，这个假象是由虚拟内存技术实现的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211106173230814.png" alt="image-20211106173230814"></p>
+<p>进程需要访问某个地址时，例如0x004005，都会先去查询页表，定位到对应的PTE（页表项），PTE记录着对应的真实的物理内存地址，继而再对这个真实地址进行访问。</p>
+<p>每个进程都会有相同的页表，且内存结构也相同，对于每个进程来说都认为自己占用了机器全部的内存，操作系统在做虚拟内存映射时保证一个物理地址只会分配给一个进程（共享内存区域 &amp; 内核区域除外），这样就<strong>保证了进程间的内存数据是隔离的</strong>。</p>
+<h3 id="32-进程内存结构">3.2 进程内存结构</h3>
+<p>32位机器：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211106170342935.png" alt="image-20211106170342935"></p>
+<p>从低位向高位看：</p>
+<ul>
+<li>代码段总是从地址0x400000开始的，存储着用户程序的代码，字面量等</li>
+<li>然后是数据段，存储用户程序的一些宏，全局变量，代码等</li>
+<li>之后是堆，程序运行过程中产生的变量等都会存放在堆中，且堆空间向高位地址延伸</li>
+<li>在用户栈和堆之间存在一块为共享库分配的内存空间，这里存储着例如.so动态链接文件等</li>
+<li>再之后是用户栈，函数调用的入参，临时变量，以及调用信息等存放于此</li>
+<li>内存最高位则是内核内存空间，用户栈是从2^48-1处开始向下延伸的，这段空间固定映射到一部分连续的物理地址上</li>
+</ul>
+<p>所以，每个进程的程序指令流都会存在该进程的内存空间中，保证了进程的指令流完全隔离</p>
+<p>可以看到，当前进程的指令流是存在于本进程的内存中，所以，在切换进程之前，我们把当前运行到的pc位置做保存现场，再次切换到本进程时继续已之前的pc处开始执行即可。</p>
+<h3 id="33-进程控制块-pcb">3.3 进程控制块 PCB</h3>
+<p>内核为每个进程维护了一个pcb的结构，主要用于记录进程状态，在Linux中，PCB结构为task_struct；</p>
+<p>task_struct是Linux内核的一种数据结构，它会被装载到RAM里并且包含进程的信息，每个进程都把它的信息放在task_struct这个数据结构里。那么这个结构体里存了哪些数据呢：</p>
+<p><strong>1.进程状态：是调度和兑换的依据</strong></p>
+<table>
+<thead>
+<tr>
+<th>linux进程的状态</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内核表示</td>
+<td>含义</td>
+</tr>
+<tr>
+<td>TASK_RUNNING</td>
+<td>可运行</td>
+</tr>
+<tr>
+<td>TASK_INTERRUPTIBLE</td>
+<td>可中断的等待状态</td>
+</tr>
+<tr>
+<td>TASK_UNINTERRUPTIBLE</td>
+<td>不可中断的等待状态</td>
+</tr>
+<tr>
+<td>TASK_ZOMBIE</td>
+<td>僵死</td>
+</tr>
+<tr>
+<td>TASK_STOPPED</td>
+<td>暂停</td>
+</tr>
+<tr>
+<td>TASK_SWAPPING</td>
+<td>换入/换出</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2.标识符：描述本进程的唯一标识符，用来区别其它进程</strong></p>
+<p>每个进程都有一个唯一的标识符，内核通过这个标识符来识别不同的进程，同时，进程标识符PID也是内核提供给用户程序的接口，用户程序通过PID对进程发号施令。PID是32位的无符号整数，它被顺序编号：新创建进程的PID通常是前一个进程的PID加1。然而，为了与16位硬件平台的传统Linux系统保持兼容，在Linux上允许的最大PID号是32767，当内核在系统中创建第32768个进程时，就必须重新开始使用已闲置的PID号。</p>
+<table>
+<thead>
+<tr>
+<th>各种标识符</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>域名</td>
+<td>含义</td>
+</tr>
+<tr>
+<td>pid</td>
+<td>进程标识符</td>
+</tr>
+<tr>
+<td>ppid</td>
+<td>父进程</td>
+</tr>
+<tr>
+<td>uid、gid</td>
+<td>用户标识符、组标识符</td>
+</tr>
+<tr>
+<td>euid、egid</td>
+<td>有效用户标识符、有效组标识符</td>
+</tr>
+<tr>
+<td>suid、sgid</td>
+<td>备份用户标识符、备份组标识符</td>
+</tr>
+<tr>
+<td>fsuid、fsgid</td>
+<td>文件系统用户标识符、文件系统组标识符</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3.进程调度信息</strong></p>
+<p>调度程序利用这部分信息决定系统中哪个进程应该优先运行，并结合进程的状态信息保证系统运转的公平和高效。这一部分信息通常包括进程的类别（普通进程还是实时进程）、进程的优先级（priority）等等</p>
+<table>
+<thead>
+<tr>
+<th>进程调度信息</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>域名</td>
+<td>含义</td>
+</tr>
+<tr>
+<td>need_resched</td>
+<td>调度标志</td>
+</tr>
+<tr>
+<td>nice</td>
+<td>静态优先级</td>
+</tr>
+<tr>
+<td>counter</td>
+<td>动态优先级</td>
+</tr>
+<tr>
+<td>policy</td>
+<td>调度策略</td>
+</tr>
+<tr>
+<td>rt_priority</td>
+<td>实时优先级</td>
+</tr>
+</tbody>
+</table>
+<p><strong>4.程序计数器：程序中即将被执行的下一条指令的地址</strong></p>
+<p><strong>5.内存指针：包括程序代码和进程相关数据指针，还有和其他进程共享的内存块的指针</strong></p>
+<p><strong>6.与处理器相关的上下文数据：程序执行时处理器的寄存器中的数据</strong></p>
+<p><strong>7.I/O状态信息：包括显示的I/O请求，分配给进程的I/O设备和被进程使用的文件列表</strong></p>
+<p><strong>8.记账信息：可以包括处理器时间总和，使用的时钟数总和、时间限制、记账号等</strong></p>
+<p>那么我们看到，内核为每个进程维护的PCB中，保存了每个进程当前的程序计数器，每当本进程被唤醒执行时，会将当前进程PCB信息载入寄存器中，并会将当前的程序计数器放到CS/IP上继续执行，这也就保证了 <strong>进程指令流的安全切换</strong> 。</p>
+<h3 id="34-进程的问题">3.4 进程的问题</h3>
+<h4 id="1资源占用">1.资源占用</h4>
+<p>那么，每个并发任务创建一个新的进程来应对，是否就是解决并发的银弹呢？并不是，进程太重了。。。</p>
+<p>每个进程所包含的数据，除了用户态应用程序的数据之外，还会包含很多操作系统的数据，也就是说进程的内存空间中包含了本进程运行需要的所有家当，举个最简单的例子：页表</p>
+<blockquote>
+<p>32位机器，能寻址的内存空间为2^32B = 2^22KB = 2^12MB = 4GB。页表大小是4K，那么就会有2^32B / 2^12B = 2^20个PTE，如果每个PTE大小为4B，那么整个页表大小为2^20 * 4B = 4MB!</p>
+</blockquote>
+<p>每个进程都要搞这么大的内存去存一个页表，这消耗太大了。如果涉及到64位系统，如果只有一级页表，那么内存占用更是巨大，就算引入了多级页表，倒排页表等技术，页表仍是一个非常大的内存消耗。</p>
+<h4 id="2不能利用多核">2.不能利用多核</h4>
+<p>当代计算机，硬件有了很大的进步，出现了多核，多cpu的计算机配置。我们简单的拆解下：</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211117181157264.png" alt="image-20211117181157264" style="zoom:50%;" /> 
+<p>这个是一个多CPU &amp; 多核的机器图解，可以看到每个CPU有两个核，核即是计算单元，且每个CPU都有自己的高速缓存。那么针对进程，每个进程都是独占机器资源，我们可以得到进程被唤醒时运行的情况：</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211117181946354.png" alt="image-20211117181946354" style="zoom:50%;" /> 
+<p>可以看到，每个cpu有一个核是空闲的，这就浪费了多核的优势了</p>
+<h4 id="3进程切换消耗过大">3.进程切换消耗过大</h4>
+<p>我们知道，进程分为内核态进程程和用户态进程，用户态进程需要绑定内核态进程，CPU并不能感知用户态进程的存在，它只知道它在运行1个进程，这个进程实际是内核态进程。</p>
+<p>一个进程的内存空间分为用户空间和内核空间，相应的，一个进程也分为两种状态，内核态和用户态，对于用户代码逻辑，是在用户态执行的，对于内核的逻辑，例如系统调用，进程调度等，都需要将进程提升进入内核态进行执行。</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/view.png" alt="preview" style="zoom:75%;" />
+<p>且内核态和用户态之间内存隔离，用户态到内存态切换开销是非常大的，但是它的开销大在那里呢？简单点来说有下面几点</p>
+<ul>
+<li>保留用户态现场（上下文、寄存器、用户栈等）</li>
+<li>复制用户态参数，用户栈切到内核栈，进入内核态</li>
+<li>额外的检查（因为内核代码对用户不信任）</li>
+<li>执行内核态代码
+<ul>
+<li>线程上下文切换: PC, SP 等寄存器，栈，线程相关的一些局部变量，还涉及一些 cache miss 的情况；</li>
+</ul>
+</li>
+<li>复制内核态代码执行结果，回到用户态</li>
+<li>恢复用户态现场（上下文、寄存器、用户栈等）</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211117192847504.png" alt="image-20211117192847504" style="zoom:50%;" />
+<p>这还不算上内核在切换pcb时对寄存器和高速缓存的修改耗时，简单来说，进程的切换需要进行内核态和用户态的切换，这个消耗是十分巨大的。</p>
+<p>那么，针对上述的问题，我们有没有办法进行改进呢？</p>
+<h2 id="4-线程时代">4. 线程时代</h2>
+<p>我们知道，一个进程有两部分组成，数据 &amp; 指令，那么如果多个进程间共享一套数据，但是拥有多个指令流是不是就能解决上述的两个问题呢，于是线程就诞生了。一个进程可以拥有多个线程，每个线程共享一套数据，但是保留各自独立的指令流。</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211117194339614.png" alt="image-20211117194339614" style="zoom:50%;" />
+<h3 id="拓展-tcmallocthread-caching-malloc">拓展-TCMalloc(Thread-Caching Malloc)</h3>
+<p>那么，聪明的你肯定会问，一个进程拥有多个线程，且这些线程共享一套内存空间，那么在对内存操作时岂不是锁竞争很严重？</p>
+<p>对，所以针对这类锁竞争，操作系统使用了线程本地缓存技术来降低锁的竞争，其核心策略就是降低锁的力度，提前为每个线程分配好一段free内存，当线程内需要分配的内存不是特别大时，可以直接无锁的在本地缓存中进行分配，这种方式十分有效！</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-20211118005842113.png" alt="image-20211118005842113" style="zoom:50%;" />
+<p>但是，这么做是不是说明我们找到银弹了呢，其实不是的，线程只解决了前两个问题，即：</p>
+<ol>
+<li>降低了一个调度单元的内存占用</li>
+<li>能发挥多核的性能</li>
+</ol>
+<p>那么如何解决第三个问题呢？</p>
+<h2 id="5-协程时代">5. 协程时代</h2>
+<p>我们知道，在多个线程 &amp; 进程间进行调度，需要切换到内核态进行，这无疑是消耗巨大的，那么如果我们对逻辑流调度时，绕开操作系统内核，直接在用户态进行，是否就能解决这个问题呢？所以有人提出了用户态线程的概念，即co-routine（协程），协作式线程。</p>
+<p>协程的调度和线程的调度是由区别的，线程调度是抢占式的，协程调度是协作式的，一个协程让出cpu后，才执行下一个协程。</p>
+<p>协程和线程有3种映射关系：</p>
+<ul>
+<li>
+<p>N:1，N个协程绑定1个线程，优点就是<strong>协程在用户态线程即完成切换，不会陷入到内核态，这种切换非常的轻量快速</strong>。但也有很大的缺点，1个进程的所有协程都绑定在1个线程上，<strong>一是某个程序用不了硬件的多核加速能力</strong>，<strong>二是一旦某协程阻塞，造成线程阻塞</strong>，本进程的其他协程都无法执行了，根本就没有并发的能力了。</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/bVcTwI7.png" alt="img"></li>
+</ul>
+</li>
+<li>
+<p>1:1，1个协程绑定1个线程，这种最容易实现。协程的调度都由内核完成了，不存在N:1缺点，但有一个缺点是协程的创建、删除和切换的代价都由内核完成，这跟线程差别不大。</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/bVcTwI4.png" alt="img"></li>
+</ul>
+</li>
+<li>
+<p>M:N，M个协程绑定N个线程，是N:1和1:1类型的结合，克服了以上2种模型的缺点，但实现起来最为复杂。</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/bVcTwI8.png" alt="img"></li>
+</ul>
+</li>
+</ul>
+<p>至此，对于协程和线程以及进程我们介绍到这里，相关的更多知识可以参考CSAPP这本书，讲的不错。</p>
+<p>下面，我们把视线拉回到Golang上来。</p>
+<h1 id="二goroutine">二、Goroutine</h1>
+<p><strong>Go语言的诞生就是为了支持高并发</strong>，目前有两类通用的高并发模型，</p>
+<ol>
+<li>共享内存型 Shared Memory
+<ol>
+<li>线程 Threads</li>
+<li>锁 Locks</li>
+<li>互斥量 Mutexes</li>
+</ol>
+</li>
+<li>消息传递型 （CSP和Actor模型）
+<ol>
+<li>进程 Process</li>
+<li>消息 Message</li>
+<li>不共享数据（状态）No Shared Data</li>
+</ol>
+</li>
+</ol>
+<p><a href="https://golang.org/doc/faq">鉴于Occam和Erlang都选用了CSP</a>(来自Go FAQ)，并且效果不错，Go也选了CSP，这也是为什么go提倡说，不用使用共享内存来通信，要是有通信来共享内存。</p>
+<p>就像前面说的多线程编程太不友好了，<strong>Go为了提供更容易使用的并发方法，使用了goroutine和channel</strong>。goroutine来自协程的概念，让一组可复用的函数运行在一组线程之上，即使有协程阻塞，该线程的其他协程也可以被<code>runtime</code>调度，转移到其他可运行的线程上。最关键的是，程序员看不到这些底层的细节，这就降低了编程的难度，提供了更容易的并发。</p>
+<p>Go中，<strong>协程被称为goroutine</strong>（Rob Pike说goroutine不是协程，因为他们并不完全相同），它<strong>非常轻量，一个goroutine只占几KB</strong>，并且这几KB就足够goroutine运行完，这就能在有限的内存空间内支持大量goroutine，支持了更多的并发。虽然一个goroutine的栈只占几KB，但实际是<strong>可伸缩</strong>的，如果需要更多内容，<code>runtime</code>会自动为goroutine分配。</p>
+<h2 id="协程调度-vs-线程调度-性能差别">协程调度 VS 线程调度 性能差别</h2>
+<p>线程切换大概在<strong>几微秒</strong>级别，协程切换大概在<strong>百 ns</strong> 级别。相差<strong>30倍</strong>左右。</p>
+<p>线程切换过程:</p>
+<ol>
+<li>进入系统调用</li>
+<li>调度器本身代码执行</li>
+<li>线程上下文切换: PC, SP 等寄存器，栈，线程相关的一些局部变量，还涉及一些 cache miss 的情况；</li>
+<li>退出系统调用</li>
+</ol>
+<p>协程切换不需要进入和退出系统调用, 在进行上下文切换时也更轻量, 只需要切换几个寄存器, 协程 <code>runtime.g</code> 结构只有 40 多个字段, 而线程的 task struct 有大概 300 个字段.</p>
+<p>更多内容可以参考：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/79772089">进程/线程上下文切换会用掉你多少CPU？</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/80037638">协程究竟比线程能省多少开销？</a></p>
+<h1 id="三调度器-scheduler">三、调度器 Scheduler</h1>
+<p><strong>调度器的任务是在用户态完成goroutine的调度，而调度器的实现好坏，对并发实际有很大的影响，并且Go的调度器就是M:N类型的，实现起来也是最复杂</strong>。</p>
+<h2 id="1-单线程调度器--0xhttpsgithubcomgolanggoblob96824000ed89d13665f6f24ddc10b3bf812e7f47srcruntimeprocc">1. 单线程调度器 · <a href="https://github.com/golang/go/blob/96824000ed89d13665f6f24ddc10b3bf812e7f47/src/runtime/proc.c">0.x</a></h2>
+<p><strong>调度时机：当前G发生系统调用，当前G执行完成</strong></p>
+<p>0.x 版本调度器只包含表示 Goroutine 的 G 和表示线程的 M 两种结构，全局也只有一个线程。我们可以在 <a href="https://github.com/golang/go/commit/96824000ed89d13665f6f24ddc10b3bf812e7f47">clean up scheduler</a> 提交中找到单线程调度器的源代码，在这时 Go 语言的调度器还是由 C 语言实现的，调度函数 <a href="https://draveness.me/golang/tree/runtime.scheduler:9682400"><code>runtime.scheduler:9682400</code></a> 也只包含 40 多行代码 。</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112220391899120211122203919.png" alt="image-20211122203918991" style="zoom:50%;" />
+<p>该函数会遵循如下的过程调度 Goroutine：</p>
+<ol>
+<li>获取调度器的全局锁；</li>
+<li>调用 <a href="https://draveness.me/golang/tree/runtime.gosave:9682400"><code>runtime.gosave:9682400</code></a> 保存栈寄存器和程序计数器；</li>
+<li>调用 <a href="https://draveness.me/golang/tree/runtime.nextgandunlock:9682400"><code>runtime.nextgandunlock:9682400</code></a> 获取下一个需要运行的 Goroutine 并解锁调度器；</li>
+<li>修改全局线程 <code>m</code> 上要执行的 Goroutine；</li>
+<li>调用 <a href="https://draveness.me/golang/tree/runtime.gogo:9682400"><code>runtime.gogo:9682400</code></a> 函数运行最新的 Goroutine；</li>
+</ol>
+<p>虽然这个单线程调度器的唯一优点就是<strong>能运行</strong>，但是这次提交已经包含了 G 和 M 两个重要的数据结构，也建立了 Go 语言调度器的框架。</p>
+<h2 id="2-多线程调度器--10httpsgithubcomgolanggoblobgo101srcpkgruntimeprocc">2. 多线程调度器 · <a href="https://github.com/golang/go/blob/go1.0.1/src/pkg/runtime/proc.c">1.0</a></h2>
+<p><strong>调度时机：当前G发生系统调用，当前G执行完成</strong></p>
+<p>Go 语言在 1.0 版本正式发布时就支持了多线程的调度器，与上一个版本几乎不可用的调度器相比，Go 语言团队在这一阶段实现了从不可用到可用的跨越。我们可以在 <a href="https://github.com/golang/go/blob/go1.0.1/src/pkg/runtime/proc.c"><code>pkg/runtime/proc.c</code></a> 文件中找到 1.0.1 版本的调度器，多线程版本的调度函数 <a href="https://draveness.me/golang/tree/runtime.schedule:go1.0.1"><code>runtime.schedule:go1.0.1</code></a> 包含 70 多行代码。</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112220401780520211122204018.png" alt="image-20211122204017805" style="zoom:50%;" />
+<p>整体的逻辑与单线程调度器没有太多区别，因为我们的程序中可能同时存在多个活跃线程，所以多线程调度器引入了 <code>GOMAXPROCS</code> 变量帮助我们灵活控制程序中的最大处理器数，即活跃线程数。</p>
+<h3 id="1-scheduler角色介绍">1. scheduler角色介绍</h3>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112220333288920211122203333.png" alt="image-20211122203332889" style="zoom:50%;" />
+<ol>
+<li>G：代表一个协程 Goroutine</li>
+<li>M：代表一个线程 Thread</li>
+<li>Sched：调度器全局结构</li>
+</ol>
+<h4 id="g">G</h4>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112316425481020211123164255.png" alt="image-20211123164254810" style="zoom:67%;" />
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span>  G
+{
+  <span style="color:#998;font-style:italic">// ...
+</span><span style="color:#998;font-style:italic"></span>  Gobuf sched; <span style="color:#998;font-style:italic">// SP + PC寄存器
+</span><span style="color:#998;font-style:italic"></span>  G<span style="color:#000;font-weight:bold">*</span> alllink; <span style="color:#998;font-style:italic">// 所有的G
+</span><span style="color:#998;font-style:italic"></span>  int16 status;
+  int32 goid; <span style="color:#998;font-style:italic">// 自增ID
+</span><span style="color:#998;font-style:italic"></span>  G<span style="color:#000;font-weight:bold">*</span> schedlink; <span style="color:#998;font-style:italic">// 全局可复用G队列（已经死掉那些）
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// ...
+</span><span style="color:#998;font-style:italic"></span>};
+</code></pre></div><h4 id="m">M</h4>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112316523289520211123165233.png" alt="image-20211123165232895" style="zoom: 67%;" />
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span>  M
+{
+  G<span style="color:#000;font-weight:bold">*</span> g0; <span style="color:#998;font-style:italic">// g0 w interrupt stack - must not move
+</span><span style="color:#998;font-style:italic"></span>  G<span style="color:#000;font-weight:bold">*</span> curg; <span style="color:#998;font-style:italic">// 当前运行的goroutine
+</span><span style="color:#998;font-style:italic"></span>  G<span style="color:#000;font-weight:bold">*</span> lastg; <span style="color:#998;font-style:italic">// 最后一个运行的goroutine
+</span><span style="color:#998;font-style:italic"></span>  Gobuf sched; <span style="color:#998;font-style:italic">// SP + PC
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// ...
+</span><span style="color:#998;font-style:italic"></span>  Note havenextg;
+  G<span style="color:#000;font-weight:bold">*</span> nextg; <span style="color:#998;font-style:italic">// 下一个要运行的G
+</span><span style="color:#998;font-style:italic"></span>  M<span style="color:#000;font-weight:bold">*</span> schedlink; <span style="color:#998;font-style:italic">// 全局空闲的M（M好像不会死！）
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// ...
+</span><span style="color:#998;font-style:italic"></span>};
+</code></pre></div><p>可以看到，m常驻一个g0，这个g0的理解可以对标进程中的内核态进程，他与curg有独立的栈和pc，主要用来进行和用户代码无关的逻辑：</p>
+<ol>
+<li>负责调度</li>
+<li>创建新的m</li>
+<li>创建新的g</li>
+<li>。。。</li>
+</ol>
+<p>而curg只有go func()代码相关的数据，和g0互相隔离。</p>
+<h4 id="sched">Sched</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-202111231638248882021112316382520211123163905.png" alt="image-20211123163824888"></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> Sched {
+	Lock;
+
+	G <span style="color:#000;font-weight:bold">*</span>gfree;	<span style="color:#998;font-style:italic">// available g&#39;s (status == Gdead) 全局可用空闲g
+</span><span style="color:#998;font-style:italic"></span>	int32 goidgen; <span style="color:#998;font-style:italic">//g id发号器
+</span><span style="color:#998;font-style:italic"></span>
+	G <span style="color:#000;font-weight:bold">*</span>ghead;	<span style="color:#998;font-style:italic">// g&#39;s waiting to run 全局可运行g列表的头
+</span><span style="color:#998;font-style:italic"></span>	G <span style="color:#000;font-weight:bold">*</span>gtail; <span style="color:#998;font-style:italic">//全局可运行g列表的尾
+</span><span style="color:#998;font-style:italic"></span>	int32 gwait;	<span style="color:#998;font-style:italic">// number of g&#39;s waiting to run 全局等待运行g的个数
+</span><span style="color:#998;font-style:italic"></span>	int32 gcount;	<span style="color:#998;font-style:italic">// number of g&#39;s that are alive 全局活跃的g的个数
+</span><span style="color:#998;font-style:italic"></span>	int32 grunning;	<span style="color:#998;font-style:italic">// number of g&#39;s running on cpu or in syscall 全局正在运行的g的个数
+</span><span style="color:#998;font-style:italic"></span>
+	M <span style="color:#000;font-weight:bold">*</span>mhead;	<span style="color:#998;font-style:italic">// m&#39;s waiting for work 全局等待运行m队列头
+</span><span style="color:#998;font-style:italic"></span>	int32 mwait;	<span style="color:#998;font-style:italic">// number of m&#39;s waiting for work 全局等待运行m个数
+</span><span style="color:#998;font-style:italic"></span>	int32 mcount;	<span style="color:#998;font-style:italic">// number of m&#39;s that have been created 全局m个数
+</span><span style="color:#998;font-style:italic"></span>
+	<span style="color:#000;font-weight:bold">volatile</span> uint32 atomic;	<span style="color:#998;font-style:italic">// atomic scheduling word (see below)
+</span><span style="color:#998;font-style:italic"></span>
+	int32 profilehz;	<span style="color:#998;font-style:italic">// cpu profiling rate
+</span><span style="color:#998;font-style:italic"></span>
+	<span style="color:#458;font-weight:bold">bool</span> init;  <span style="color:#998;font-style:italic">// running initialization
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#458;font-weight:bold">bool</span> lockmain;  <span style="color:#998;font-style:italic">// init called runtime.LockOSThread
+</span><span style="color:#998;font-style:italic"></span>
+	Note	stopped;	<span style="color:#998;font-style:italic">// one g can set waitstop and wait here for m&#39;s to stop
+</span><span style="color:#998;font-style:italic"></span>};
+</code></pre></div><ol>
+<li>
+<p>维护了一个全局空闲g列表，由g.schedlink串联</p>
+</li>
+<li>
+<p>维护了一个全局g列表，由g.alllink串联</p>
+</li>
+<li>
+<p>维护了一个全局等待运行g列表，由g.schedlink串联</p>
+</li>
+<li>
+<h4 id="维护了一个全局m列表-由malllink串联">维护了一个全局m列表， 由m.alllink串联</h4>
+</li>
+<li>
+<p>维护了一个等待运行m列表，由m.schedlink串联</p>
+</li>
+</ol>
+<p>以上，所有g和m全局收敛，所有对结构的访问需要进行加锁操作</p>
+<h3 id="2-整体一张图">2. 整体一张图</h3>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/tRxitB2021112415080420211124150920.jpg" alt="image-20211124150346130" style="zoom: 33%;" />
+<h3 id="3-整体初始化">3. 整体初始化</h3>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/GM-go%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B20211122202006.png" alt="GM-go启动流程" style="zoom:50%;" />
+<p>可以看到，整个scheduler的生命周期贯穿了整个go程序，在程序启动之初，</p>
+<ol>
+<li>m0由汇编代码创建</li>
+<li>紧接着，调用了schedinit初始化调度器</li>
+<li>然后，汇编又创建了g0，并且将g0加入了全局队列</li>
+<li>调用mstart，启动m0以及g0，这时的m0的g0中的pc指针指向runtime.main，而runtime.main会调用main.main</li>
+<li>整个代码run起来</li>
+</ol>
+<h4 id="31-调度器初始化">3.1 调度器初始化</h4>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112314455399820211123144554.png" alt="image-20211123144553998" style="zoom:67%;" />
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#998;font-style:italic">// The bootstrap sequence is:
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//	call osinit
+</span><span style="color:#998;font-style:italic">//	call schedinit
+</span><span style="color:#998;font-style:italic">//	make &amp; queue new G
+</span><span style="color:#998;font-style:italic">//	call runtime.mstart
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">// The new G calls runtime.main.
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">void</span>
+runtime.schedinit(<span style="color:#458;font-weight:bold">void</span>)
+{
+	int32 n;
+	byte <span style="color:#000;font-weight:bold">*</span>p;
+
+  <span style="color:#998;font-style:italic">//初始化m0
+</span><span style="color:#998;font-style:italic"></span>	m<span style="color:#000;font-weight:bold">-&gt;</span>nomemprof<span style="color:#000;font-weight:bold">++</span>;
+	runtime.mallocinit();
+	mcommoninit(m);
+
+  ...
+    
+  <span style="color:#998;font-style:italic">//处理参数
+</span><span style="color:#998;font-style:italic"></span>	runtime.goargs();
+	runtime.goenvs();
+
+  <span style="color:#998;font-style:italic">//初始化m上限
+</span><span style="color:#998;font-style:italic"></span>	runtime.gomaxprocs <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>;
+	p <span style="color:#000;font-weight:bold">=</span> runtime.getenv(<span style="color:#d14">&#34;GOMAXPROCS&#34;</span>);
+	<span style="color:#000;font-weight:bold">if</span>(p <span style="color:#000;font-weight:bold">!=</span> nil <span style="color:#000;font-weight:bold">&amp;&amp;</span> (n <span style="color:#000;font-weight:bold">=</span> runtime.atoi(p)) <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span>) {
+		<span style="color:#000;font-weight:bold">if</span>(n <span style="color:#000;font-weight:bold">&gt;</span> maxgomaxprocs)
+			n <span style="color:#000;font-weight:bold">=</span> maxgomaxprocs;
+		runtime.gomaxprocs <span style="color:#000;font-weight:bold">=</span> n;
+	}
+
+  ...
+   
+  <span style="color:#998;font-style:italic">//更新全局数据
+</span><span style="color:#998;font-style:italic"></span>	canaddmcpu();	<span style="color:#998;font-style:italic">// mcpu++ to account for bootstrap m
+</span><span style="color:#998;font-style:italic"></span>	m<span style="color:#000;font-weight:bold">-&gt;</span>helpgc <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>;	<span style="color:#998;font-style:italic">// flag to tell schedule() to mcpu--
+</span><span style="color:#998;font-style:italic"></span>	runtime.sched.grunning<span style="color:#000;font-weight:bold">++</span>;
+
+	mstats.enablegc <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>;
+	m<span style="color:#000;font-weight:bold">-&gt;</span>nomemprof<span style="color:#000;font-weight:bold">--</span>;
+}
+</code></pre></div><h4 id="32-初始化m">3.2 初始化m</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span>
+<span style="color:#900;font-weight:bold">mcommoninit</span>(M <span style="color:#000;font-weight:bold">*</span>m)
+{
+	m<span style="color:#000;font-weight:bold">-&gt;</span>id <span style="color:#000;font-weight:bold">=</span> runtime.sched.mcount<span style="color:#000;font-weight:bold">++</span>;
+	m<span style="color:#000;font-weight:bold">-&gt;</span>fastrand <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0x49f6428aUL</span> <span style="color:#000;font-weight:bold">+</span> m<span style="color:#000;font-weight:bold">-&gt;</span>id <span style="color:#000;font-weight:bold">+</span> runtime.cputicks();
+	m<span style="color:#000;font-weight:bold">-&gt;</span>stackalloc <span style="color:#000;font-weight:bold">=</span> runtime.malloc(<span style="color:#000;font-weight:bold">sizeof</span>(<span style="color:#000;font-weight:bold">*</span>m<span style="color:#000;font-weight:bold">-&gt;</span>stackalloc));
+	runtime.FixAlloc_Init(m<span style="color:#000;font-weight:bold">-&gt;</span>stackalloc, FixedStack, runtime.SysAlloc, nil, nil);
+	
+  <span style="color:#998;font-style:italic">//初始化mcache
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>(m<span style="color:#000;font-weight:bold">-&gt;</span>mcache <span style="color:#000;font-weight:bold">==</span> nil)
+		m<span style="color:#000;font-weight:bold">-&gt;</span>mcache <span style="color:#000;font-weight:bold">=</span> runtime.allocmcache();
+
+	runtime.callers(<span style="color:#099">1</span>, m<span style="color:#000;font-weight:bold">-&gt;</span>createstack, nelem(m<span style="color:#000;font-weight:bold">-&gt;</span>createstack));
+
+  <span style="color:#998;font-style:italic">//加入全局列表
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// Add to runtime.allm so garbage collector doesn&#39;t free m
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// when it is just in a register or thread-local storage.
+</span><span style="color:#998;font-style:italic"></span>	m<span style="color:#000;font-weight:bold">-&gt;</span>alllink <span style="color:#000;font-weight:bold">=</span> runtime.allm;
+	<span style="color:#998;font-style:italic">// runtime.NumCgoCall() iterates over allm w/o schedlock,
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// so we need to publish it safely.
+</span><span style="color:#998;font-style:italic"></span>	runtime.atomicstorep(<span style="color:#000;font-weight:bold">&amp;</span>runtime.allm, m);
+}
+</code></pre></div><p>这里，mcache管理线程在本地的缓存的mspan，这里面存储的内容和g相关性非常强，例如g的入参，g执行过程中产生的分配在heap上的变量等。<strong>mcache管理的这部分内存，其实就是TCMalloc技术中分配的内存。</strong></p>
+<h4 id="33-启动m0">3.3 启动m0</h4>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112312242153820211123122422.png" alt="image-20211123122421538" style="zoom:67%;" />
+<ol>
+<li>在初始化完成后，紧接着汇编代码创建了g0，并将g0加入了全局g队列</li>
+<li>紧接着调用mstart，mstart接着调用调度函数schedule()，为当前m寻找一个可用的g</li>
+<li>因为当前队列中只有g0和m0，所以此时就是m0和g0会关联起来，并且开始运行</li>
+<li>此时g0的pc指针指向的是runtime.main，而runtime.main又调用了main.main，这样go程序就运行起来了。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#998;font-style:italic">// Called to start an M.
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">void</span>
+runtime.mstart(<span style="color:#458;font-weight:bold">void</span>)
+{
+	<span style="color:#000;font-weight:bold">if</span>(g <span style="color:#000;font-weight:bold">!=</span> m<span style="color:#000;font-weight:bold">-&gt;</span>g0)
+		runtime.throw(<span style="color:#d14">&#34;bad runtime.mstart&#34;</span>);
+
+	<span style="color:#998;font-style:italic">// Record top of stack for use by mcall.
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// Once we call schedule we&#39;re never coming back,
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// so other calls can reuse this stack space.
+</span><span style="color:#998;font-style:italic"></span>	runtime.gosave(<span style="color:#000;font-weight:bold">&amp;</span>m<span style="color:#000;font-weight:bold">-&gt;</span>g0<span style="color:#000;font-weight:bold">-&gt;</span>sched);
+	m<span style="color:#000;font-weight:bold">-&gt;</span>g0<span style="color:#000;font-weight:bold">-&gt;</span>sched.pc <span style="color:#000;font-weight:bold">=</span> (<span style="color:#458;font-weight:bold">void</span><span style="color:#000;font-weight:bold">*</span>)<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;  <span style="color:#998;font-style:italic">// make sure it is never used
+</span><span style="color:#998;font-style:italic"></span>	runtime.asminit();
+	runtime.minit();
+
+	<span style="color:#998;font-style:italic">// Install signal handlers; after minit so that minit can
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// prepare the thread to be able to handle the signals.
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>(m <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">&amp;</span>runtime.m0)
+		runtime.initsig();
+
+	schedule(nil);
+}
+</code></pre></div><h4 id="34-调度主流程">3.4 调度主流程</h4>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112312311612620211123123116.png" alt="image-20211123123116126" style="zoom:67%;" />
+<ol>
+<li>首先，对全局加锁</li>
+<li>入参如果为空，说明是启动过程中的调用，直接去寻找g并且全局解锁，这个时候寻找到的一定是g0</li>
+<li>如果入参不为空，则说明是在m正在执行g的过程中进行了调度流程，需要对当前的g进行状态转换&amp;暂存，此时的g可能是：
+<ol>
+<li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112315235038820211123152350.png" alt="image-20211123152350388" style="zoom:50%;" />
+</li>
+<li>g主动让出 gosched()</li>
+<li>g执行完毕</li>
+</ol>
+</li>
+<li>寻找下一轮要执行的g &amp; 解锁</li>
+<li>使用gogo函数实行g（gogo函数汇编实现）</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span>
+<span style="color:#900;font-weight:bold">schedule</span>(G <span style="color:#000;font-weight:bold">*</span>gp)
+{
+	...
+  <span style="color:#998;font-style:italic">//全局加锁
+</span><span style="color:#998;font-style:italic"></span>	schedlock();
+  
+  <span style="color:#998;font-style:italic">//更改g状态
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>(gp <span style="color:#000;font-weight:bold">!=</span> nil) {
+		...
+		<span style="color:#000;font-weight:bold">switch</span>(gp<span style="color:#000;font-weight:bold">-&gt;</span>status){
+		<span style="color:#000;font-weight:bold">case</span> <span style="color:#900;font-weight:bold">Grunnable</span>:
+		<span style="color:#000;font-weight:bold">case</span> <span style="color:#900;font-weight:bold">Gdead</span>:
+			<span style="color:#998;font-style:italic">// Shouldn&#39;t have been running!
+</span><span style="color:#998;font-style:italic"></span>			runtime.throw(<span style="color:#d14">&#34;bad gp-&gt;status in sched&#34;</span>);
+		<span style="color:#000;font-weight:bold">case</span> <span style="color:#900;font-weight:bold">Grunning</span>:
+			gp<span style="color:#000;font-weight:bold">-&gt;</span>status <span style="color:#000;font-weight:bold">=</span> Grunnable;
+			gput(gp);
+			<span style="color:#000;font-weight:bold">break</span>;
+		}
+	
+  <span style="color:#998;font-style:italic">//寻找下一个g
+</span><span style="color:#998;font-style:italic"></span>	gp <span style="color:#000;font-weight:bold">=</span> nextgandunlock();
+	gp<span style="color:#000;font-weight:bold">-&gt;</span>readyonstop <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
+	gp<span style="color:#000;font-weight:bold">-&gt;</span>status <span style="color:#000;font-weight:bold">=</span> Grunning;
+	m<span style="color:#000;font-weight:bold">-&gt;</span>curg <span style="color:#000;font-weight:bold">=</span> gp;
+	gp<span style="color:#000;font-weight:bold">-&gt;</span>m <span style="color:#000;font-weight:bold">=</span> m;
+	...
+    
+  <span style="color:#998;font-style:italic">//执行g
+</span><span style="color:#998;font-style:italic"></span>	runtime.gogo(<span style="color:#000;font-weight:bold">&amp;</span>gp<span style="color:#000;font-weight:bold">-&gt;</span>sched, <span style="color:#099">0</span>);
+}
+</code></pre></div><ul>
+<li>调用 <code>schedlock</code> 方法来获取全局锁。</li>
+<li>获取全局锁成功后，将当前 Goroutine 状态从 Running（正在被调度） 状态修改为 Runnable（可以被调度）状态。</li>
+<li>调用 <code>gput</code> 方法来保存当前 Goroutine 的运行状态等信息，以便于后续的使用；</li>
+<li>调用 <code>nextgandunlock</code> 方法来寻找下一个可运行 Goroutine，并且释放全局锁给其他调度使用。</li>
+<li>获取到下一个待运行的 Goroutine 后，将其的运行状态修改为 Running。</li>
+<li>调用 <code>runtime.gogo</code> 方法，将刚刚所获取到的下一个待执行的 Goroutine 运行起来。</li>
+</ul>
+<ol>
+<li>首先，对全局加锁</li>
+<li>入参如果为空，说明是启动过程中的调用，直接去寻找g并且全局解锁，这个时候寻找到的一定是g0</li>
+<li>如果入参不为空，则说明是在m正在执行g的过程中进行了调度流程，需要对当前的g进行状态转换&amp;暂存，此时的g可能是：
+<ol>
+<li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112315235038820211123152350.png" alt="image-20211123152350388" style="zoom:50%;" />
+</li>
+<li>g主动让出 gosched()</li>
+<li>g执行完毕</li>
+</ol>
+</li>
+<li>寻找下一轮要执行的g &amp; 解锁</li>
+<li>使用gogo函数运行g（gogo函数汇编实现）</li>
+</ol>
+<h4 id="35-寻找下一轮g">3.5 寻找下一轮g</h4>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112314452601320211123144526.png" alt="image-20211123144526013" style="zoom:67%;" />
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">static</span> G<span style="color:#000;font-weight:bold">*</span>
+<span style="color:#900;font-weight:bold">nextgandunlock</span>(<span style="color:#458;font-weight:bold">void</span>)
+{
+	G <span style="color:#000;font-weight:bold">*</span>gp;
+	uint32 v;
+
+<span style="color:#900;font-weight:bold">top</span>:
+	<span style="color:#000;font-weight:bold">if</span>(atomic_mcpu(runtime.sched.atomic) <span style="color:#000;font-weight:bold">&gt;=</span> maxgomaxprocs)
+		runtime.throw(<span style="color:#d14">&#34;negative mcpu&#34;</span>);
+
+	<span style="color:#998;font-style:italic">// If there is a g waiting as m-&gt;nextg, the mcpu++
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// happened before it was passed to mnextg.
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">//直接运行nextg
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>(m<span style="color:#000;font-weight:bold">-&gt;</span>nextg <span style="color:#000;font-weight:bold">!=</span> nil) {
+		gp <span style="color:#000;font-weight:bold">=</span> m<span style="color:#000;font-weight:bold">-&gt;</span>nextg;
+		m<span style="color:#000;font-weight:bold">-&gt;</span>nextg <span style="color:#000;font-weight:bold">=</span> nil;
+		schedunlock();
+		<span style="color:#000;font-weight:bold">return</span> gp;
+	}
+
+  ....
+
+		<span style="color:#998;font-style:italic">//全局g不为空 &amp; m未到达上限
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">while</span>(haveg() <span style="color:#000;font-weight:bold">&amp;&amp;</span> canaddmcpu()) {
+			gp <span style="color:#000;font-weight:bold">=</span> gget();
+			<span style="color:#000;font-weight:bold">if</span>(gp <span style="color:#000;font-weight:bold">==</span> nil)
+				runtime.throw(<span style="color:#d14">&#34;gget inconsistency&#34;</span>);
+
+			<span style="color:#000;font-weight:bold">if</span>(gp<span style="color:#000;font-weight:bold">-&gt;</span>lockedm) {
+				mnextg(gp<span style="color:#000;font-weight:bold">-&gt;</span>lockedm, gp);
+				<span style="color:#000;font-weight:bold">continue</span>;
+			}
+			runtime.sched.grunning<span style="color:#000;font-weight:bold">++</span>;
+			schedunlock();
+			<span style="color:#000;font-weight:bold">return</span> gp;
+		}
+  
+	....
+    
+		<span style="color:#998;font-style:italic">//将m放回全局队列 并且休眠m
+</span><span style="color:#998;font-style:italic"></span>		mput(m);
+	}
+
+	....
+    
+	<span style="color:#000;font-weight:bold">return</span> gp;
+}
+</code></pre></div><ol>
+<li>如果当前m存在nextg，则直接执行g</li>
+<li>否则试着从全局g中获取一个</li>
+<li>如果获取到的g存在绑定的m’，则唤醒m‘去执行这个g，并开启下一轮寻找for m</li>
+<li>获取到了g，解锁</li>
+</ol>
+<p>上述过程，整个go程序已经启动完毕，并且开始从main.main开始运行了</p>
+<h3 id="4-调度循环">4. 调度循环</h3>
+<h4 id="41-新协程的创建">4.1 新协程的创建</h4>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112314525859820211123145259.png" alt="image-20211123145258598" style="zoom:50%;" />
+<p>当代码调用了go关键字时，会调用newproc函数</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112314540849120211123145439.png" alt="image-20211123145408491" style="zoom: 67%;" />
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">runtime.newproc1(byte <span style="color:#000;font-weight:bold">*</span>fn, byte <span style="color:#000;font-weight:bold">*</span>argp, int32 narg, int32 nret, <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>callerpc)
+{
+	byte <span style="color:#000;font-weight:bold">*</span>sp;
+	G <span style="color:#000;font-weight:bold">*</span>newg;
+	int32 siz;
+
+	siz <span style="color:#000;font-weight:bold">=</span> narg <span style="color:#000;font-weight:bold">+</span> nret;
+	siz <span style="color:#000;font-weight:bold">=</span> (siz<span style="color:#000;font-weight:bold">+</span><span style="color:#099">7</span>) <span style="color:#000;font-weight:bold">&amp;</span> <span style="color:#000;font-weight:bold">~</span><span style="color:#099">7</span>;
+
+	<span style="color:#998;font-style:italic">//全局加锁
+</span><span style="color:#998;font-style:italic"></span>	schedlock();
+
+  <span style="color:#998;font-style:italic">//从空闲队列获取g
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>((newg <span style="color:#000;font-weight:bold">=</span> gfget()) <span style="color:#000;font-weight:bold">!=</span> nil){
+		<span style="color:#000;font-weight:bold">if</span>(newg<span style="color:#000;font-weight:bold">-&gt;</span>stackguard <span style="color:#000;font-weight:bold">-</span> StackGuard <span style="color:#000;font-weight:bold">!=</span> newg<span style="color:#000;font-weight:bold">-&gt;</span>stack0)
+			runtime.throw(<span style="color:#d14">&#34;invalid stack in newg&#34;</span>);
+	} <span style="color:#000;font-weight:bold">else</span> {
+    <span style="color:#998;font-style:italic">//新建g
+</span><span style="color:#998;font-style:italic"></span>		newg <span style="color:#000;font-weight:bold">=</span> runtime.malg(StackMin);
+    <span style="color:#998;font-style:italic">//加入到全局g列表
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">if</span>(runtime.lastg <span style="color:#000;font-weight:bold">==</span> nil)
+			runtime.allg <span style="color:#000;font-weight:bold">=</span> newg;
+		<span style="color:#000;font-weight:bold">else</span>
+			runtime.lastg<span style="color:#000;font-weight:bold">-&gt;</span>alllink <span style="color:#000;font-weight:bold">=</span> newg;
+		runtime.lastg <span style="color:#000;font-weight:bold">=</span> newg;
+	}
+	newg<span style="color:#000;font-weight:bold">-&gt;</span>status <span style="color:#000;font-weight:bold">=</span> Gwaiting;
+	newg<span style="color:#000;font-weight:bold">-&gt;</span>waitreason <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;new goroutine&#34;</span>;
+
+  <span style="color:#998;font-style:italic">//初始化g的栈
+</span><span style="color:#998;font-style:italic"></span>	sp <span style="color:#000;font-weight:bold">=</span> newg<span style="color:#000;font-weight:bold">-&gt;</span>stackbase;
+	sp <span style="color:#000;font-weight:bold">-=</span> siz;
+	runtime.memmove(sp, argp, narg);
+	<span style="color:#000;font-weight:bold">if</span>(thechar <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;5&#39;</span>) {
+		<span style="color:#998;font-style:italic">// caller&#39;s LR
+</span><span style="color:#998;font-style:italic"></span>		sp <span style="color:#000;font-weight:bold">-=</span> <span style="color:#000;font-weight:bold">sizeof</span>(<span style="color:#458;font-weight:bold">void</span><span style="color:#000;font-weight:bold">*</span>);
+		<span style="color:#000;font-weight:bold">*</span>(<span style="color:#458;font-weight:bold">void</span><span style="color:#000;font-weight:bold">**</span>)sp <span style="color:#000;font-weight:bold">=</span> nil;
+	}
+
+  <span style="color:#998;font-style:italic">//初始化g的指令指针
+</span><span style="color:#998;font-style:italic"></span>	newg<span style="color:#000;font-weight:bold">-&gt;</span>sched.sp <span style="color:#000;font-weight:bold">=</span> sp;
+	newg<span style="color:#000;font-weight:bold">-&gt;</span>sched.pc <span style="color:#000;font-weight:bold">=</span> (byte<span style="color:#000;font-weight:bold">*</span>)runtime.goexit; <span style="color:#998;font-style:italic">//伪造 go func()的调用者为goexit(),这个函数最后会调用schedule函数进行下一轮调度
+</span><span style="color:#998;font-style:italic"></span>	newg<span style="color:#000;font-weight:bold">-&gt;</span>sched.g <span style="color:#000;font-weight:bold">=</span> newg;
+	newg<span style="color:#000;font-weight:bold">-&gt;</span>entry <span style="color:#000;font-weight:bold">=</span> fn;
+	newg<span style="color:#000;font-weight:bold">-&gt;</span>gopc <span style="color:#000;font-weight:bold">=</span> (uintptr)callerpc;
+
+  <span style="color:#998;font-style:italic">//更新全局数据
+</span><span style="color:#998;font-style:italic"></span>	runtime.sched.gcount<span style="color:#000;font-weight:bold">++</span>;
+	runtime.sched.goidgen<span style="color:#000;font-weight:bold">++</span>;
+	newg<span style="color:#000;font-weight:bold">-&gt;</span>goid <span style="color:#000;font-weight:bold">=</span> runtime.sched.goidgen;
+
+	newprocreadylocked(newg);
+	schedunlock();
+
+	<span style="color:#000;font-weight:bold">return</span> newg;
+<span style="color:#998;font-style:italic">//printf(&#34; goid=%d\n&#34;, newg-&gt;goid);
+</span><span style="color:#998;font-style:italic"></span>}
+</code></pre></div><p>其中，标记g可运行会调用readylocked()函数</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112315052758820211123150527.png" alt="image-20211123150527588" style="zoom:50%;" />
+<p>这个函数：</p>
+<ol>
+<li>将g放入全局g列表表头</li>
+<li>为g寻找m</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112315075624520211123150756.png" alt="image-20211123150756245" style="zoom: 67%;" />
+<p>这里，为g寻找m：</p>
+<ol>
+<li>
+<p>拿到g，因为上一步刚把g放入全局g列表表头，所以拿到的就是上面的g</p>
+</li>
+<li>
+<p>从全局m列表获取m，没有则创建一个m，并且同时创建一个系统thread</p>
+<ol>
+<li>
+<p>创建的系统thread时，设置线程启动函数为mstart</p>
+</li>
+<li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112315120336020211123151203.png" alt="image-20211123151203360" style="zoom: 50%;" />
+</li>
+<li>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">M<span style="color:#000;font-weight:bold">*</span>
+runtime.newm(<span style="color:#458;font-weight:bold">void</span>)
+{
+	M <span style="color:#000;font-weight:bold">*</span>m;
+
+	m <span style="color:#000;font-weight:bold">=</span> runtime.malloc(<span style="color:#000;font-weight:bold">sizeof</span>(M));
+	mcommoninit(m);
+
+	<span style="color:#000;font-weight:bold">if</span>(runtime.iscgo) {
+		CgoThreadStart ts;
+
+		<span style="color:#000;font-weight:bold">if</span>(libcgo_thread_start <span style="color:#000;font-weight:bold">==</span> nil)
+			runtime.throw(<span style="color:#d14">&#34;libcgo_thread_start missing&#34;</span>);
+		<span style="color:#998;font-style:italic">// pthread_create will make us a stack.
+</span><span style="color:#998;font-style:italic"></span>		m<span style="color:#000;font-weight:bold">-&gt;</span>g0 <span style="color:#000;font-weight:bold">=</span> runtime.malg(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>);
+		ts.m <span style="color:#000;font-weight:bold">=</span> m;
+		ts.g <span style="color:#000;font-weight:bold">=</span> m<span style="color:#000;font-weight:bold">-&gt;</span>g0;
+		ts.fn <span style="color:#000;font-weight:bold">=</span> runtime.mstart;
+		runtime.asmcgocall(libcgo_thread_start, <span style="color:#000;font-weight:bold">&amp;</span>ts);
+	} <span style="color:#000;font-weight:bold">else</span> {
+		<span style="color:#000;font-weight:bold">if</span>(Windows)
+			<span style="color:#998;font-style:italic">// windows will layout sched stack on os stack
+</span><span style="color:#998;font-style:italic"></span>			m<span style="color:#000;font-weight:bold">-&gt;</span>g0 <span style="color:#000;font-weight:bold">=</span> runtime.malg(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>);
+		<span style="color:#000;font-weight:bold">else</span>
+			m<span style="color:#000;font-weight:bold">-&gt;</span>g0 <span style="color:#000;font-weight:bold">=</span> runtime.malg(<span style="color:#099">8192</span>);
+		runtime.newosproc(m, m<span style="color:#000;font-weight:bold">-&gt;</span>g0, m<span style="color:#000;font-weight:bold">-&gt;</span>g0<span style="color:#000;font-weight:bold">-&gt;</span>stackbase, runtime.mstart); <span style="color:#998;font-style:italic">//这里将mstart最为thread的启动函数，线程被唤醒后则直接执行mstart函数
+</span><span style="color:#998;font-style:italic"></span>	}
+
+	<span style="color:#000;font-weight:bold">return</span> m;
+}
+</code></pre></div></li>
+</ol>
+</li>
+<li>
+<p>将g和m做关联，并且唤醒m所在线程</p>
+<ol>
+<li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112315101586020211123151016.png" alt="image-20211123151015860" style="zoom:67%;" />
+</li>
+</ol>
+</li>
+<li>
+<p>m所在线程开始从mstart开始运行</p>
+</li>
+</ol>
+<h4 id="42-系统调用">4.2 系统调用</h4>
+<p>当代码中涉及到系统调用时，例如获取当前时间，读取磁盘，写磁盘，进行网络请求时，系统调用相关的lib会调用调度器相关的函数，对当前m和g进行相关操作。</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112317393170320211123173932.png" alt="image-20211123173931703" style="zoom:50%;" />
+<h5 id="系统调用入口">系统调用入口</h5>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112317395997820211123174000.png" alt="image-20211123173959978" style="zoom:67%;" />
+<h5 id="系统调用退出">系统调用退出</h5>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112317205226420211123172052.png" alt="image-20211123172052264" style="zoom:67%;" />
+<p>当代码进行系统调用时，会修改当前g状态为syscall，且当前m会原地等待，等待syscall完成后，进行下一轮调度。</p>
+<h4 id="43-协程退出">4.3 协程退出</h4>
+<h5 id="golang函数调用惯例">golang函数调用惯例</h5>
+<ol>
+<li>假设当前寄存器和栈如上，bp指向s1，sp指向s3，ip指向a1，a1中的指令为call b1（调用b1处的指令）
+<ol>
+<li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112322150673820211123221507.png" alt="image-20211123221506738" style="zoom:33%;" />
+</li>
+</ol>
+</li>
+<li>之后执行call指令，其作用有两点
+<ol>
+<li>把返回地址a2（a1 + sysDestLen）入栈保存起来</li>
+<li>跳转到指令地址b1</li>
+<li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112322142110420211123221421.png" alt="image-20211123221421104" style="zoom:33%;" />
+</li>
+</ol>
+</li>
+<li>之后，函数b开始执行，在函数逻辑开始之前，先为自己分配好函数栈，并且将caller的栈基地址存入s4
+<ol>
+<li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112322161152820211123221612.png" alt="image-20211123221611528" style="zoom:33%;" />
+</li>
+</ol>
+</li>
+<li>之后就是执行b函数的剩余代码了</li>
+<li>b函数执行完成后，编译器会执行两条恢复指令
+<ol>
+<li>恢复调用者a的栈基地址</li>
+<li>释放自己的栈帧空间</li>
+<li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112322165925620211123221659.png" alt="image-20211123221659256" style="zoom:33%;" />
+</li>
+</ol>
+</li>
+<li>最后执行ret指令，结束函数调用并返回调用处
+<ol>
+<li>弹出函数调用的返回地址</li>
+<li>跳转到这个地址</li>
+<li>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112322182513720211123222108.png" alt="image-20211123221825137" style="zoom:33%;" />
+</li>
+</ol>
+</li>
+</ol>
+<p>至此，函数调用完成，简单来说，每个函数通过call指令进行跳转，函数执行开始时创建新的栈，执行完成时会回收新建的栈，ret指令会将指令指针跳转至函数调用前的地址继续执行。</p>
+<h5 id="gogo函数伪造">gogo函数伪造</h5>
+<p>我们深入到gogo函数中</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">TEXT runtime.gogo(SB), NOSPLIT, $8-4
+	MOVL buf+0(FP), BX     // 获取调度信息
+	MOVL gobuf_g(BX), DX
+	MOVL 0(DX), CX         // 保证 Goroutine 不为空
+	get_tls(CX)
+	MOVL DX, g(CX)
+	MOVL gobuf_sp(BX), SP  // 将 runtime.goexit 函数的 PC 恢复到 SP 中
+	MOVL gobuf_ret(BX), AX
+	MOVL gobuf_ctxt(BX), DX
+	MOVL $0, gobuf_sp(BX)
+	MOVL $0, gobuf_ret(BX)
+	MOVL $0, gobuf_ctxt(BX)
+	MOVL gobuf_pc(BX), BX  // 获取待执行函数的程序计数器
+	JMP  BX                // 开始执行
+</code></pre><p>看到最关键的三行</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">	MOVL gobuf_sp(BX), SP  // 将 runtime.goexit 函数的 PC 恢复到 SP 中
+	MOVL gobuf_pc(BX), BX  // 获取待执行函数的程序计数器
+	JMP  BX                // 开始执行
+</code></pre><p>结合我们上面的关于函数调用栈的描述，你发现了什么？</p>
+<p>gogo函数伪造了call指令，在真正跳转到go func()函数之前，将goexit()的地址加入了当前栈顶中，这和call指令进行函数调用时栈结构一致。</p>
+<p>当go func()函数执行完成之后，ret指令会跳转到goexit()处，继续执行</p>
+<h5 id="goexit函数">goexit()函数</h5>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112401104410420211124011044.png" alt="image-20211124011044104" style="zoom:50%;" />
+<p>goexit函数逻辑很简单，执行defer逻辑 &amp; 调用schedule函数，开启下一轮</p>
+<h4 id="44-调度循环图例">4.4 调度循环图例</h4>
+<p>至此，我们可以得到整个调度循环</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112401262014520211124012620.png" alt="image-20211124012620145" style="zoom:50%;" />
+<p>从整个调度循环可以看到，调度的时机是在发生系统调用 &amp; G运行完毕时。</p>
+<h3 id="5-性能瓶颈">5. 性能瓶颈</h3>
+<p>多线程调度器的主要问题是调度时的<strong>锁竞争会严重浪费资源</strong>，<a href="https://docs.google.com/document/d/1TTj4T2JO42uD5ID9e89oa0sLKhJYD0Y_kqxDv3I3XMw/edit#!">Scalable Go Scheduler Design Doc</a> 中对调度器做出了深入分析，该调度器有以下问题需要解决：</p>
+<h4 id="1资源竞争严重">1.资源竞争严重</h4>
+<p>存在单一的全局mutex（Sched.Lock）和集中状态管理，mutex 需要保护所有与 goroutine 相关的操作（创建、完成、重排等），导致锁竞争严重。</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112401410312520211124014103.png" alt="image-20211124014103125" style="zoom:50%;" />
+<p>最直观的，每次schedule函数开始时，都需要对全局进行加锁，然后再进行后续操作。<a href="https://docs.google.com/document/d/1TTj4T2JO42uD5ID9e89oa0sLKhJYD0Y_kqxDv3I3XMw/edit#!">Scalable Go Scheduler Design Doc</a> 中做的性能测试发现 14% 的时间都花费在 <a href="https://draveness.me/golang/tree/runtime.futex:go1.0.1"><code>runtime.futex:go1.0.1</code></a> 上。</p>
+<h4 id="2goroutine传递问题">2.Goroutine传递问题</h4>
+<p>当前G如果创建了G'，那么需要将当前新建的G&rsquo;转交给其他的M&rsquo;进行执行</p>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112402002801520211124020028.png" alt="image-20211124020028015" style="zoom:50%;" />
+<ul>
+<li>其实如果使用当前M来执行G&rsquo;的话，会有很好的局部性，因为M的mcache保存了很多G&rsquo;需要的数据（例如已经初始化好的结构体等）</li>
+<li>新的M‘在接收到G&rsquo;后，还需要很大的开销来构建G&rsquo;运行的环境</li>
+</ul>
+<h4 id="3mcache泛滥">3.mcache泛滥</h4>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2021112411503254820211124115032.png" alt="image-20211124115032548" style="zoom: 33%;" />
+<ul>
+<li>真正正在执行的只有4个M，其他的M都在挂起等待状态，但是每个M都会分配一个mcache，其会吸纳到2M的内存缓存</li>
+<li>只有真正抢到CPU资源的M携带mcache即可</li>
+</ul>
+<h4 id="4频繁的线程阻塞解阻塞--缺少更优的调度策略">4.频繁的线程阻塞/解阻塞 &amp; 缺少更优的调度策略</h4>
+<p>在go中阻塞主要分为以下四种场景：</p>
+<ol>
+<li>原子性，互斥量或者channel操作导致的Goroutine阻塞</li>
+<li>由于网络请求和IO操作导致的Goroutine阻塞</li>
+<li>调用一些系统方法时，例如文件读写导致Goroutine阻塞</li>
+<li>Goroutine中执行了sleep操作导致Goroutine阻塞</li>
+</ol>
+<p>以上，除了系统调用外，我们从前文得知，GM会将当前M挂起之外，其他的情况，GM模型都不会做额外的操作，任由Goroutine等待阻塞直至结束。而此时的调度时机是在G执行完毕以后，那么很容易出现一个G长期占用M的情况，导致整体并发能力下降。</p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

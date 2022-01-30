@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/categories/go/</link>
+    <description>Recent content in go on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 15 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/categories/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang同步机制的实现</title>
+      <link>http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Sat, 15 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/</guid>
+      <description>原文转载至：https://ga0.github.io/golang/2015/10/11/golang-sync.html
+ Golang的提供的同步机制有sync模块下的Mutex、WaitGroup以及语言自身提供的chan等。 这些同步的方法都是以runtime中实现的底层同步机制（cas、atomic、spinlock、sem）为基础的， 本文主要探讨Golang底层的同步机制如何实现。
+1 cas、atomic cas(Compare And Swap)和原子运算是其他同步机制的基础， 在runtime/asm_xxx.s(xxx代表系统架构，比如amd64)中实现。amd64架构的系统中， 主要通过两条汇编语句来实现，一个是LOCK、一个是CMPXCHG。
+LOCK是一个指令前缀，其后必须跟一条“读-改-写”的指令，比如INC、XCHG、CMPXCHG等。 这条指令对CPU缓存的访问将是排他的。
+CMPXCHG是完成CAS动作的指令。 把LOCK和CMPXCHG一起使用，就达到了原子CAS的功能。
+atomic操作也是通过LOCK和其他算术操作（XADD、ORB等）组合来实现。
+2 自旋锁 Golang中的自旋锁用来实现其他类型的锁，自旋锁的作用和互斥量类似，不同点在于， 它不是通过休眠来使进程阻塞，而是在获得锁之前一直处于忙等状态（自旋），从而避免了进程（或者
+和自旋锁相关的函数有sync_runtime_canSpin和sync_runtime_doSpin， 前者用来判断当前是否可以进行自旋，后者执行自旋操作。二者通常一起使用。
+sync_runtime_canSpin函数中在以下四种情况返回false
+ 已经执行了很多次 是单核CPU 没有其他正在运行的P 当前P的G队列不为空  条件1避免长时间自旋浪费CPU的情况。
+条件2、3用来保证除了当前在运行的Goroutine之外，还有其他Goroutine在运行。
+条件4是避免自旋锁等待的条件是由当前P的其他G来触发，这样会导致 在自旋变得没有意义，因为条件永远无法触发。
+sync_runtime_doSpin会调用procyield函数，该函数也是汇编语言实现。 函数内部循环调用PAUSE指令。PAUSE指令什么都不做，但是会消耗CPU时间，在执行PAUSE指令时， CPU不会对他做不必要的优化。
+3 信号量 按照runtime/sema.go中的注释：
+Think of them as a way to implement sleep and wakeup Golang中的sema，提供了休眠和唤醒Goroutine的功能。
+semacquire函数首先检查信号量是否为0：如果大于0，让信号量减一，返回； 如果等于0，就调用goparkunlock函数，把当前Goroutine放入该sema的等待队列，并把他设为等待状态。
+semrelease函数首先让信号量加一，然后检查是否有正在等待的Goroutine： 如果没有，直接返回；如果有，调用goready函数唤醒一个Goroutine。
+4 sync/Mutex Mutex拥有Lock、Unlock两个方法，主要的实现思想都体现在Lock函数中。
+Lock执行时，分三种情况：
+ 无冲突 通过CAS操作把当前状态设置为加锁状态； 有冲突 开始自旋，并等待锁释放，如果其他Goroutine在这段时间内释放了该锁， 直接获得该锁；如果没有释放，进入3； 有冲突，且已经过了自旋阶段 通过调用semacquire函数来让当前Goroutine进入等待状态。  无冲突时是最简单的情况；有冲突时，首先进行自旋，是从效率方面考虑的， 因为大多数的Mutex保护的代码段都很短，经过短暂的自旋就可以获得；如果自旋等待无果，就只好通过信号量来让当前 Goroutine进入等待了。</description>
+    </item>
+    
+    <item>
+      <title>go-scheduler 上</title>
+      <link>http://nber1994.github.io/posts/scheduler-%E4%B8%8A/</link>
+      <pubDate>Thu, 25 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/scheduler-%E4%B8%8A/</guid>
+      <description>写在开头：
+本文仅科普性质分享，旨在为大家构建一个go scheduler发展大纲性的印象，会丢失很多代码以及设计细节，对于这方面的内容还需要读者自己去深挖代码补充完整:P
+ 一、计算机发展简史 1. 远古时代  一切要从1946年说起，当世界第一台计算机问世时，世界拥有了第一台计算机。（废话文学）
+ 当时的埃尼阿克(eniac)是为了计算炮弹轨迹而发明的，将你要计算的程序打到纸带上，接通电源，等待执行结果。期间不能暂停，也不能做其他任何事情。它上面没有操作系统，更别提进程、线程和协程了。
+2. 单进程时代 后来，现代化的计算机有了操作系统，操作系统上可以安装多个应用，每个应用程序都包装为一个进程。它主要包括两部分：
+ 私有数据 指令流  但是，当时的操作系统在一段时间只能运行一个进程，直到这个进程运行完，才能运行下一个进程，这个时期可以称为单进程时代——串行时代。
+和ENIAC相比，单进程时代运行速度已有了几万倍的提度，但依然是太慢了，比如进程要读数据阻塞了，CPU就在那里浪费着，程序员们就想了，不能浪费啊，怎么才能充分的利用CPU呢？ 如果在cpu等待时，切换到另外的进程进行执行，CPU的效率就提高上来了。
+3. 多进程时代  从这个节点开始，人类在追求高并发的道路上一去不复返了
+ 后来操作系统就具有了最早的并发能力：多进程并发，当一个进程阻塞的时候，切换到另外等待执行的进程，这样就能尽量把CPU利用起来，CPU就不浪费了。
+给用户造成的假象就是，A B C三个进程同时在运行着。然而，为了实现这个目标，操作系统变得格外的复杂。
+实现多进程并发首先我们需要保障的有两点：
+ 实现进程间数据完全隔离 实现进程间指令流的安全切换  具体如何实现的呢：
+3.1 虚拟内存 操作系统引入了虚拟内存，来做到进程间数据的隔离。
+进程启动时，操作系统会为进程分配一块虚拟内存空间，每个进程拿到的 虚拟内存空间布局是相同的，且大小等于机器实际物理内存大小，但是实际上这块连续的内存空间对应机器内存中是一块块的内存碎片，这个假象是由虚拟内存技术实现的。
+进程需要访问某个地址时，例如0x004005，都会先去查询页表，定位到对应的PTE（页表项），PTE记录着对应的真实的物理内存地址，继而再对这个真实地址进行访问。
+每个进程都会有相同的页表，且内存结构也相同，对于每个进程来说都认为自己占用了机器全部的内存，操作系统在做虚拟内存映射时保证一个物理地址只会分配给一个进程（共享内存区域 &amp;amp; 内核区域除外），这样就保证了进程间的内存数据是隔离的。
+3.2 进程内存结构 32位机器：
+从低位向高位看：
+ 代码段总是从地址0x400000开始的，存储着用户程序的代码，字面量等 然后是数据段，存储用户程序的一些宏，全局变量，代码等 之后是堆，程序运行过程中产生的变量等都会存放在堆中，且堆空间向高位地址延伸 在用户栈和堆之间存在一块为共享库分配的内存空间，这里存储着例如.so动态链接文件等 再之后是用户栈，函数调用的入参，临时变量，以及调用信息等存放于此 内存最高位则是内核内存空间，用户栈是从2^48-1处开始向下延伸的，这段空间固定映射到一部分连续的物理地址上  所以，每个进程的程序指令流都会存在该进程的内存空间中，保证了进程的指令流完全隔离
+可以看到，当前进程的指令流是存在于本进程的内存中，所以，在切换进程之前，我们把当前运行到的pc位置做保存现场，再次切换到本进程时继续已之前的pc处开始执行即可。
+3.3 进程控制块 PCB 内核为每个进程维护了一个pcb的结构，主要用于记录进程状态，在Linux中，PCB结构为task_struct；
+task_struct是Linux内核的一种数据结构，它会被装载到RAM里并且包含进程的信息，每个进程都把它的信息放在task_struct这个数据结构里。那么这个结构体里存了哪些数据呢：
+1.进程状态：是调度和兑换的依据
+   linux进程的状态      内核表示 含义   TASK_RUNNING 可运行   TASK_INTERRUPTIBLE 可中断的等待状态   TASK_UNINTERRUPTIBLE 不可中断的等待状态   TASK_ZOMBIE 僵死   TASK_STOPPED 暂停   TASK_SWAPPING 换入/换出    2.</description>
+    </item>
+    
+    <item>
+      <title>go-scheduler 下</title>
+      <link>http://nber1994.github.io/posts/scheduler-%E4%B8%8B/</link>
+      <pubDate>Thu, 25 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/scheduler-%E4%B8%8B/</guid>
+      <description>三、调度器 Scheduler 3. 任务窃取调度器 · 1.1 2012 年 Google 的工程师 Dmitry Vyukov 在 Scalable Go Scheduler Design Doc 中指出了现有多线程调度器的问题，并且针对出现的问题，针对性的进行了改进设计。
+我们来回顾下GM模型带来的问题：
+ mcache泛滥 资源竞争严重 Goroutine传递问题 频繁的线程阻塞/解阻塞  下面我们分开来看，为了解决各个问题，分别引入了哪些设计
+1. mcache泛滥 - 引入中间层P 在Goroutine和线程之间引入了中间层P，其数量对应于机器的核数，且只有P持有mcache，并且P托管了M运行所需的上下文。每个M都需要绑定到P上才能够获得G。
+这样一来，每个M做到了减重，M变成了一个很干净的系统线程封装。减少了很多冗余的mcache。
+type p struct { lock mutex id int32 // p的状态  status uint32 // one of pidle/prunning/...  // 下一个p的地址，可参考 g.schedlink  link puintptr // p所关联的m  m muintptr // back-link to associated m (nil if idle)  // 内存分配的时候用的，p所属的m的mcache用的也是这个  mcache *mcache // Cache of goroutine ids, amortizes accesses to runtime·sched.</description>
+    </item>
+    
+    <item>
+      <title>channel &amp; selelct</title>
+      <link>http://nber1994.github.io/posts/channel-select/</link>
+      <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/channel-select/</guid>
+      <description>并发编程模型 并发编程的意义，这个不需要多说了，大流量，高并发全靠它，性能上来了，稳定性也就不言而喻了
+并发的两个基础部分：
+ 并发调度单位，concurrency unit 并发模型，concurrency model  Concurrency unit 并发调度单位讲究 轻！快！
+unit占用轻！unit切换快！
+进程作为Unit 进程拥有独占的内存和指令流，是一个应用的包装，但是进程作为并发基本单元有如下问题：
+ 资源占用过大  每个进程占用的内存太大了，进程携带了自己的虚拟内存页表，文件描述符等   不能发挥多核的性能  进程不能很好的发挥多核机器的性能，常常出现一个核跑，多个核看的现象     进程切换消耗过大  进程切换需要进行系统调用，涉及到内存从用户态拷贝至内核态 保存当前进程的现场，并且恢复下一个进程    线程作为Unit 线程较轻量级，一个进程可以包含多个线程，则每个最小并发粒度的资源占用要小很多，且同一个进程内线程间切换只需要对指令流进行切换即可。
+但是，进程间切换仍需要进入内核进行，仍然存在大量的并发切换消耗
+协程作为Unit 协程，也叫做用户态线程，它规避了最后一个问题，切换消耗过大的问题，无需通过系统调用进入内核进行切换，协程所有的生命周期均发生在用户态。
+因为协程的优点，协程类编程也开始越来越火了。比较有代表性的有Go的goroutine、Erlang的Erlang进程、Scala的actor、windows下的fibre（纤程）等，一些动态语言像Python、Ruby、Lua也慢慢支持协程。
+但是 语言引入协程作为并发调度单位，需要实现自己的协程调度器、并提供协程间通信的方式等一系列支持模块，相较于传统的基于进程线程的并发方式，需要实现很多额外的功能组件。实现较复杂。
+Concurrency model 总体来看，目前能找到的最轻量的调度单元就是协程了，虽然实现起来有些麻烦，但是现代语言也越来越多的引入协程了。
+那么解决了并发单元的问题后，我们再研究下并发模型，为什么需要并发模型呢，因为并发就意味着竞争：对内存的竞争，对算力的竞争等，那么如何降低竞争带来的性能损耗，就需要并发模型的设计了。简单来说，并发模型就是指导并发单元以何种方式处理竞争，尽量减少竞争带来的性能损耗。简单来说，就是定义了并发单元间的通信方式。
+共享内存+锁 最经典的模型，通过锁来保护资源，多个并发单元访问资源前首先争夺锁，然后再去访问资源。没抢到锁的unit则阻塞等待。
+这个应该是目前最常用的了，也最符合直觉，但是可以明显看到，在竞争时会产生阻塞耗时。
+这就是常说的使用共享内存来进行通信
+函数式编程 既然基于共享内存通信会产生大量的竞争，那么函数式编程的通信思想是，在并发单元执行过程中不进行通信，只在最后大家都执行完后统一对结果做收集和汇总
+函数式编程的特性：
+ 不可变数据，默认是变量是不可变的，如果你要改变变量，你需要把变量copy出去 函数对于Input A一定会返回Output B，即函数内部没有状态，不会对全局变量进行修改，运行时涉及的变量都是局部变量 这么一来，每个函数对输入负责，只会访问局部变量，全局不存在资源竞争  基于函数式编程模型作为并发模型的话，性能会很高，但是会产生额外的大量的局部变量
+代表语言：clojure
+举个例子： s3e在设计之初，提供了一套SDK，目的是帮助业务建模和模型可视化，大体是这样的，将一个业务功能节点抽象为了workflow，workflow中的每个task state对应一个函数，为了降低使用成本，各个函数的签名都是一致的
+func Action(ctx context.Context, db *Databus) (*Databus, error) 每个函数都会对Databus做一些自己的修改，这个修改是全局Action可见的（因为Databus传的是指针类型），因此如果存在并发的节点，会存在对全局变量的锁竞争。</description>
+    </item>
+    
+    <item>
+      <title>go-GMP模型</title>
+      <link>http://nber1994.github.io/posts/gmp%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/gmp%E6%A8%A1%E5%9E%8B/</guid>
+      <description>上古时代  一切要从1946年说起，当世界第一台计算机问世时，世界拥有了第一台计算机。（废话文学）
+ 当时的埃尼阿克(eniac)是为了计算炮弹轨迹而发明的，将你要计算的程序打到纸带上，接通电源，等待执行结果。期间不能暂停，也不能做其他任何事情。它上面没有操作系统，更别提进程、线程和协程了。
+进程时代 单进程时代 后来，现代化的计算机有了操作系统，每个程序都是一个进程，但是操作系统在一段时间只能运行一个进程，直到这个进程运行完，才能运行下一个进程，这个时期可以成为单进程时代——串行时代。
+和ENIAC相比，单进程是有了几万倍的提度，但依然是太慢了，比如进程要读数据阻塞了，CPU就在哪浪费着，伟大的程序员们就想了，不能浪费啊，怎么才能充分的利用CPU呢？
+多进程时代 后来操作系统就具有了最早的并发能力：多进程并发，当一个进程阻塞的时候，切换到另外等待执行的进程，这样就能尽量把CPU利用起来，CPU就不浪费了。
+线程时代 多进程真实个好东西，有了对进程的调度能力之后，伟大的程序员又发现，进程拥有太多资源，在创建、切换和销毁的时候，都会占用很长的时间，CPU虽然利用起来了，但CPU有很大的一部分都被用来进行进程调度了，怎么才能提高CPU的利用率呢？
+大家希望能有一种轻量级的进程，调度不怎么花时间，这样CPU就有更多的时间用在执行任务上。
+后来，操作系统支持了线程，线程在进程里面，线程运行所需要资源比进程少多了，跟进程比起来，切换简直是“不算事”。
+一个进程可以有多个线程，CPU在执行调度的时候切换的是线程，如果下一个线程也是当前进程的，就只有线程切换，“很快”就能完成，如果下一个线程不是当前的进程，就需要切换进程，这就得费点时间了。
+这个时代，CPU的调度切换的是进程和线程。多线程看起来很美好，但实际多线程编程却像一坨屎，一是由于线程的设计本身有点复杂，而是由于需要考虑很多底层细节，比如锁和冲突检测。
+进程 &amp;amp; 线程的问题 从一道面试题谈起  进程和线程的分别是什么？
+  对于操作系统层面，标准的回答是：进程是资源分配的最小单位，线程是cpu调度的最小单位。
+ 进程 简而言之，进程是资源分配的最小单位，且是一个应用的实例，为了保证进程间不互相影响，各搞各的，进程间：
+ 数据完全隔离 指令流完全隔离  具体怎么实现的：
+虚拟内存 进程启动时，操作系统会为进程分配一块内存空间，进程的视角看这块内存是连续的，但是实际上在机器内存中是一块块的内存碎片，这个假象是由虚拟内存技术实现的。这么做是为了方便编译链接，内存隔离等。
+进程需要访问某个地址时，例如0x004005，都会先去查询页表，定位到对应的PTE（页表项），PTE记录着对应的真实的物理内存地址，继而再对这个真实地址进行访问。
+每个进程都会有相同的页表，且内存结构也相同，对于每个进程来说都认为自己占用了机器全部的内存，操作系统使用虚拟内存保证进程间的内存是隔离的。
+进程内存地址空间 32位机器：
+从低位向高位看：
+ 代码段总是从地址0x400000开始的，存储着用户程序的代码，字面量等 然后是数据段，存储用户程序的一些宏，全局变量，代码等 之后是堆，程序运行过程中产生的变量等都会存放在堆中，且堆空间向高位地址延伸 在用户栈和堆之间存在一块为共享库分配的内存空间，这里存储着例如.so动态链接文件等 再之后是用户栈，函数调用的入参，临时变量，以及调用信息等存放于此 内存最高位则是内核内存空间，用户栈是从2^48-1处开始向下延伸的，这段空间固定映射到一部分连续的物理地址上  进程控制块 PCB 内核为每个进程维护了一个pcb的结构，主要用于记录进程状态，在Linux中，PCB结构为task_struct；
+task_struct是Linux内核的一种数据结构，它会被装载到RAM里并且包含进程的信息，每个进程都把它的信息放在task_struct这个数据结构里。那么这个结构体里存了哪些数据呢：
+1.进程状态：是调度和兑换的依据
+   linux进程的状态      内核表示 含义   TASK_RUNNING 可运行   TASK_INTERRUPTIBLE 可中断的等待状态   TASK_UNINTERRUPTIBLE 不可中断的等待状态   TASK_ZOMBIE 僵死   TASK_STOPPED 暂停   TASK_SWAPPING 换入/换出    2.</description>
+    </item>
+    
+    <item>
+      <title>go-实现一个简单的DSL解释器</title>
+      <link>http://nber1994.github.io/posts/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84dsl%E8%A7%A3%E9%87%8A%E5%99%A8/</link>
+      <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84dsl%E8%A7%A3%E9%87%8A%E5%99%A8/</guid>
+      <description>什么是DSL DSL 是 Domain Specific Language 的缩写，中文翻译为领域特定语言（下简称 DSL）；而与 DSL 相对的就是 GPL，这里的 GPL 并不是我们知道的开源许可证，而是 General Purpose Language 的简称，即通用编程语言，也就是我们非常熟悉的 Objective-C、Java、Python 以及 C 语言等等。
+简单说，就是为了解决某一类任务而专门设计的计算机语言。
+ Regex SQL HTML&amp;amp;CSS  共同特点 没有计算和执行的概念；
+ 其本身并不需要直接表示计算； 使用时只需要声明规则、事实以及某些元素之间的层级和关系； 总结起来一句话：表达能力有限，通过在表达能力上做的妥协换取在某一领域内的高效 那么DSL解释器的主要功能是解释执行DSL  设计原则 实现DSL总共需要完成两部分工作：
+设计语法和语义，定义 DSL 中的元素是什么样的，元素代表什么意思 实现 parser，对 DSL 解析，最终通过解释器来执行 那么我们可以得到DSL的设计原则：
+简单  学习成本低，DSL语法最好和部门主要技术栈语言保持一致（go，php） 语法简单，删减了golang大部分的语法，只支持最基本的  数据格式， 二元运算符， 控制语句 少量的语法糖    嵌入式DSL  DSL需要嵌入到现有的编程语言中，发挥其实时解释执行且部署灵活的特点 使用json类型的context与外部系统进行通信，且提供与context操作相关的语法糖  解释器工作流程 大部分编译器的工作可以被分解为三个主要阶段：解析（Parsing），转化（Transformation）以及 代码生成（Code Generation）
+ 解析 将源代码转换为一个更抽象的形式。 转换 接受解析产生的抽象形式并且操纵这些抽象形式做任何编译器想让它们做的事。 代码生成 基于转换后的代码表现形式（code representation）生成目标代码。  解析  词法分析 —— tokenizer 通过一个叫做tokenizer（词素生成器，也叫lexer）的工具将源代码分解成一个个词素。（词素是描述编程语言语法的对象。它可以描述数字，标识符，标点符号，运算符等等。） 语法分析 —— parser 接收词素并将它们组合成一个描述了源代码各部分之间关系的中间表达形式：抽象语法树。（抽象语法树是一个深度嵌套的对象，这个对象以一种既能够简单地操作又提供很多关于源代码信息的形式，来展现代码。）  转换  这个过程接收解析生成的抽象语法树并对它做出改动 转换阶段可以改变抽象语法树使代码保持在同一个语言，或者编译成另外一门语言。  代码生成  生成新的代码，一般是二进制或者汇编  aki-DSL解释器设计原理 解析源代码生成AST 那么想要实现一个脚本解释器的话，就需要实现上面的三个步骤，而且我们发现，承上启下的是AST（抽象语法树），它在解释器中十分重要</description>
+    </item>
+    
+    <item>
+      <title>nsq-v0文档</title>
+      <link>http://nber1994.github.io/posts/nsq-v0.1.1%E6%96%87%E6%A1%A3/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/nsq-v0.1.1%E6%96%87%E6%A1%A3/</guid>
+      <description>nsq-v0.1.1README NSQ An infrastructure component designed to support highly available, distributed, fault tolerant, &amp;ldquo;guaranteed&amp;rdquo; message delivery. 一个支持高可用，分布式，容错性以及可靠消息传递的消息队列
+Background simplequeue was developed as a dead-simple in-memory message queue. It spoke HTTP and had no knowledge (or care) for the data you put in or took out. Life was good. simplequeue是一个十分简单的内存消息队列（不做持久化）。他基于HTTP并且对内部传递的消息无感知，简洁而美秒。
+We used simplequeue as the foundation for a distributed message queue. In production, we silo&amp;rsquo;d a simplequeue right where messages were produced (ie.</description>
+    </item>
+    
+  </channel>
+</rss>

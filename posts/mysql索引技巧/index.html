@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>mysql索引技巧</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>mysql索引技巧</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>mysql索引技巧</h1>
+			<b><time>2019-01-08</time></b>
+		       
+
+			<div>
+				<blockquote>
+<p>ps：平衡查找树</p>
+</blockquote>
+<blockquote>
+<p>B B+ <a href="https://zhuanlan.zhihu.com/p/27700617">https://zhuanlan.zhihu.com/p/27700617</a></p>
+</blockquote>
+<blockquote>
+<p>MySQL索引背后的数据结构及算法原理 <a href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html">http://blog.codinglabs.org/articles/theory-of-mysql-index.html</a></p>
+</blockquote>
+<blockquote>
+<p>联合索引结构原理 <a href="https://blog.csdn.net/weixin_30531261/article/details/79329722">https://blog.csdn.net/weixin_30531261/article/details/79329722</a></p>
+</blockquote>
+<blockquote>
+<p>覆盖索引 <a href="https://yq.aliyun.com/articles/62419">https://yq.aliyun.com/articles/62419</a></p>
+</blockquote>
+<blockquote>
+<p>联合索引如何选取wherer <a href="http://hedengcheng.com/?p=577">http://hedengcheng.com/?p=577</a></p>
+</blockquote>
+<h1 id="索引数据结构基础知识">索引数据结构基础知识</h1>
+<h2 id="平衡二叉树">平衡二叉树</h2>
+<p>平衡二叉树是基于二分法的策略提高数据查找速度的数据结构       <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106172726705_789983747.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106172812442_1512930075.png" alt=""></p>
+<h2 id="b-tree">B-tree</h2>
+<p>与平衡二叉树的区别是B树属于多叉树，每个节点多于两个查找路径 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106181118682_1672741123.png" alt=""></p>
+<h3 id="规则">规则</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106173002453_1609390045.png" alt=""></p>
+<h2 id="b树">B+树</h2>
+<p>B+树让查询速度更加稳定，完全趋近于二分查找<br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106181138368_1051631384.png" alt=""></p>
+<h3 id="与b树的区别">与B树的区别</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106173251310_1461952350.png" alt="">
+特点：飞叶子节点中不保存记录指针，每个节点可以存更多的关键字，数据只保存在叶子节点，每次查询的速度一定<br>
+每个节点的出度增加，进而树高会降低，提高了查找速度。</p>
+<h2 id="为什么使用bb树">为什么使用B/B+树</h2>
+<p>一般来说，索引本身都很大，所以一般会存在磁盘上，而相对于内存读取，读取磁盘的开销是十分大的，所以衡量一个索引性能的一个标准<br>
+就是一次查询IO的次数</p>
+<h2 id="mysql索引实现">mysql索引实现</h2>
+<p>MyIsAM索引结构是通过B+树实现的，叶子节点存放的是数据的地址<br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106182030630_978256078.png" alt="">
+而对于辅助索引来说，其结构和主键索引没有任何区别<br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181106182342955_415101514.png" alt=""></p>
+<blockquote>
+<p>这类索引成为非聚簇索引，即数据和索引文件是分开的</p>
+</blockquote>
+<h2 id="innodb索引实现">InnoDB索引实现</h2>
+<blockquote>
+<p>对于InnoDB来说，数据本身就是主索引文件，</p>
+</blockquote>
+<p>因为索引和数据是被保存在一起的，与MyIsAm不同的是，InnoDB的B+树的叶子节点<br>
+包含完整的数据行记录，因而该索引称为聚簇索引<br>
+因而InnoDB表必须有主键，如果没有的话，InnoDB会自动隐世的创建主键索引</p>
+<blockquote>
+<p>另外对于InnoDB引擎来说，辅助索引叶子节点存储的是主键的值而不是地址</p>
+</blockquote>
+<p>因而InnoDB检索需要经过两边索引：首先通过辅助索引拿到主键的值，在检索一遍主键索引<br>
+因而不建议将索引做的过大，因为会导致过大的索引文件<br>
+不单调的字段作为索引会导致数据插入时频繁的分裂调整</p>
+<h2 id="索引使用策略优化">索引使用策略&amp;优化</h2>
+<h3 id="最左前缀原理优化">最左前缀原理&amp;优化</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SHOW</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INDEX</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>employees.titles;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">--------+------------+----------+--------------+-------------+-----------+-------------+------+------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Table</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Non_unique<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Key_name<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Seq_in_index<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Column_name</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Collation</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Cardinality</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Null</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Index_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">--------+------------+----------+--------------+-------------+-----------+-------------+------+------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">          </span><span style="color:#099">0</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">            </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>emp_no<span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>A<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>BTREE<span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">          </span><span style="color:#099">0</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">            </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>title<span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>A<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>BTREE<span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">          </span><span style="color:#099">0</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">            </span><span style="color:#099">3</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>from_date<span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>A<span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">      </span><span style="color:#099">443308</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>BTREE<span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">--------+------------+----------+--------------+-------------+-----------+-------------+------+------------+
+</span></code></pre></div><blockquote>
+<p>情况一：全列匹配</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">EXPLAIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>employees.titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>emp_no<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;10001&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AND</span><span style="color:#bbb"> </span>title<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;Senior Engineer&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AND</span><span style="color:#bbb"> </span>from_date<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;1986-06-26&#39;</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+-------+---------------+---------+---------+-------------------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">               </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+-------+---------------+---------+---------+-------------------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">59</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const,const,const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+-------+---------------+---------+---------+-------------------+------+-------+
+</span></code></pre></div><p>where后的字段InnoDB会自动调整顺序</p>
+<blockquote>
+<p>情况二：最左前缀匹配</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">EXPLAIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>employees.titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>emp_no<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;10001&#39;</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+---------+---------+-------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+---------+---------+-------+------+-------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+---------+---------+-------+------+-------+
+</span></code></pre></div><p>这个时候可以看到key_len长度是4，只用了第一个字段</p>
+<blockquote>
+<p>情况三：中间缺乏字段</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">EXPLAIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>employees.titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>emp_no<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;10001&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AND</span><span style="color:#bbb"> </span>from_date<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;1986-06-26&#39;</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span></code></pre></div><p>这个时候无法命中后续的索引字段，所以key_len使用了4</p>
+<blockquote>
+<p>情况四：没有指定第一列</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">EXPLAIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>employees.titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>from_date<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;1986-06-26&#39;</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">          </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">443308</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span></code></pre></div><p>此时不会用到索引</p>
+<blockquote>
+<p>情况五：匹配某列的前缀字符</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">EXPLAIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>employees.titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>emp_no<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;10001&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AND</span><span style="color:#bbb"> </span>title<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">LIKE</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;Senior%&#39;</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>range<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">56</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span></code></pre></div><p>如果通配符不是第一个字段的条件的话，可以用到索引</p>
+<blockquote>
+<p>情况六：范围查询</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">EXPLAIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>employees.titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>emp_no<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;10010&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">and</span><span style="color:#bbb"> </span>title<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;Senior Engineer&#39;</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>range<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">   </span><span style="color:#099">16</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+-------+---------------+---------+---------+------+------+-------------+
+</span></code></pre></div><p>最左前缀的字段可以使用索引，但是后面的字段就无法使用了。
+<strong>对于between来说，其实不属于范围操作</strong></p>
+<blockquote>
+<p>情况七：查询条件中存在函数或者表达式</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">EXPLAIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>employees.titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>emp_no<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;10001&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AND</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">left</span>(title,<span style="color:#bbb"> </span><span style="color:#099">6</span>)<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;Senior&#39;</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">     </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">4</span><span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>const<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">    </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+---------+---------+-------+------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">EXPLAIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>employees.titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>emp_no<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span><span style="color:#099">1</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;10000&#39;</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>select_type<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">table</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">type</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>possible_keys<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">key</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>key_len<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ref</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb">   </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>Extra<span style="color:#bbb">       </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">  </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>titles<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">          </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">443308</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">----+-------------+--------+------+---------------+------+---------+------+--------+-------------+
+</span></code></pre></div><p>可以看到当第一个字段如果存在表达式时，则不会命中索引</p>
+<h2 id="索引的选择">索引的选择</h2>
+<p>索引并不是越多越好，</p>
+<ul>
+<li>索引本身会占用资源</li>
+<li>索引会增加插入删除修改的额外开销</li>
+</ul>
+<p>不建议建立索引的情况：</p>
+<ul>
+<li>数据量较小</li>
+<li>所选字段选择性比较低</li>
+<li>字段选择性可以按照count(distince(x))/count(x)来衡量，该值越高选择性越好</li>
+</ul>
+<h2 id="逐渐选择">逐渐选择</h2>
+<p><strong>永远建议使用自增字段作为主键</strong>
+因为基于B+树的索引结构，如果使用自增的主键，每次新插入一条数据，InnoDB会选择合适的位置建立索引，如果达到装载因子则会重新开辟页面。   <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107002022004_1160332232.png" alt="">
+如果使用非自增的主键，每次新插入的数据可以看为随机的，此时插入数据时，InnoDB寻找随机的位置建立索引，因此不得不为了插入新的数据而把后面的页进行重新的移动，增加了很多开销</p>
+<h2 id="辅助索引">辅助索引</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181102170830932_2057287060.png" alt=""></p>
+<p>对于辅助索引，大致的结构是这样的。
+如果存在联合索引，则只会生成一个辅助索引树<br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107002903925_404824817.png" alt=""></p>
+<h3 id="联合索引">联合索引</h3>
+<p>对于联合索引，其大致结构是如下所示 <br>
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107003122254_662505623.png" alt=""></p>
+<p>大致是在第一个索引的基础上筛选出数据后，在根据后面的字段进行筛选</p>
+<h2 id="索引覆盖">索引覆盖</h2>
+<p><strong>索引覆盖指的是一次查询只需要从辅助索引中就能得到查询信息，而不需要查询聚簇索引中的数据</strong></p>
+<h3 id="当没有where条件的优化">当没有where条件的优化</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107153730837_1584260342.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107160016933_13828841.png" alt=""></p>
+<h3 id="二次索引优化">二次索引优化</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#bbb"> </span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span>sql_no_cache<span style="color:#bbb"> </span>rental_date<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t1<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>inventory_id<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#099">80000</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">…</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">…</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">2005</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">08</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">23</span><span style="color:#bbb"> </span><span style="color:#099">15</span>:<span style="color:#099">08</span>:<span style="color:#099">00</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">2005</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">08</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">23</span><span style="color:#bbb"> </span><span style="color:#099">15</span>:<span style="color:#099">09</span>:<span style="color:#099">17</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">2005</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">08</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">23</span><span style="color:#bbb"> </span><span style="color:#099">15</span>:<span style="color:#099">10</span>:<span style="color:#099">42</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">2005</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">08</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">23</span><span style="color:#bbb"> </span><span style="color:#099">15</span>:<span style="color:#099">15</span>:<span style="color:#099">02</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">2005</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">08</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">23</span><span style="color:#bbb"> </span><span style="color:#099">15</span>:<span style="color:#099">15</span>:<span style="color:#099">19</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span><span style="color:#099">2005</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">08</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">23</span><span style="color:#bbb"> </span><span style="color:#099">15</span>:<span style="color:#099">16</span>:<span style="color:#099">32</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">+</span><span style="color:#998;font-style:italic">---------------------+
+</span><span style="color:#998;font-style:italic"></span><span style="color:#099">79999</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">rows</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">set</span><span style="color:#bbb"> </span>(<span style="color:#099">0</span>.<span style="color:#099">13</span><span style="color:#bbb"> </span>sec)<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span>sql_no_cache<span style="color:#bbb"> </span>rental_date<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t1<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">where</span><span style="color:#bbb"> </span>inventory_id<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#099">80000</span><span style="color:#a61717;background-color:#e3d2d2">\</span><span style="color:#000;font-weight:bold">G</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">***************************</span><span style="color:#bbb"> </span><span style="color:#099">1</span>.<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">row</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">***************************</span><span style="color:#bbb">
+</span><span style="color:#bbb">           </span>id:<span style="color:#bbb"> </span><span style="color:#099">1</span><span style="color:#bbb">
+</span><span style="color:#bbb">  </span>select_type:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">table</span>:<span style="color:#bbb"> </span>t1<span style="color:#bbb">
+</span><span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">type</span>:<span style="color:#bbb"> </span>range<span style="color:#bbb">
+</span><span style="color:#bbb"></span>possible_keys:<span style="color:#bbb"> </span>inventory_id<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000;font-weight:bold">key</span>:<span style="color:#bbb"> </span>inventory_id<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>key_len:<span style="color:#bbb"> </span><span style="color:#099">3</span><span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000;font-weight:bold">ref</span>:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">
+</span><span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">rows</span>:<span style="color:#bbb"> </span><span style="color:#099">153734</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span>Extra:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">Using</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb"> </span>condition<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">row</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">set</span><span style="color:#bbb"> </span>(<span style="color:#099">0</span>.<span style="color:#099">00</span><span style="color:#bbb"> </span>sec)<span style="color:#bbb">
+</span></code></pre></div><p>可以看到Extra是using index condition，说明会通过index进行了回表查询
+在rental_date字段增加索引之后：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">mysql<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">explain</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">select</span><span style="color:#bbb"> </span>tid,return_date<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">from</span><span style="color:#bbb"> </span>t1<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">order</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">by</span><span style="color:#bbb"> </span>inventory_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">limit</span><span style="color:#bbb"> </span><span style="color:#099">50000</span>,<span style="color:#099">10</span><span style="color:#a61717;background-color:#e3d2d2">\</span><span style="color:#000;font-weight:bold">G</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">***************************</span><span style="color:#bbb"> </span><span style="color:#099">1</span>.<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">row</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">***************************</span><span style="color:#bbb">
+</span><span style="color:#bbb">           </span>id:<span style="color:#bbb"> </span><span style="color:#099">1</span><span style="color:#bbb">
+</span><span style="color:#bbb">  </span>select_type:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SIMPLE</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">table</span>:<span style="color:#bbb"> </span>t1<span style="color:#bbb">
+</span><span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">type</span>:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">index</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>possible_keys:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000;font-weight:bold">key</span>:<span style="color:#bbb"> </span>liu<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>key_len:<span style="color:#bbb"> </span><span style="color:#099">9</span><span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000;font-weight:bold">ref</span>:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">
+</span><span style="color:#bbb">         </span><span style="color:#000;font-weight:bold">rows</span>:<span style="color:#bbb"> </span><span style="color:#099">50010</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">row</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">set</span><span style="color:#bbb"> </span>(<span style="color:#099">0</span>.<span style="color:#099">00</span><span style="color:#bbb"> </span>sec)<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">执行计划也可以看到，使用到了复合索引，并且不需要回表</span><span style="color:#bbb">
+</span></code></pre></div>
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

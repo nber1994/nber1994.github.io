@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>php on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/categories/php/</link>
+    <description>Recent content in php on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 24 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/categories/php/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何获取php引用的所有脚本</title>
+      <link>http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/</guid>
+      <description>获取所有的引入文件，一般这句放在controller的结束位置
+$included_files = get_included_files(); file_put_contents(&#39;/tmp/xxx&#39;,implode(&amp;quot;\r\n&amp;quot;, $included_files)); </description>
+    </item>
+    
+    <item>
+      <title>php-fpm进程管理</title>
+      <link>http://nber1994.github.io/posts/php-fpm%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/php-fpm%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/</guid>
+      <description>php-fpm进程管理 fpm进程管理：w</description>
+    </item>
+    
+    <item>
+      <title>lnmp报错too-big-header错误探究</title>
+      <link>http://nber1994.github.io/posts/lnmp%E6%8A%A5%E9%94%99too-big-header%E9%94%99%E8%AF%AF%E6%8E%A2%E7%A9%B6/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/lnmp%E6%8A%A5%E9%94%99too-big-header%E9%94%99%E8%AF%AF%E6%8E%A2%E7%A9%B6/</guid>
+      <description>之前遇到的一个偶发的错误，探讨下到底是怎么肥四
+ 1.背景 遇到nginx报出了如下的error，导致服务为502 bad gateway, 而且某些请求稳定复现，但是其他请求缺没有问题，正常返回,正常情况下，php的warning并不会导致流程的中断
+2018/01/08 15:50:20 [error] 15477#0: *2941700922 upstream sent too big header while reading response header from upstream, client: xx.xx.xxx, server: test.com, request: &amp;#34;POST /test/test HTTP/1.1&amp;#34;, upstream: &amp;#34;fastcgi://127.0.0.1:xxxx&amp;#34;, host: &amp;#34;xxxxxx&amp;#34;, referrer: &amp;#34;xxxxxx&amp;#34; 一时之间不知道原因，唯一有异常的是warninig日志较多，推测可能是php-fpm会把warning日志加到response header头里,导致头部过大报错
+php代码中存在类似与以下的错误片段：
+&amp;lt;?php $a = [ &amp;#39;a&amp;#39; =&amp;gt; &amp;#39;123&amp;#39;, &amp;#39;b&amp;#39; =&amp;gt; &amp;#39;123&amp;#39;, &amp;#39;c&amp;#39; =&amp;gt; &amp;#39;123&amp;#39;, &amp;#39;d&amp;#39; =&amp;gt; &amp;#39;123&amp;#39;, ]; foreach ($a[&amp;#39;nber1994&amp;#39;] as $item) { /** do something... */ } 此时会报warning的错误，类似于
+php message: php Warning: Invalid argument supplied for foreach() in XXXXX.</description>
+    </item>
+    
+    <item>
+      <title>php数组合并的坑</title>
+      <link>http://nber1994.github.io/posts/php%E6%95%B0%E7%BB%84%E5%90%88%E5%B9%B6%E7%9A%84%E5%9D%91/</link>
+      <pubDate>Tue, 24 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/php%E6%95%B0%E7%BB%84%E5%90%88%E5%B9%B6%E7%9A%84%E5%9D%91/</guid>
+      <description>胡乱记录了php合并数组时遇到的坑
+ 数组合并的 += 写法 坑 &amp;lt;?php $a = [ 1 =&amp;gt; &amp;#39;12312&amp;#39;, 2 =&amp;gt; &amp;#39;123&amp;#39;, ]; $b = [ 1 =&amp;gt; &amp;#39;a&amp;#39;, 2 =&amp;gt; &amp;#39;b&amp;#39;, ]; $c = [ 3 =&amp;gt; &amp;#39;a&amp;#39;, 4 =&amp;gt; &amp;#39;b&amp;#39;, ]; echo &amp;#39;两个数组索引相同:&amp;#39; . php_EOL; $a += $b; print_r($a); echo &amp;#39;两个数组索引不同:&amp;#39; . php_EOL; $b += $c; print_r($b); 返回的结果： 两个数组索引相同: Array ( [1] =&amp;gt; 12312 [2] =&amp;gt; 123 ) 两个数组索引不同: Array ( [1] =&amp;gt; a [2] =&amp;gt; b [3] =&amp;gt; a [4] =&amp;gt; b ) array_merge写法 坑 &amp;lt;?</description>
+    </item>
+    
+    <item>
+      <title>php高级用法</title>
+      <link>http://nber1994.github.io/posts/php%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/php%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/</guid>
+      <description>胡乱探讨了包括autoload，异常处理，多进程，反射使用，trait代码复用，生成器等php语言的高级特性
+ 1.autoload自动加载  spl_autoload_register() 函数可以注册任意数量的自动加载器，当使用尚未被定义的类（class）和接口（interface）时自动去加载。通过注册自动加载器，脚本引擎在 php 出错失败前有了最后一个机会加载所需的类 尽管 __autoload() 函数也能自动加载类和接口，但更建议使用 spl_autoload_register() 函数。 spl_autoload_register() 提供了一种更加灵活的方式来实现类的自动加载（同一个应用中，可以支持任意数量的加载器，比如第三方库中的）。因此，不再建议使用 __autoload() 函数，在以后的版本中它可能被弃用。 自动加载不可用于 php 的 CLI 交互模式  自动加载简单实例 &amp;lt;?php spl_autoload_register(function ($class_name) { require_once $class_name . &amp;#39;.php&amp;#39;; }); $obj = new MyClass1(); $obj2 = new MyClass2(); ?&amp;gt;自动加载抛出异常 &amp;lt;?php spl_autoload_register(function ($name) { echo &amp;#34;Want to load $name.\n&amp;#34;; throw new Exception(&amp;#34;Unable to load $name.&amp;#34;); }); try { $obj = new NonLoadableClass(); } catch (Exception $e) { echo $e-&amp;gt;getMessage(), &amp;#34;\n&amp;#34;; } ?</description>
+    </item>
+    
+  </channel>
+</rss>

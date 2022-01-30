@@ -109,13 +109,10 @@
 			<h1>redis数据结构-整数集合</h1>
 			<b><time>2019-08-09</time></b>
 		       
-		           <a href="/tags/redis">redis</a>
-        	       
 
 			<div>
-				<h1 id="redis数据结构-整数集合">redis数据结构-整数集合</h1>
-<p>一般集合键只保存整数且集合的大小不大时，采用整数集合作为其底层实现</p>
-<h2 id="结构">结构</h2>
+				<p>一般集合键只保存整数且集合的大小不大时，采用整数集合作为其底层实现</p>
+<h1 id="结构">结构</h1>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> intset {
     <span style="color:#998;font-style:italic">//编码方式
 </span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">uint32_t</span> encoding;
@@ -128,7 +125,7 @@
 <li>contents作为整数集合的底层实现，每个元素都是contents数组的一个项，各个节点从小到大排列，并且不会重复</li>
 <li>contents的项的大小不一定为uint8_t，具体是根据encoding的值来决定</li>
 </ul>
-<h2 id="整数集合的升级">整数集合的升级</h2>
+<h1 id="整数集合的升级">整数集合的升级</h1>
 <ul>
 <li>当整数集合中的添加的元素大于现有所有元素的类型都要长时，会将contents中元素的类型进行升级</li>
 <li>步骤：
@@ -140,21 +137,15 @@
 </li>
 <li>因为每次新添加元素时，可能会发生升级，会遍历所有的元素进行类型转换，所有时间复杂度为O(n)</li>
 </ul>
-<h3 id="升级带来的好处">升级带来的好处</h3>
+<h2 id="升级带来的好处">升级带来的好处</h2>
 <ul>
 <li>提高了灵活性，一般数组中我们都会存储相同类型的int值，集合添加元素时，我们不需要关心是插入uint64还是uint32，intset自动适类型的转化</li>
 <li>节省了内存空间：当数组中不存在uint64的数时，没有比要把数组初始化为uint64-t类型，这样节约了空间</li>
 </ul>
-<h3 id="降级">降级</h3>
+<h2 id="降级">降级</h2>
 <p>整数集合不支持降级，整数一旦进行升级之后，不能进行降级</p>
-<h2 id="重点回顾">重点回顾</h2>
-<p>
-<figure>
-  <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117161845543_1465785595.png" alt="" />
-</figure>
-
-
-</p>
+<h1 id="重点回顾">重点回顾</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181117161845543_1465785595.png" alt=""></p>
 
 			</div>
 		</article>
@@ -172,7 +163,7 @@
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">golang同步机制的实现</a>
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
                     </div>
                 </div>
 				
@@ -181,7 +172,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
                     </div>
                 </div>
 				
@@ -190,7 +181,7 @@
                         <time>2021-11-25</time>
                     </div>
                     <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
                     </div>
                 </div>
 				

@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>进程间通信IPC</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>进程间通信IPC</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+	<main>
+		<article>
+			<h1>进程间通信IPC</h1>
+			<b><time>2019-08-09</time></b>
+		       
+
+			<div>
+				<blockquote>
+<p>进程间通信（IPC，InterProcess Communication）是指在不同进程之间传播或交换信息。IPC的方式通常有管道（包括无名管道和命名管道）、消息队列、信号量、共享存储、Socket、Streams等。其中 Socket和Streams支持不同主机上的两个进程IPC。</p>
+</blockquote>
+<h1 id="一管道">一、管道</h1>
+<ul>
+<li>管道，通常指无名管道，是 UNIX 系统IPC最古老的形式。</li>
+</ul>
+<h2 id="1特点">1、特点：</h2>
+<ul>
+<li>
+<p>它是半双工的（即数据只能在一个方向上流动），具有固定的读端和写端。</p>
+</li>
+<li>
+<p>它只能用于具有亲缘关系的进程之间的通信（也是父子进程或者兄弟进程之间）。</p>
+</li>
+<li>
+<p>它可以看成是一种特殊的文件，对于它的读写也可以使用普通的read、write 等函数。但是它不是普通的文件，并不属于其他任何文件系统，并且只存在于内存中。</p>
+</li>
+</ul>
+<h2 id="2原型">2、原型：</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;unistd.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">pipe</span>(<span style="color:#458;font-weight:bold">int</span> fd[<span style="color:#099">2</span>]);    <span style="color:#998;font-style:italic">// 返回值：若成功返回0，失败返回-1
+</span></code></pre></div><p>当一个管道建立时，它会创建两个文件描述符：fd[0]为读而打开，fd[1]为写而打开。如下图：
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190603153507911_738464045.png" alt="">
+要关闭管道只需将这两个文件描述符关闭即可。</p>
+<h2 id="3例子">3、例子</h2>
+<ul>
+<li>
+<p>单个进程中的管道几乎没有任何用处。所以，通常调用 pipe 的进程接着调用 fork，这样就创建了父进程与子进程之间的 IPC 通道。如下图所示：
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190603153543515_1057208302.png" alt=""></p>
+</li>
+<li>
+<p>若要数据流从父进程流向子进程，则关闭父进程的读端（fd[0]）与子进程的写端（fd[1]）；反之，则可以使数据流从子进程流向父进程。</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;unistd.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>()
+{
+	<span style="color:#458;font-weight:bold">int</span> fd[<span style="color:#099">2</span>];  <span style="color:#998;font-style:italic">// 两个文件描述符
+</span><span style="color:#998;font-style:italic"></span>	pid_t pid;
+	<span style="color:#458;font-weight:bold">char</span> buff[<span style="color:#099">20</span>];
+
+	<span style="color:#000;font-weight:bold">if</span>(pipe(fd) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>)  <span style="color:#998;font-style:italic">// 创建管道
+</span><span style="color:#998;font-style:italic"></span>		printf(<span style="color:#d14">&#34;Create Pipe Error!</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
+
+	<span style="color:#000;font-weight:bold">if</span>((pid <span style="color:#000;font-weight:bold">=</span> fork()) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>)  <span style="color:#998;font-style:italic">// 创建子进程
+</span><span style="color:#998;font-style:italic"></span>		printf(<span style="color:#d14">&#34;Fork Error!</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
+	<span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span>(pid <span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#099">0</span>)  <span style="color:#998;font-style:italic">// 父进程
+</span><span style="color:#998;font-style:italic"></span>	{
+		close(fd[<span style="color:#099">0</span>]); <span style="color:#998;font-style:italic">// 关闭读端
+</span><span style="color:#998;font-style:italic"></span>		write(fd[<span style="color:#099">1</span>], <span style="color:#d14">&#34;hello world</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, <span style="color:#099">12</span>);
+	}
+	<span style="color:#000;font-weight:bold">else</span>
+	{
+		close(fd[<span style="color:#099">1</span>]); <span style="color:#998;font-style:italic">// 关闭写端
+</span><span style="color:#998;font-style:italic"></span>		read(fd[<span style="color:#099">0</span>], buff, <span style="color:#099">20</span>);
+		printf(<span style="color:#d14">&#34;%s&#34;</span>, buff);
+	}
+
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+</code></pre></div><h1 id="二fifo">二、FIFO</h1>
+<ul>
+<li>FIFO，也称为命名管道，它是一种文件类型。</li>
+</ul>
+<h2 id="1特点-1">1、特点</h2>
+<ul>
+<li>FIFO可以在无关的进程之间交换数据，与无名管道不同。</li>
+<li>FIFO有路径名与之相关联，它以一种特殊设备文件形式存在于文件系统中。</li>
+</ul>
+<h2 id="2原型-1">2、原型</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/stat.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#998;font-style:italic">// 返回值：成功返回0，出错返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">mkfifo</span>(<span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">char</span> <span style="color:#000;font-weight:bold">*</span>pathname, mode_t mode);
+</code></pre></div><ul>
+<li>其中的 mode 参数与open函数中的 mode 相同。一旦创建了一个 FIFO，就可以用一般的文件I/O函数操作它。</li>
+<li>当 open 一个FIFO时，是否设置非阻塞标志（O_NONBLOCK）的区别：
+<ul>
+<li>若没有指定O_NONBLOCK（默认），只读 open 要阻塞到某个其他进程为写而打开此 FIFO。类似的，只写 open 要阻塞到某个其他进程为读而打开它。</li>
+<li>若指定了O_NONBLOCK，则只读 open 立即返回。而只写 open 将出错返回 -1 如果没有进程已经为读而打开该 FIFO，其errno置ENXIO。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3例子-1">3、例子</h2>
+<ul>
+<li>FIFO的通信方式类似于在进程中使用文件来传输数据，只不过FIFO类型文件同时具有管道的特性。在数据读出时，FIFO管道中同时清除数据，并且“先进先出”。下面的例子演示了使用 FIFO 进行 IPC 的过程：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">write_fifo.c
+
+<span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdlib.h&gt;   // exit</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;fcntl.h&gt;    // O_WRONLY</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/stat.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;time.h&gt;     // time</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#458;font-weight:bold">int</span> main()
+{
+	<span style="color:#458;font-weight:bold">int</span> fd;
+	<span style="color:#458;font-weight:bold">int</span> n, i;
+	<span style="color:#458;font-weight:bold">char</span> buf[<span style="color:#099">1024</span>];
+	time_t tp;
+
+	printf(<span style="color:#d14">&#34;I am %d process.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, getpid()); <span style="color:#998;font-style:italic">// 说明进程ID
+</span><span style="color:#998;font-style:italic"></span>	
+	<span style="color:#000;font-weight:bold">if</span>((fd <span style="color:#000;font-weight:bold">=</span> open(<span style="color:#d14">&#34;fifo1&#34;</span>, O_WRONLY)) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>) <span style="color:#998;font-style:italic">// 以写打开一个FIFO 
+</span><span style="color:#998;font-style:italic"></span>	{
+		perror(<span style="color:#d14">&#34;Open FIFO Failed&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#000;font-weight:bold">for</span>(i<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>; i<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#099">10</span>; <span style="color:#000;font-weight:bold">++</span>i)
+	{
+		time(<span style="color:#000;font-weight:bold">&amp;</span>tp);  <span style="color:#998;font-style:italic">// 取系统当前时间
+</span><span style="color:#998;font-style:italic"></span>		n<span style="color:#000;font-weight:bold">=</span>sprintf(buf,<span style="color:#d14">&#34;Process %d&#39;s time is %s&#34;</span>,getpid(),ctime(<span style="color:#000;font-weight:bold">&amp;</span>tp));
+		printf(<span style="color:#d14">&#34;Send message: %s&#34;</span>, buf); <span style="color:#998;font-style:italic">// 打印
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">if</span>(write(fd, buf, n<span style="color:#000;font-weight:bold">+</span><span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>)  <span style="color:#998;font-style:italic">// 写入到FIFO中
+</span><span style="color:#998;font-style:italic"></span>		{
+			perror(<span style="color:#d14">&#34;Write FIFO Failed&#34;</span>);
+			close(fd);
+			exit(<span style="color:#099">1</span>);
+		}
+		sleep(<span style="color:#099">1</span>);  <span style="color:#998;font-style:italic">// 休眠1秒
+</span><span style="color:#998;font-style:italic"></span>	}
+
+	close(fd);  <span style="color:#998;font-style:italic">// 关闭FIFO文件
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">read_fifo.c
+
+<span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdlib.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;errno.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;fcntl.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/stat.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#458;font-weight:bold">int</span> main()
+{
+	<span style="color:#458;font-weight:bold">int</span> fd;
+	<span style="color:#458;font-weight:bold">int</span> len;
+	<span style="color:#458;font-weight:bold">char</span> buf[<span style="color:#099">1024</span>];
+
+	<span style="color:#000;font-weight:bold">if</span>(mkfifo(<span style="color:#d14">&#34;fifo1&#34;</span>, <span style="color:#099">0666</span>) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> errno<span style="color:#000;font-weight:bold">!=</span>EEXIST) <span style="color:#998;font-style:italic">// 创建FIFO管道
+</span><span style="color:#998;font-style:italic"></span>		perror(<span style="color:#d14">&#34;Create FIFO Failed&#34;</span>);
+
+	<span style="color:#000;font-weight:bold">if</span>((fd <span style="color:#000;font-weight:bold">=</span> open(<span style="color:#d14">&#34;fifo1&#34;</span>, O_RDONLY)) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>)  <span style="color:#998;font-style:italic">// 以读打开FIFO
+</span><span style="color:#998;font-style:italic"></span>	{
+		perror(<span style="color:#d14">&#34;Open FIFO Failed&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+	
+	<span style="color:#000;font-weight:bold">while</span>((len <span style="color:#000;font-weight:bold">=</span> read(fd, buf, <span style="color:#099">1024</span>)) <span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#099">0</span>) <span style="color:#998;font-style:italic">// 读取FIFO管道
+</span><span style="color:#998;font-style:italic"></span>		printf(<span style="color:#d14">&#34;Read message: %s&#34;</span>, buf);
+
+	close(fd);  <span style="color:#998;font-style:italic">// 关闭FIFO文件
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+</code></pre></div><ul>
+<li>在两个终端里用 gcc 分别编译运行上面两个文件，可以看到输出结果如下：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">[songlee<span style="color:#a61717;background-color:#e3d2d2">@</span>localhost]<span style="color:#a61717;background-color:#e3d2d2">$</span> .<span style="color:#000;font-weight:bold">/</span>write_fifo 
+I am <span style="color:#099">5954</span> process.
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">28</span> <span style="color:#099">2015</span>
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">29</span> <span style="color:#099">2015</span>
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">30</span> <span style="color:#099">2015</span>
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">31</span> <span style="color:#099">2015</span>
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">32</span> <span style="color:#099">2015</span>
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">33</span> <span style="color:#099">2015</span>
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">34</span> <span style="color:#099">2015</span>
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">35</span> <span style="color:#099">2015</span>
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">36</span> <span style="color:#099">2015</span>
+Send <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span> <span style="color:#099">2015</span>
+
+
+[songlee<span style="color:#a61717;background-color:#e3d2d2">@</span>localhost]<span style="color:#a61717;background-color:#e3d2d2">$</span> .<span style="color:#000;font-weight:bold">/</span>read_fifo 
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">28</span> <span style="color:#099">2015</span>
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">29</span> <span style="color:#099">2015</span>
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">30</span> <span style="color:#099">2015</span>
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">31</span> <span style="color:#099">2015</span>
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">32</span> <span style="color:#099">2015</span>
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">33</span> <span style="color:#099">2015</span>
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">34</span> <span style="color:#099">2015</span>
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">35</span> <span style="color:#099">2015</span>
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">36</span> <span style="color:#099">2015</span>
+Read <span style="color:#900;font-weight:bold">message</span>: Process <span style="color:#099">5954</span><span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s time is Mon Apr <span style="color:#099">20</span> <span style="color:#099">12</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">37</span> <span style="color:#099">2015</span>
+</code></pre></div><ul>
+<li>上述例子可以扩展成 客户进程—服务器进程 通信的实例，write_fifo的作用类似于客户端，可以打开多个客户端向一个服务器发送请求信息，read_fifo类似于服务器，它适时监控着FIFO的读端，当有数据时，读出并进行处理，但是有一个关键的问题是，每一个客户端必须预先知道服务器提供的FIFO接口，下图显示了这种安排：
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190603163310875_1417283353.png" alt=""></li>
+</ul>
+<h1 id="三消息队列">三、消息队列</h1>
+<ul>
+<li>消息队列，是消息的链接表，存放在内核中。一个消息队列由一个标识符（即队列ID）来标识。</li>
+</ul>
+<h2 id="1特点-2">1、特点</h2>
+<ul>
+<li>消息队列是面向记录的，其中的消息具有特定的格式以及特定的优先级。</li>
+<li>消息队列独立于发送与接收进程。进程终止时，消息队列及其内容并不会被删除。</li>
+<li>消息队列可以实现消息的随机查询,消息不一定要以先进先出的次序读取,也可以按消息的类型读取。</li>
+</ul>
+<h2 id="2原型-2">2、原型</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/msg.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#998;font-style:italic">// 创建或打开消息队列：成功返回队列ID，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">msgget</span>(key_t key, <span style="color:#458;font-weight:bold">int</span> flag);
+<span style="color:#998;font-style:italic">// 添加消息：成功返回0，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">msgsnd</span>(<span style="color:#458;font-weight:bold">int</span> msqid, <span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>ptr, size_t size, <span style="color:#458;font-weight:bold">int</span> flag);
+<span style="color:#998;font-style:italic">// 读取消息：成功返回消息数据的长度，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">msgrcv</span>(<span style="color:#458;font-weight:bold">int</span> msqid, <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>ptr, size_t size, <span style="color:#458;font-weight:bold">long</span> type,<span style="color:#458;font-weight:bold">int</span> flag);
+<span style="color:#998;font-style:italic">// 控制消息队列：成功返回0，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">msgctl</span>(<span style="color:#458;font-weight:bold">int</span> msqid, <span style="color:#458;font-weight:bold">int</span> cmd, <span style="color:#000;font-weight:bold">struct</span> msqid_ds <span style="color:#000;font-weight:bold">*</span>buf);
+</code></pre></div><ul>
+<li>在以下两种情况下，msgget将创建一个新的消息队列：
+<ul>
+<li>如果没有与键值key相对应的消息队列，并且flag中包含了IPC_CREAT标志位。</li>
+<li>key参数为IPC_PRIVATE。</li>
+</ul>
+</li>
+<li>函数msgrcv在读取消息队列时，type参数有下面几种情况：
+<ul>
+<li>type == 0，返回队列中的第一个消息；</li>
+<li>type &gt; 0，返回队列中消息类型为 type 的第一个消息；</li>
+<li>type &lt; 0，返回队列中消息类型值小于或等于 type 绝对值的消息，如果有多个，则取类型值最小的消息。
+<ul>
+<li>可以看出，type值非 0 时用于以非先进先出次序读消息。也可以把 type 看做优先级的权值。（其他的参数解释，请自行Google之）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3例子-2">3、例子</h2>
+<p>下面写了一个简单的使用消息队列进行IPC的例子，服务端程序一直在等待特定类型的消息，当收到该类型的消息以后，发送另一种特定类型的消息作为反馈，客户端读取该反馈并打印出来。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">msg_server.c
+
+<span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;stdlib.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/msg.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#998;font-style:italic">// 用于创建一个唯一的key
+</span><span style="color:#998;font-style:italic"></span><span style="color:#999;font-weight:bold;font-style:italic">#define MSG_FILE &#34;/etc/passwd&#34;
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#998;font-style:italic">// 消息结构
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">struct</span> msg_form {
+	<span style="color:#458;font-weight:bold">long</span> mtype;
+	<span style="color:#458;font-weight:bold">char</span> mtext[<span style="color:#099">256</span>];
+};
+
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>()
+{
+	<span style="color:#458;font-weight:bold">int</span> msqid;
+	key_t key;
+	<span style="color:#000;font-weight:bold">struct</span> msg_form msg;
+	
+	<span style="color:#998;font-style:italic">// 获取key值
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>((key <span style="color:#000;font-weight:bold">=</span> ftok(MSG_FILE,<span style="color:#d14">&#39;z&#39;</span>)) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>)
+	{
+		perror(<span style="color:#d14">&#34;ftok error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 打印key值
+</span><span style="color:#998;font-style:italic"></span>	printf(<span style="color:#d14">&#34;Message Queue - Server key is: %d.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, key);
+
+	<span style="color:#998;font-style:italic">// 创建消息队列
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> ((msqid <span style="color:#000;font-weight:bold">=</span> msgget(key, IPC_CREAT<span style="color:#000;font-weight:bold">|</span><span style="color:#099">0777</span>)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;msgget error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 打印消息队列ID及进程ID
+</span><span style="color:#998;font-style:italic"></span>	printf(<span style="color:#d14">&#34;My msqid is: %d.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, msqid);
+	printf(<span style="color:#d14">&#34;My pid is: %d.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, getpid());
+
+	<span style="color:#998;font-style:italic">// 循环读取消息
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">for</span>(;;) 
+	{
+		msgrcv(msqid, <span style="color:#000;font-weight:bold">&amp;</span>msg, <span style="color:#099">256</span>, <span style="color:#099">888</span>, <span style="color:#099">0</span>);<span style="color:#998;font-style:italic">// 返回类型为888的第一个消息
+</span><span style="color:#998;font-style:italic"></span>		printf(<span style="color:#d14">&#34;Server: receive msg.mtext is: %s.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, msg.mtext);
+		printf(<span style="color:#d14">&#34;Server: receive msg.mtype is: %d.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, msg.mtype);
+
+		msg.mtype <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">999</span>; <span style="color:#998;font-style:italic">// 客户端接收的消息类型
+</span><span style="color:#998;font-style:italic"></span>		sprintf(msg.mtext, <span style="color:#d14">&#34;hello, I&#39;m server %d&#34;</span>, getpid());
+		msgsnd(msqid, <span style="color:#000;font-weight:bold">&amp;</span>msg, <span style="color:#000;font-weight:bold">sizeof</span>(msg.mtext), <span style="color:#099">0</span>);
+	}
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">msg_client.c
+
+<span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;stdlib.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/msg.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#998;font-style:italic">// 用于创建一个唯一的key
+</span><span style="color:#998;font-style:italic"></span><span style="color:#999;font-weight:bold;font-style:italic">#define MSG_FILE &#34;/etc/passwd&#34;
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#998;font-style:italic">// 消息结构
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">struct</span> msg_form {
+	<span style="color:#458;font-weight:bold">long</span> mtype;
+	<span style="color:#458;font-weight:bold">char</span> mtext[<span style="color:#099">256</span>];
+};
+
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>()
+{
+	<span style="color:#458;font-weight:bold">int</span> msqid;
+	key_t key;
+	<span style="color:#000;font-weight:bold">struct</span> msg_form msg;
+
+	<span style="color:#998;font-style:italic">// 获取key值
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> ((key <span style="color:#000;font-weight:bold">=</span> ftok(MSG_FILE, <span style="color:#d14">&#39;z&#39;</span>)) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>) 
+	{
+		perror(<span style="color:#d14">&#34;ftok error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 打印key值
+</span><span style="color:#998;font-style:italic"></span>	printf(<span style="color:#d14">&#34;Message Queue - Client key is: %d.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, key);
+
+	<span style="color:#998;font-style:italic">// 打开消息队列
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> ((msqid <span style="color:#000;font-weight:bold">=</span> msgget(key, IPC_CREAT<span style="color:#000;font-weight:bold">|</span><span style="color:#099">0777</span>)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>) 
+	{
+		perror(<span style="color:#d14">&#34;msgget error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 打印消息队列ID及进程ID
+</span><span style="color:#998;font-style:italic"></span>    printf(<span style="color:#d14">&#34;My msqid is: %d.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, msqid);
+	printf(<span style="color:#d14">&#34;My pid is: %d.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, getpid());
+
+	<span style="color:#998;font-style:italic">// 添加消息，类型为888
+</span><span style="color:#998;font-style:italic"></span>	msg.mtype <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">888</span>;
+	sprintf(msg.mtext, <span style="color:#d14">&#34;hello, I&#39;m client %d&#34;</span>, getpid());
+	msgsnd(msqid, <span style="color:#000;font-weight:bold">&amp;</span>msg, <span style="color:#000;font-weight:bold">sizeof</span>(msg.mtext), <span style="color:#099">0</span>);
+
+	<span style="color:#998;font-style:italic">// 读取类型为777的消息
+</span><span style="color:#998;font-style:italic"></span>	msgrcv(msqid, <span style="color:#000;font-weight:bold">&amp;</span>msg, <span style="color:#099">256</span>, <span style="color:#099">999</span>, <span style="color:#099">0</span>);
+	printf(<span style="color:#d14">&#34;Client: receive msg.mtext is: %s.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, msg.mtext);
+	printf(<span style="color:#d14">&#34;Client: receive msg.mtype is: %d.</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, msg.mtype);
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+</code></pre></div><h1 id="四信号量">四、信号量</h1>
+<ul>
+<li>信号量（semaphore）与已经介绍过的 IPC 结构不同，它是一个计数器。信号量用于实现进程间的互斥与同步，而不是用于存储进程间通信数据。</li>
+</ul>
+<h2 id="1特点-3">1、特点</h2>
+<ul>
+<li>信号量用于进程间同步，若要在进程间传递数据需要结合共享内存。</li>
+<li>信号量基于操作系统的 PV 操作，程序对信号量的操作都是原子操作。</li>
+<li>每次对信号量的 PV 操作不仅限于对信号量值加 1 或减 1，而且可以加减任意正整数。</li>
+<li>支持信号量组。</li>
+</ul>
+<h2 id="2原型-3">2、原型</h2>
+<ul>
+<li>
+<p>最简单的信号量是只能取 0 和 1 的变量，这也是信号量最常见的一种形式，叫做二值信号量（Binary Semaphore）。而可以取多个正整数的信号量被称为通用信号量。</p>
+</li>
+<li>
+<p>Linux 下的信号量函数都是在通用的信号量数组上进行操作，而不是在一个单一的二值信号量上进行操作。</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/sem.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#998;font-style:italic">// 创建或获取一个信号量组：若成功返回信号量集ID，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">semget</span>(key_t key, <span style="color:#458;font-weight:bold">int</span> num_sems, <span style="color:#458;font-weight:bold">int</span> sem_flags);
+<span style="color:#998;font-style:italic">// 对信号量组进行操作，改变信号量的值：成功返回0，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">semop</span>(<span style="color:#458;font-weight:bold">int</span> semid, <span style="color:#000;font-weight:bold">struct</span> sembuf semoparray[], size_t numops);  
+<span style="color:#998;font-style:italic">// 控制信号量的相关信息
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">semctl</span>(<span style="color:#458;font-weight:bold">int</span> semid, <span style="color:#458;font-weight:bold">int</span> sem_num, <span style="color:#458;font-weight:bold">int</span> cmd, ...);
+</code></pre></div><ul>
+<li>
+<p>当semget创建新的信号量集合时，必须指定集合中信号量的个数（即num_sems），通常为1； 如果是引用一个现有的集合，则将num_sems指定为 0 。</p>
+</li>
+<li>
+<p>在semop函数中，sembuf结构的定义如下：</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> sembuf 
+{
+    <span style="color:#458;font-weight:bold">short</span> sem_num; <span style="color:#998;font-style:italic">// 信号量组中对应的序号，0～sem_nums-1
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">short</span> sem_op;  <span style="color:#998;font-style:italic">// 信号量值在一次操作中的改变量
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">short</span> sem_flg; <span style="color:#998;font-style:italic">// IPC_NOWAIT, SEM_UNDO
+</span><span style="color:#998;font-style:italic"></span>}
+</code></pre></div><ul>
+<li>其中 sem_op 是一次操作中的信号量的改变量：
+<ul>
+<li>若sem_op &gt; 0，表示进程释放相应的资源数，将 sem_op 的值加到信号量的值上。如果有进程正在休眠等待此信号量，则换行它们。</li>
+<li>若sem_op &lt; 0，请求 sem_op 的绝对值的资源。
+<ul>
+<li>如果相应的资源数可以满足请求，则将该信号量的值减去sem_op的绝对值，函数成功返回。</li>
+<li>当相应的资源数不能满足请求时，这个操作与sem_flg有关。
+<ul>
+<li>sem_flg 指定IPC_NOWAIT，则semop函数出错返回EAGAIN。</li>
+<li>sem_flg 没有指定IPC_NOWAIT，则将该信号量的semncnt值加1，然后进程挂起直到下述情况发生：
+<ul>
+<li>当相应的资源数可以满足请求，此信号量的semncnt值减1，该信号量的值减去sem_op的绝对值。成功返回；</li>
+<li>此信号量被删除，函数smeop出错返回EIDRM；</li>
+<li>进程捕捉到信号，并从信号处理函数返回，此情况下将此信号量的semncnt值减1，函数semop出错返回EINTR</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>若sem_op == 0，进程阻塞直到信号量的相应值为0：
+<ul>
+<li>当信号量已经为0，函数立即返回。</li>
+<li>如果信号量的值不为0，则依据sem_flg决定函数动作：
+<ul>
+<li>sem_flg指定IPC_NOWAIT，则出错返回EAGAIN。</li>
+<li>sem_flg没有指定IPC_NOWAIT，则将该信号量的semncnt值加1，然后进程挂起直到下述情况发生：
+<ul>
+<li>信号量值为0，将信号量的semzcnt的值减1，函数semop成功返回；</li>
+<li>此信号量被删除，函数smeop出错返回EIDRM；</li>
+<li>进程捕捉到信号，并从信号处理函数返回，在此情况将此信号量的semncnt值减1，函数semop出错返回EINTR</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在semctl函数中的命令有多种，这里就说两个常用的：
+<ul>
+<li>SETVAL：用于初始化信号量为一个已知的值。所需要的值作为联合semun的val成员来传递。在信号量第一次使用之前需要设置信号量。</li>
+<li>IPC_RMID：删除一个信号量集合。如果不删除信号量，它将继续在系统中存在，即使程序已经退出，它可能在你下次运行此程序时引发问题，而且信号量是一种有限的资源。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3例子-3">3、例子</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdlib.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/sem.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#998;font-style:italic">// 联合体，用于semctl初始化
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">union</span> semun
+{
+	<span style="color:#458;font-weight:bold">int</span>              val; <span style="color:#998;font-style:italic">/*for SETVAL*/</span>
+	<span style="color:#000;font-weight:bold">struct</span> semid_ds <span style="color:#000;font-weight:bold">*</span>buf;
+	<span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">short</span>  <span style="color:#000;font-weight:bold">*</span>array;
+};
+
+<span style="color:#998;font-style:italic">// 初始化信号量
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">init_sem</span>(<span style="color:#458;font-weight:bold">int</span> sem_id, <span style="color:#458;font-weight:bold">int</span> value)
+{
+	<span style="color:#000;font-weight:bold">union</span> semun tmp;
+	tmp.val <span style="color:#000;font-weight:bold">=</span> value;
+	<span style="color:#000;font-weight:bold">if</span>(semctl(sem_id, <span style="color:#099">0</span>, SETVAL, tmp) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;Init Semaphore Error&#34;</span>);
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+	}
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+<span style="color:#998;font-style:italic">// P操作:
+</span><span style="color:#998;font-style:italic">//	若信号量值为1，获取资源并将信号量值-1 
+</span><span style="color:#998;font-style:italic">//	若信号量值为0，进程挂起等待
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">sem_p</span>(<span style="color:#458;font-weight:bold">int</span> sem_id)
+{
+	<span style="color:#000;font-weight:bold">struct</span> sembuf sbuf;
+	sbuf.sem_num <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; <span style="color:#998;font-style:italic">/*序号*/</span>
+	sbuf.sem_op <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>; <span style="color:#998;font-style:italic">/*P操作*/</span>
+	sbuf.sem_flg <span style="color:#000;font-weight:bold">=</span> SEM_UNDO;
+
+	<span style="color:#000;font-weight:bold">if</span>(semop(sem_id, <span style="color:#000;font-weight:bold">&amp;</span>sbuf, <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;P operation Error&#34;</span>);
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+	}
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+<span style="color:#998;font-style:italic">// V操作：
+</span><span style="color:#998;font-style:italic">//	释放资源并将信号量值+1
+</span><span style="color:#998;font-style:italic">//	如果有进程正在挂起等待，则唤醒它们
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">sem_v</span>(<span style="color:#458;font-weight:bold">int</span> sem_id)
+{
+	<span style="color:#000;font-weight:bold">struct</span> sembuf sbuf;
+	sbuf.sem_num <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; <span style="color:#998;font-style:italic">/*序号*/</span>
+	sbuf.sem_op <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>;  <span style="color:#998;font-style:italic">/*V操作*/</span>
+	sbuf.sem_flg <span style="color:#000;font-weight:bold">=</span> SEM_UNDO;
+
+	<span style="color:#000;font-weight:bold">if</span>(semop(sem_id, <span style="color:#000;font-weight:bold">&amp;</span>sbuf, <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;V operation Error&#34;</span>);
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+	}
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+<span style="color:#998;font-style:italic">// 删除信号量集
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">del_sem</span>(<span style="color:#458;font-weight:bold">int</span> sem_id)
+{
+	<span style="color:#000;font-weight:bold">union</span> semun tmp;
+	<span style="color:#000;font-weight:bold">if</span>(semctl(sem_id, <span style="color:#099">0</span>, IPC_RMID, tmp) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;Delete Semaphore Error&#34;</span>);
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+	}
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>()
+{
+	<span style="color:#458;font-weight:bold">int</span> sem_id;  <span style="color:#998;font-style:italic">// 信号量集ID
+</span><span style="color:#998;font-style:italic"></span>	key_t key;  
+	pid_t pid;
+
+	<span style="color:#998;font-style:italic">// 获取key值
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>((key <span style="color:#000;font-weight:bold">=</span> ftok(<span style="color:#d14">&#34;.&#34;</span>, <span style="color:#d14">&#39;z&#39;</span>)) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>)
+	{
+		perror(<span style="color:#d14">&#34;ftok error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 创建信号量集，其中只有一个信号量
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>((sem_id <span style="color:#000;font-weight:bold">=</span> semget(key, <span style="color:#099">1</span>, IPC_CREAT<span style="color:#000;font-weight:bold">|</span><span style="color:#099">0666</span>)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;semget error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 初始化：初值设为0资源被占用
+</span><span style="color:#998;font-style:italic"></span>	init_sem(sem_id, <span style="color:#099">0</span>);
+
+	<span style="color:#000;font-weight:bold">if</span>((pid <span style="color:#000;font-weight:bold">=</span> fork()) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+		perror(<span style="color:#d14">&#34;Fork Error&#34;</span>);
+	<span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span>(pid <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span>) <span style="color:#998;font-style:italic">/*子进程*/</span> 
+	{
+		sleep(<span style="color:#099">2</span>);
+		printf(<span style="color:#d14">&#34;Process child: pid=%d</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, getpid());
+		sem_v(sem_id);  <span style="color:#998;font-style:italic">/*释放资源*/</span>
+	}
+	<span style="color:#000;font-weight:bold">else</span>  <span style="color:#998;font-style:italic">/*父进程*/</span>
+	{
+		sem_p(sem_id);   <span style="color:#998;font-style:italic">/*等待资源*/</span>
+		printf(<span style="color:#d14">&#34;Process father: pid=%d</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>, getpid());
+		sem_v(sem_id);   <span style="color:#998;font-style:italic">/*释放资源*/</span>
+		del_sem(sem_id); <span style="color:#998;font-style:italic">/*删除信号量集*/</span>
+	}
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+</code></pre></div><ul>
+<li>上面的例子如果不加信号量，则父进程会先执行完毕。这里加了信号量让父进程等待子进程执行完以后再执行。</li>
+</ul>
+<h1 id="五共享内存">五、共享内存</h1>
+<ul>
+<li>共享内存（Shared Memory），指两个或多个进程共享一个给定的存储区。</li>
+</ul>
+<h2 id="1特点-4">1、特点</h2>
+<ul>
+<li>共享内存是最快的一种 IPC，因为进程是直接对内存进行存取。</li>
+<li>因为多个进程可以同时操作，所以需要进行同步。</li>
+<li>信号量+共享内存通常结合在一起使用，信号量用来同步对共享内存的访问。</li>
+</ul>
+<p>2、原型</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/shm.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#998;font-style:italic">// 创建或获取一个共享内存：成功返回共享内存ID，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">shmget</span>(key_t key, size_t size, <span style="color:#458;font-weight:bold">int</span> flag);
+<span style="color:#998;font-style:italic">// 连接共享内存到当前进程的地址空间：成功返回指向共享内存的指针，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span><span style="color:#900;font-weight:bold">shmat</span>(<span style="color:#458;font-weight:bold">int</span> shm_id, <span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>addr, <span style="color:#458;font-weight:bold">int</span> flag);
+<span style="color:#998;font-style:italic">// 断开与共享内存的连接：成功返回0，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">shmdt</span>(<span style="color:#458;font-weight:bold">void</span> <span style="color:#000;font-weight:bold">*</span>addr); 
+<span style="color:#998;font-style:italic">// 控制共享内存的相关信息：成功返回0，失败返回-1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">shmctl</span>(<span style="color:#458;font-weight:bold">int</span> shm_id, <span style="color:#458;font-weight:bold">int</span> cmd, <span style="color:#000;font-weight:bold">struct</span> shmid_ds <span style="color:#000;font-weight:bold">*</span>buf);
+</code></pre></div><ul>
+<li>
+<p>当用shmget函数创建一段共享内存时，必须指定其 size；而如果引用一个已存在的共享内存，则将 size 指定为0 。</p>
+</li>
+<li>
+<p>当一段共享内存被创建以后，它并不能被任何进程访问。必须使用shmat函数连接该共享内存到当前进程的地址空间，连接成功后把共享内存区对象映射到调用进程的地址空间，随后可像本地空间一样访问。</p>
+</li>
+<li>
+<p>shmdt函数是用来断开shmat建立的连接的。注意，这并不是从系统中删除该共享内存，只是当前进程不能再访问该共享内存而已。</p>
+</li>
+<li>
+<p>shmctl函数可以对共享内存执行多种操作，根据参数 cmd 执行相应的操作。常用的是IPC_RMID（从系统中删除该共享内存）。</p>
+</li>
+</ul>
+<h2 id="3例子-4">3、例子</h2>
+<ul>
+<li>下面这个例子，使用了【共享内存+信号量+消息队列】的组合来实现服务器进程与客户进程间的通信。
+<ul>
+<li>共享内存用来传递数据；</li>
+<li>信号量用来同步；</li>
+<li>消息队列用来 在客户端修改了共享内存后 通知服务器读取。</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Server.c
+
+<span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdlib.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/shm.h&gt;  // shared memory</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/sem.h&gt;  // semaphore</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/msg.h&gt;  // message queue</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;string.h&gt;   // memcpy</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#998;font-style:italic">// 消息队列结构
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">struct</span> msg_form {
+    <span style="color:#458;font-weight:bold">long</span> mtype;
+    <span style="color:#458;font-weight:bold">char</span> mtext;
+};
+
+<span style="color:#998;font-style:italic">// 联合体，用于semctl初始化
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">union</span> semun
+{
+    <span style="color:#458;font-weight:bold">int</span>              val; <span style="color:#998;font-style:italic">/*for SETVAL*/</span>
+    <span style="color:#000;font-weight:bold">struct</span> semid_ds <span style="color:#000;font-weight:bold">*</span>buf;
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">short</span>  <span style="color:#000;font-weight:bold">*</span>array;
+};
+
+<span style="color:#998;font-style:italic">// 初始化信号量
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">init_sem</span>(<span style="color:#458;font-weight:bold">int</span> sem_id, <span style="color:#458;font-weight:bold">int</span> value)
+{
+    <span style="color:#000;font-weight:bold">union</span> semun tmp;
+    tmp.val <span style="color:#000;font-weight:bold">=</span> value;
+    <span style="color:#000;font-weight:bold">if</span>(semctl(sem_id, <span style="color:#099">0</span>, SETVAL, tmp) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+    {
+        perror(<span style="color:#d14">&#34;Init Semaphore Error&#34;</span>);
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+    }
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+<span style="color:#998;font-style:italic">// P操作:
+</span><span style="color:#998;font-style:italic">//  若信号量值为1，获取资源并将信号量值-1 
+</span><span style="color:#998;font-style:italic">//  若信号量值为0，进程挂起等待
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">sem_p</span>(<span style="color:#458;font-weight:bold">int</span> sem_id)
+{
+    <span style="color:#000;font-weight:bold">struct</span> sembuf sbuf;
+    sbuf.sem_num <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; <span style="color:#998;font-style:italic">/*序号*/</span>
+    sbuf.sem_op <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>; <span style="color:#998;font-style:italic">/*P操作*/</span>
+    sbuf.sem_flg <span style="color:#000;font-weight:bold">=</span> SEM_UNDO;
+
+    <span style="color:#000;font-weight:bold">if</span>(semop(sem_id, <span style="color:#000;font-weight:bold">&amp;</span>sbuf, <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+    {
+        perror(<span style="color:#d14">&#34;P operation Error&#34;</span>);
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+    }
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+<span style="color:#998;font-style:italic">// V操作：
+</span><span style="color:#998;font-style:italic">//  释放资源并将信号量值+1
+</span><span style="color:#998;font-style:italic">//  如果有进程正在挂起等待，则唤醒它们
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">sem_v</span>(<span style="color:#458;font-weight:bold">int</span> sem_id)
+{
+    <span style="color:#000;font-weight:bold">struct</span> sembuf sbuf;
+    sbuf.sem_num <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; <span style="color:#998;font-style:italic">/*序号*/</span>
+    sbuf.sem_op <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>;  <span style="color:#998;font-style:italic">/*V操作*/</span>
+    sbuf.sem_flg <span style="color:#000;font-weight:bold">=</span> SEM_UNDO;
+
+    <span style="color:#000;font-weight:bold">if</span>(semop(sem_id, <span style="color:#000;font-weight:bold">&amp;</span>sbuf, <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+    {
+        perror(<span style="color:#d14">&#34;V operation Error&#34;</span>);
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+    }
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+<span style="color:#998;font-style:italic">// 删除信号量集
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">del_sem</span>(<span style="color:#458;font-weight:bold">int</span> sem_id)
+{
+    <span style="color:#000;font-weight:bold">union</span> semun tmp;
+    <span style="color:#000;font-weight:bold">if</span>(semctl(sem_id, <span style="color:#099">0</span>, IPC_RMID, tmp) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+    {
+        perror(<span style="color:#d14">&#34;Delete Semaphore Error&#34;</span>);
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+    }
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+<span style="color:#998;font-style:italic">// 创建一个信号量集
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">creat_sem</span>(key_t key)
+{
+	<span style="color:#458;font-weight:bold">int</span> sem_id;
+	<span style="color:#000;font-weight:bold">if</span>((sem_id <span style="color:#000;font-weight:bold">=</span> semget(key, <span style="color:#099">1</span>, IPC_CREAT<span style="color:#000;font-weight:bold">|</span><span style="color:#099">0666</span>)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;semget error&#34;</span>);
+		exit(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>);
+	}
+	init_sem(sem_id, <span style="color:#099">1</span>);  <span style="color:#998;font-style:italic">/*初值设为1资源未占用*/</span>
+	<span style="color:#000;font-weight:bold">return</span> sem_id;
+}
+
+
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>()
+{
+	key_t key;
+	<span style="color:#458;font-weight:bold">int</span> shmid, semid, msqid;
+	<span style="color:#458;font-weight:bold">char</span> <span style="color:#000;font-weight:bold">*</span>shm;
+	<span style="color:#458;font-weight:bold">char</span> data[] <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;this is server&#34;</span>;
+	<span style="color:#000;font-weight:bold">struct</span> shmid_ds buf1;  <span style="color:#998;font-style:italic">/*用于删除共享内存*/</span>
+	<span style="color:#000;font-weight:bold">struct</span> msqid_ds buf2;  <span style="color:#998;font-style:italic">/*用于删除消息队列*/</span>
+	<span style="color:#000;font-weight:bold">struct</span> msg_form msg;  <span style="color:#998;font-style:italic">/*消息队列用于通知对方更新了共享内存*/</span>
+
+	<span style="color:#998;font-style:italic">// 获取key值
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>((key <span style="color:#000;font-weight:bold">=</span> ftok(<span style="color:#d14">&#34;.&#34;</span>, <span style="color:#d14">&#39;z&#39;</span>)) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>)
+	{
+		perror(<span style="color:#d14">&#34;ftok error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 创建共享内存
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>((shmid <span style="color:#000;font-weight:bold">=</span> shmget(key, <span style="color:#099">1024</span>, IPC_CREAT<span style="color:#000;font-weight:bold">|</span><span style="color:#099">0666</span>)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;Create Shared Memory Error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 连接共享内存
+</span><span style="color:#998;font-style:italic"></span>	shm <span style="color:#000;font-weight:bold">=</span> (<span style="color:#458;font-weight:bold">char</span><span style="color:#000;font-weight:bold">*</span>)shmat(shmid, <span style="color:#099">0</span>, <span style="color:#099">0</span>);
+	<span style="color:#000;font-weight:bold">if</span>((<span style="color:#458;font-weight:bold">int</span>)shm <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;Attach Shared Memory Error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+
+	<span style="color:#998;font-style:italic">// 创建消息队列
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> ((msqid <span style="color:#000;font-weight:bold">=</span> msgget(key, IPC_CREAT<span style="color:#000;font-weight:bold">|</span><span style="color:#099">0777</span>)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;msgget error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 创建信号量
+</span><span style="color:#998;font-style:italic"></span>	semid <span style="color:#000;font-weight:bold">=</span> creat_sem(key);
+	
+	<span style="color:#998;font-style:italic">// 读数据
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">while</span>(<span style="color:#099">1</span>)
+	{
+		msgrcv(msqid, <span style="color:#000;font-weight:bold">&amp;</span>msg, <span style="color:#099">1</span>, <span style="color:#099">888</span>, <span style="color:#099">0</span>); <span style="color:#998;font-style:italic">/*读取类型为888的消息*/</span>
+		<span style="color:#000;font-weight:bold">if</span>(msg.mtext <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;q&#39;</span>)  <span style="color:#998;font-style:italic">/*quit - 跳出循环*/</span> 
+			<span style="color:#000;font-weight:bold">break</span>;
+		<span style="color:#000;font-weight:bold">if</span>(msg.mtext <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;r&#39;</span>)  <span style="color:#998;font-style:italic">/*read - 读共享内存*/</span>
+		{
+			sem_p(semid);
+			printf(<span style="color:#d14">&#34;%s</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>,shm);
+			sem_v(semid);
+		}
+	}
+
+	<span style="color:#998;font-style:italic">// 断开连接
+</span><span style="color:#998;font-style:italic"></span>	shmdt(shm);
+
+    <span style="color:#998;font-style:italic">/*删除共享内存、消息队列、信号量*/</span>
+	shmctl(shmid, IPC_RMID, <span style="color:#000;font-weight:bold">&amp;</span>buf1);
+	msgctl(msqid, IPC_RMID, <span style="color:#000;font-weight:bold">&amp;</span>buf2);
+	del_sem(semid);
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Client.c
+
+<span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;stdlib.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/shm.h&gt;  // shared memory</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/sem.h&gt;  // semaphore</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;sys/msg.h&gt;  // message queue</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic">#include</span><span style="color:#999;font-weight:bold;font-style:italic">&lt;string.h&gt;   // memcpy</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+<span style="color:#998;font-style:italic">// 消息队列结构
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">struct</span> msg_form {
+    <span style="color:#458;font-weight:bold">long</span> mtype;
+    <span style="color:#458;font-weight:bold">char</span> mtext;
+};
+
+<span style="color:#998;font-style:italic">// 联合体，用于semctl初始化
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">union</span> semun
+{
+    <span style="color:#458;font-weight:bold">int</span>              val; <span style="color:#998;font-style:italic">/*for SETVAL*/</span>
+    <span style="color:#000;font-weight:bold">struct</span> semid_ds <span style="color:#000;font-weight:bold">*</span>buf;
+    <span style="color:#458;font-weight:bold">unsigned</span> <span style="color:#458;font-weight:bold">short</span>  <span style="color:#000;font-weight:bold">*</span>array;
+};
+
+<span style="color:#998;font-style:italic">// P操作:
+</span><span style="color:#998;font-style:italic">//  若信号量值为1，获取资源并将信号量值-1 
+</span><span style="color:#998;font-style:italic">//  若信号量值为0，进程挂起等待
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">sem_p</span>(<span style="color:#458;font-weight:bold">int</span> sem_id)
+{
+    <span style="color:#000;font-weight:bold">struct</span> sembuf sbuf;
+    sbuf.sem_num <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; <span style="color:#998;font-style:italic">/*序号*/</span>
+    sbuf.sem_op <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>; <span style="color:#998;font-style:italic">/*P操作*/</span>
+    sbuf.sem_flg <span style="color:#000;font-weight:bold">=</span> SEM_UNDO;
+
+    <span style="color:#000;font-weight:bold">if</span>(semop(sem_id, <span style="color:#000;font-weight:bold">&amp;</span>sbuf, <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+    {
+        perror(<span style="color:#d14">&#34;P operation Error&#34;</span>);
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+    }
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+<span style="color:#998;font-style:italic">// V操作：
+</span><span style="color:#998;font-style:italic">//  释放资源并将信号量值+1
+</span><span style="color:#998;font-style:italic">//  如果有进程正在挂起等待，则唤醒它们
+</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">sem_v</span>(<span style="color:#458;font-weight:bold">int</span> sem_id)
+{
+    <span style="color:#000;font-weight:bold">struct</span> sembuf sbuf;
+    sbuf.sem_num <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; <span style="color:#998;font-style:italic">/*序号*/</span>
+    sbuf.sem_op <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>;  <span style="color:#998;font-style:italic">/*V操作*/</span>
+    sbuf.sem_flg <span style="color:#000;font-weight:bold">=</span> SEM_UNDO;
+
+    <span style="color:#000;font-weight:bold">if</span>(semop(sem_id, <span style="color:#000;font-weight:bold">&amp;</span>sbuf, <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+    {
+        perror(<span style="color:#d14">&#34;V operation Error&#34;</span>);
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>;
+    }
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+
+
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>()
+{
+	key_t key;
+	<span style="color:#458;font-weight:bold">int</span> shmid, semid, msqid;
+	<span style="color:#458;font-weight:bold">char</span> <span style="color:#000;font-weight:bold">*</span>shm;
+	<span style="color:#000;font-weight:bold">struct</span> msg_form msg;
+	<span style="color:#458;font-weight:bold">int</span> flag <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>; <span style="color:#998;font-style:italic">/*while循环条件*/</span>
+
+	<span style="color:#998;font-style:italic">// 获取key值
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>((key <span style="color:#000;font-weight:bold">=</span> ftok(<span style="color:#d14">&#34;.&#34;</span>, <span style="color:#d14">&#39;z&#39;</span>)) <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>)
+	{
+		perror(<span style="color:#d14">&#34;ftok error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 获取共享内存
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>((shmid <span style="color:#000;font-weight:bold">=</span> shmget(key, <span style="color:#099">1024</span>, <span style="color:#099">0</span>)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;shmget error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 连接共享内存
+</span><span style="color:#998;font-style:italic"></span>	shm <span style="color:#000;font-weight:bold">=</span> (<span style="color:#458;font-weight:bold">char</span><span style="color:#000;font-weight:bold">*</span>)shmat(shmid, <span style="color:#099">0</span>, <span style="color:#099">0</span>);
+	<span style="color:#000;font-weight:bold">if</span>((<span style="color:#458;font-weight:bold">int</span>)shm <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;Attach Shared Memory Error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 创建消息队列
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> ((msqid <span style="color:#000;font-weight:bold">=</span> msgget(key, <span style="color:#099">0</span>)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;msgget error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+
+	<span style="color:#998;font-style:italic">// 获取信号量
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span>((semid <span style="color:#000;font-weight:bold">=</span> semget(key, <span style="color:#099">0</span>, <span style="color:#099">0</span>)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)
+	{
+		perror(<span style="color:#d14">&#34;semget error&#34;</span>);
+		exit(<span style="color:#099">1</span>);
+	}
+	
+	<span style="color:#998;font-style:italic">// 写数据
+</span><span style="color:#998;font-style:italic"></span>	printf(<span style="color:#d14">&#34;***************************************</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
+	printf(<span style="color:#d14">&#34;*                 IPC                 *</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
+	printf(<span style="color:#d14">&#34;*    Input r to send data to server.  *</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
+	printf(<span style="color:#d14">&#34;*    Input q to quit.                 *</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
+	printf(<span style="color:#d14">&#34;***************************************</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
+	
+	<span style="color:#000;font-weight:bold">while</span>(flag)
+	{
+		<span style="color:#458;font-weight:bold">char</span> c;
+		printf(<span style="color:#d14">&#34;Please input command: &#34;</span>);
+		scanf(<span style="color:#d14">&#34;%c&#34;</span>, <span style="color:#000;font-weight:bold">&amp;</span>c);
+		<span style="color:#000;font-weight:bold">switch</span>(c)
+		{
+			<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#39;r&#39;</span><span style="color:#000;font-weight:bold">:</span>
+				printf(<span style="color:#d14">&#34;Data to send: &#34;</span>);
+				sem_p(semid);  <span style="color:#998;font-style:italic">/*访问资源*/</span>
+				scanf(<span style="color:#d14">&#34;%s&#34;</span>, shm);
+				sem_v(semid);  <span style="color:#998;font-style:italic">/*释放资源*/</span>
+				<span style="color:#998;font-style:italic">/*清空标准输入缓冲区*/</span>
+				<span style="color:#000;font-weight:bold">while</span>((c<span style="color:#000;font-weight:bold">=</span>getchar())<span style="color:#000;font-weight:bold">!=</span><span style="color:#d14">&#39;\n&#39;</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> c<span style="color:#000;font-weight:bold">!=</span>EOF);
+				msg.mtype <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">888</span>;  
+				msg.mtext <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;r&#39;</span>;  <span style="color:#998;font-style:italic">/*发送消息通知服务器读数据*/</span>
+				msgsnd(msqid, <span style="color:#000;font-weight:bold">&amp;</span>msg, <span style="color:#000;font-weight:bold">sizeof</span>(msg.mtext), <span style="color:#099">0</span>);
+				<span style="color:#000;font-weight:bold">break</span>;
+			<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#39;q&#39;</span><span style="color:#000;font-weight:bold">:</span>
+				msg.mtype <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">888</span>;
+				msg.mtext <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;q&#39;</span>;
+				msgsnd(msqid, <span style="color:#000;font-weight:bold">&amp;</span>msg, <span style="color:#000;font-weight:bold">sizeof</span>(msg.mtext), <span style="color:#099">0</span>);
+				flag <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
+				<span style="color:#000;font-weight:bold">break</span>;
+			<span style="color:#000;font-weight:bold">default</span><span style="color:#000;font-weight:bold">:</span>
+				printf(<span style="color:#d14">&#34;Wrong input!</span><span style="color:#d14">\n</span><span style="color:#d14">&#34;</span>);
+				<span style="color:#998;font-style:italic">/*清空标准输入缓冲区*/</span>
+				<span style="color:#000;font-weight:bold">while</span>((c<span style="color:#000;font-weight:bold">=</span>getchar())<span style="color:#000;font-weight:bold">!=</span><span style="color:#d14">&#39;\n&#39;</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> c<span style="color:#000;font-weight:bold">!=</span>EOF);
+		}
+	}
+
+	<span style="color:#998;font-style:italic">// 断开连接
+</span><span style="color:#998;font-style:italic"></span>	shmdt(shm);
+
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+}
+</code></pre></div><ul>
+<li>注意：当scanf()输入字符或字符串时，缓冲区中遗留下了\n，所以每次输入操作后都需要清空标准输入的缓冲区。但是由于 gcc 编译器不支持fflush(stdin)（它只是标准C的扩展），所以我们使用了替代方案：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">while</span>((c<span style="color:#000;font-weight:bold">=</span>getchar())<span style="color:#000;font-weight:bold">!=</span><span style="color:#d14">&#39;\n&#39;</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> c<span style="color:#000;font-weight:bold">!=</span>EOF);
+</code></pre></div><ul>
+<li>注释已经很详细了，所以代码的其他部分我就不解释了，下面是运行结果截图：
+<img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190603173450790_392701347.png" alt=""></li>
+</ul>
+<h1 id="六socket">六、socket</h1>
+<h1 id="七信号">七、信号</h1>
+<h1 id="区别">区别</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190603175213884_914291798.png" alt=""></p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-24</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2020-11-23</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

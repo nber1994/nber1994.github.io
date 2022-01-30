@@ -2,10 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://nber1994.github.io/tags/go/</loc>
+    <loc>http://nber1994.github.io/categories/</loc>
     <lastmod>2022-01-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/go-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/</loc>
+    <loc>http://nber1994.github.io/categories/go/</loc>
+    <lastmod>2022-01-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/</loc>
     <lastmod>2022-01-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/</loc>
@@ -14,16 +17,13 @@
     <loc>http://nber1994.github.io/posts/</loc>
     <lastmod>2022-01-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/</loc>
-    <lastmod>2022-01-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/go-scheduler-%E4%B8%8A/</loc>
+    <loc>http://nber1994.github.io/posts/scheduler-%E4%B8%8A/</loc>
     <lastmod>2021-11-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/go-scheduler-%E4%B8%8B/</loc>
+    <loc>http://nber1994.github.io/posts/scheduler-%E4%B8%8B/</loc>
     <lastmod>2021-11-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/php/</loc>
+    <loc>http://nber1994.github.io/categories/php/</loc>
     <lastmod>2020-11-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/</loc>
@@ -38,163 +38,112 @@
     <loc>http://nber1994.github.io/posts/my%E9%85%8D%E8%89%B2/</loc>
     <lastmod>2020-11-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/pic/</loc>
+    <loc>http://nber1994.github.io/categories/pic/</loc>
     <lastmod>2020-11-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/vim/</loc>
+    <loc>http://nber1994.github.io/categories/vim/</loc>
     <lastmod>2020-11-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/%E6%95%B4%E7%90%86%E9%94%AE%E7%9B%98/</loc>
     <lastmod>2020-11-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/else/</loc>
+    <loc>http://nber1994.github.io/categories/else/</loc>
     <lastmod>2020-07-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/pic-ibm_model_f/</loc>
+    <loc>http://nber1994.github.io/posts/ibm_model_f/</loc>
     <lastmod>2020-07-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/silverbullet/</loc>
     <lastmod>2020-07-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/go-gmp%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>http://nber1994.github.io/posts/gmp%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2020-07-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/go-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84dsl%E8%A7%A3%E9%87%8A%E5%99%A8/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84dsl%E8%A7%A3%E9%87%8A%E5%99%A8/</loc>
     <lastmod>2020-07-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/pic-%E7%AB%8B%E4%B8%AAflag/</loc>
+    <loc>http://nber1994.github.io/posts/%E7%AB%8B%E4%B8%AAflag/</loc>
     <lastmod>2020-04-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/pic-%E5%83%8F%E7%B4%A0%E9%A3%8E/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%83%8F%E7%B4%A0%E9%A3%8E/</loc>
     <lastmod>2020-04-24T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/redis/</loc>
+    <loc>http://nber1994.github.io/categories/redis/</loc>
     <lastmod>2020-03-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/redis-scan%E9%81%87%E4%B8%8Arehash/</loc>
+    <loc>http://nber1994.github.io/posts/scan%E9%81%87%E4%B8%8Arehash/</loc>
     <lastmod>2020-03-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/redis-%E6%BA%90%E7%A0%81%E4%B9%8B%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/</loc>
-    <lastmod>2019-11-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/tags/os/</loc>
+    <loc>http://nber1994.github.io/categories/linux/</loc>
     <lastmod>2019-08-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E5%89%A9%E4%BD%99%E5%86%85%E5%AD%98/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E5%89%A9%E4%BD%99%E5%86%85%E5%AD%98/</loc>
     <lastmod>2019-08-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/dubbo%E4%B8%AD%E7%9A%84%E6%B3%A8%E9%87%8A/</loc>
-    <lastmod>2019-08-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/tags/java/</loc>
-    <lastmod>2019-08-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/java-bean/</loc>
-    <lastmod>2019-08-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/java-j2ee/</loc>
-    <lastmod>2019-08-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/java-maven%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7/</loc>
-    <lastmod>2019-08-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/tags/leetcode/</loc>
+    <loc>http://nber1994.github.io/posts/codereview/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/leetcode-%E4%BA%8C%E5%8F%89%E6%A0%91/</loc>
+    <loc>http://nber1994.github.io/categories/http/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/leetcode-%E6%8E%92%E5%BA%8F/</loc>
+    <loc>http://nber1994.github.io/posts/https%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/leetcode-%E6%95%B0%E7%BB%84/</loc>
+    <loc>http://nber1994.github.io/posts/innodb%E6%A6%82%E8%BF%B0/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/leetcode-%E6%A0%88/</loc>
+    <loc>http://nber1994.github.io/posts/ip%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/leetcode-%E9%93%BE%E8%A1%A8/</loc>
+    <loc>http://nber1994.github.io/categories/leetcode/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/leetcode%E5%89%91%E6%8C%87offer/</loc>
+    <loc>http://nber1994.github.io/categories/mysql/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/mysql/</loc>
+    <loc>http://nber1994.github.io/posts/mysql%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%99%A8sql%E5%86%9B%E8%A7%84/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-innodb%E6%A6%82%E8%BF%B0/</loc>
+    <loc>http://nber1994.github.io/posts/mysql%E4%BA%8B%E5%8A%A1/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-%E4%BA%8B%E5%8A%A1/</loc>
+    <loc>http://nber1994.github.io/posts/mysql%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%99%A8sql%E5%86%9B%E8%A7%84/</loc>
+    <loc>http://nber1994.github.io/categories/network/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/</loc>
+    <loc>http://nber1994.github.io/categories/nginx/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/nginx/</loc>
+    <loc>http://nber1994.github.io/posts/nginx%E5%B9%B3%E6%BB%91%E9%87%8D%E5%90%AF/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/nginx-lnmp5xx%E5%8E%9F%E5%9B%A0/</loc>
+    <loc>http://nber1994.github.io/posts/nsq-v0.1.1%E6%96%87%E6%A1%A3/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/nginx-%E5%B9%B3%E6%BB%91%E9%87%8D%E5%90%AF/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/nsq-v0.1.1readme/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/os-ipc/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/os-top/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/os-unix-hater-handbook/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E4%B8%80%E5%8F%A5%E8%AF%9D/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E5%86%85%E6%A0%B8%E6%80%81%E7%94%A8%E6%88%B7%E6%80%81%E7%9A%84%E8%BD%AC%E6%8D%A2/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E8%BF%9B%E7%A8%8B/</loc>
+    <loc>http://nber1994.github.io/categories/os/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/php-fpm%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/pic-codereview/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/pic-%E5%B0%8F%E7%8C%AB%E5%92%AA/</loc>
+    <loc>http://nber1994.github.io/posts/ping%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/questions/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/redis-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/redis-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</loc>
-    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/redis-%E9%9B%86%E7%BE%A4%E6%96%B9%E6%A1%88/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/redis%E5%A4%8D%E5%88%B6/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/redis%E5%AE%A2%E6%88%B7%E7%AB%AF/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/redis%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
@@ -218,163 +167,184 @@
     <loc>http://nber1994.github.io/posts/redsi%E6%8C%81%E4%B9%85%E5%8C%96-aof/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/sysdesign/</loc>
+    <loc>http://nber1994.github.io/categories/sysdesign/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</loc>
+    <loc>http://nber1994.github.io/posts/tcp%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</loc>
+    <loc>http://nber1994.github.io/posts/top%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E7%9F%AD%E8%BF%9E%E6%8E%A5/</loc>
+    <loc>http://nber1994.github.io/posts/unix-hater-handbook/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E7%BC%93%E5%AD%98%E5%92%8Cdb%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/</loc>
+    <loc>http://nber1994.github.io/posts/%E4%BA%8C%E5%8F%89%E6%A0%91/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E7%BC%93%E5%AD%98%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E7%BC%93%E5%AD%98%E7%AE%A1%E7%90%86%E7%AD%96%E7%95%A5/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%86%85%E6%A0%B8%E6%80%81%E7%94%A8%E6%88%B7%E6%80%81%E7%9A%84%E8%BD%AC%E6%8D%A2/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/tcpip/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/tcpip-https/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/tcpip-ip%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%89%91%E6%8C%87offer/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/tcpip-ping/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%B0%8F%E7%8C%AB%E5%92%AA/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/tcpip-tcpip%E5%8D%8F%E8%AE%AE%E6%97%8F/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%8E%92%E5%BA%8F/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/tcpip-tcp%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90%E9%93%BE%E6%8E%A5/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/tcpip-%E5%9F%BA%E7%A1%80/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%95%B0%E7%BB%84/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/tcpip-%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-awk/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%A0%88/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E7%9F%AD%E8%BF%9E%E6%8E%A5%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E7%BC%93%E5%AD%98%E5%92%8Cdb%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E7%BC%93%E5%AD%98%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E7%BC%93%E5%AD%98%E7%AE%A1%E7%90%86%E7%AD%96%E7%95%A5/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E8%BF%9B%E7%A8%8B/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1ipc/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E9%93%BE%E8%A1%A8/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/%E9%A1%BF%E6%82%9F/</loc>
     <lastmod>2019-07-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E9%A1%BF%E6%82%9F/</loc>
-    <lastmod>2019-07-05T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/pic-panic/</loc>
+    <loc>http://nber1994.github.io/posts/panic/</loc>
     <lastmod>2019-06-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/pic-%E4%B8%80%E5%88%87%E5%BD%92%E9%9B%B6/</loc>
+    <loc>http://nber1994.github.io/posts/%E4%B8%80%E5%88%87%E5%BD%92%E9%9B%B6/</loc>
     <lastmod>2019-06-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/leetcode-%E5%9B%BE/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%9B%BE/</loc>
     <lastmod>2019-06-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-strace/</loc>
+    <loc>http://nber1994.github.io/posts/strace%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2019-06-18T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/os-linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
-    <lastmod>2019-06-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
-    <lastmod>2019-06-02T00:00:00+00:00</lastmod>
+    <lastmod>2019-06-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/nginx-%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%BC%94%E5%8F%98/</loc>
+    <loc>http://nber1994.github.io/posts/nginx%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%BC%94%E5%8F%98/</loc>
     <lastmod>2019-05-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>http://nber1994.github.io/posts/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2019-05-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E8%BF%9B%E7%A8%8B%E5%B9%B3%E6%BB%91%E9%87%8D%E5%90%AF/</loc>
+    <loc>http://nber1994.github.io/posts/%E8%BF%9B%E7%A8%8B%E5%B9%B3%E6%BB%91%E9%87%8D%E5%90%AF/</loc>
     <lastmod>2019-05-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-csip/</loc>
+    <loc>http://nber1994.github.io/posts/csip/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E/</loc>
+    <loc>http://nber1994.github.io/posts/%E4%BB%A3%E7%A0%81%E9%93%BE%E6%8E%A5/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E5%AD%98%E5%82%A8/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%9C%BA%E5%99%A8%E5%86%85%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E7%B3%BB%E7%BB%9Fio/</loc>
+    <loc>http://nber1994.github.io/posts/%E7%B3%BB%E7%BB%9Fio/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/</loc>
+    <loc>http://nber1994.github.io/posts/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/os-%E9%93%BE%E6%8E%A5/</loc>
-    <lastmod>2019-05-18T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/leetcode-%E6%9D%82%E9%A2%98/</loc>
+    <loc>http://nber1994.github.io/posts/%E6%9D%82%E9%A2%98/</loc>
     <lastmod>2019-04-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2019-01-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/</loc>
+    <loc>http://nber1994.github.io/posts/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2019-01-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%88%86%E5%8C%BA/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%88%86%E5%8C%BA%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2019-01-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/sysdesign-%E5%8F%91%E5%8F%B7%E5%99%A8/</loc>
+    <loc>http://nber1994.github.io/posts/%E5%8F%91%E5%8F%B7%E5%99%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2019-01-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/%E5%BF%AB%E6%8D%B7%E9%94%AE/</loc>
-    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/innodb/</loc>
+    <loc>http://nber1994.github.io/posts/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-5.7%E8%BF%9E%E6%8E%A5%E6%B1%A0/</loc>
+    <loc>http://nber1994.github.io/posts/innodb%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-innodb%E6%96%87%E4%BB%B6/</loc>
+    <loc>http://nber1994.github.io/posts/innodb%E6%96%87%E4%BB%B6/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-innodb%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</loc>
+    <loc>http://nber1994.github.io/posts/innodb%E6%B7%98%E5%AE%9D%E5%9B%A2%E9%98%9F%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-innodb%E9%94%81/</loc>
+    <loc>http://nber1994.github.io/posts/innodb%E9%94%81/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-mysql%E4%B8%AD%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/</loc>
+    <loc>http://nber1994.github.io/posts/mysql5.7%E8%BF%9E%E6%8E%A5%E6%B1%A0/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</loc>
+    <loc>http://nber1994.github.io/posts/mysql%E4%B8%AD%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-%E6%9E%B6%E6%9E%84/</loc>
+    <loc>http://nber1994.github.io/posts/mysql%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-%E7%9F%A5%E8%AF%86%E6%A0%91/</loc>
+    <loc>http://nber1994.github.io/posts/mysql%E6%9E%B6%E6%9E%84/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-%E7%B4%A2%E5%BC%95/</loc>
+    <loc>http://nber1994.github.io/posts/mysql%E7%9F%A5%E8%AF%86%E6%A0%91/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql-%E8%B5%84%E6%BA%90%E6%B1%87%E6%80%BB/</loc>
+    <loc>http://nber1994.github.io/posts/mysql%E7%B4%A2%E5%BC%95%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/mysql%E8%B5%84%E6%BA%90%E6%B1%87%E6%80%BB/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/redis%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95/</loc>
@@ -410,10 +380,7 @@
     <loc>http://nber1994.github.io/posts/redis%E9%9B%86%E7%BE%A4/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/tcpip-http/</loc>
-    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/tcpip-tcpudp/</loc>
+    <loc>http://nber1994.github.io/posts/tcp%E4%B8%8Eudp%E5%8C%BA%E5%88%AB/</loc>
     <lastmod>2019-01-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/%E5%AD%98%E5%82%A8/</loc>
@@ -425,22 +392,19 @@
     <loc>http://nber1994.github.io/posts/sun-day/</loc>
     <lastmod>2018-12-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/forward-mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%9C%BA%E5%88%B6/</loc>
+    <loc>http://nber1994.github.io/posts/%E8%BD%AC-innodb%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E5%92%8C%E9%94%81%E7%9A%84%E5%85%B3%E7%B3%BB/</loc>
     <lastmod>2018-08-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/shell/</loc>
-    <lastmod>2018-07-29T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://nber1994.github.io/posts/tcp-detail/</loc>
+    <loc>http://nber1994.github.io/posts/tcp%E4%BA%A4%E4%BA%92%E7%BB%86%E8%8A%82/</loc>
     <lastmod>2018-07-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</loc>
     <lastmod>2018-04-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/tags/tools/</loc>
+    <loc>http://nber1994.github.io/categories/tools/</loc>
     <lastmod>2018-04-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/hello-vim/</loc>
+    <loc>http://nber1994.github.io/posts/vim%E5%86%99%E7%9A%84%E4%BB%A3%E7%A0%81%E6%AF%8F%E4%B8%80%E8%A1%8C%E9%83%BD%E6%98%AF%E8%AF%97/</loc>
     <lastmod>2018-03-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/lnmp%E6%8A%A5%E9%94%99too-big-header%E9%94%99%E8%AF%AF%E6%8E%A2%E7%A9%B6/</loc>
@@ -455,7 +419,7 @@
     <loc>http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8Egithub-pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2017-12-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://nber1994.github.io/posts/mysql%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95explain/</loc>
+    <loc>http://nber1994.github.io/posts/mysql%E7%9A%84explain%E5%85%B3%E9%94%AE%E5%AD%97/</loc>
     <lastmod>2017-10-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/shell%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/</loc>
@@ -484,8 +448,10 @@
   </url><url>
     <loc>http://nber1994.github.io/pages/about/</loc>
   </url><url>
-    <loc>http://nber1994.github.io/categories/</loc>
-  </url><url>
     <loc>http://nber1994.github.io/pages/</loc>
+  </url><url>
+    <loc>http://nber1994.github.io/tags/</loc>
+  </url><url>
+    <loc>http://nber1994.github.io/categories/tcp/ip/</loc>
   </url>
 </urlset>
