@@ -104,17 +104,18 @@
 <br>
 
 	
-	<main>
-		<article>
-			<h1>redis问题</h1>
-			<b><time>2019-08-09</time></b>
-		       
-		           <a href="/categories/redis">redis</a>
-        	       
-		       
-
-			<div>
-				<h1 id="redis-问题">redis-问题</h1>
+<main>
+    <article>
+        <h1>redis问题</h1>
+        <div id="common-a">
+            <b><time>2019-08-09</time></b>
+            
+            <a href="/categories/redis"> ❐redis</a>
+            
+            
+        </div>
+        <div>
+            <h1 id="redis-问题">redis-问题</h1>
 <p>BRPOP，BLPOP</p>
 <p><a href="https://github.com/antirez/redis/issues/2576">https://github.com/antirez/redis/issues/2576</a>
 why redis-cluster use 16384 slots? crc16() can have 2^16 -1=65535 different remainders。
@@ -123,9 +124,9 @@ why redis-cluster use 16384 slots? crc16() can have 2^16 -1=65535 different rema
 同时，由于其他设计权衡，Redis Cluster不太可能扩展到超过1000个主节点。
 因此，16k处于正确的范围内，以确保每个主站有足够的插槽，最多1000个主站，但足够小的数字可以轻松地将插槽配置传播为原始位图。请注意，在小型集群中，位图难以压缩，因为当N很小时，位图将设置插槽/ N位，这是设置的大部分位。</p>
 
-			</div>
-		</article>
-	</main>
+        </div>
+    </article>
+</main>
 <aside>
 	<div>
 		<div>

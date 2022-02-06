@@ -104,17 +104,18 @@
 <br>
 
 	
-	<main>
-		<article>
-			<h1>InnoDB各类语句的加锁方式与应用</h1>
-			<b><time>2017-10-20</time></b>
-		       
-		           <a href="/categories/mysql">mysql</a>
-        	       
-		       
-
-			<div>
-				<blockquote>
+<main>
+    <article>
+        <h1>InnoDB各类语句的加锁方式与应用</h1>
+        <div id="common-a">
+            <b><time>2017-10-20</time></b>
+            
+            <a href="/categories/mysql"> ❐mysql</a>
+            
+            
+        </div>
+        <div>
+            <blockquote>
 <p>胡乱探讨了mysql的InnoDB的简单的加锁机制与使用场景，同时也有加锁等级</p>
 </blockquote>
 <h1 id="加锁机制">加锁机制</h1>
@@ -172,9 +173,9 @@ SELECT * FROM products WHERE id=3 FOR UPDATE 如此可以确保quantity 在别�
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>products<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>id<span style="color:#000;font-weight:bold">&lt;&gt;</span><span style="color:#d14">&#39;3&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">UPDATE</span>;<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>products<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">LIKE</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;3&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">UPDATE</span>;<span style="color:#bbb">
 </span></code></pre></div>
-			</div>
-		</article>
-	</main>
+        </div>
+    </article>
+</main>
 <aside>
 	<div>
 		<div>

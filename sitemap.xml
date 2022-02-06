@@ -56,10 +56,22 @@
     <loc>http://nber1994.github.io/posts/silverbullet/</loc>
     <lastmod>2020-07-09T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>http://nber1994.github.io/categories/fun/</loc>
+    <lastmod>2020-07-02T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://nber1994.github.io/posts/gmp%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2020-07-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84dsl%E8%A7%A3%E9%87%8A%E5%99%A8/</loc>
+    <lastmod>2020-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/tags/</loc>
+    <lastmod>2020-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/tags/utf8/</loc>
+    <lastmod>2020-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://nber1994.github.io/posts/utf8%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7/</loc>
     <lastmod>2020-07-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://nber1994.github.io/posts/%E7%AB%8B%E4%B8%AAflag/</loc>
@@ -449,8 +461,6 @@
     <loc>http://nber1994.github.io/pages/about/</loc>
   </url><url>
     <loc>http://nber1994.github.io/pages/</loc>
-  </url><url>
-    <loc>http://nber1994.github.io/tags/</loc>
   </url><url>
     <loc>http://nber1994.github.io/categories/tcp/ip/</loc>
   </url>

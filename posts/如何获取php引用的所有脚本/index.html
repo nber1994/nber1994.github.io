@@ -104,23 +104,24 @@
 <br>
 
 	
-	<main>
-		<article>
-			<h1>如何获取php引用的所有脚本</h1>
-			<b><time>2020-11-24</time></b>
-		       
-		           <a href="/categories/php">php</a>
-        	       
-		       
-
-			<div>
-				<p>获取所有的引入文件，一般这句放在controller的结束位置</p>
+<main>
+    <article>
+        <h1>如何获取php引用的所有脚本</h1>
+        <div id="common-a">
+            <b><time>2020-11-24</time></b>
+            
+            <a href="/categories/php"> ❐php</a>
+            
+            
+        </div>
+        <div>
+            <p>获取所有的引入文件，一般这句放在controller的结束位置</p>
 <pre tabindex="0"><code>$included_files = get_included_files();
 file_put_contents('/tmp/xxx',implode(&quot;\r\n&quot;, $included_files));
 </code></pre>
-			</div>
-		</article>
-	</main>
+        </div>
+    </article>
+</main>
 <aside>
 	<div>
 		<div>

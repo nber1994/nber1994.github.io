@@ -104,17 +104,18 @@
 <br>
 
 	
-	<main>
-		<article>
-			<h1>golang同步机制的实现</h1>
-			<b><time>2022-01-15</time></b>
-		       
-		           <a href="/categories/go">go</a>
-        	       
-		       
-
-			<div>
-				<blockquote>
+<main>
+    <article>
+        <h1>golang同步机制的实现</h1>
+        <div id="common-a">
+            <b><time>2022-01-15</time></b>
+            
+            <a href="/categories/go"> ❐go</a>
+            
+            
+        </div>
+        <div>
+            <blockquote>
 <p>原文转载至：https://ga0.github.io/golang/2015/10/11/golang-sync.html</p>
 </blockquote>
 <p>Golang的提供的同步机制有sync模块下的Mutex、WaitGroup以及语言自身提供的chan等。 这些同步的方法都是以runtime中实现的底层同步机制（cas、atomic、spinlock、sem）为基础的， 本文主要探讨Golang底层的同步机制如何实现。</p>
@@ -153,9 +154,9 @@
 </ol>
 <p>无冲突时是最简单的情况；有冲突时，首先进行自旋，是从效率方面考虑的， 因为大多数的Mutex保护的代码段都很短，经过短暂的自旋就可以获得；如果自旋等待无果，就只好通过信号量来让当前 Goroutine进入等待了。</p>
 
-			</div>
-		</article>
-	</main>
+        </div>
+    </article>
+</main>
 <aside>
 	<div>
 		<div>

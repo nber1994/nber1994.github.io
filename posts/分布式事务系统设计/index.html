@@ -104,17 +104,18 @@
 <br>
 
 	
-	<main>
-		<article>
-			<h1>分布式事务系统设计</h1>
-			<b><time>2019-08-09</time></b>
-		       
-		           <a href="/categories/sysdesign">sysDesign</a>
-        	       
-		       
-
-			<div>
-				<p><a href="https://juejin.im/post/5b5a0bf9f265da0f6523913b">分布式事务-掘金</a>
+<main>
+    <article>
+        <h1>分布式事务系统设计</h1>
+        <div id="common-a">
+            <b><time>2019-08-09</time></b>
+            
+            <a href="/categories/sysdesign"> ❐sysDesign</a>
+            
+            
+        </div>
+        <div>
+            <p><a href="https://juejin.im/post/5b5a0bf9f265da0f6523913b">分布式事务-掘金</a>
 分布式事务的解决方案有很多种，
 一致性从强到弱，性能开销从从多到少：三阶段，二阶段，TCC，saga
 一致性保障的基本思路，协调者掌握多个子流程的执行过程信息，协调者负责根据子流程执行信息作出决策</p>
@@ -304,9 +305,9 @@ C1=加100元 C2=给用户减一瓶水 C3=给库存加一瓶水
 <li>可以看见saga模式没有隔离性的影响还是较大，可以参照华为的解决方案:从业务层面入手加入一 Session 以及锁的机制来保证能够串行化操作资源。也可以在业务层面通过预先冻结资金的方式隔离这部分资源， 最后在业务操作的过程中可以通过及时读取当前状态的方式获取到最新的更新。</li>
 </ul>
 
-			</div>
-		</article>
-	</main>
+        </div>
+    </article>
+</main>
 <aside>
 	<div>
 		<div>

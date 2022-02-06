@@ -104,17 +104,18 @@
 <br>
 
 	
-	<main>
-		<article>
-			<h1>InnoDB概述</h1>
-			<b><time>2019-08-09</time></b>
-		       
-		           <a href="/categories/mysql">mysql</a>
-        	       
-		       
-
-			<div>
-				<p>InnoDB完整支持ACID事务</p>
+<main>
+    <article>
+        <h1>InnoDB概述</h1>
+        <div id="common-a">
+            <b><time>2019-08-09</time></b>
+            
+            <a href="/categories/mysql"> ❐mysql</a>
+            
+            
+        </div>
+        <div>
+            <p>InnoDB完整支持ACID事务</p>
 <h1 id="体系架构">体系架构</h1>
 <p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107164912667_493096811.png" alt=""></p>
 <p>InnoDB内部存在多个内存块，可以看做是内存池<br>
@@ -258,9 +259,9 @@ redo log会在如下情况下刷入磁盘：</p>
 <h2 id="刷新临近页">刷新临近页</h2>
 <p>将脏页刷入磁盘时，会检测所在区extent的所有脏页，一起刷入磁盘</p>
 
-			</div>
-		</article>
-	</main>
+        </div>
+    </article>
+</main>
 <aside>
 	<div>
 		<div>

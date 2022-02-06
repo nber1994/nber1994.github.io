@@ -104,17 +104,18 @@
 <br>
 
 	
-	<main>
-		<article>
-			<h1>文本处理命令</h1>
-			<b><time>2019-08-09</time></b>
-		       
-		           <a href="/categories/linux">linux</a>
-        	       
-		       
-
-			<div>
-				<h1 id="统计日志中出现最多的ip">统计日志中出现最多的IP</h1>
+<main>
+    <article>
+        <h1>文本处理命令</h1>
+        <div id="common-a">
+            <b><time>2019-08-09</time></b>
+            
+            <a href="/categories/linux"> ❐linux</a>
+            
+            
+        </div>
+        <div>
+            <h1 id="统计日志中出现最多的ip">统计日志中出现最多的IP</h1>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">grep <span style="color:#000;font-weight:bold">-</span>i <span style="color:#000;font-weight:bold">-</span>o <span style="color:#000;font-weight:bold">-</span>E <span style="color:#a61717;background-color:#e3d2d2">&#39;</span>([<span style="color:#099">0</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">9</span>]{<span style="color:#099">1</span>,<span style="color:#099">3</span>}<span style="color:#a61717;background-color:#e3d2d2">\</span>.){<span style="color:#099">3</span>}[<span style="color:#099">0</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">9</span>]{<span style="color:#099">1</span>,<span style="color:#099">3</span>}<span style="color:#a61717;background-color:#e3d2d2">&#39;</span> log.log <span style="color:#000;font-weight:bold">|</span> sort <span style="color:#000;font-weight:bold">-</span>n <span style="color:#000;font-weight:bold">|</span> uniq <span style="color:#000;font-weight:bold">-</span>c <span style="color:#000;font-weight:bold">|</span> sort <span style="color:#000;font-weight:bold">-</span>n <span style="color:#000;font-weight:bold">-</span>r <span style="color:#000;font-weight:bold">|</span> head <span style="color:#000;font-weight:bold">-</span><span style="color:#099">10</span>
 </code></pre></div><ul>
 <li>
@@ -201,9 +202,9 @@ root
 sys
 sync
 </code></pre></div>
-			</div>
-		</article>
-	</main>
+        </div>
+    </article>
+</main>
 <aside>
 	<div>
 		<div>

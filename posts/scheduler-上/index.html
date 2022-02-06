@@ -104,17 +104,18 @@
 <br>
 
 	
-	<main>
-		<article>
-			<h1>go-scheduler 上</h1>
-			<b><time>2021-11-25</time></b>
-		       
-		           <a href="/categories/go">go</a>
-        	       
-		       
-
-			<div>
-				<blockquote>
+<main>
+    <article>
+        <h1>go-scheduler 上</h1>
+        <div id="common-a">
+            <b><time>2021-11-25</time></b>
+            
+            <a href="/categories/go"> ❐go</a>
+            
+            
+        </div>
+        <div>
+            <blockquote>
 <p>写在开头：</p>
 <p>本文仅科普性质分享，旨在为大家构建一个go scheduler发展大纲性的印象，会丢失很多代码以及设计细节，对于这方面的内容还需要读者自己去深挖代码补充完整:P</p>
 </blockquote>
@@ -990,9 +991,9 @@ runtime.newm(<span style="color:#458;font-weight:bold">void</span>)
 </ol>
 <p>以上，除了系统调用外，我们从前文得知，GM会将当前M挂起之外，其他的情况，GM模型都不会做额外的操作，任由Goroutine等待阻塞直至结束。而此时的调度时机是在G执行完毕以后，那么很容易出现一个G长期占用M的情况，导致整体并发能力下降。</p>
 
-			</div>
-		</article>
-	</main>
+        </div>
+    </article>
+</main>
 <aside>
 	<div>
 		<div>
