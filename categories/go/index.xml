@@ -6,7 +6,36 @@
     <description>Recent content in go on jingtianyou&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 09 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/categories/go/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/categories/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang channel浅析</title>
+      <link>http://nber1994.github.io/posts/channel-select/</link>
+      <pubDate>Thu, 17 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/channel-select/</guid>
+      <description>并发编程模型 并发编程的意义，这个不需要多说了，大流量，高并发全靠它，性能上来了，稳定性也就不言而喻了
+并发的两个基础部分：
+ 并发调度单位，concurrency unit 并发模型，concurrency model  Concurrency unit 并发调度单位讲究 轻！快！
+unit占用轻！unit切换快！
+进程作为Unit 进程拥有独占的内存和指令流，是一个应用的包装，但是进程作为并发基本单元有如下问题：
+ 资源占用过大  每个进程占用的内存太大了，进程携带了自己的虚拟内存页表，文件描述符等   不能发挥多核的性能  进程不能很好的发挥多核机器的性能，常常出现一个核跑，多个核看的现象     进程切换消耗过大  进程切换需要进行系统调用，涉及到内存从用户态拷贝至内核态 保存当前进程的现场，并且恢复下一个进程    线程作为Unit 线程较轻量级，一个进程可以包含多个线程，则每个最小并发粒度的资源占用要小很多，且同一个进程内线程间切换只需要对指令流进行切换即可。
+但是，进程间切换仍需要进入内核进行，仍然存在大量的并发切换消耗
+协程作为Unit 协程，也叫做用户态线程，它规避了最后一个问题，切换消耗过大的问题，无需通过系统调用进入内核进行切换，协程所有的生命周期均发生在用户态。
+因为协程的优点，协程类编程也开始越来越火了。比较有代表性的有Go的goroutine、Erlang的Erlang进程、Scala的actor、windows下的fibre（纤程）等，一些动态语言像Python、Ruby、Lua也慢慢支持协程。
+但是 语言引入协程作为并发调度单位，需要实现自己的协程调度器、并提供协程间通信的方式等一系列支持模块，相较于传统的基于进程线程的并发方式，需要实现很多额外的功能组件。实现较复杂。
+Concurrency model 总体来看，目前能找到的最轻量的调度单元就是协程了，虽然实现起来有些麻烦，但是现代语言也越来越多的引入协程了。
+那么解决了并发单元的问题后，我们再研究下并发模型，为什么需要并发模型呢，因为并发就意味着竞争：对内存的竞争，对算力的竞争等，那么如何降低竞争带来的性能损耗，就需要并发模型的设计了。简单来说，并发模型就是指导并发单元以何种方式处理竞争，尽量减少竞争带来的性能损耗。简单来说，就是定义了并发单元间的通信方式。
+共享内存+锁 最经典的模型，通过锁来保护资源，多个并发单元访问资源前首先争夺锁，然后再去访问资源。没抢到锁的unit则阻塞等待。
+这个应该是目前最常用的了，也最符合直觉，但是可以明显看到，在竞争时会产生阻塞耗时。
+这就是常说的使用共享内存来进行通信
+函数式编程 既然基于共享内存通信会产生大量的竞争，那么函数式编程的通信思想是，在并发单元执行过程中不进行通信，只在最后大家都执行完后统一对结果做收集和汇总
+函数式编程的特性：
+ 不可变数据，默认是变量是不可变的，如果你要改变变量，你需要把变量copy出去 函数对于Input A一定会返回Output B，即函数内部没有状态，不会对全局变量进行修改，运行时涉及的变量都是局部变量 这么一来，每个函数对输入负责，只会访问局部变量，全局不存在资源竞争  基于函数式编程模型作为并发模型的话，性能会很高，但是会产生额外的大量的局部变量
+代表语言：clojure
+举个例子： s3e在设计之初，提供了一套SDK，目的是帮助业务建模和模型可视化，大体是这样的，将一个业务功能节点抽象为了workflow，workflow中的每个task state对应一个函数，为了降低使用成本，各个函数的签名都是一致的
+func Action(ctx context.Context, db *Databus) (*Databus, error) 每个函数都会对Databus做一些自己的修改，这个修改是全局Action可见的（因为Databus传的是指针类型），因此如果存在并发的节点，会存在对全局变量的锁竞争。</description>
+    </item>
+    
     <item>
       <title>golang-race检测</title>
       <link>http://nber1994.github.io/posts/golang-race%E6%A3%80%E6%B5%8B/</link>
@@ -111,35 +140,6 @@ task_struct是Linux内核的一种数据结构，它会被装载到RAM里并且�
 1. mcache泛滥 - 引入中间层P 在Goroutine和线程之间引入了中间层P，其数量对应于机器的核数，且只有P持有mcache，并且P托管了M运行所需的上下文。每个M都需要绑定到P上才能够获得G。
 这样一来，每个M做到了减重，M变成了一个很干净的系统线程封装。减少了很多冗余的mcache。
 type p struct { lock mutex id int32 // p的状态  status uint32 // one of pidle/prunning/...  // 下一个p的地址，可参考 g.schedlink  link puintptr // p所关联的m  m muintptr // back-link to associated m (nil if idle)  // 内存分配的时候用的，p所属的m的mcache用的也是这个  mcache *mcache // Cache of goroutine ids, amortizes accesses to runtime·sched.</description>
-    </item>
-    
-    <item>
-      <title>golang channel浅析</title>
-      <link>http://nber1994.github.io/posts/channel-select/</link>
-      <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://nber1994.github.io/posts/channel-select/</guid>
-      <description>并发编程模型 并发编程的意义，这个不需要多说了，大流量，高并发全靠它，性能上来了，稳定性也就不言而喻了
-并发的两个基础部分：
- 并发调度单位，concurrency unit 并发模型，concurrency model  Concurrency unit 并发调度单位讲究 轻！快！
-unit占用轻！unit切换快！
-进程作为Unit 进程拥有独占的内存和指令流，是一个应用的包装，但是进程作为并发基本单元有如下问题：
- 资源占用过大  每个进程占用的内存太大了，进程携带了自己的虚拟内存页表，文件描述符等   不能发挥多核的性能  进程不能很好的发挥多核机器的性能，常常出现一个核跑，多个核看的现象     进程切换消耗过大  进程切换需要进行系统调用，涉及到内存从用户态拷贝至内核态 保存当前进程的现场，并且恢复下一个进程    线程作为Unit 线程较轻量级，一个进程可以包含多个线程，则每个最小并发粒度的资源占用要小很多，且同一个进程内线程间切换只需要对指令流进行切换即可。
-但是，进程间切换仍需要进入内核进行，仍然存在大量的并发切换消耗
-协程作为Unit 协程，也叫做用户态线程，它规避了最后一个问题，切换消耗过大的问题，无需通过系统调用进入内核进行切换，协程所有的生命周期均发生在用户态。
-因为协程的优点，协程类编程也开始越来越火了。比较有代表性的有Go的goroutine、Erlang的Erlang进程、Scala的actor、windows下的fibre（纤程）等，一些动态语言像Python、Ruby、Lua也慢慢支持协程。
-但是 语言引入协程作为并发调度单位，需要实现自己的协程调度器、并提供协程间通信的方式等一系列支持模块，相较于传统的基于进程线程的并发方式，需要实现很多额外的功能组件。实现较复杂。
-Concurrency model 总体来看，目前能找到的最轻量的调度单元就是协程了，虽然实现起来有些麻烦，但是现代语言也越来越多的引入协程了。
-那么解决了并发单元的问题后，我们再研究下并发模型，为什么需要并发模型呢，因为并发就意味着竞争：对内存的竞争，对算力的竞争等，那么如何降低竞争带来的性能损耗，就需要并发模型的设计了。简单来说，并发模型就是指导并发单元以何种方式处理竞争，尽量减少竞争带来的性能损耗。简单来说，就是定义了并发单元间的通信方式。
-共享内存+锁 最经典的模型，通过锁来保护资源，多个并发单元访问资源前首先争夺锁，然后再去访问资源。没抢到锁的unit则阻塞等待。
-这个应该是目前最常用的了，也最符合直觉，但是可以明显看到，在竞争时会产生阻塞耗时。
-这就是常说的使用共享内存来进行通信
-函数式编程 既然基于共享内存通信会产生大量的竞争，那么函数式编程的通信思想是，在并发单元执行过程中不进行通信，只在最后大家都执行完后统一对结果做收集和汇总
-函数式编程的特性：
- 不可变数据，默认是变量是不可变的，如果你要改变变量，你需要把变量copy出去 函数对于Input A一定会返回Output B，即函数内部没有状态，不会对全局变量进行修改，运行时涉及的变量都是局部变量 这么一来，每个函数对输入负责，只会访问局部变量，全局不存在资源竞争  基于函数式编程模型作为并发模型的话，性能会很高，但是会产生额外的大量的局部变量
-代表语言：clojure
-举个例子： s3e在设计之初，提供了一套SDK，目的是帮助业务建模和模型可视化，大体是这样的，将一个业务功能节点抽象为了workflow，workflow中的每个task state对应一个函数，为了降低使用成本，各个函数的签名都是一致的
-func Action(ctx context.Context, db *Databus) (*Databus, error) 每个函数都会对Databus做一些自己的修改，这个修改是全局Action可见的（因为Databus传的是指针类型），因此如果存在并发的节点，会存在对全局变量的锁竞争。</description>
     </item>
     
     <item>
