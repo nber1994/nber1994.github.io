@@ -340,8 +340,62 @@ ch6 <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086
 <h3 id="6关闭">6.关闭</h3>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#0086b3">close</span>(ch)	
 </code></pre></div><p>Tips：</p>
-<p>只有在需要通知接收方所有数据已经发送完毕时，才需要显式的调用close函数关闭chan，除此之外，若不对channel进行关闭操作，它是可以被垃圾回收机制回收的，<strong>关闭通道不是必须的</strong></p>
-<p>通道关闭后：</p>
+<p>只有在需要通知接收方所有数据已经发送完毕时，才需要显式的调用close函数关闭chan，除此之外，若不对channel进行关闭操作，它是可以被垃圾回收机制回收的，<strong>关闭通道不是必须的</strong>。</p>
+<p>通道关闭时：</p>
+<ul>
+<li>sendq中的sender会panic</li>
+<li>recvq中的reciver会返回类型零值</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">main</span>() {
+	ch <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>(<span style="color:#000;font-weight:bold">chan</span> <span style="color:#458;font-weight:bold">int</span>, <span style="color:#099">1</span>)
+
+	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
+		<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>; i &lt; <span style="color:#099">100</span>; i<span style="color:#000;font-weight:bold">++</span> {
+			ch <span style="color:#000;font-weight:bold">&lt;-</span> i
+		}
+	}()
+
+	<span style="color:#000;font-weight:bold">&lt;-</span>time.<span style="color:#900;font-weight:bold">After</span>(<span style="color:#099">2</span> <span style="color:#000;font-weight:bold">*</span> time.Second)
+
+	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
+		<span style="color:#0086b3">close</span>(ch)
+	}()
+
+	<span style="color:#000;font-weight:bold">&lt;-</span>time.<span style="color:#900;font-weight:bold">After</span>(<span style="color:#099">1</span> <span style="color:#000;font-weight:bold">*</span> time.Second)
+}
+
+<span style="color:#998;font-style:italic">//% go run main.go
+</span><span style="color:#998;font-style:italic">//panic: send on closed channel
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">//goroutine 4 [running]:
+</span><span style="color:#998;font-style:italic">//main.main.func1(0x1400006e000)
+</span><span style="color:#998;font-style:italic">//	/Users/didi/work/src/my/test/test/main.go:15 +0x40
+</span><span style="color:#998;font-style:italic">//created by main.main
+</span><span style="color:#998;font-style:italic">//	/Users/didi/work/src/my/test/test/main.go:13 +0x54
+</span><span style="color:#998;font-style:italic">//exit status 2
+</span><span style="color:#998;font-style:italic"></span>
+
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">main</span>() {
+	ch <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>(<span style="color:#000;font-weight:bold">chan</span> <span style="color:#458;font-weight:bold">int</span>, <span style="color:#099">1</span>)
+
+	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
+		v <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&lt;-</span>ch
+		fmt.<span style="color:#900;font-weight:bold">Println</span>(v)
+	}()
+
+	<span style="color:#000;font-weight:bold">&lt;-</span>time.<span style="color:#900;font-weight:bold">After</span>(<span style="color:#099">2</span> <span style="color:#000;font-weight:bold">*</span> time.Second)
+
+	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
+		<span style="color:#0086b3">close</span>(ch)
+	}()
+
+	<span style="color:#000;font-weight:bold">&lt;-</span>time.<span style="color:#900;font-weight:bold">After</span>(<span style="color:#099">1</span> <span style="color:#000;font-weight:bold">*</span> time.Second)
+}
+
+<span style="color:#998;font-style:italic">//$ go run main.go
+</span><span style="color:#998;font-style:italic">//0
+</span></code></pre></div><p>通道关闭后：</p>
 <ul>
 <li>对一个关闭的channel再发送值会panic</li>
 <li>对一个关闭的channel进行接收会一直获取值直到channel为空</li>
@@ -973,10 +1027,166 @@ v, ok <span style="color:#000;font-weight:bold">:=</span> <span style="color:#00
 </ol>
 <h2 id="关闭">关闭</h2>
 <pre tabindex="0"><code>close(ch)                    ⇒ runtime.closechan(ch)
-</code></pre><h1 id="扩展">扩展</h1>
-<h3 id="如何实现一个无线长度的channel">如何实现一个无线长度的channel</h3>
-<h3 id="如何实现一个lock-free的channel-乐观锁">如何实现一个lock free的channel （乐观锁）</h3>
-<h3 id="实现一个元素不定长的ring-buffer">实现一个元素不定长的ring buffer</h3>
+</code></pre><h3 id="场景拆分-2">场景拆分</h3>
+<p><strong>根据send和recive的行为，我们知道不会存在sendq和recvq同时不为空的情况</strong></p>
+<h4 id="1recvq-not-empty">1.recvq not empty</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2022021715165937320220217151659.png" alt="image-20220217151659373"></p>
+<ol>
+<li>加锁</li>
+<li>更改close状态</li>
+<li>将recvq中的sudog加入到glist中</li>
+<li>解锁</li>
+<li>依次将glist中的sudog唤醒，每个唤醒的G会返回元素零值</li>
+</ol>
+<p>之所以先将recvq迁移到glist之后就进行解锁，是为了减少加锁的临界区</p>
+<h4 id="2sendq-not-empty-1">2.sendq not empty</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/image-2022021715183765820220217151837.png" alt="image-20220217151837658"></p>
+<ol>
+<li>加锁</li>
+<li>更改close状态</li>
+<li>将sendq中的sudog加入到glist中</li>
+<li>解锁</li>
+<li>依次将glist中的sudog唤醒，每个唤醒的G会直接报panic</li>
+</ol>
+<h3 id="源码-2">源码</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">closechan</span>(c <span style="color:#000;font-weight:bold">*</span>hchan) {
+	<span style="color:#998;font-style:italic">//关闭空chan会panic
+</span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> c <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">nil</span> {
+		<span style="color:#0086b3">panic</span>(<span style="color:#900;font-weight:bold">plainError</span>(<span style="color:#d14">&#34;close of nil channel&#34;</span>))
+	}
+
+    <span style="color:#998;font-style:italic">//加锁
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#900;font-weight:bold">lock</span>(<span style="color:#000;font-weight:bold">&amp;</span>c.lock)
+    
+    <span style="color:#998;font-style:italic">//多次close panic
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> c.closed <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span> {
+		<span style="color:#900;font-weight:bold">unlock</span>(<span style="color:#000;font-weight:bold">&amp;</span>c.lock)
+		<span style="color:#0086b3">panic</span>(<span style="color:#900;font-weight:bold">plainError</span>(<span style="color:#d14">&#34;close of closed channel&#34;</span>))
+	}
+
+	c.closed = <span style="color:#099">1</span>
+
+	<span style="color:#000;font-weight:bold">var</span> glist gList
+
+	<span style="color:#998;font-style:italic">// release all readers
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// 释放所有的读者
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">for</span> {
+		sg <span style="color:#000;font-weight:bold">:=</span> c.recvq.<span style="color:#900;font-weight:bold">dequeue</span>()
+		<span style="color:#000;font-weight:bold">if</span> sg <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">nil</span> {
+			<span style="color:#000;font-weight:bold">break</span>
+		}
+		<span style="color:#000;font-weight:bold">if</span> sg.elem <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+			<span style="color:#900;font-weight:bold">typedmemclr</span>(c.elemtype, sg.elem)
+			sg.elem = <span style="color:#000;font-weight:bold">nil</span>
+		}
+		<span style="color:#000;font-weight:bold">if</span> sg.releasetime <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span> {
+			sg.releasetime = <span style="color:#900;font-weight:bold">cputicks</span>()
+		}
+		gp <span style="color:#000;font-weight:bold">:=</span> sg.g
+		gp.param = unsafe.<span style="color:#900;font-weight:bold">Pointer</span>(sg)
+		sg.success = <span style="color:#000;font-weight:bold">false</span>
+		<span style="color:#000;font-weight:bold">if</span> raceenabled {
+			<span style="color:#900;font-weight:bold">raceacquireg</span>(gp, c.<span style="color:#900;font-weight:bold">raceaddr</span>())
+		}
+		glist.<span style="color:#900;font-weight:bold">push</span>(gp)
+	}
+
+	<span style="color:#998;font-style:italic">// release all writers (they will panic)
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// 释放所有的写者 (panic)
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">for</span> {
+		sg <span style="color:#000;font-weight:bold">:=</span> c.sendq.<span style="color:#900;font-weight:bold">dequeue</span>()
+		<span style="color:#000;font-weight:bold">if</span> sg <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">nil</span> {
+			<span style="color:#000;font-weight:bold">break</span>
+		}
+		sg.elem = <span style="color:#000;font-weight:bold">nil</span>
+		<span style="color:#000;font-weight:bold">if</span> sg.releasetime <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span> {
+			sg.releasetime = <span style="color:#900;font-weight:bold">cputicks</span>()
+		}
+		gp <span style="color:#000;font-weight:bold">:=</span> sg.g
+		gp.param = unsafe.<span style="color:#900;font-weight:bold">Pointer</span>(sg)
+		sg.success = <span style="color:#000;font-weight:bold">false</span>
+		<span style="color:#000;font-weight:bold">if</span> raceenabled {
+			<span style="color:#900;font-weight:bold">raceacquireg</span>(gp, c.<span style="color:#900;font-weight:bold">raceaddr</span>())
+		}
+		glist.<span style="color:#900;font-weight:bold">push</span>(gp)
+	}
+	<span style="color:#900;font-weight:bold">unlock</span>(<span style="color:#000;font-weight:bold">&amp;</span>c.lock)
+
+	<span style="color:#998;font-style:italic">// Ready all Gs now that we&#39;ve dropped the channel lock.
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// 就绪所有的 G 即可释放 channel 锁
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">for</span> !glist.<span style="color:#900;font-weight:bold">empty</span>() {
+		gp <span style="color:#000;font-weight:bold">:=</span> glist.<span style="color:#900;font-weight:bold">pop</span>()
+		gp.schedlink = <span style="color:#099">0</span>
+		<span style="color:#900;font-weight:bold">goready</span>(gp, <span style="color:#099">3</span>)
+	}
+}
+</code></pre></div><p>我们再回头看看close后，sender和reciver被唤醒之后的代码</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#998;font-style:italic">//sender
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">...</span>.
+	<span style="color:#900;font-weight:bold">gopark</span>(chanparkcommit, unsafe.<span style="color:#900;font-weight:bold">Pointer</span>(<span style="color:#000;font-weight:bold">&amp;</span>c.lock), waitReasonChanSend, traceEvGoBlockSend, <span style="color:#099">2</span>) <span style="color:#998;font-style:italic">// 将当前的 g 从调度队列移出
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// 因为调度器在停止当前 g 的时候会记录运行现场，当恢复阻塞的发送操作时候，会从此处继续开始执行
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// Ensure the value being sent is kept alive until the
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// receiver copies it out. The sudog has a pointer to the
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// stack object, but sudogs aren&#39;t considered as roots of the
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// stack tracer.
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#900;font-weight:bold">KeepAlive</span>(ep)
+
+	<span style="color:#998;font-style:italic">// someone woke us up.
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// 被唤醒
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> mysg <span style="color:#000;font-weight:bold">!=</span> gp.waiting {
+		<span style="color:#900;font-weight:bold">throw</span>(<span style="color:#d14">&#34;G waiting list is corrupted&#34;</span>)
+	}
+	gp.waiting = <span style="color:#000;font-weight:bold">nil</span>
+	gp.activeStackChans = <span style="color:#000;font-weight:bold">false</span>
+	closed <span style="color:#000;font-weight:bold">:=</span> !mysg.success
+	gp.param = <span style="color:#000;font-weight:bold">nil</span>
+	<span style="color:#000;font-weight:bold">if</span> mysg.releasetime &gt; <span style="color:#099">0</span> {
+		<span style="color:#900;font-weight:bold">blockevent</span>(mysg.releasetime<span style="color:#000;font-weight:bold">-</span>t0, <span style="color:#099">2</span>)
+	}
+	mysg.c = <span style="color:#000;font-weight:bold">nil</span>
+	<span style="color:#900;font-weight:bold">releaseSudog</span>(mysg)
+	<span style="color:#000;font-weight:bold">if</span> closed {
+		<span style="color:#998;font-style:italic">// 正常唤醒状态，goroutine 应该包含需要传递的参数，但如果没有唤醒时的参数，且 channel 没有被关闭，则为虚假唤醒
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">if</span> c.closed <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
+			<span style="color:#900;font-weight:bold">throw</span>(<span style="color:#d14">&#34;chansend: spurious wakeup&#34;</span>)
+		}
+		<span style="color:#0086b3">panic</span>(<span style="color:#900;font-weight:bold">plainError</span>(<span style="color:#d14">&#34;send on closed channel&#34;</span>)) <span style="color:#998;font-style:italic">//直接报panic
+</span><span style="color:#998;font-style:italic"></span>	}
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>
+}
+
+<span style="color:#998;font-style:italic">//reciver
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">...</span>
+	<span style="color:#900;font-weight:bold">gopark</span>(chanparkcommit, unsafe.<span style="color:#900;font-weight:bold">Pointer</span>(<span style="color:#000;font-weight:bold">&amp;</span>c.lock), waitReasonChanReceive, traceEvGoBlockRecv, <span style="color:#099">2</span>)
+
+	<span style="color:#998;font-style:italic">// someone woke us up
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// 唤醒
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> mysg <span style="color:#000;font-weight:bold">!=</span> gp.waiting {
+		<span style="color:#900;font-weight:bold">throw</span>(<span style="color:#d14">&#34;G waiting list is corrupted&#34;</span>)
+	}
+	gp.waiting = <span style="color:#000;font-weight:bold">nil</span>
+	gp.activeStackChans = <span style="color:#000;font-weight:bold">false</span>
+	<span style="color:#000;font-weight:bold">if</span> mysg.releasetime &gt; <span style="color:#099">0</span> {
+		<span style="color:#900;font-weight:bold">blockevent</span>(mysg.releasetime<span style="color:#000;font-weight:bold">-</span>t0, <span style="color:#099">2</span>)
+	}
+	success <span style="color:#000;font-weight:bold">:=</span> mysg.success
+	gp.param = <span style="color:#000;font-weight:bold">nil</span>
+	mysg.c = <span style="color:#000;font-weight:bold">nil</span>
+	<span style="color:#900;font-weight:bold">releaseSudog</span>(mysg)
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>, success
+}
+</code></pre></div><h1 id="扩展">扩展</h1>
+<ul>
+<li>
+<p>如何实现一个无线长度的channel</p>
+</li>
+<li>
+<p>如何实现一个lock free的channel （乐观锁）</p>
+</li>
+<li>
+<p>实现一个元素不定长的ring buffer</p>
+</li>
+</ul>
 
         </div>
     </article>
