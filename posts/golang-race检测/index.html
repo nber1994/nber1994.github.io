@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>golang-race检测</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>golang-race检测</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+
+<header>
+        <section id="page-title">
+            <h1><a href="/">nber1994</a></h1>
+
+          <div class="date-time-title post">
+			<a  href="/">All</a>
+          </div>
+			
+			
+          <div class="date-time-title post">
+			<a href="/posts/">Posts</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/categories/">Categories</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/tags/">Tags</a>
+          </div>
+			
+          <div class="date-time-title post">
+			<a href="/about">About</a>
+          </div>
+			
+	
+
+        </section>
+</header>
+
+<div id="icon">
+<script type="text/javascript">
+
+
+    function chunkSubstr(str, size) {
+            const numChunks = Math.ceil(str.length / size)
+            const chunks = new Array(numChunks)
+
+            for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+                    chunks[i] = str.substr(o, size)
+                }
+
+            return chunks
+        }
+    var pic = [];
+    pic[0] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/qRKvRQ20220116152554.jpg";
+    pic[1] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/nEf3GW20220116150946.jpg";
+    pic[2] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/ITL6SB20220116154359.jpg";
+    pic[3] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/3QAQ7M20220116154758.jpg";
+    pic[4] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/HCCsx620220116160636.jpg";
+    pic[5] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/c4zSPk20220116161109.jpg";
+    pic[6] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/Bm5IHA20220116161518.jpg";
+    pic[7] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/lpcstW20220116161917.jpg";
+    pic[8] = "https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/MSCA4K20220116162440.jpg";
+
+    var talk = [];
+    talk[0] = "Help poor children in Uganda!";
+    talk[1] = "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.";
+    talk[2] = "So, dear Redis community, today I’m stepping back as the Redis maintainer.";
+    talk[3] = "Don't tune for speed until you've measured.";
+    talk[4] = "C is quirky, flawed, and an enormous success.";
+    talk[5] = "I've never thought of PHP as more than a simple tool to solve problems.";
+    talk[6] = "Java is C++ without the guns, clubs and knives.";
+    talk[7] = "Life is short, you need Python!";
+    talk[8] = "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.";
+
+    var randomBgIndex = Math.floor( Math.random() * 8 );
+
+
+    document.write("<img src=" + pic[randomBgIndex] + ">")
+    document.write("<span style='font-size:12px'>" + talk[randomBgIndex] + " </span>")
+    document.write("</div>")
+
+</script>
+</div>
+<br>
+
+	
+<main>
+    <article>
+        <h1>golang-race检测</h1>
+        <div id="common-a">
+            <b><time>2022-02-09</time></b>
+            
+            <a href="/categories/go"> ❐go</a>
+            
+            
+        </div>
+        <div>
+            <p>由于golang中的go是非常方便的，加上函数又非常容易隐藏go。
+所以很多时候，当我们写出一个程序的时候，我们并不知道这个程序在并发情况下会不会出现什么问题。</p>
+<p>所以在本质上说，goroutine的使用增加了函数的危险系数<a href="http://www.cnblogs.com/yjf512/archive/2012/06/30/2571247.html">论go语言中goroutine的使用</a>。比如一个全局变量，如果没有加上锁，我们写一个比较庞大的项目下来，就根本不知道这个变量是不是会引起多个goroutine竞争。</p>
+<p>官网的文章<a href="http://blog.golang.org/race-detector">Introducing the Go Race Detector</a>给出的例子就说明了这点：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">package</span> main
+
+<span style="color:#000;font-weight:bold">import</span>(
+    <span style="color:#d14">&#34;time&#34;</span>
+    <span style="color:#d14">&#34;fmt&#34;</span>
+    <span style="color:#d14">&#34;math/rand&#34;</span>
+)
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">main</span>() {
+    start <span style="color:#000;font-weight:bold">:=</span> time.<span style="color:#900;font-weight:bold">Now</span>()
+    <span style="color:#000;font-weight:bold">var</span> t <span style="color:#000;font-weight:bold">*</span>time.Timer
+    t = time.<span style="color:#900;font-weight:bold">AfterFunc</span>(<span style="color:#900;font-weight:bold">randomDuration</span>(), <span style="color:#000;font-weight:bold">func</span>() {
+        fmt.<span style="color:#900;font-weight:bold">Println</span>(time.<span style="color:#900;font-weight:bold">Now</span>().<span style="color:#900;font-weight:bold">Sub</span>(start))
+        t.<span style="color:#900;font-weight:bold">Reset</span>(<span style="color:#900;font-weight:bold">randomDuration</span>())
+    })
+    time.<span style="color:#900;font-weight:bold">Sleep</span>(<span style="color:#099">5</span> <span style="color:#000;font-weight:bold">*</span> time.Second)
+}
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">randomDuration</span>() time.Duration {
+    <span style="color:#000;font-weight:bold">return</span> time.<span style="color:#900;font-weight:bold">Duration</span>(rand.<span style="color:#900;font-weight:bold">Int63n</span>(<span style="color:#099">1e9</span>))
+}
+</code></pre></div><p>这个例子看起来没任何问题，但是实际上，time.AfterFunc是会另外启动一个goroutine来进行计时和执行func()。
+由于func中有对t(Timer)进行操作(t.Reset)，而主goroutine也有对t进行操作(t=time.After)。
+这个时候，其实有可能会造成两个goroutine对同一个变量进行竞争的情况。</p>
+<p>这个例子可能有点复杂，我们简化一下，使用一个更为简单的例子：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">package</span> main
+
+<span style="color:#000;font-weight:bold">import</span>(
+    <span style="color:#d14">&#34;time&#34;</span>
+    <span style="color:#d14">&#34;fmt&#34;</span>
+)
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">main</span>() {
+    a <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">1</span>
+    <span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>(){
+        a = <span style="color:#099">2</span>
+    }()
+    a = <span style="color:#099">3</span>
+    fmt.<span style="color:#900;font-weight:bold">Println</span>(<span style="color:#d14">&#34;a is &#34;</span>, a)
+
+    time.<span style="color:#900;font-weight:bold">Sleep</span>(<span style="color:#099">2</span> <span style="color:#000;font-weight:bold">*</span> time.Second)
+}
+</code></pre></div><p>在上面的例子中，看代码，我们其实看的出来，这里的go func触发的goroutine会修改a。
+主goroutine 也会对a进行修改。但是我们如果只go run运行，我们可能往往不会发现什么太大的问题。</p>
+<pre tabindex="0"><code>runtime  go run race1.go
+a is  3
+</code></pre><p>可喜的是，golang在1.1之后引入了竞争检测的概念。我们可以使用go run -race 或者 go build -race 来进行竞争检测。
+golang语言内部大概的实现就是同时开启多个goroutine执行同一个命令，并且纪录每个变量的状态。</p>
+<p>如果用race来检测上面的程序，我们就会看到输出：</p>
+<pre tabindex="0"><code>runtime  go run -race race1.go
+a is  3
+==================
+WARNING: DATA RACE
+Write by goroutine 5:
+  main.func·001()
+      /Users/yejianfeng/Documents/workspace/go/src/runtime/race1.go:11 +0x3a
+
+Previous write by main goroutine:
+  main.main()
+      /Users/yejianfeng/Documents/workspace/go/src/runtime/race1.go:13 +0xe7
+
+Goroutine 5 (running) created at:
+  main.main()
+      /Users/yejianfeng/Documents/workspace/go/src/runtime/race1.go:12 +0xd7
+==================
+Found 1 data race(s)
+exit status 66
+</code></pre><p>这个命令输出了Warning，告诉我们，goroutine5运行到第11行和main goroutine运行到13行的时候触发竞争了。
+而且goroutine5是在第12行的时候产生的。</p>
+<p>这样我们根据分析这个提示就可以看到这个程序在哪个地方写的有问题了。</p>
+<p>当然这个参数会引发CPU和内存的使用增加，所以基本是在测试环境使用，不是在正式环境开启。</p>
+
+        </div>
+    </article>
+</main>
+<aside>
+	<div>
+		<div>
+			<h1>LATEST POSTS</h1>
+		</div>
+		<div id='common-a'>
+			<ul>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-02-09</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang-race%E6%A3%80%E6%B5%8B/">golang-race检测</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-02-09</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang-%E4%BF%A1%E5%8F%B7%E9%87%8F/">golang-信号量</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-02-09</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/">golang知识汇总</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-01-15</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/">golang同步机制的实现</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2021-11-25</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
+                    </div>
+                </div>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+    <div id='footer'>
+	<p>&copy; 2022 <a href="http://nber1994.github.io/"><b>jingtianyou&#39;s blog</b></a>.
+	</p>
+    </div>
+</footer>
+
+</body>
+</html>

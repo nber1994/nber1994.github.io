@@ -6,7 +6,39 @@
     <description>Recent content in Posts on jingtianyou&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 15 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang-race检测</title>
+      <link>http://nber1994.github.io/posts/golang-race%E6%A3%80%E6%B5%8B/</link>
+      <pubDate>Wed, 09 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/golang-race%E6%A3%80%E6%B5%8B/</guid>
+      <description>由于golang中的go是非常方便的，加上函数又非常容易隐藏go。 所以很多时候，当我们写出一个程序的时候，我们并不知道这个程序在并发情况下会不会出现什么问题。
+所以在本质上说，goroutine的使用增加了函数的危险系数论go语言中goroutine的使用。比如一个全局变量，如果没有加上锁，我们写一个比较庞大的项目下来，就根本不知道这个变量是不是会引起多个goroutine竞争。
+官网的文章Introducing the Go Race Detector给出的例子就说明了这点：
+package main import( &amp;#34;time&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;math/rand&amp;#34; ) func main() { start := time.Now() var t *time.Timer t = time.AfterFunc(randomDuration(), func() { fmt.Println(time.Now().Sub(start)) t.Reset(randomDuration()) }) time.Sleep(5 * time.Second) } func randomDuration() time.Duration { return time.Duration(rand.Int63n(1e9)) } 这个例子看起来没任何问题，但是实际上，time.AfterFunc是会另外启动一个goroutine来进行计时和执行func()。 由于func中有对t(Timer)进行操作(t.Reset)，而主goroutine也有对t进行操作(t=time.After)。 这个时候，其实有可能会造成两个goroutine对同一个变量进行竞争的情况。
+这个例子可能有点复杂，我们简化一下，使用一个更为简单的例子：
+package main import( &amp;#34;time&amp;#34; &amp;#34;fmt&amp;#34; ) func main() { a := 1 go func(){ a = 2 }() a = 3 fmt.Println(&amp;#34;a is &amp;#34;, a) time.</description>
+    </item>
+    
+    <item>
+      <title>golang-信号量</title>
+      <link>http://nber1994.github.io/posts/golang-%E4%BF%A1%E5%8F%B7%E9%87%8F/</link>
+      <pubDate>Wed, 09 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/golang-%E4%BF%A1%E5%8F%B7%E9%87%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang知识汇总</title>
+      <link>http://nber1994.github.io/posts/golang%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Wed, 09 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/golang%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/</guid>
+      <description>锁 调度器 channel 基本类型 应用相关 </description>
+    </item>
+    
     <item>
       <title>golang同步机制的实现</title>
       <link>http://nber1994.github.io/posts/golang%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/</link>
@@ -92,7 +124,7 @@ $included_files = get_included_files(); file_put_contents(&#39;/tmp/xxx&#39;,imp
     </item>
     
     <item>
-      <title>channel &amp; selelct</title>
+      <title>golang channel浅析</title>
       <link>http://nber1994.github.io/posts/channel-select/</link>
       <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
       
@@ -148,12 +180,12 @@ func Action(ctx context.Context, db *Databus) (*Databus, error) 每个函数都�
     </item>
     
     <item>
-      <title>IBM_Model_f</title>
+      <title>IBM Model f</title>
       <link>http://nber1994.github.io/posts/ibm_model_f/</link>
       <pubDate>Thu, 09 Jul 2020 00:00:00 +0000</pubDate>
       
       <guid>http://nber1994.github.io/posts/ibm_model_f/</guid>
-      <description>pic-IBM_Model_f 新入手IBM Model f键盘 产于1989年</description>
+      <description>新入手IBM Model f键盘 产于1989年</description>
     </item>
     
     <item>
@@ -270,7 +302,7 @@ dict结构 dict结构 typedef struct dict { //类型特定函数  dictType *type
       <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>http://nber1994.github.io/posts/codereview/</guid>
-      <description>pic-codeReview </description>
+      <description></description>
     </item>
     
     <item>
@@ -657,8 +689,9 @@ Ken Thompson 自己设计过一辆汽车。和其他车不同，它没有速度�
       <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>http://nber1994.github.io/posts/%E5%89%91%E6%8C%87offer/</guid>
-      <description>题目列表，当做一个速查列表好了，具体代码就不放了:P
- 链表-8道： 剑指Offer（三）：从尾到头打印链表 剑指Offer（十四）：链表中倒数第k个结点 剑指Offer（十五）：反转链表 剑指Offer（十六）：合并两个排序的链表 剑指Offer（二十五）：复杂链表的复制  第一步：复制复杂指针的label和next。但是这次我们把复制的结点跟在元结点后面，而不是直接创建新的链表； 第二步：设置复制出来的结点的random。因为新旧结点是前后对应关系，所以也是一步就能找到random； 第三步：拆分链表。奇数是原链表，偶数是复制的链表。   剑指Offer（三十六）：两个链表的第一个公共结点  方法一：  我们可以把两个链表拼接起来，一个pHead1在前pHead2在后，一个pHead2在前pHead1在后。这样，生成了两个相同长度的链表，那么我们只要同时遍历这两个表，就一定能找到公共结点。时间复杂度O(m+n)，空间复杂度O(m+n)。    方法二：  我们也可以先让把长的链表的头砍掉，让两个链表长度相同，这样，同时遍历也能找到公共结点。此时，时间复杂度O(m+n)，空间复杂度为O(MAX(m,n))。    剑指Offer（五十五）：链表中环的入口结点 剑指Offer（五十六）：删除链表中重复的结点 二叉树(12道)： 剑指Offer（四）：重建二叉树 剑指Offer（十七）：树的子结构 剑指Offer（十八）：二叉树的镜像 剑指Offer（二十二）：从上往下打印二叉树 剑指Offer（二十四）：二叉树中和为某一值的路径 剑指Offer（三十八）：二叉树的深度 剑指Offer（三十九）：平衡二叉树 剑指Offer（五十七）：二叉树的下一个结点 剑指Offer（五十八）：对称的二叉树 剑指Offer（五十九）：按之字顺序打印二叉树 剑指Offer（六十）：把二叉树打印成多行 剑指Offer（六十一）：序列化二叉树 二叉搜索树(3道)： 剑指Offer（二十三）：二叉搜索树的后序遍历序列 剑指Offer（二十六）：二叉搜索树与双向链表 剑指Offer（六十二）：二叉搜索树的第k个结点 数组(11道)： 剑指Offer（一）：二维数组中的查找 剑指Offer（六）：旋转数组的最小数字 剑指Offer（十三）：调整数组顺序使奇数位于偶数前面 剑指Offer（二十八）：数组中出现次数超过一半的数字 剑指Offer（三十）：连续子数组的最大和 剑指Offer（三十二）：把数组排成最小的数 剑指Offer（三十五）：数组中的逆序对 剑指Offer（三十七）：数字在排序数组中出现的次数 剑指Offer（四十）：数组中只出现一次的数字 剑指Offer（五十）：数组中重复的数字 剑指Offer（五十一）：构建乘积数组 字符串(8道)： 剑指Offer(二)：替换空格 剑指Offer（二十七）：字符串的排列 剑指Offer（三十四）：第一个只出现一次的字符 剑指Offer（四十三）：左旋转字符串 剑指Offer（四十四）：翻转单词顺序序列 剑指Offer（四十九）：把字符串转换成整数 剑指Offer（五十二）：正则表达式匹配 剑指Offer（五十三）：表示数值的字符串 栈(3道)： 剑指Offer（五）：用两个栈实现队列 剑指Offer（二十）：包含min函数的栈 剑指Offer（二十一）：栈的压入、弹出序列 递归(4道)： 剑指Offer（七）：裴波那契数列 剑指Offer（八）：跳台阶 剑指Offer（九）：变态跳台阶 剑指Offer（十）：矩形覆盖 回溯法(2道)： 剑指Offer（六十五）：矩阵中的路径 剑指Offer（六十六）：机器人的运动范围 其他(15道)： 剑指Offer（十一）：二进制中1的个数 剑指Offer（十二）：数值的整数次方 剑指Offer（十九）：顺时针打印矩阵 剑指Offer（二十九）：最小的K个数 剑指Offer（三十一）：整数中1出现的次数（从1到n整数中1出现的次数） 剑指Offer（三十三）：丑数 剑指Offer（四十一）：和为S的连续正数序列 剑指Offer（四十二）：和为S的两个数字 剑指Offer（四十五）：扑克牌顺子 剑指Offer（四十六）：孩子们的游戏（圆圈中最后剩下的数） 剑指Offer（四十七）：求1+2+3+…+n 剑指Offer（四十八）：不用加减乘除的加法 剑指Offer（五十四）：字符流中第一个不重复的字符 剑指Offer（六十三）：数据流中的中位数 剑指Offer（六十四）：滑动窗口的最大值</description>
+      <description>题目列表，当做一个速查列表好了
+ 链表-8道 剑指 Offer 06. 从尾到头打印链表
+//递归打印 package reverse_print /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ type ListNode struct { Val int Next *ListNode } func ReversePrint(head *ListNode) []int { var res []int ReversePrintRecv(head, &amp;amp;res) return res } func ReversePrintRecv(head *ListNode, res *[]int) { if head != nil { ReversePrintRecv(head.Next, res) *res = append(*res, head.Val) } } 剑指Offer（三）：从尾到头打印链表 剑指Offer（十四）：链表中倒数第k个结点 剑指Offer（十五）：反转链表 剑指Offer（十六）：合并两个排序的链表 剑指Offer（二十五）：复杂链表的复制  第一步：复制复杂指针的label和next。但是这次我们把复制的结点跟在元结点后面，而不是直接创建新的链表； 第二步：设置复制出来的结点的random。因为新旧结点是前后对应关系，所以也是一步就能找到random； 第三步：拆分链表。奇数是原链表，偶数是复制的链表。   剑指Offer（三十六）：两个链表的第一个公共结点  方法一：  我们可以把两个链表拼接起来，一个pHead1在前pHead2在后，一个pHead2在前pHead1在后。这样，生成了两个相同长度的链表，那么我们只要同时遍历这两个表，就一定能找到公共结点。时间复杂度O(m+n)，空间复杂度O(m+n)。    方法二：  我们也可以先让把长的链表的头砍掉，让两个链表长度相同，这样，同时遍历也能找到公共结点。此时，时间复杂度O(m+n)，空间复杂度为O(MAX(m,n))。    剑指Offer（五十五）：链表中环的入口结点 剑指Offer（五十六）：删除链表中重复的结点 二叉树(12道)： 剑指Offer（四）：重建二叉树 剑指Offer（十七）：树的子结构 剑指Offer（十八）：二叉树的镜像 剑指Offer（二十二）：从上往下打印二叉树 剑指Offer（二十四）：二叉树中和为某一值的路径 剑指Offer（三十八）：二叉树的深度 剑指Offer（三十九）：平衡二叉树 剑指Offer（五十七）：二叉树的下一个结点 剑指Offer（五十八）：对称的二叉树 剑指Offer（五十九）：按之字顺序打印二叉树 剑指Offer（六十）：把二叉树打印成多行 剑指Offer（六十一）：序列化二叉树 二叉搜索树(3道)： 剑指Offer（二十三）：二叉搜索树的后序遍历序列 剑指Offer（二十六）：二叉搜索树与双向链表 剑指Offer（六十二）：二叉搜索树的第k个结点 数组(11道)： 剑指Offer（一）：二维数组中的查找 剑指Offer（六）：旋转数组的最小数字 剑指Offer（十三）：调整数组顺序使奇数位于偶数前面 剑指Offer（二十八）：数组中出现次数超过一半的数字 剑指Offer（三十）：连续子数组的最大和 剑指Offer（三十二）：把数组排成最小的数 剑指Offer（三十五）：数组中的逆序对 剑指Offer（三十七）：数字在排序数组中出现的次数 剑指Offer（四十）：数组中只出现一次的数字 剑指Offer（五十）：数组中重复的数字 剑指Offer（五十一）：构建乘积数组 字符串(8道)： 剑指Offer(二)：替换空格 剑指Offer（二十七）：字符串的排列 剑指Offer（三十四）：第一个只出现一次的字符 剑指Offer（四十三）：左旋转字符串 剑指Offer（四十四）：翻转单词顺序序列 剑指Offer（四十九）：把字符串转换成整数 剑指Offer（五十二）：正则表达式匹配 剑指Offer（五十三）：表示数值的字符串 栈(3道)： 剑指Offer（五）：用两个栈实现队列 剑指Offer（二十）：包含min函数的栈 剑指Offer（二十一）：栈的压入、弹出序列 递归(4道)： 剑指Offer（七）：裴波那契数列 剑指Offer（八）：跳台阶 剑指Offer（九）：变态跳台阶 剑指Offer（十）：矩形覆盖 回溯法(2道)： 剑指Offer（六十五）：矩阵中的路径 剑指Offer（六十六）：机器人的运动范围 其他(15道)： 剑指Offer（十一）：二进制中1的个数 剑指Offer（十二）：数值的整数次方 剑指Offer（十九）：顺时针打印矩阵 剑指Offer（二十九）：最小的K个数 剑指Offer（三十一）：整数中1出现的次数（从1到n整数中1出现的次数） 剑指Offer（三十三）：丑数 剑指Offer（四十一）：和为S的连续正数序列 剑指Offer（四十二）：和为S的两个数字 剑指Offer（四十五）：扑克牌顺子 剑指Offer（四十六）：孩子们的游戏（圆圈中最后剩下的数） 剑指Offer（四十七）：求1+2+3+…+n 剑指Offer（四十八）：不用加减乘除的加法 剑指Offer（五十四）：字符流中第一个不重复的字符 剑指Offer（六十三）：数据流中的中位数 剑指Offer（六十四）：滑动窗口的最大值</description>
     </item>
     
     <item>
@@ -864,15 +897,6 @@ root:x:0:0:root:/root:/usr/bin/zsh daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nolog
     </item>
     
     <item>
-      <title>leetcode-图</title>
-      <link>http://nber1994.github.io/posts/%E5%9B%BE/</link>
-      <pubDate>Tue, 18 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://nber1994.github.io/posts/%E5%9B%BE/</guid>
-      <description>表示方式 package main import ( &amp;#34;fmt&amp;#34; ) func main() { g := graph{} n1, n2, n3, n4, n5 := node{1}, node{2}, node{3}, node{4}, node{5} g.addNode(&amp;amp;n1) g.addNode(&amp;amp;n2) g.addNode(&amp;amp;n3) g.addNode(&amp;amp;n4) g.addNode(&amp;amp;n5) g.addEdge(&amp;amp;n1, &amp;amp;n2) g.addEdge(&amp;amp;n1, &amp;amp;n5) g.addEdge(&amp;amp;n2, &amp;amp;n3) g.addEdge(&amp;amp;n2, &amp;amp;n4) g.addEdge(&amp;amp;n2, &amp;amp;n5) g.addEdge(&amp;amp;n3, &amp;amp;n4) g.addEdge(&amp;amp;n4, &amp;amp;n5) g.string() g.BFS() g.DFS() } type node struct { val int } type graph struct { nodes []*node //使用邻接表来存储关系 	edges map[node][]*node } func (g *graph) addNode(n *node) { g.</description>
-    </item>
-    
-    <item>
       <title>strace命令</title>
       <link>http://nber1994.github.io/posts/strace%E5%91%BD%E4%BB%A4/</link>
       <pubDate>Tue, 18 Jun 2019 00:00:00 +0000</pubDate>
@@ -883,6 +907,15 @@ root:x:0:0:root:/root:/usr/bin/zsh daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nolog
  #跟踪nginx strace -tt -T -f -e trace=file -o /data/log/strace.log -s 1024 ./nginx # -e trace=file 显示和文件访问相关的调用 -e的拓展 要跟踪某个具体的系统调用，-e trace=xxx即可。但有时候我们要跟踪一类系统调用，比如所有和文件名有关的调用、所有和内存分配有关的调用。
 如果人工输入每一个具体的系统调用名称，可能容易遗漏。于是strace提供了几类常用的系统调用组合名字。
  -e trace=file 跟踪和文件访问相关的调用(参数中有文件名) -e trace=process 和进程管理相关的调用，比如fork/exec/exit_group -e trace=network 和网络通信相关的调用，比如socket/sendto/connect -e trace=signal 信号发送和处理相关，比如kill/sigaction -e trace=desc 和文件描述符相关，比如write/read/select/epoll等 -e trace=ipc 进程见同学相关，比如shmget等</description>
+    </item>
+    
+    <item>
+      <title>图</title>
+      <link>http://nber1994.github.io/posts/%E5%9B%BE/</link>
+      <pubDate>Tue, 18 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E5%9B%BE/</guid>
+      <description>表示方式 package main import ( &amp;#34;fmt&amp;#34; ) func main() { g := graph{} n1, n2, n3, n4, n5 := node{1}, node{2}, node{3}, node{4}, node{5} g.addNode(&amp;amp;n1) g.addNode(&amp;amp;n2) g.addNode(&amp;amp;n3) g.addNode(&amp;amp;n4) g.addNode(&amp;amp;n5) g.addEdge(&amp;amp;n1, &amp;amp;n2) g.addEdge(&amp;amp;n1, &amp;amp;n5) g.addEdge(&amp;amp;n2, &amp;amp;n3) g.addEdge(&amp;amp;n2, &amp;amp;n4) g.addEdge(&amp;amp;n2, &amp;amp;n5) g.addEdge(&amp;amp;n3, &amp;amp;n4) g.addEdge(&amp;amp;n4, &amp;amp;n5) g.string() g.BFS() g.DFS() } type node struct { val int } type graph struct { nodes []*node //使用邻接表来存储关系 	edges map[node][]*node } func (g *graph) addNode(n *node) { g.</description>
     </item>
     
     <item>
@@ -1059,7 +1092,7 @@ I/O多路复用的技术的优劣 优点： 1.相比较基于进程的并发技�
     </item>
     
     <item>
-      <title>leetcode-杂题</title>
+      <title>杂题</title>
       <link>http://nber1994.github.io/posts/%E6%9D%82%E9%A2%98/</link>
       <pubDate>Tue, 09 Apr 2019 00:00:00 +0000</pubDate>
       

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>summary on jingtianyou&#39;s blog</title>
+    <link>http://nber1994.github.io/tags/summary/</link>
+    <description>Recent content in summary on jingtianyou&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 09 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://nber1994.github.io/tags/summary/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang知识汇总</title>
+      <link>http://nber1994.github.io/posts/golang%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Wed, 09 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/golang%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/</guid>
+      <description>锁 调度器 channel 基本类型 应用相关 </description>
+    </item>
+    
+    <item>
+      <title>SilverBullet</title>
+      <link>http://nber1994.github.io/posts/silverbullet/</link>
+      <pubDate>Thu, 09 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/silverbullet/</guid>
+      <description>mysql  讲一讲myisam和innodb的区别  锁 事务 。。。   讲讲innodb的索引   索引结构 索引
+ 为什么innodb的索引是用B+树实现  平衡二叉树 叶子节点相连，范围 。。。   B+树的什么性质影响着查询性能  层高   innodb的辅助索引的叶子节点存储的是什么 为什么这么存储，有什么优劣  主键索引变动对索引的影响小 但是查询速度会编码，引入自适应hash索引   索引的最左前缀匹配原则 abc联合索引，说明什么查询条件能命中索引   事务
+ 讲一讲innodb的事务 事务隔离级别，分别会出现什么问题  脏读 幻读 不可重复读   innodb默认是哪种隔离级别，如何解决上述问题  mvcc next-key锁   innodb如何解决幻读，如何解决不可重复读 幻读和不可重复读分别对应什么场景  幻读insert 不可重复读update   快照度和当前度，innodb中，事务中的读是快照读，怎么强制读到当前的数据  sql+for update强制读当前   innodb中的锁你了解吗  行 意向 gap next-key   innodb支持哪种锁 为什么会引入next-key锁，为了解决什么问题  幻读   innodb的持久化你知道吗 redo log和undo log分别有什么作用  redo log持久化 undo log快照度，事务回滚   innodb的double-buffer-wirte你知道吗，为什么要引入这个机制 你是怎么优化sql的   sql军规</description>
+    </item>
+    
+    <item>
+      <title>questions</title>
+      <link>http://nber1994.github.io/posts/questions/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/questions/</guid>
+      <description>Questions OS 虚拟内存 段页式 倒排页表 LRU，LFU算法实现 共享内存 多进程，多线程 如何fork一个进程 exec waitpid exit 页表的copy-on-worite PCB
+ PCB process control block &amp;gt; task_struct存储了进程的页表，打开文件描述符表，内存描述符，通用寄存器，进程状态等
+ 进程状态 IO多路复用 select，poll，epoll实现和优劣
+用户态和内核态区别 进程，线程间通信 什么时候多线程什么时候多进程 线程ID进程组ID 线程和进程的切换和调度，切换的时什么 多进程 - 数据共享复杂，需要进程间通信 - 相对于多线程占用更多的内存 - 进程间切换相对于多线程开销较大 - 编程调试较简单 - 进程间互相不影响 - 适用于多机，性能扩展性较好 多线程 - 数据共享较简单 - 线程间可能会互相影响 - 编程调试较复杂 - 可以利用多核的优势 - 多线程之间切换开销较小
+ 文件描述符表  网络 http https https相比较于http来说，在会话层加入了stl算法加密，过程如下 1.服务端发送来证书和公钥 2.客户端根据内置的颁发机构验证证书的真伪 3.如果证书为假，则报错 4.如果证书为真，则生成随机值，并用公钥加密传递给服务端 5.服务端收到后使用私钥进行解密，拿到随机值 6.之后的通信都使用随机值进行加密
+http code 200 ok 301 moved permanly 302 Found 303 See Other 400 Bad Request 401 Nuauthorized 403 forbidden 404 Not Found 500 internal server error 502 bad gateway 503 service unavaliable 504 gateway timout</description>
+    </item>
+    
+    <item>
+      <title>问题汇总</title>
+      <link>http://nber1994.github.io/posts/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://nber1994.github.io/posts/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</guid>
+      <description>问题汇总 OS 虚拟内存 段页式 倒排页表 LRU，LFU算法实现 共享内存 多进程，多线程 如何fork一个进程 exec waitpid exit 页表的copy-on-worite PCB
+ PCB process control block &amp;gt; task_struct存储了进程的页表，打开文件描述符表，内存描述符，通用寄存器，进程状态等
+ 进程状态 IO多路复用 select，poll，epoll实现和优劣
+用户态和内核态区别 进程，线程间通信 什么时候多线程什么时候多进程 线程ID进程组ID 线程和进程的切换和调度，切换的时什么 多进程 - 数据共享复杂，需要进程间通信 - 相对于多线程占用更多的内存 - 进程间切换相对于多线程开销较大 - 编程调试较简单 - 进程间互相不影响 - 适用于多机，性能扩展性较好 多线程 - 数据共享较简单 - 线程间可能会互相影响 - 编程调试较复杂 - 可以利用多核的优势 - 多线程之间切换开销较小
+ 文件描述符表  网络 http https https相比较于http来说，在会话层加入了stl算法加密，过程如下 1.服务端发送来证书和公钥 2.客户端根据内置的颁发机构验证证书的真伪 3.如果证书为假，则报错 4.如果证书为真，则生成随机值，并用公钥加密传递给服务端 5.服务端收到后使用私钥进行解密，拿到随机值 6.之后的通信都使用随机值进行加密
+http code 200 ok 301 moved permanly 302 Found 303 See Other 400 Bad Request 401 Nuauthorized 403 forbidden 404 Not Found 500 internal server error 502 bad gateway 503 service unavaliable 504 gateway timout</description>
+    </item>
+    
+  </channel>
+</rss>

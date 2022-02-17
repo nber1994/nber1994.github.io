@@ -116,10 +116,39 @@
         </div>
         <div>
             <blockquote>
-<p>题目列表，当做一个速查列表好了，具体代码就不放了:P</p>
+<p>题目列表，当做一个速查列表好了</p>
 </blockquote>
-<h1 id="链表-8道">链表-8道：</h1>
-<h1 id="剑指offer三从尾到头打印链表">剑指Offer（三）：从尾到头打印链表</h1>
+<h1 id="链表-8道">链表-8道</h1>
+<p><a href="https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/">剑指 Offer 06. 从尾到头打印链表</a></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#998;font-style:italic">//递归打印
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">package</span> reverse_print
+
+<span style="color:#998;font-style:italic">/**
+</span><span style="color:#998;font-style:italic"> * Definition for singly-linked list.
+</span><span style="color:#998;font-style:italic"> * type ListNode struct {
+</span><span style="color:#998;font-style:italic"> *     Val int
+</span><span style="color:#998;font-style:italic"> *     Next *ListNode
+</span><span style="color:#998;font-style:italic"> * }
+</span><span style="color:#998;font-style:italic"> */</span>
+
+<span style="color:#000;font-weight:bold">type</span> ListNode <span style="color:#000;font-weight:bold">struct</span> {
+	Val  <span style="color:#458;font-weight:bold">int</span>
+	Next <span style="color:#000;font-weight:bold">*</span>ListNode
+}
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">ReversePrint</span>(head <span style="color:#000;font-weight:bold">*</span>ListNode) []<span style="color:#458;font-weight:bold">int</span> {
+	<span style="color:#000;font-weight:bold">var</span> res []<span style="color:#458;font-weight:bold">int</span>
+	<span style="color:#900;font-weight:bold">ReversePrintRecv</span>(head, <span style="color:#000;font-weight:bold">&amp;</span>res)
+	<span style="color:#000;font-weight:bold">return</span> res
+}
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">ReversePrintRecv</span>(head <span style="color:#000;font-weight:bold">*</span>ListNode, res <span style="color:#000;font-weight:bold">*</span>[]<span style="color:#458;font-weight:bold">int</span>) {
+	<span style="color:#000;font-weight:bold">if</span> head <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+		<span style="color:#900;font-weight:bold">ReversePrintRecv</span>(head.Next, res)
+		<span style="color:#000;font-weight:bold">*</span>res = <span style="color:#0086b3">append</span>(<span style="color:#000;font-weight:bold">*</span>res, head.Val)
+	}
+}
+</code></pre></div><h1 id="剑指offer三从尾到头打印链表">剑指Offer（三）：从尾到头打印链表</h1>
 <h1 id="剑指offer十四链表中倒数第k个结点">剑指Offer（十四）：链表中倒数第k个结点</h1>
 <h1 id="剑指offer十五反转链表">剑指Offer（十五）：反转链表</h1>
 <h1 id="剑指offer十六合并两个排序的链表">剑指Offer（十六）：合并两个排序的链表</h1>
@@ -227,6 +256,33 @@
 				
                 <div id="lists">
                     <div id=date class="date-time-title">
+                        <time>2022-02-09</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang-race%E6%A3%80%E6%B5%8B/">golang-race检测</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-02-09</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang-%E4%BF%A1%E5%8F%B7%E9%87%8F/">golang-信号量</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
+                        <time>2022-02-09</time>
+                    </div>
+                    <div class="date-time-title post">
+                        <a href="http://nber1994.github.io/posts/golang%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/">golang知识汇总</a>
+                    </div>
+                </div>
+				
+                <div id="lists">
+                    <div id=date class="date-time-title">
                         <time>2022-01-15</time>
                     </div>
                     <div class="date-time-title post">
@@ -240,33 +296,6 @@
                     </div>
                     <div class="date-time-title post">
                         <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8A/">go-scheduler 上</a>
-                    </div>
-                </div>
-				
-                <div id="lists">
-                    <div id=date class="date-time-title">
-                        <time>2021-11-25</time>
-                    </div>
-                    <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/scheduler-%E4%B8%8B/">go-scheduler 下</a>
-                    </div>
-                </div>
-				
-                <div id="lists">
-                    <div id=date class="date-time-title">
-                        <time>2020-11-24</time>
-                    </div>
-                    <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96php%E5%BC%95%E7%94%A8%E7%9A%84%E6%89%80%E6%9C%89%E8%84%9A%E6%9C%AC/">如何获取php引用的所有脚本</a>
-                    </div>
-                </div>
-				
-                <div id="lists">
-                    <div id=date class="date-time-title">
-                        <time>2020-11-23</time>
-                    </div>
-                    <div class="date-time-title post">
-                        <a href="http://nber1994.github.io/posts/channel-select/">channel &amp; selelct</a>
                     </div>
                 </div>
 				
