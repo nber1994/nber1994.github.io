@@ -114,7 +114,39 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#旧版本的复制实现">旧版本的复制实现</a>
+          <ul>
+            <li><a href="#同步">同步</a></li>
+            <li><a href="#命令传播">命令传播</a></li>
+            <li><a href="#问题">问题</a></li>
+          </ul>
+        </li>
+        <li><a href="#新版本复制实现">新版本复制实现</a>
+          <ul>
+            <li><a href="#部分重同步的实现">部分重同步的实现</a></li>
+            <li><a href="#psync命令实现">psync命令实现</a></li>
+          </ul>
+        </li>
+        <li><a href="#复制的实现">复制的实现</a>
+          <ul>
+            <li></li>
+            <li><a href="#心跳检测">心跳检测</a></li>
+          </ul>
+        </li>
+        <li><a href="#重点回顾">重点回顾</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <ul>
 <li>redis通过slaveof命令，放一个服务器去复制另一个服务器，一个为主服务器，另一个为从服务器</li>
 <li>主从服务器保存相同的数据称为一致</li>
@@ -290,7 +322,6 @@
 <p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181120112251961_182453933.png" alt=""></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

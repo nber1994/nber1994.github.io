@@ -114,7 +114,43 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么要是有线程池">为什么要是有线程池</a>
+      <ul>
+        <li><a href="#没有线程池的现象">没有线程池的现象</a></li>
+        <li><a href="#原因">原因</a></li>
+        <li><a href="#减少线程重复创建与销毁的开销提高性能">减少线程重复创建与销毁的开销，提高性能</a></li>
+        <li><a href="#对系统起到保护作用">对系统起到保护作用</a></li>
+        <li><a href="#线程池和连接池的区别">线程池和连接池的区别</a></li>
+      </ul>
+    </li>
+    <li><a href="#mysql线程池介绍">Mysql线程池介绍</a>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#架构">架构</a></li>
+        <li><a href="#架构图">架构图</a></li>
+        <li><a href="#thread-pool-组成">thread pool 组成</a>
+          <ul>
+            <li><a href="#队列高优先级队列和低优先级队列">队列(高优先级队列和低优先级队列)</a></li>
+            <li><a href="#listener线程">listener线程</a></li>
+            <li><a href="#worker线程">worker线程</a></li>
+            <li><a href="#timer线程">timer线程</a></li>
+            <li><a href="#检查阻塞">检查阻塞</a></li>
+          </ul>
+        </li>
+        <li><a href="#怎么工作">怎么工作</a></li>
+        <li><a href="#更多细节">更多细节</a></li>
+      </ul>
+    </li>
+    <li><a href="#连接推荐">连接推荐</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>mysql5.7之后，引进了线程池的概念</p>
 </blockquote>
@@ -185,7 +221,6 @@ MySQL线程池问题个人整理 <a href="https://cloud.tencent.com/developer/ar
 Mysql线程池 淘宝月报 <a href="http://mysql.taobao.org/monthly/2016/02/09/">http://mysql.taobao.org/monthly/2016/02/09/</a></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

@@ -114,7 +114,34 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#事务实现">事务实现</a>
+          <ul>
+            <li><a href="#事务开始">事务开始</a></li>
+            <li><a href="#命令入队">命令入队</a></li>
+            <li><a href="#执行事务">执行事务</a></li>
+          </ul>
+        </li>
+        <li><a href="#watch命令">watch命令</a>
+          <ul>
+            <li><a href="#watch命令监听数据库键">watch命令监听数据库键</a></li>
+            <li><a href="#监听的触发">监听的触发</a></li>
+          </ul>
+        </li>
+        <li><a href="#事务的acid">事务的ACID</a></li>
+        <li><a href="#重点回顾">重点回顾</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <ul>
 <li>redis通过multi，exec，watch等命令实现事务功能</li>
 <li>事务提供了一种将多个命令打包，一次性顺序执行的多个命令的机制</li>
@@ -228,7 +255,6 @@
 <img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181121183318766_1909384854.png" alt=""></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

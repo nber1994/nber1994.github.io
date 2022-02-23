@@ -114,7 +114,36 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#加锁机制">加锁机制</a></li>
+    <li><a href="#innodb对不同的语句加不同的锁">innoDB对不同的语句加不同的锁</a></li>
+    <li><a href="#加锁方式">加锁方式</a></li>
+    <li><a href="#应用场景">应用场景</a>
+      <ul>
+        <li><a href="#不安全的做法">不安全的做法:</a></li>
+        <li><a href="#解决方案">解决方案</a></li>
+      </ul>
+    </li>
+    <li><a href="#row-lock-与-table-lock">Row Lock 与 Table Lock</a>
+      <ul>
+        <li><a href="#例子">例子</a>
+          <ul>
+            <li><a href="#明确指名主键并且有此数据row-lock">明确指名主键,并且有此数据,row lock</a></li>
+            <li><a href="#明确指明主键但无数据无lock">明确指明主键，但无数据，无lock</a></li>
+            <li><a href="#无主键table-lock">无主键table lock</a></li>
+            <li><a href="#主键不明确table-lock">主键不明确，table lock</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>胡乱探讨了mysql的InnoDB的简单的加锁机制与使用场景，同时也有加锁等级</p>
 </blockquote>
@@ -174,7 +203,6 @@ SELECT * FROM products WHERE id=3 FOR UPDATE 如此可以确保quantity 在别�
 </span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>products<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">LIKE</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;3&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">UPDATE</span>;<span style="color:#bbb">
 </span></code></pre></div>
         </div>
-    </article>
 </main>
 <aside>
 	<div>

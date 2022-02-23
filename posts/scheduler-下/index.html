@@ -114,7 +114,42 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#三调度器-scheduler">三、调度器 Scheduler</a>
+      <ul>
+        <li><a href="#3-任务窃取调度器--11httpsgithubcomgolanggoblob779c45a50700bda0f6ec98429720802e6c1624e8srcpkgruntimeprocc">3. 任务窃取调度器 · <a href="https://github.com/golang/go/blob/779c45a50700bda0f6ec98429720802e6c1624e8/src/pkg/runtime/proc.c">1.1</a></a>
+          <ul>
+            <li><a href="#1-mcache泛滥---引入中间层p">1. mcache泛滥 - 引入中间层P</a></li>
+            <li><a href="#2-资源竞争严重--goroutine传递问题---p构建本地g队列">2. 资源竞争严重 &amp; Goroutine传递问题 - P构建本地G队列</a></li>
+            <li><a href="#3-频繁的线程阻塞">3. 频繁的线程阻塞</a></li>
+          </ul>
+        </li>
+        <li><a href="#四抢占式调度器--12httpsgithubcomgolanggoblobgo12srcpkgruntimeprocc--至今">四、抢占式调度器 · <a href="https://github.com/golang/go/blob/go1.2/src/pkg/runtime/proc.c">1.2</a> ~ 至今</a>
+          <ul>
+            <li></li>
+            <li><a href="#41-基于协作的抢占式调度器---12--113">4.1 基于协作的抢占式调度器 - 1.2 ~ 1.13</a></li>
+            <li><a href="#42-基于信号的抢占式调度器---114--至今">4.2 基于信号的抢占式调度器 - 1.14 ~ 至今</a></li>
+            <li><a href="#43-gmp-scheduler角色介绍">4.3 GMP Scheduler角色介绍</a></li>
+            <li><a href="#44-gmp-整体一张图">4.4 GMP 整体一张图</a></li>
+            <li><a href="#45-程序初始化">4.5 程序初始化</a></li>
+            <li><a href="#46-调度器初始化">4.6 调度器初始化</a></li>
+            <li><a href="#47-协程创建">4.7 协程创建</a></li>
+            <li><a href="#48-启动m">4.8 启动M</a></li>
+            <li><a href="#49-调度循环">4.9 调度循环</a></li>
+          </ul>
+        </li>
+        <li><a href="#五非均匀存储访问调度器--提案">五、非均匀存储访问调度器 · 提案</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考资料">参考资料</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <h1 id="三调度器-scheduler">三、调度器 Scheduler</h1>
 <h2 id="3-任务窃取调度器--11httpsgithubcomgolanggoblob779c45a50700bda0f6ec98429720802e6c1624e8srcpkgruntimeprocc">3. 任务窃取调度器 · <a href="https://github.com/golang/go/blob/779c45a50700bda0f6ec98429720802e6c1624e8/src/pkg/runtime/proc.c">1.1</a></h2>
 <p>2012 年 Google 的工程师 Dmitry Vyukov 在 <a href="http://golang.org/s/go11sched">Scalable Go Scheduler Design Doc</a> 中指出了现有多线程调度器的问题，并且针对出现的问题，针对性的进行了改进设计。</p>
@@ -912,7 +947,6 @@ top:
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

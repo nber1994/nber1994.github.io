@@ -114,7 +114,30 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#分布式事务产生的原因">分布式事务产生的原因</a></li>
+    <li><a href="#分布式事务的原则">分布式事务的原则</a>
+      <ul>
+        <li><a href="#cap原则">CAP原则</a></li>
+        <li><a href="#base原则">BASE原则</a></li>
+        <li><a href="#解决方案">解决方案</a>
+          <ul>
+            <li><a href="#2pc-两阶段提交协议">2PC 两阶段提交协议</a></li>
+            <li><a href="#3pc-三阶段提交协议">3PC 三阶段提交协议</a></li>
+            <li><a href="#tcc模型-两阶段型补偿型">TCC模型 （两阶段型，补偿型）</a></li>
+            <li><a href="#saga模型">saga模型</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <p><a href="https://juejin.im/post/5b5a0bf9f265da0f6523913b">分布式事务-掘金</a>
 分布式事务的解决方案有很多种，
 一致性从强到弱，性能开销从从多到少：三阶段，二阶段，TCC，saga
@@ -306,7 +329,6 @@ C1=加100元 C2=给用户减一瓶水 C3=给库存加一瓶水
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

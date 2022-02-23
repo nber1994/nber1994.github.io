@@ -114,7 +114,59 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#体系架构">体系架构</a></li>
+    <li><a href="#后台线程">后台线程</a>
+      <ul>
+        <li><a href="#master-thread">master thread</a></li>
+        <li><a href="#io-thread">IO thread</a></li>
+        <li><a href="#purge-thread">purge thread</a></li>
+      </ul>
+    </li>
+    <li><a href="#内存">内存</a>
+      <ul>
+        <li><a href="#缓冲池">缓冲池</a></li>
+        <li><a href="#lru-list和free-list和flush-list">LRU list和Free list和flush list</a>
+          <ul>
+            <li><a href="#lru算法的改进">lru算法的改进</a></li>
+            <li><a href="#free-list">free list</a></li>
+            <li><a href="#flush-list">flush list</a></li>
+          </ul>
+        </li>
+        <li><a href="#重做日志缓冲">重做日志缓冲</a></li>
+      </ul>
+    </li>
+    <li><a href="#checkpoint技术">checkpoint技术</a>
+      <ul>
+        <li><a href="#checkpoint种类">checkpoint种类</a></li>
+      </ul>
+    </li>
+    <li><a href="#innodb关键特性">InnoDB关键特性</a>
+      <ul>
+        <li><a href="#插入缓冲-insert-buffer">插入缓冲 insert buffer</a></li>
+        <li><a href="#为什么要引入insert-buffer">为什么要引入insert buffer</a></li>
+        <li><a href="#insert-buffer如何工作">insert buffer如何工作</a></li>
+        <li><a href="#insert-buffer条件">insert buffer条件</a></li>
+        <li><a href="#宕机危害">宕机危害</a></li>
+        <li><a href="#升级版本change-buffer">升级版本change buffer</a></li>
+        <li><a href="#insert-buffer的内部实现">insert buffer的内部实现</a></li>
+        <li><a href="#double-wirte两次写">double wirte两次写</a></li>
+        <li><a href="#为什么引入double-write">为什么引入double write</a></li>
+        <li><a href="#double-write实现">double write实现</a></li>
+        <li><a href="#恢复">恢复</a></li>
+        <li><a href="#自适应哈希索引ahi">自适应哈希索引AHI</a></li>
+        <li><a href="#异步io">异步IO</a></li>
+        <li><a href="#刷新临近页">刷新临近页</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <p>InnoDB完整支持ACID事务</p>
 <h1 id="体系架构">体系架构</h1>
 <p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181107164912667_493096811.png" alt=""></p>
@@ -260,7 +312,6 @@ redo log会在如下情况下刷入磁盘：</p>
 <p>将脏页刷入磁盘时，会检测所在区extent的所有脏页，一起刷入磁盘</p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

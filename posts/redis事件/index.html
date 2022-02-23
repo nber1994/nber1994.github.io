@@ -114,7 +114,44 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#文件事件">文件事件</a>
+      <ul>
+        <li><a href="#文件事件处理器的构成">文件事件处理器的构成</a>
+          <ul>
+            <li><a href="#io多路复用实现">IO多路复用实现</a></li>
+          </ul>
+        </li>
+        <li><a href="#文件事件的类型">文件事件的类型</a></li>
+        <li><a href="#文件事件处理器">文件事件处理器</a>
+          <ul>
+            <li><a href="#连接应答处理器">连接应答处理器</a></li>
+            <li><a href="#命令请求处理器">命令请求处理器</a></li>
+            <li><a href="#命令回复处理器">命令回复处理器</a></li>
+            <li><a href="#一次完整的客户端和服务器链接过程">一次完整的客户端和服务器链接过程</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#时间事件">时间事件</a>
+      <ul>
+        <li><a href="#时间事件的实现">时间事件的实现</a>
+          <ul>
+            <li><a href="#事件事件应用实例servercron函数">事件事件应用实例：serverCron函数</a></li>
+            <li><a href="#主循环处理文件事件和时间事件的伪代码">主循环处理文件事件和时间事件的伪代码</a></li>
+          </ul>
+        </li>
+        <li><a href="#重点回顾">重点回顾</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>redis是一个事件驱动程序</p>
 </blockquote>
@@ -245,7 +282,6 @@
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

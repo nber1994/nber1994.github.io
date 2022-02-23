@@ -114,7 +114,26 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#与c字符串的区别">与c字符串的区别</a>
+      <ul>
+        <li><a href="#常数复杂度的获取字符串长度">常数复杂度的获取字符串长度</a></li>
+        <li><a href="#杜绝缓冲区溢出">杜绝缓冲区溢出</a></li>
+        <li><a href="#减少修改字符串带来的内存重新分配次数">减少修改字符串带来的内存重新分配次数</a></li>
+        <li><a href="#c字符串存在的缺点">c字符串存在的缺点：</a></li>
+        <li><a href="#sds的解决方案">SDS的解决方案：</a></li>
+        <li><a href="#二级制安全">二级制安全</a></li>
+        <li><a href="#兼容部分c字符串函数">兼容部分C字符串函数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <p>redis自己构建了简单的字符串结构，c语言的字符串类型只用于一些字面量展示 <br>
 SDS还被用于缓冲区，AOF模块的缓冲区就是SDS实现的</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> sdshdr {
@@ -177,7 +196,6 @@ SDS还被用于缓冲区，AOF模块的缓冲区就是SDS实现的</p>
 <p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181115163615120_2065867420.png" alt=""></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

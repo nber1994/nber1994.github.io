@@ -114,7 +114,23 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#秒杀架构的原则">秒杀架构的原则</a></li>
+    <li><a href="#实现">实现</a>
+      <ul>
+        <li><a href="#实现动静分离">实现动静分离</a></li>
+        <li><a href="#削峰">削峰</a></li>
+        <li><a href="#减库存">减库存</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <ul>
 <li>秒杀系统主要解决两个问题，一个是并发写，一个是并发读</li>
 <li>首先需要和常规的电商系统隔离，避免影响正常的业务流程</li>
@@ -173,7 +189,6 @@
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

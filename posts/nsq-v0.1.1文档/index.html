@@ -114,7 +114,24 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#nsq-v011readme">nsq-v0.1.1README</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#nsq">NSQ</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <h1 id="nsq-v011readme">nsq-v0.1.1README</h1>
 <h3 id="nsq">NSQ</h3>
 <p>An infrastructure component designed to support highly available, distributed, fault tolerant, &ldquo;guaranteed&rdquo; message delivery. <br>
@@ -202,7 +219,6 @@ NSQ还存在一个辅助应用nsqlookup，他可以提供一个目录给nsqd cli
 多实例保证了nsqlookup进程的高可用。他们之间并不会直接进行通信，并且不要求强一致性。只要保证最终一致性，client随机的选取一个其中一个连接。过期节点和闭塞节点并不能导致系统的不可用。</p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

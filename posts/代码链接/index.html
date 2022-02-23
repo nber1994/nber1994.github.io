@@ -114,7 +114,27 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#编译过程">编译过程</a></li>
+    <li><a href="#链接器的工作">链接器的工作</a></li>
+    <li><a href="#目标文件">目标文件</a></li>
+    <li><a href="#linux中目标文件的格式elf文件">Linux中目标文件的格式ELF文件</a></li>
+    <li><a href="#静态链接库">静态链接库</a>
+      <ul>
+        <li><a href="#加载可执行目标文件">加载可执行目标文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#动态链接共享库">动态链接共享库</a></li>
+    <li><a href="#位置无关代码">位置无关代码</a></li>
+    <li><a href="#动静态链接共享库区别">动静态链接共享库区别</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20190517152529386_1090812524.png" alt=""></p>
 <ul>
 <li>编译程序往往需要编译器驱动程序，常用的如GCC，它将调用程序预处理器，编译器，汇编器和链接器
@@ -198,7 +218,6 @@ ELF头中还包含程序的入口点，即第一条指令的地址</p>
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

@@ -114,7 +114,73 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1autoload自动加载">1.autoload自动加载</a>
+      <ul>
+        <li><a href="#自动加载简单实例">自动加载简单实例</a></li>
+        <li><a href="#自动加载抛出异常">自动加载抛出异常</a></li>
+        <li><a href="#spl_autoload_register">spl_autoload_register</a></li>
+        <li><a href="#composer的自动加载流程">composer的自动加载流程</a></li>
+      </ul>
+    </li>
+    <li><a href="#2异常处理">2.异常处理</a></li>
+    <li><a href="#3多进程">3.多进程</a>
+      <ul>
+        <li><a href="#管理子进程">管理子进程</a>
+          <ul>
+            <li><a href="#分发信号处理器">分发信号处理器</a></li>
+          </ul>
+        </li>
+        <li><a href="#处理子进程">处理子进程</a></li>
+        <li><a href="#总结">总结</a></li>
+      </ul>
+    </li>
+    <li><a href="#4反射的使用方法-获取类成员及其属性-reflectionclass">4.反射的使用方法 获取类成员及其属性 ReflectionClass</a>
+      <ul>
+        <li><a href="#使用反射">使用反射</a>
+          <ul>
+            <li><a href="#获取对象的方法和属性">获取对象的方法和属性</a></li>
+            <li><a href="#不用反射api使用class函数只针对公开的属性和方法">不用反射API,使用class函数(只针对公开的属性和方法)</a></li>
+            <li><a href="#打印类的代码的实例">打印类的代码的实例</a></li>
+          </ul>
+        </li>
+        <li><a href="#反射的作用">反射的作用</a></li>
+        <li><a href="#弊端">弊端</a></li>
+      </ul>
+    </li>
+    <li><a href="#5trait-代码复用">5.trait 代码复用</a>
+      <ul>
+        <li><a href="#用法">用法</a>
+          <ul>
+            <li><a href="#简单使用">简单使用</a></li>
+            <li><a href="#冲突的解决">冲突的解决</a></li>
+            <li><a href="#修改访问控制">修改访问控制</a></li>
+            <li><a href="#trait-同样可以定义属性">Trait 同样可以定义属性</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#6php的生成器yield和协程">6.php的生成器、yield和协程</a>
+      <ul>
+        <li><a href="#迭代生成器">迭代生成器</a>
+          <ul>
+            <li><a href="#迭代生成器也是一个函数不同的是这个函数的返回值是依次返回而不是只返回一个单独的值或者换句话说生成器使你能更方便的实现了迭代器接口下面通过实现一个xrange函数来简单说明">(迭代)生成器也是一个函数,不同的是这个函数的返回值是依次返回,而不是只返回一个单独的值.或者,换句话说,生成器使你能更方便的实现了迭代器接口.下面通过实现一个xrange函数来简单说明：</a></li>
+            <li><a href="#优点">优点</a></li>
+          </ul>
+        </li>
+        <li><a href="#生成器为可中断的函数">生成器为可中断的函数</a></li>
+        <li><a href="#协程">协程</a></li>
+        <li><a href="#多任务协作">多任务协作</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>胡乱探讨了包括autoload，异常处理，多进程，反射使用，trait代码复用，生成器等php语言的高级特性</p>
 </blockquote>
@@ -686,7 +752,6 @@ var_dump(<span style="color:#008080">$gen</span><span style="color:#000;font-wei
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

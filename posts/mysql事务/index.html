@@ -114,7 +114,39 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#事务概述">事务概述</a></li>
+    <li><a href="#事务的实现">事务的实现</a></li>
+    <li><a href="#redo-log">redo log</a>
+      <ul>
+        <li><a href="#redo-log作用">redo log作用</a></li>
+        <li><a href="#binlog与redo-log区别">binlog与redo log区别</a></li>
+        <li><a href="#redolog恢复">redolog恢复</a></li>
+      </ul>
+    </li>
+    <li><a href="#undo-log">undo log</a>
+      <ul>
+        <li><a href="#误解">误解</a></li>
+        <li><a href="#undolog作业">undolog作业</a></li>
+      </ul>
+    </li>
+    <li><a href="#事务隔离级别">事务隔离级别</a>
+      <ul>
+        <li><a href="#read-commited">read commited</a></li>
+        <li><a href="#repeatable-read">repeatable read</a></li>
+        <li><a href="#不可重复读幻读">不可重复读&amp;幻读</a></li>
+        <li><a href="#mvcc的实现">mvcc的实现</a></li>
+        <li><a href="#快照度和当前度">快照度和当前度</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <h1 id="事务概述">事务概述</h1>
 <blockquote>
 <p>Innodb中的事务隔离级别和锁的关系 <a href="https://tech.meituan.com/innodb_lock.html">https://tech.meituan.com/innodb_lock.html</a></p>
@@ -229,7 +261,6 @@ sql第一次读取某行之后，将改行记录加锁，阻止其他事务读�
 行锁防止别的事务修改或删除，GAP锁防止别的事务新增，行锁和GAP锁结合形成的的Next-Key锁共同解决了RR级别在写数据时的幻读问题。</p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

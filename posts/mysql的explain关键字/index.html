@@ -114,7 +114,58 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#explain概述">explain概述</a></li>
+    <li><a href="#how-to-work">how to work</a></li>
+    <li><a href="#explain的各个参数的详解">explain的各个参数的详解</a>
+      <ul>
+        <li><a href="#id">id</a></li>
+        <li><a href="#select_type">select_type</a>
+          <ul>
+            <li><a href="#select_type-simple">select_type-SIMPLE</a></li>
+            <li><a href="#select_type-peimary">select_type-PEIMARY</a></li>
+            <li><a href="#select_type-union">select_type-UNION</a></li>
+            <li><a href="#select_type-dependent-union">select_type-DEPENDENT UNION</a></li>
+            <li><a href="#select_type-subquery">select_type-SUBQUERY</a></li>
+            <li><a href="#select_type-dependent-subquery">select_type-DEPENDENT SUBQUERY</a></li>
+            <li><a href="#select_type-derived">select_type-DERIVED</a></li>
+            <li><a href="#select_type-uncacheable-subquery">select_type-UNCACHEABLE SUBQUERY</a></li>
+            <li><a href="#select_type-uncacheable-union">select_type-UNCACHEABLE UNION</a></li>
+          </ul>
+        </li>
+        <li><a href="#table">table</a></li>
+        <li><a href="#type">type</a>
+          <ul>
+            <li><a href="#type-system">type-system</a></li>
+            <li><a href="#type-const">type-const</a></li>
+            <li><a href="#type-eq_ref">type-eq_ref</a></li>
+            <li><a href="#type-ref">type-ref</a></li>
+            <li><a href="#type-ref_or_null">type-ref_or_null</a></li>
+            <li><a href="#type-unique_subquery">type-unique_subquery</a></li>
+            <li><a href="#type-index_subquery">type-index_subquery</a></li>
+            <li><a href="#type-range">type-range</a></li>
+            <li><a href="#type-index">type-index</a></li>
+            <li><a href="#type-all">type-all</a></li>
+            <li><a href="#type-null">type-null</a></li>
+          </ul>
+        </li>
+        <li><a href="#possible_keys">possible_keys</a></li>
+        <li><a href="#key">key</a></li>
+        <li><a href="#key_len">key_len</a></li>
+        <li><a href="#ref">ref</a></li>
+        <li><a href="#rows">rows</a></li>
+        <li><a href="#extra">Extra</a></li>
+      </ul>
+    </li>
+    <li><a href="#联合查询的优化">联合查询的优化</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>胡乱的记录了一些explain关键字的一些用法,以及相关的评判参数</p>
 </blockquote>
@@ -803,7 +854,6 @@
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

@@ -114,7 +114,51 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是dsl">什么是DSL</a>
+      <ul>
+        <li><a href="#共同特点">共同特点</a></li>
+      </ul>
+    </li>
+    <li><a href="#设计原则">设计原则</a>
+      <ul>
+        <li><a href="#简单">简单</a></li>
+        <li><a href="#嵌入式dsl">嵌入式DSL</a></li>
+      </ul>
+    </li>
+    <li><a href="#解释器工作流程">解释器工作流程</a>
+      <ul>
+        <li><a href="#解析">解析</a></li>
+        <li><a href="#转换">转换</a></li>
+        <li><a href="#代码生成">代码生成</a></li>
+      </ul>
+    </li>
+    <li><a href="#aki-dsl解释器设计原理">aki-DSL解释器设计原理</a>
+      <ul>
+        <li><a href="#解析源代码生成ast">解析源代码生成AST</a></li>
+        <li><a href="#解析ast">解析AST</a>
+          <ul>
+            <li><a href="#ast的结构分析">AST的结构分析</a></li>
+            <li><a href="#1astdecl">1.ast.Decl</a></li>
+            <li><a href="#2aststmt">2.ast.Stmt</a></li>
+            <li><a href="#3astexpr">3.ast.Expr</a></li>
+          </ul>
+        </li>
+        <li><a href="#主要思路">主要思路</a></li>
+        <li><a href="#实现runtime-context">实现runtime context</a></li>
+        <li><a href="#变量类型与内部变量类型">变量类型与内部变量类型</a></li>
+        <li><a href="#dsl与外部系统交互">DSL与外部系统交互</a></li>
+      </ul>
+    </li>
+    <li><a href="#成果">成果</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <h1 id="什么是dsl">什么是DSL</h1>
 <p>DSL 是 Domain Specific Language 的缩写，中文翻译为领域特定语言（下简称 DSL）；而与 DSL 相对的就是 GPL，这里的 GPL 并不是我们知道的开源许可证，而是 General Purpose Language 的简称，即通用编程语言，也就是我们非常熟悉的 Objective-C、Java、Python 以及 C 语言等等。</p>
 <p>简单说，就是为了解决某一类任务而专门设计的计算机语言。</p>
@@ -561,7 +605,6 @@ func (this *Expr) CompileArrayExpr(cpt *CompileCxt, rct *Stmt, r *ast.CompositeL
 <p><a href="https://github.com/nber1994/akiDsl">https://github.com/nber1994/akiDsl</a></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

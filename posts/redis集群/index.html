@@ -114,7 +114,63 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#节点">节点</a>
+      <ul>
+        <li><a href="#clusternode">clusterNode</a></li>
+        <li><a href="#clusterlink">clusterLink</a></li>
+        <li><a href="#clusterstate">clusterState</a></li>
+      </ul>
+    </li>
+    <li><a href="#集群">集群</a>
+      <ul>
+        <li><a href="#cluster-meet实现">cluster meet实现</a></li>
+        <li><a href="#槽指派">槽指派</a>
+          <ul>
+            <li><a href="#节点槽指派信息的记录">节点槽指派信息的记录</a></li>
+            <li><a href="#集群槽指派信息的记录">集群槽指派信息的记录</a></li>
+          </ul>
+        </li>
+        <li><a href="#在集群中执行命令">在集群中执行命令</a>
+          <ul>
+            <li><a href="#计算键属于哪个槽">计算键属于哪个槽</a></li>
+            <li><a href="#判断槽是否由当前节点处理">判断槽是否由当前节点处理</a></li>
+            <li><a href="#moved命令">moved命令</a></li>
+            <li><a href="#节点数据库的实现">节点数据库的实现</a></li>
+          </ul>
+        </li>
+        <li><a href="#重新分片">重新分片</a>
+          <ul>
+            <li><a href="#分片步骤">分片步骤</a></li>
+            <li><a href="#ask错误">ASK错误</a></li>
+            <li><a href="#asking命令">asking命令</a></li>
+            <li><a href="#ask和moved命令的区别">ask和moved命令的区别</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#复制与故障转移">复制与故障转移</a>
+      <ul>
+        <li><a href="#设置从节点">设置从节点</a></li>
+        <li><a href="#故障检测">故障检测</a></li>
+        <li><a href="#故障转移">故障转移</a>
+          <ul>
+            <li><a href="#选取新的主节点">选取新的主节点</a></li>
+          </ul>
+        </li>
+        <li><a href="#消息">消息</a></li>
+        <li><a href="#publish消息的实现">publish消息的实现</a></li>
+        <li><a href="#重点回顾">重点回顾</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <ul>
 <li>redis集群通过分片来进行数据共享，并且提供复制和故障转移的功能</li>
 </ul>
@@ -486,7 +542,6 @@
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

@@ -114,7 +114,19 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-casatomic">1 cas、atomic</a></li>
+    <li><a href="#2-自旋锁">2 自旋锁</a></li>
+    <li><a href="#3-信号量">3 信号量</a></li>
+    <li><a href="#4-syncmutex">4 sync/Mutex</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>原文转载至：https://ga0.github.io/golang/2015/10/11/golang-sync.html</p>
 </blockquote>
@@ -155,7 +167,6 @@
 <p>无冲突时是最简单的情况；有冲突时，首先进行自旋，是从效率方面考虑的， 因为大多数的Mutex保护的代码段都很短，经过短暂的自旋就可以获得；如果自旋等待无果，就只好通过信号量来让当前 Goroutine进入等待了。</p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

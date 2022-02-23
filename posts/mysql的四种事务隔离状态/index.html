@@ -114,7 +114,24 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#mysql的事务隔离级别">mysql的事务隔离级别</a>
+      <ul>
+        <li><a href="#1read-uncommitted读取未提交内容">1.Read Uncommitted（读取未提交内容）</a></li>
+        <li><a href="#2read-committed读取提交内容">2.Read Committed（读取提交内容）</a></li>
+        <li><a href="#3repeatable-read可重读">3.Repeatable Read（可重读）</a></li>
+        <li><a href="#4serializable可串行化">4.Serializable（可串行化）</a></li>
+        <li><a href="#产生的问题">产生的问题</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>胡乱探讨了SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。</p>
 </blockquote>
@@ -174,7 +191,6 @@
 <p><strong>实现的四种隔离级别，会导致如上问题</strong></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

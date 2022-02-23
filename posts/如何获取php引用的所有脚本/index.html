@@ -114,13 +114,17 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents"></nav>
+    </aside>
+        <div id="body">
             <p>获取所有的引入文件，一般这句放在controller的结束位置</p>
 <pre tabindex="0"><code>$included_files = get_included_files();
 file_put_contents('/tmp/xxx',implode(&quot;\r\n&quot;, $included_files));
 </code></pre>
         </div>
-    </article>
 </main>
 <aside>
 	<div>

@@ -114,7 +114,19 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#nginx-平滑重启">nginx-平滑重启</a></li>
+    <li><a href="#一背景">一、背景</a></li>
+    <li><a href="#二重启流程">二、重启流程</a></li>
+    <li><a href="#三nginx实现">三、nginx实现</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <h1 id="nginx-平滑重启">nginx-平滑重启</h1>
 <blockquote>
 <p>本文转载自软件编程之路公众号文章：<a href="https://mp.weixin.qq.com/s?__biz=MzIxNzg5ODE0OA==&amp;mid=2247483660&amp;idx=1&amp;sn=b78b07de401eb7c08b6b7ba70c68cf00&amp;chksm=97f38cc7a08405d18ecca5cf9af523b1d2f3294a603a08d810664aa4986b481eda82eee78626&amp;utm_medium=hao.caibaojian.com">深入剖析nginx平滑重启</a></p>
@@ -250,7 +262,6 @@ kill -QUIT `cat /var/run/nginx.pid.oldbin`
 <p><strong>也就是说，新的server压根就没重新bind端口listen，这些fd状态和值都是新的master进程fork时带过来的,新的master进程监听处理继承来的文件描述符即可，这里比较关键的一点在于listen socket文件描述符通过ENV传递。</strong></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

@@ -114,7 +114,12 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents"></nav>
+    </aside>
+        <div id="body">
             <p>由于golang中的go是非常方便的，加上函数又非常容易隐藏go。
 所以很多时候，当我们写出一个程序的时候，我们并不知道这个程序在并发情况下会不会出现什么问题。</p>
 <p>所以在本质上说，goroutine的使用增加了函数的危险系数<a href="http://www.cnblogs.com/yjf512/archive/2012/06/30/2571247.html">论go语言中goroutine的使用</a>。比如一个全局变量，如果没有加上锁，我们写一个比较庞大的项目下来，就根本不知道这个变量是不是会引起多个goroutine竞争。</p>
@@ -192,7 +197,6 @@ exit status 66
 <p>当然这个参数会引发CPU和内存的使用增加，所以基本是在测试环境使用，不是在正式环境开启。</p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

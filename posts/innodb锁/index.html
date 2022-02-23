@@ -114,7 +114,39 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#锁概述">锁概述</a>
+      <ul>
+        <li><a href="#意向锁">意向锁</a></li>
+        <li><a href="#意向锁的作用">意向锁的作用</a></li>
+        <li><a href="#一致性非锁定读">一致性非锁定读</a></li>
+        <li><a href="#一致性锁定度">一致性锁定度</a></li>
+        <li><a href="#锁的算法">锁的算法</a></li>
+        <li><a href="#record-lock-单个记录的锁">record lock 单个记录的锁</a></li>
+        <li><a href="#gap-lock-间隙所一个范围上的锁但是不包括记录本身">gap lock 间隙所，一个范围上的锁，但是不包括记录本身</a></li>
+        <li><a href="#next-key-lock-gap-lockrecord-lock锁锁定一个范围而且包括记录本身">next-key lock gap lock+record lock锁，锁定一个范围，而且包括记录本身</a></li>
+        <li><a href="#next-key-行为分析">next-key 行为分析</a></li>
+        <li><a href="#锁问题">锁问题</a></li>
+        <li><a href="#脏读">脏读</a></li>
+        <li><a href="#不可重复读">不可重复读</a>
+          <ul>
+            <li><a href="#不可重复读解决">不可重复读解决</a></li>
+          </ul>
+        </li>
+        <li><a href="#丢失更新">丢失更新</a></li>
+        <li><a href="#阻塞">阻塞</a></li>
+        <li><a href="#死锁">死锁</a></li>
+        <li><a href="#解决方法">解决方法</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <p>锁用于控制对共享资源的并发访问
 对于innodb来说，支持行锁
 对于myisam，支持表锁
@@ -216,7 +248,6 @@ innodb默认隔离级别是repetable read</p>
 <p>最简单的解决方法就是超时</p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

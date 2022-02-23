@@ -114,7 +114,60 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#对象的类型与编码">对象的类型与编码</a>
+      <ul>
+        <li><a href="#类型">类型</a></li>
+        <li><a href="#编码和底层实现">编码和底层实现</a></li>
+      </ul>
+    </li>
+    <li><a href="#字符串对象">字符串对象</a></li>
+    <li><a href="#-为什么">？？ 为什么</a>
+      <ul>
+        <li><a href="#采用embstr的优势">采用embstr的优势</a></li>
+      </ul>
+    </li>
+    <li><a href="#那为什么不都存为embstr">？？那为什么不都存为embstr</a>
+      <ul>
+        <li><a href="#编码的转化">编码的转化</a></li>
+      </ul>
+    </li>
+    <li><a href="#列表对象">列表对象</a></li>
+    <li><a href="#哈希对象">哈希对象</a>
+      <ul>
+        <li><a href="#编码转化">编码转化</a></li>
+      </ul>
+    </li>
+    <li><a href="#集合对象">集合对象</a>
+      <ul>
+        <li><a href="#编码转换">编码转换</a></li>
+        <li><a href="#集合的交集并集差集操作">集合的交集，并集，差集操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#有序集合对象">有序集合对象</a>
+      <ul>
+        <li><a href="#编码的转换">编码的转换</a></li>
+      </ul>
+    </li>
+    <li><a href="#类型检查和命令多态">类型检查和命令多态</a>
+      <ul>
+        <li><a href="#类型检查">类型检查</a></li>
+        <li><a href="#命令多态">命令多态</a></li>
+      </ul>
+    </li>
+    <li><a href="#内存回收">内存回收</a></li>
+    <li><a href="#对象共享">对象共享</a></li>
+    <li><a href="#对象的空转时长">对象的空转时长</a></li>
+    <li><a href="#redisobject">redisObject</a></li>
+    <li><a href="#重点回顾">重点回顾</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <ul>
 <li>redis并没有直接使用底层的数据结构，而是基于这些数据结构创建了一个对象系统</li>
 <li>该系统包含了字符串对象，列表，hash表，集合，有序集合五种数据对象</li>
@@ -357,7 +410,6 @@
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

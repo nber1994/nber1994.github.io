@@ -114,7 +114,30 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#aof持久化实现">AOF持久化实现</a>
+      <ul>
+        <li><a href="#命令追加">命令追加</a></li>
+        <li><a href="#文件写入和文件同步">文件写入和文件同步</a></li>
+        <li><a href="#文件同步的安全性">文件同步的安全性</a></li>
+      </ul>
+    </li>
+    <li><a href="#aof的载入">AOF的载入</a></li>
+    <li><a href="#aof文件的重写">AOF文件的重写</a>
+      <ul>
+        <li><a href="#后台重写任务">后台重写任务</a></li>
+        <li><a href="#aof重写缓冲区">AOF重写缓冲区</a></li>
+      </ul>
+    </li>
+    <li><a href="#重点回顾">重点回顾</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>redsi持久化-AOF</p>
 </blockquote>
@@ -194,7 +217,6 @@
 <p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118213744086_118117185.png" alt=""></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

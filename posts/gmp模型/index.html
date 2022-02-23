@@ -114,7 +114,107 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#上古时代">上古时代</a></li>
+    <li><a href="#进程时代">进程时代</a>
+      <ul>
+        <li><a href="#单进程时代">单进程时代</a></li>
+        <li><a href="#多进程时代">多进程时代</a></li>
+      </ul>
+    </li>
+    <li><a href="#线程时代">线程时代</a></li>
+    <li><a href="#进程--线程的问题">进程 &amp; 线程的问题</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#从一道面试题谈起">从一道面试题谈起</a></li>
+          </ul>
+        </li>
+        <li><a href="#进程">进程</a>
+          <ul>
+            <li><a href="#虚拟内存">虚拟内存</a></li>
+            <li><a href="#进程内存地址空间">进程内存地址空间</a></li>
+          </ul>
+        </li>
+        <li><a href="#线程">线程</a></li>
+      </ul>
+    </li>
+    <li><a href="#协程">协程</a></li>
+    <li><a href="#goroutine">goroutine</a>
+      <ul>
+        <li><a href="#协程调度--线程调度的性能差别">协程调度 &amp; 线程调度的性能差别</a></li>
+      </ul>
+    </li>
+    <li><a href="#调度器">调度器</a>
+      <ul>
+        <li><a href="#老版本调度器">老版本调度器</a></li>
+        <li><a href="#新版本调度器">新版本调度器</a></li>
+        <li><a href="#scheduler的宏观组成">Scheduler的宏观组成</a>
+          <ul>
+            <li><a href="#调度器的生命周期">调度器的生命周期</a></li>
+            <li><a href="#gmp的可视化感受">GMP的可视化感受</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#图解调度器">图解调度器</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#12场景">12场景</a></li>
+            <li><a href="#场景融合">场景融合</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#源码">源码</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#阅读前提">阅读前提</a></li>
+          </ul>
+        </li>
+        <li><a href="#652-数据结构-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine652-数据结构">6.5.2 数据结构 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#652-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">#</a></a>
+          <ul>
+            <li><a href="#g-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutineg">G <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#g">#</a></a></li>
+            <li><a href="#m-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutinem">M <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#m">#</a></a></li>
+            <li><a href="#p-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutinep">P <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#p">#</a></a></li>
+            <li><a href="#小结-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine小结-1">小结 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#%E5%B0%8F%E7%BB%93-1">#</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#653-调度器启动-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine653-调度器启动">6.5.3 调度器启动 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#653-%E8%B0%83%E5%BA%A6%E5%99%A8%E5%90%AF%E5%8A%A8">#</a></a></li>
+        <li><a href="#654-创建-goroutine-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine654-创建-goroutine">6.5.4 创建 Goroutine <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#654-%E5%88%9B%E5%BB%BA-goroutine">#</a></a>
+          <ul>
+            <li><a href="#初始化结构体-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine初始化结构体">初始化结构体 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%BB%93%E6%9E%84%E4%BD%93">#</a></a></li>
+            <li><a href="#运行队列-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine运行队列">运行队列 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#%E8%BF%90%E8%A1%8C%E9%98%9F%E5%88%97">#</a></a></li>
+            <li><a href="#调度信息-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine调度信息">调度信息 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#%E8%B0%83%E5%BA%A6%E4%BF%A1%E6%81%AF">#</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#655-调度循环-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine655-调度循环">6.5.5 调度循环 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#655-%E8%B0%83%E5%BA%A6%E5%BE%AA%E7%8E%AF">#</a></a></li>
+        <li><a href="#656-触发调度-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine656-触发调度">6.5.6 触发调度 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#656-%E8%A7%A6%E5%8F%91%E8%B0%83%E5%BA%A6">#</a></a>
+          <ul>
+            <li><a href="#主动挂起-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine主动挂起">主动挂起 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#%E4%B8%BB%E5%8A%A8%E6%8C%82%E8%B5%B7">#</a></a></li>
+            <li><a href="#系统调用-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine系统调用">系统调用 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8">#</a></a></li>
+            <li><a href="#协作式调度-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine协作式调度">协作式调度 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#%E5%8D%8F%E4%BD%9C%E5%BC%8F%E8%B0%83%E5%BA%A6">#</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#657-线程管理-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine657-线程管理">6.5.7 线程管理 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#657-%E7%BA%BF%E7%A8%8B%E7%AE%A1%E7%90%86">#</a></a>
+          <ul>
+            <li><a href="#线程生命周期-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine线程生命周期">线程生命周期 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#%E7%BA%BF%E7%A8%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">#</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#658-小结-httpsdravenessmegolangdocspart3-runtimech06-concurrencygolang-goroutine658-小结">6.5.8 小结 <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#658-%E5%B0%8F%E7%BB%93">#</a></a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <h1 id="上古时代">上古时代</h1>
 <blockquote>
 <p>一切要从1946年说起，当世界第一台计算机问世时，世界拥有了第一台计算机。（废话文学）</p>
@@ -1886,7 +1986,6 @@ ok:
 <p><a href="https://qcrao.com/ishare/go-scheduler/#true%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB">Asciidoc 笔记</a></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

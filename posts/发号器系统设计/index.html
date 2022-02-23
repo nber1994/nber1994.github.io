@@ -114,7 +114,29 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#id生成器">ID生成器</a>
+      <ul>
+        <li><a href="#要求">要求</a></li>
+        <li><a href="#方案">方案</a>
+          <ul>
+            <li><a href="#1使用数据库的auto_increment生成全局递增id">1.使用数据库的auto_increment生成全局递增ID</a></li>
+            <li><a href="#2数据库集群">2.数据库集群</a></li>
+            <li><a href="#3uuid">3.uuid</a></li>
+            <li><a href="#4snowflake">4.snowflake</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <h1 id="id生成器">ID生成器</h1>
 <h2 id="要求">要求</h2>
 <p>ID一定要是全局有序的，再者因为有诸如按照时间排序的场景，所以要求按照时间有序。同时要求尽可能的短</p>
@@ -200,7 +222,6 @@
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

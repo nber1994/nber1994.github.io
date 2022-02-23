@@ -114,7 +114,111 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#sed-命令">sed 命令</a></li>
+    <li><a href="#用途">用途</a></li>
+    <li><a href="#工作流">工作流</a></li>
+    <li><a href="#需要注意的地点">需要注意的地点</a></li>
+    <li><a href="#例子">例子</a></li>
+    <li><a href="#基础语法">基础语法</a></li>
+    <li><a href="#标准选项">标准选项</a></li>
+    <li><a href="#gun选项">GUN选项</a></li>
+    <li><a href="#循环">循环</a></li>
+    <li><a href="#例子-1">例子</a></li>
+    <li><a href="#分支">分支</a></li>
+    <li><a href="#模式空间与保持空间">模式空间与保持空间</a></li>
+    <li><a href="#模式空间">模式空间</a></li>
+    <li><a href="#行寻址">行寻址</a></li>
+    <li><a href="#数字方式进行寻址">数字方式进行寻址</a></li>
+    <li><a href="#使用文本模式过滤器">使用文本模式过滤器</a></li>
+    <li><a href="#保持空间">保持空间</a></li>
+    <li><a href="#基本命令">基本命令</a>
+      <ul>
+        <li><a href="#删除命令-d">删除命令 d</a></li>
+        <li><a href="#文件写入命令-w">文件写入命令 w</a></li>
+        <li><a href="#追加命令-a">追加命令 a</a></li>
+        <li><a href="#行替换命令-c">行替换命令 c</a></li>
+        <li><a href="#插入命令-i">插入命令 i</a></li>
+        <li><a href="#转换命令-y">转换命令 y</a></li>
+        <li><a href="#输出隐藏字符命令-l">输出隐藏字符命令 l</a></li>
+        <li><a href="#退出命令-q">退出命令 q</a></li>
+        <li><a href="#文件读取命令-r">文件读取命令 r</a></li>
+        <li><a href="#执行外部命令-e">执行外部命令 e</a></li>
+        <li><a href="#排除命令-">排除命令 !</a></li>
+        <li><a href="#n--加载下一行">N – 加载下一行</a></li>
+        <li><a href="#d--删除多行中的一行">D – 删除多行中的一行</a></li>
+        <li><a href="#p--输出多行中的一行">P – 输出多行中的一行</a></li>
+        <li><a href="#其它命令">其它命令</a>
+          <ul>
+            <li><a href="#n--单行next">n – 单行next</a></li>
+            <li><a href="#v--sed版本检查">v – SED版本检查</a></li>
+            <li><a href="#特殊字符">特殊字符</a></li>
+            <li><a href="#命令">&amp;命令</a></li>
+          </ul>
+        </li>
+        <li><a href="#字符串">字符串</a>
+          <ul>
+            <li><a href="#替换命令-s">替换命令 s</a></li>
+          </ul>
+        </li>
+        <li><a href="#匹配子字符串">匹配子字符串</a></li>
+        <li><a href="#管理模式">管理模式</a></li>
+        <li><a href="#标准正则表达式">标准正则表达式</a>
+          <ul>
+            <li><a href="#heading">^</a></li>
+            <li><a href="#heading-1">$</a></li>
+            <li><a href="#heading-2">.</a></li>
+            <li><a href="#heading-3">[]</a></li>
+            <li><a href="#heading-4">[^]</a></li>
+            <li><a href="#-">[-]</a></li>
+            <li><a href="#--">? ，+ ，*</a></li>
+            <li><a href="#heading-5">|</a></li>
+          </ul>
+        </li>
+        <li><a href="#posix兼容的正则">POSIX兼容的正则</a>
+          <ul>
+            <li><a href="#s">\s</a></li>
+            <li><a href="#s-1">\S</a></li>
+            <li><a href="#w--w">\w ， \W</a></li>
+          </ul>
+        </li>
+        <li><a href="#常用代码段">常用代码段</a>
+          <ul>
+            <li><a href="#cat命令">Cat命令</a></li>
+            <li><a href="#移除空行">移除空行</a></li>
+            <li><a href="#删除连续空行">删除连续空行</a></li>
+            <li><a href="#删除开头的空行">删除开头的空行</a></li>
+            <li><a href="#删除结尾的空行">删除结尾的空行</a></li>
+            <li><a href="#过滤所有的html标签">过滤所有的html标签</a></li>
+            <li><a href="#从c程序中移除注释">从C++程序中移除注释</a></li>
+            <li><a href="#实现wc--l命令">实现Wc -l命令</a></li>
+            <li><a href="#模拟实现head命令">模拟实现head命令</a></li>
+            <li><a href="#模拟tail--1命令">模拟tail -1命令</a></li>
+            <li><a href="#模拟dos2unix命令">模拟Dos2unix命令</a></li>
+            <li><a href="#模拟unix2dos命令">模拟Unix2dos命令</a></li>
+            <li><a href="#模拟cat--e命令">模拟cat -E命令</a></li>
+            <li><a href="#模拟cat--et命令">模拟cat -ET命令</a></li>
+            <li><a href="#模拟nl命令">模拟nl命令</a></li>
+            <li><a href="#模拟cp命令">模拟cp命令</a></li>
+            <li><a href="#模拟expand命令">模拟expand命令</a></li>
+            <li><a href="#模拟tee命令">模拟tee命令</a></li>
+            <li><a href="#模拟cat--s命令">模拟cat -s命令</a></li>
+            <li><a href="#模拟grep命令">模拟grep命令</a></li>
+            <li><a href="#模拟grep--v命令">模拟grep -v命令</a></li>
+            <li><a href="#模拟tr命令">模拟tr命令</a></li>
+            <li><a href="#日志格式化工具">日志格式化工具</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>先挖个坑,还未完成</p>
 </blockquote>
@@ -1159,7 +1263,6 @@ abc
 tail -f xxx | sed <span style="color:#d14">&#39;s/[{,]/&amp;\n\t/g;s/}/\n&amp;/;&#39;</span> 
 </code></pre></div>
         </div>
-    </article>
 </main>
 <aside>
 	<div>

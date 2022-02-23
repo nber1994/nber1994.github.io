@@ -114,7 +114,28 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#使用实例">使用实例</a>
+      <ul>
+        <li><a href="#-e的拓展">-e的拓展</a></li>
+      </ul>
+    </li>
+    <li><a href="#排查进程问题">排查进程问题</a>
+      <ul>
+        <li><a href="#vim启动慢">vim启动慢</a></li>
+        <li><a href="#定位进程异常退出">定位进程异常退出</a></li>
+        <li><a href="#定位共享内存异常">定位共享内存异常</a></li>
+        <li><a href="#分析性能">分析性能</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>进程对用户来说就是一个黑盒，strace就是打开这个黑盒子的工具，可以解析出我们需要的调用</p>
 </blockquote>
@@ -254,7 +275,6 @@ find linux<span style="color:#000;font-weight:bold">-</span><span style="color:#
 <p>而进程创建和销毁的代价是相当高的，性能不差才怪。</p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

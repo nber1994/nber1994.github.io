@@ -114,7 +114,51 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#索引数据结构基础知识">索引数据结构基础知识</a>
+      <ul>
+        <li><a href="#平衡二叉树">平衡二叉树</a></li>
+        <li><a href="#b-tree">B-tree</a>
+          <ul>
+            <li><a href="#规则">规则</a></li>
+          </ul>
+        </li>
+        <li><a href="#b树">B+树</a>
+          <ul>
+            <li><a href="#与b树的区别">与B树的区别</a></li>
+          </ul>
+        </li>
+        <li><a href="#为什么使用bb树">为什么使用B/B+树</a></li>
+        <li><a href="#mysql索引实现">mysql索引实现</a></li>
+        <li><a href="#innodb索引实现">InnoDB索引实现</a></li>
+        <li><a href="#索引使用策略优化">索引使用策略&amp;优化</a>
+          <ul>
+            <li><a href="#最左前缀原理优化">最左前缀原理&amp;优化</a></li>
+          </ul>
+        </li>
+        <li><a href="#索引的选择">索引的选择</a></li>
+        <li><a href="#逐渐选择">逐渐选择</a></li>
+        <li><a href="#辅助索引">辅助索引</a>
+          <ul>
+            <li><a href="#联合索引">联合索引</a></li>
+          </ul>
+        </li>
+        <li><a href="#索引覆盖">索引覆盖</a>
+          <ul>
+            <li><a href="#当没有where条件的优化">当没有where条件的优化</a></li>
+            <li><a href="#二次索引优化">二次索引优化</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p>ps：平衡查找树</p>
 </blockquote>
@@ -335,7 +379,6 @@
 </span><span style="color:#bbb"></span><span style="color:#a61717;background-color:#e3d2d2">执行计划也可以看到，使用到了复合索引，并且不需要回表</span><span style="color:#bbb">
 </span></code></pre></div>
         </div>
-    </article>
 </main>
 <aside>
 	<div>

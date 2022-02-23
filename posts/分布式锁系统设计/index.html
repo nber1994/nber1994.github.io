@@ -114,7 +114,27 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#分布式锁的一些原则">分布式锁的一些原则</a></li>
+    <li><a href="#常见实现方式">常见实现方式</a></li>
+    <li><a href="#mysql实现">mysql实现</a>
+      <ul>
+        <li><a href="#加锁">加锁</a></li>
+        <li><a href="#解锁">解锁</a></li>
+        <li><a href="#锁超时">锁超时</a></li>
+        <li><a href="#惰性解锁">惰性解锁</a></li>
+        <li><a href="#定时解锁">定时解锁</a></li>
+        <li><a href="#小结">小结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <h1 id="分布式锁的一些原则">分布式锁的一些原则</h1>
 <ul>
 <li>互斥性 最基本的</li>
@@ -182,7 +202,6 @@ select <span style="color:#000;font-weight:bold">*</span> from resourceLock wher
 </ul>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

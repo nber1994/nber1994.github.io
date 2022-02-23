@@ -114,7 +114,29 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一次封锁or两段锁">一次封锁or两段锁？</a></li>
+    <li><a href="#事务中的加锁方式">事务中的加锁方式</a>
+      <ul>
+        <li><a href="#事务的四种隔离级别">事务的四种隔离级别</a></li>
+        <li><a href="#mysql中锁的种类">MySQL中锁的种类</a>
+          <ul>
+            <li><a href="#read-committed读取提交内容">Read Committed（读取提交内容）</a></li>
+            <li><a href="#repeatable-read可重读">Repeatable Read（可重读）</a></li>
+            <li><a href="#写当前读">写（&ldquo;当前读&rdquo;）</a></li>
+            <li><a href="#serializable">Serializable</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <blockquote>
 <p><a href="https://tech.meituan.com/innodb_lock.html">转自美团技术博客</a></p>
 </blockquote>
@@ -361,7 +383,6 @@ MySQL参考手册
 《高性能MySQL》第三版</p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>

@@ -114,7 +114,44 @@
             
             
         </div>
-        <div>
+    </article>
+    </br>
+    <aside id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#切换数据库">切换数据库</a></li>
+          </ul>
+        </li>
+        <li><a href="#数据库键空间">数据库键空间</a>
+          <ul>
+            <li><a href="#读写键空间时的维护操作">读写键空间时的维护操作</a></li>
+          </ul>
+        </li>
+        <li><a href="#键值的过期时间">键值的过期时间</a>
+          <ul>
+            <li><a href="#保存过期时间">保存过期时间</a></li>
+            <li><a href="#移除过期时间">移除过期时间</a></li>
+            <li><a href="#过期键的删除策略">过期键的删除策略</a></li>
+          </ul>
+        </li>
+        <li><a href="#aof和rdb以及复制功能对过期键的处理">AOF和RDB以及复制功能对过期键的处理</a>
+          <ul>
+            <li><a href="#rdb">RDB</a></li>
+            <li><a href="#aof">AOF</a></li>
+            <li><a href="#复制">复制</a></li>
+          </ul>
+        </li>
+        <li><a href="#重点回顾">重点回顾</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+        <div id="body">
             <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#000;font-weight:bold">struct</span> redisServer {
     <span style="color:#998;font-style:italic">//一个数组，保存所有数据库
 </span><span style="color:#998;font-style:italic"></span>    redisDb <span style="color:#000;font-weight:bold">*</span>db;
@@ -259,7 +296,6 @@
 <p><img src="https://cdn.jsdelivr.net/gh/nber1994/fu0k@master/uPic/20181118164557647_853587654.png" alt=""></p>
 
         </div>
-    </article>
 </main>
 <aside>
 	<div>
