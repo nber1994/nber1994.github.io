@@ -1723,12 +1723,12 @@ UPDATEtableSETstatus=1WHEREid=1ANDstatus=0;版本检查能够作为乐观锁，�
     </item>
     
     <item>
-      <title>About Me</title>
+      <title>About</title>
       <link>http://nber1994.github.io/about/</link>
       <pubDate>Thu, 10 Nov 1994 00:00:00 +0000</pubDate>
       
       <guid>http://nber1994.github.io/about/</guid>
-      <description>本站内容全部来自于个人或者网络，可随意转载~ 如发现内容错误，请联系我！     Blog: http://nber1994.github.io   Email: jingherego@gmail.com   Github: http://github.com/nber1994    Books Reading    书名 备注     Go语言学习笔记    Go语言设计与实现 https://draveness.me/golang/    Readed    书名 备注     深入理解计算机系统 https://hansimov.gitbook.io/csapp/ https://ihpm.cn/277/.html   高性能MySQL    MySQL技术内幕:InnoDB存储引擎 http://itmyhome.com/mysql-innodb/   Redis设计与实现 http://redisbook.com/   图解TCP/IP    图解HTTP     To Read    书名 备注     现代操作系统（原书第4版） https://ihpm.</description>
+      <description>Me     本站内容全部来自于个人或者网络，可随意转载~ 如发现内容错误，请联系我！     Blog: http://nber1994.github.io   Email: jingherego@gmail.com   Github: http://github.com/nber1994    Books Reading    书名 备注     Go语言学习笔记    Go语言设计与实现 https://draveness.me/golang/    Readed    书名 备注     深入理解计算机系统 https://hansimov.gitbook.io/csapp/ https://ihpm.cn/277/.html   高性能MySQL    MySQL技术内幕:InnoDB存储引擎 http://itmyhome.com/mysql-innodb/   Redis设计与实现 http://redisbook.com/   图解TCP/IP    图解HTTP     To Read    书名 备注     现代操作系统（原书第4版） https://ihpm.</description>
     </item>
     
     <item>
